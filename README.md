@@ -57,5 +57,5 @@ End-to-end Sprint 1 success means:
 - Asset records are stored in PostgreSQL.
 - Deterministic metadata is generated automatically.
 - Vault search filters assets by metadata.
-- Activity history records user actions.
+- - Activity history records user actions.
 - Producer profile aggregates uploads automatically.

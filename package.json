@@ -1,18 +1,57 @@
 {
   "name": "sonic-ai-v3",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
-  "description": "Sonic AI monorepo for producer-focused audio asset management and workflow intelligence.",
+  "description": "Sonic AI V3 — AI Producer Operating System monorepo.",
   "packageManager": "pnpm@10.28.1",
+
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "services/*",
+    "agents/*"
+  ],
+
   "scripts": {
-    "dev": "pnpm --parallel --recursive dev",
-    "build": "pnpm --recursive build",
-    "lint": "pnpm --recursive lint",
-    "test": "pnpm --recursive test",
-    "typecheck": "pnpm --recursive typecheck"
+    "dev": "pnpm -r --parallel --if-present dev",
+    "build": "pnpm -r --if-present build",
+    "lint": "pnpm -r --if-present lint",
+    "test": "pnpm -r --if-present test",
+    "typecheck": "pnpm -r --if-present typecheck",
+
+    "audit:v3": "node scripts/validate-v3-foundation.mjs",
+    "prepare": "husky install"
   },
+
   "engines": {
     "node": ">=20.0.0",
     "pnpm": ">=10.0.0"
+  },
+
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.6.3",
+    "ts-node": "^10.9.2",
+
+    "eslint": "^9.5.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-unused-imports": "^3.2.0",
+
+    "prettier": "^3.3.3",
+
+    "vitest": "^2.0.5",
+    "@vitest/coverage-v8": "^2.0.5",
+
+    "turbo": "^2.0.6",
+    "husky": "^9.1.4",
+    "lint-staged": "^15.2.2"
+  },
+
+  "lint-staged": {
+    "*.{ts,tsx,js,json,md}": [
+      "prettier --write"
+    ]
   }
 }
+

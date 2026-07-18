@@ -1,0 +1,9 @@
+{
+  "name": "sonic-ai-v3",
+  "private": true,
+  "packageManager": "pnpm@10.28.1",
+  "scripts": {
+    "dev": "pnpm -r dev",
+    "build": "pnpm -r build"
+  }
+}

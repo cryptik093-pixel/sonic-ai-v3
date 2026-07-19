@@ -1,0 +1,184 @@
+# SPEC-011 — Project Wizard
+Version: 1.0
+Status: Approved
+Phase: Sprint 1
+Category: Feature Specification
+
+---
+
+# Purpose
+
+The Project Wizard is the creator's first conversation with Sonic AI V3.
+
+It is not simply a form.
+
+It is the intentional beginning of a creative journey.
+
+Every decision made here becomes part of the project's identity and history.
+
+The wizard should feel calm, intelligent, and inspiring—not bureaucratic.
+
+---
+
+# User Promise
+
+"Creating a new project should feel like stepping into a professional studio with an experienced collaborator already prepared to help."
+
+---
+
+# Primary Question
+
+"What are we creating?"
+
+---
+
+# Objectives
+
+• Remove friction from starting.
+• Capture only essential information.
+• Establish project identity.
+• Generate meaningful metadata.
+• Prepare the workspace.
+• Preserve creative momentum.
+
+---
+
+# Wizard Flow
+
+Step 1
+Project Identity
+
+• Project Name
+• Artist
+• Optional Cover Image
+
+---
+
+Step 2
+Creative Direction
+
+• Genre
+• BPM
+• Musical Key
+• Mood
+• Reference Artists
+• Reference Tracks
+
+---
+
+Step 3
+Production Intent
+
+What are we making?
+
+Examples
+
+• Single
+• EP
+• Album
+• Beat
+• Demo
+• Mix
+• Master
+• Sound Design
+• Film Score
+
+---
+
+Step 4
+Notes
+
+Free-form ideas
+
+Lyrics
+
+Voice memos
+
+Concepts
+
+Goals
+
+Inspirations
+
+---
+
+Step 5
+Review
+
+Display everything clearly.
+
+Allow editing.
+
+One final action:
+
+Create Project
+
+---
+
+# Defaults
+
+Status = Draft
+
+Creative State = Exploring
+
+Intent = Create
+
+Session Count = 0
+
+Completion = 0%
+
+---
+
+# AI Responsibilities
+
+Never overwhelm.
+
+Offer suggestions only when useful.
+
+Example:
+
+"This BPM is common in modern trap."
+
+"This key pairs well with..."
+
+"Would you like to import a reference track?"
+
+Always optional.
+
+Never intrusive.
+
+---
+
+# Backend Requirements
+
+POST /projects
+
+Generate Project ID
+
+Generate timestamps
+
+Initialize project metadata
+
+Create initial timeline event
+
+Create initial session
+
+---
+
+# Success Criteria
+
+✓ Project created successfully
+
+✓ Opens immediately in Project Workspace
+
+✓ Appears instantly on Dashboard
+
+✓ Appears in Recent Projects
+
+✓ Initial session created
+
+✓ Timeline initialized
+
+✓ No data loss
+
+✓ Undo available until first save

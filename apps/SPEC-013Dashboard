@@ -1,0 +1,224 @@
+# SPEC-013 — Dashboard
+Version: 1.0
+Status: Approved
+Phase: Sprint 1
+Category: Feature Specification
+
+---
+
+# Purpose
+
+The Dashboard is the operational command center of Sonic AI V3.
+
+It is not a collection of widgets.
+
+It is the creator's daily briefing.
+
+Its responsibility is to answer one question:
+
+"What deserves my attention right now?"
+
+Every element on the Dashboard should reduce decision fatigue and increase creative momentum.
+
+---
+
+# User Promise
+
+"When I open Sonic, I immediately understand the state of my creative world."
+
+---
+
+# Primary Question
+
+"What should I work on today?"
+
+---
+
+# Objectives
+
+• Surface active work
+• Resume momentum
+• Display meaningful progress
+• Highlight priorities
+• Reduce navigation
+• Encourage completion
+
+---
+
+# Layout
+
+Header
+
+↓
+
+Today's Focus
+
+↓
+
+Continue Working
+
+↓
+
+Studio Snapshot
+
+↓
+
+Recent Projects
+
+↓
+
+Recent Activity
+
+↓
+
+Studio Insights
+
+↓
+
+Quick Actions
+
+---
+
+# Today's Focus
+
+One intelligently selected project.
+
+Displays:
+
+Project Name
+
+Artist
+
+Creative State
+
+Next Suggested Action
+
+Time Since Last Session
+
+Estimated Completion
+
+Primary Action:
+
+Continue Project
+
+---
+
+# Studio Snapshot
+
+Projects
+
+Assets
+
+Sessions
+
+AI Jobs
+
+Storage
+
+Creative Streak
+
+Open Tasks
+
+---
+
+# Recent Projects
+
+Five most recently opened.
+
+Each displays:
+
+Project
+
+Artist
+
+Status
+
+Creative State
+
+Progress
+
+Last Opened
+
+---
+
+# Recent Activity
+
+Timeline of recent work.
+
+Examples:
+
+Created Project
+
+Imported Audio
+
+Generated MIDI
+
+Finished Mix
+
+Published Version
+
+Added Notes
+
+---
+
+# Studio Insights
+
+Future AI observations.
+
+Examples:
+
+"Most productive after 8PM."
+
+"You finish mixes faster when reference tracks are loaded."
+
+"You haven't revisited Project Atlas in 12 days."
+
+---
+
+# Quick Actions
+
+Create Project
+
+Import Audio
+
+Analyze Track
+
+Open Knowledge
+
+Browse Assets
+
+Search Everything
+
+---
+
+# Backend Requirements
+
+GET Dashboard Summary
+
+GET Recent Projects
+
+GET Continue Working
+
+GET Recent Activity
+
+GET AI Recommendations
+
+---
+
+# Acceptance Criteria
+
+✓ Dashboard loads under two seconds
+
+✓ Continue Working always available
+
+✓ Recent Projects synchronized
+
+✓ Live backend data
+
+✓ No duplicate information
+
+✓ Responsive
+
+✓ Accessible
+
+✓ No console errors

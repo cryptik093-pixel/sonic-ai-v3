@@ -9,10 +9,11 @@ class InMemoryProjectStore:
         self._next_id = 1
 
     def list_projects(self) -> list[Project]:
-        return [project for project in self._projects]
+        return self._projects.copy()
 
     def create_project(self, payload: ProjectCreate) -> Project:
         now = datetime.utcnow().replace(microsecond=0)
+
         project = Project(
             id=self._next_id,
             name=payload.name,
@@ -25,8 +26,10 @@ class InMemoryProjectStore:
             created_at=now,
             updated_at=now,
         )
+
         self._projects.append(project)
         self._next_id += 1
+
         return project
 
 

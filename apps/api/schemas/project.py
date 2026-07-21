@@ -1,6 +1,13 @@
 from datetime import datetime
+from enum import Enum
 
 from pydantic import BaseModel, ConfigDict, Field
+
+
+class ProjectStatus(str, Enum):
+    DRAFT = "draft"
+    ACTIVE = "active"
+    ARCHIVED = "archived"
 
 
 class ProjectBase(BaseModel):
@@ -9,8 +16,8 @@ class ProjectBase(BaseModel):
     genre: str = Field(..., min_length=1, max_length=80)
     bpm: int = Field(..., ge=40, le=240)
     key: str = Field(..., min_length=1, max_length=20)
-    notes: str = Field(..., min_length=1, max_length=2000)
-    status: str = Field(default="draft", max_length=40)
+    notes: str = Field(default="", max_length=2000)
+    status: ProjectStatus = ProjectStatus.DRAFT
 
 
 class ProjectCreate(ProjectBase):

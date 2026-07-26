@@ -1,22 +1,27 @@
-from models.asset import InMemoryAssetStore
-from schemas.asset import AssetCreate, AssetResponse
+from schemas.asset import AssetCreate, Asset
+from datetime import datetime
 
 
 class AssetService:
-    def __init__(self) -> None:
-        self._store = InMemoryAssetStore()
 
-    def create_asset(self, payload: AssetCreate) -> AssetResponse:
-        return self._store.create_asset(payload)
+    def __init__(self):
+        self.assets = []
+        self.counter = 1
 
-    def list_assets(self) -> list[AssetResponse]:
-        return self._store.list_assets()
+    def create_asset(self, asset: AssetCreate):
+        new_asset = Asset(
+            id=self.counter,
+            created_at=datetime.utcnow(),
+            **asset.model_dump()
+        )
 
-    def list_project_assets(self, project_id):
-        return self._store.list_project_assets(project_id)
+        self.assets.append(new_asset)
+        self.counter += 1
 
-    def get_asset(self, asset_id):
-        return self._store.get_asset(asset_id)
+        return new_asset
+
+    def list_assets(self):
+        return self.assets
 
 
 asset_service = AssetService()

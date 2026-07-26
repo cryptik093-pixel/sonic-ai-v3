@@ -1,4 +1,4 @@
-from models.project import project_store
+from repositories.project_repository import project_store
 from schemas.project import Project, ProjectCreate
 
 
@@ -15,8 +15,8 @@ class ProjectService:
             raise ValueError("Project name is required.")
 
         if payload.bpm is not None:
-            if payload.bpm < 40 or payload.bpm > 300:
-                raise ValueError("BPM must be between 40 and 300.")
+            if payload.bpm < 40 or payload.bpm > 240:
+                raise ValueError("BPM must be between 40 and 240.")
 
 
 project_service = ProjectService()

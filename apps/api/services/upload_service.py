@@ -2,6 +2,7 @@ from pathlib import Path
 import shutil
 
 from utils.audio import get_audio_metadata
+from services.audio_analysis_service import audio_analysis_service
 
 
 UPLOAD_DIR = Path("storage")
@@ -25,10 +26,13 @@ class UploadService:
             file.filename
         )
 
+        analysis = audio_analysis_service.analyze(
+            str(file_path)
+        )
+
         return {
-            "filename": file.filename,
-            "filepath": str(file_path),
-            **metadata
+            **metadata,
+            **analysis
         }
 
 

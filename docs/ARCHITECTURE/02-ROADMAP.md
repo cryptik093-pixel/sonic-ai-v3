@@ -4,7 +4,7 @@
 2.  Frontend Foundation
 3.  Backend Foundation
 4.  Dashboard
-5.  Projects
+5.  Projects — implemented: project creation/list API and frontend project form wiring
 6.  Database
 7.  Asset Manager
 8.  Memory

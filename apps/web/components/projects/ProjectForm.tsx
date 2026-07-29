@@ -118,8 +118,8 @@ export default function ProjectForm({ onSuccess, onError, onCancel }: Props) {
             onChange={(event) => setForm({ ...form, status: event.target.value })}
           >
             <option value="draft">Draft</option>
-            <option value="in_progress">In Progress</option>
-            <option value="ready">Ready</option>
+            <option value="active">Active</option>
+            <option value="archived">Archived</option>
           </select>
         </label>
       </div>

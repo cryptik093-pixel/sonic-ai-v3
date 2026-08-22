@@ -1,0 +1,120 @@
+model = "gpt-5.6-sol"
+model_reasoning_effort = "ultra"
+sandbox_mode = "danger-full-access"
+approval_policy = "never"
+personality = "pragmatic"
+notify = [ "C:\\Users\\david someone\\AppData\\Local\\OpenAI\\Codex\\runtimes\\cua_node\\ebe20bea09b80502\\bin\\node_modules\\@oai\\sky\\bin\\windows\\codex-computer-use.exe", "turn-ended" ]
+[windows]
+sandbox = "elevated"
+
+[marketplaces.openai-bundled]
+last_updated = "2026-08-22T00:31:00Z"
+source_type = "local"
+source = '\\?\C:\Users\david someone\.codex\.tmp\bundled-marketplaces\openai-bundled'
+
+[marketplaces.openai-primary-runtime]
+last_updated = "2026-08-20T10:52:50Z"
+source_type = "local"
+source = '\\?\C:\Users\david someone\.cache\codex-runtimes\codex-primary-runtime\plugins\openai-primary-runtime'
+
+[features]
+memories = true
+js_repl = false
+
+[projects.'c:\users\david someone\desktop\sonic_ai_v2\sonic_ai_v2']
+trust_level = "trusted"
+
+[projects.'c:\users\david someone\desktop\sonic_ai_v2']
+trust_level = "trusted"
+
+[projects.'c:\users\david someone\documents\codex\2026-05-13\plugin-creator-c-users-david-someone']
+trust_level = "trusted"
+
+[projects.'c:\users\david someone\documents\new project']
+trust_level = "trusted"
+
+[projects.'c:\']
+trust_level = "trusted"
+
+[projects.'c:\users\david someone\documents\omega house beats electronic press kit']
+trust_level = "trusted"
+
+[projects.'c:\users\david someone\desktop\sonic-ai-v3-main']
+trust_level = "trusted"
+
+[projects.'c:\users\david someone\desktop\sonic_ai_v3.5']
+trust_level = "trusted"
+
+[projects.'c:\users\david someone\desktop\sonic ai v3\sonic-ai-v3']
+trust_level = "trusted"
+
+[tui.model_availability_nux]
+"gpt-5.5" = 3
+
+[plugins."build-web-apps@openai-curated"]
+enabled = true
+
+[plugins."chatgpt-apps@openai-curated"]
+enabled = true
+
+[plugins."chrome@openai-bundled"]
+enabled = true
+
+[plugins."browser@openai-bundled"]
+enabled = true
+
+[plugins."github@openai-curated"]
+enabled = true
+
+[plugins."notion@openai-api-curated"]
+enabled = true
+
+[plugins."build-web-apps@openai-api-curated"]
+enabled = true
+
+[plugins."documents@openai-primary-runtime"]
+enabled = true
+
+[plugins."pdf@openai-primary-runtime"]
+enabled = true
+
+[plugins."spreadsheets@openai-primary-runtime"]
+enabled = true
+
+[plugins."presentations@openai-primary-runtime"]
+enabled = true
+
+[plugins."template-creator@openai-primary-runtime"]
+enabled = true
+
+[plugins."codex-app-tools@openai-bundled"]
+enabled = true
+
+[memories]
+disable_on_external_context = false
+
+[desktop]
+git-always-force-push = true
+git-show-sidebar-pr-icons = true
+followUpQueueMode = "queue"
+
+[mcp_servers.node_repl]
+args = []
+command = 'C:\Users\david someone\AppData\Local\OpenAI\Codex\runtimes\cua_node\2fb562745e6d66f0\bin\node_repl.exe'
+startup_timeout_sec = 120
+
+[mcp_servers.node_repl.env]
+NODE_REPL_NATIVE_PIPE_CONNECT_TIMEOUT_MS = "1000"
+NODE_REPL_NODE_MODULE_DIRS = 'C:\Users\david someone\AppData\Local\OpenAI\Codex\runtimes\cua_node\2fb562745e6d66f0\bin\node_modules'
+NODE_REPL_NODE_PATH = 'C:\Users\david someone\AppData\Local\OpenAI\Codex\runtimes\cua_node\2fb562745e6d66f0\bin\node.exe'
+NODE_REPL_TRUSTED_CODE_PATHS = 'C:\Users\david someone\.codex;C:\Users\david someone\AppData\Local\OpenAI\Codex\runtimes\cua_node\2fb562745e6d66f0\bin\node_modules'
+CODEX_HOME = 'C:\Users\david someone\.codex'
+BROWSER_USE_AVAILABLE_BACKENDS = "chrome,iab"
+NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER = "Control the in-app browser in conjunction with the Browser Plugin."
+NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME = "Control the Chrome browser in conjunction with the Chrome Plugin. Prefer this method of controlling Chrome over alternatives (such as Computer Use) unless the user explicitly mentions an alternative."
+BROWSER_USE_CODEX_APP_BUILD_FLAVOR = "prod"
+BROWSER_USE_CODEX_APP_VERSION = "26.814.41407"
+NODE_REPL_TRUSTED_SERVICES = '{"browser":"C:/Users/david someone/.codex/plugins/cache/openai-bundled/browser/26.814.41407/scripts/browser-service.mjs","sky":"@oai/sky/service"}'
+SKY_CUA_NATIVE_PIPE = "1"
+SKY_CUA_NATIVE_PIPE_DIRECTORY = '\\.\pipe\codex-computer-use-4cd344c7-3424-448d-bdce-a92300174e04'
+CODEX_CLI_PATH = 'C:\Users\david someone\AppData\Local\OpenAI\Codex\bin\39633208fb6e0c47\codex.exe'

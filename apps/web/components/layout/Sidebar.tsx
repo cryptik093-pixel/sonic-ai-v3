@@ -12,10 +12,12 @@ import {
   Brain,
   BookOpen,
   Settings,
+  Sparkles,
 } from "lucide-react";
 
 const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: Home },
+  { name: "Studio", href: "/studio", icon: Sparkles },
   { name: "Projects", href: "/projects", icon: FolderOpen },
   { name: "Assets", href: "/assets", icon: Library },
   { name: "Vault", href: "/vault", icon: Lock },

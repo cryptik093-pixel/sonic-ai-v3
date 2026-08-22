@@ -1,0 +1,17 @@
+{
+    "chat.mcp.discovery.enabled": {
+        "claude-desktop": true,
+        "windsurf": true,
+        "cursor-global": true,
+        "cursor-workspace": true
+    },
+    "chat.mcp.gallery.enabled": true,
+    "chat.mcp.assisted.nuget.enabled": true,
+    "inlineChat.askInChat": false,
+    "inlineChat.fixDiagnostics": false,
+    "inlineChat.notebookAgent": true,
+    "chat.tools.terminal.blockDetectedFileWrites": "never",
+    "chat.restoreLastPanelSession": true,
+    "chat.viewProgressBadge.enabled": true,
+    "chat.agentSessionProjection.enabled": true
+}

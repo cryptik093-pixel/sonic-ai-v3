@@ -1,9 +1,32 @@
-node_modules/
-.next/
-venv/
+node_modules
+
+# Local secrets and credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+secrets/
+
+# Python generated files
 __pycache__/
 *.pyc
-.env
-.env.local
-dist/
-build/
+*.pyo
+*.pyd
+
+# Local development databases
+*.db
+*.sqlite
+*.sqlite3
+
+# Local backup trees
+apps/api_backup_before_import_fix/
+
+docs/next-dev.err
+docs/next-dev.log
+
+storage/*
+!storage/.gitkeep

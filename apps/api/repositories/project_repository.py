@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import datetime, timezone
 
 from sqlalchemy.orm import Session
 
@@ -22,7 +22,7 @@ class SQLAlchemyProjectRepository:
         return [self._to_schema(record) for record in records]
 
     def create_project(self, payload: ProjectCreate) -> Project:
-        now = datetime.utcnow().replace(microsecond=0)
+        now = datetime.now(timezone.utc).replace(microsecond=0)
         record = ProjectORM(
             name=payload.name,
             artist=payload.artist,

@@ -2,44 +2,84 @@
 
 ## Project Identity
 
-This repository is Sonic AI V3.
+Sonic AI V3 is the intelligence layer for a producer operating system. The platform combines the producer workspace, audio/assets, deterministic analysis, structured memory, event-driven workflows, chat, agents, tools/MCP, and controlled automation.
 
-Sonic AI V3 is the AI Producer Operating System. It is not V1, not V2, not an audio analyzer, not a MIDI generator, not a sample generator, and not a plugin. Analysis, generation, samples, reports, and agent workflows are modules inside the operating system.
+Do not treat Sonic AI V3 as only an audio analyzer, MIDI generator, sample generator, chatbot, or plugin. Those capabilities are modules within the larger operating system.
 
 ## Canonical Source
 
-The root of this repository is canonical:
+The canonical repository is:
 
 ```text
-C:\Users\david someone\Desktop\sonic-ai-v3-main
+cryptik093-pixel/sonic-ai-v3
 ```
 
-Nested folders named `sonic-ai-v3-codex-*` are generated scaffold snapshots. Do not implement inside them unless the user explicitly says to. Treat them as quarantine/defer candidates.
+The canonical product baseline is the `main` branch.
 
-## Phase 0 Rule
+Do not assume a local filesystem path, generated scaffold, archive, or historical snapshot is canonical. Verify the active repository and branch before making recovery decisions.
 
-Define the platform before writing product features.
+## Current Recovery Objective
 
-Sprint 1 builds Sonic Core only:
+Restore and maintain one coherent, bootable, testable, deployable platform without losing previously established frontend, backend, chat, memory, event, or agent capabilities.
 
-1. Authentication and user ownership
-2. Projects
-3. Asset storage
-4. Sonic Vault
-5. Metadata engine
-6. Producer profile and memory foundation
+The current priority order is:
 
-Do not add AI generation, autonomous agents, embeddings, pgvector, Redis, Celery, or DSP-heavy analysis before the data graph works.
+1. Repository/branch integrity.
+2. Frontend boot path.
+3. API/backend boot path.
+4. Environment and dependency integrity.
+5. Database/auth contracts and user ownership.
+6. Chat pipeline.
+7. Agent registry and model configuration.
+8. Tool/MCP boundaries.
+9. Producer Intelligence Loop.
+10. Automated verification and deployment readiness.
+
+## Producer Intelligence Loop
+
+The target vertical slice is:
+
+```text
+Upload → Analyze → Normalize → Audio Analyst
+→ Producer Intelligence → Memory → Retrieve
+```
+
+Do not bypass deterministic facts with model-generated state. Models should reason over structured evidence produced by the application.
 
 ## Data Ownership Rule
 
-Every persistent object must belong to a user. When applicable, records must also connect to projects, assets, metadata, analyses, reports, memory events, vault entries, or producer profile state. Never create isolated data.
+Every persistent user-owned object must have an explicit ownership boundary. When applicable, records must connect to projects, assets, metadata, analyses, reports, memory events, vault entries, or producer profile state.
+
+Never create isolated persistent data that cannot be attributed to its owner and domain context.
+
+## Agent / Tool Rules
+
+- Agents operate through explicit tools and application contracts.
+- Agents must not bypass authorization or mutate arbitrary state.
+- MCP/tool capabilities must remain inspectable and permission-aware.
+- Model configuration must be explicit and testable.
+- Tool execution must produce observable outcomes and failures.
+- Human approval boundaries must be preserved for consequential actions until explicitly verified safe.
+
+## Documentation Rules
+
+- `README.md` is the primary product/architecture overview.
+- Historical audit, milestone, and phase reports are evidence, not current runtime truth.
+- Never mark a subsystem healthy, production-ready, complete, or deployed without current reproducible evidence.
+- When implementation changes invalidate an audit, update or supersede the affected document immediately.
+- Keep documentation aligned with actual repository structure, package manifests, scripts, configuration, and runtime behavior.
 
 ## Development Rules
 
-- Read `README.md`, `docs/sonic-ai-audit.md`, `docs/architecture/current-state-audit.md`, and `docs/planning/sprint-1-implementation-backlog.md` before coding.
-- Make one focused change at a time.
-- Keep root docs and package manifests aligned with the locked V3 direction.
-- Preserve Sprint 1 boundaries unless the user explicitly widens scope.
-- Run `node scripts/validate-v3-foundation.mjs` after scaffold or documentation changes.
-- If `pnpm` is available, also run `pnpm test`.
+- Make focused, reversible changes.
+- Preserve working capability during recovery.
+- Verify the affected layer after every material change.
+- Prefer deterministic validation over assumptions.
+- Run the repository's available validation/test commands after documentation or scaffold changes.
+- Do not introduce architecture that conflicts with the current canonical README without explicitly updating the architecture documentation.
+
+## Security
+
+Never commit secrets. Keep local credentials in `.env` and document configuration shape in `.env.example`.
+
+Treat authentication, authorization, user ownership, file uploads, database access, agent execution, tool/MCP boundaries, and external integrations as security-sensitive.

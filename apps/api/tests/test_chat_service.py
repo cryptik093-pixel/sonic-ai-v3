@@ -1,22 +1,21 @@
-import sys
-from pathlib import Path
 from unittest.mock import patch
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-
-from repositories.chat_repository import chat_store
-from repositories.memory_repository import memory_store
-from repositories.project_repository import project_store
-from schemas.chat import ChatSendRequest, ChatSessionCreate, StudioFocus
-from schemas.memory import MemoryCategory, MemoryCreate, MemoryType
-from schemas.project import ProjectCreate
-from services.chat_service import chat_service
+from apps.api.repositories.chat_repository import chat_store
+from apps.api.repositories.memory_repository import memory_store
+from apps.api.repositories.project_repository import project_store
+from apps.api.schemas.chat import ChatSendRequest, ChatSessionCreate, StudioFocus
+from apps.api.schemas.memory import MemoryCategory, MemoryCreate, MemoryType
+from apps.api.schemas.project import ProjectCreate
+from apps.api.services.chat_service import chat_service
 
 
 def test_start_and_send_creates_session_and_messages() -> None:
     chat_store.clear()
 
-    with patch("services.chat_service.llm_service.generate", return_value="Try a high-pass at 30Hz on the 808 bus."):
+    with patch(
+        "apps.api.services.chat_service.llm_service.generate",
+        return_value="Try a high-pass at 30Hz on the 808 bus.",
+    ):
         response = chat_service.start_and_send(
             ChatSendRequest(
                 message="How do I clean up my 808?",
@@ -58,7 +57,10 @@ def test_send_message_includes_project_context() -> None:
         )
     )
 
-    with patch("services.chat_service.llm_service.generate", return_value="Cut 300Hz on the pad.") as mock_generate:
+    with patch(
+        "apps.api.services.chat_service.llm_service.generate",
+        return_value="Cut 300Hz on the pad.",
+    ) as mock_generate:
         response = chat_service.send_message(
             session.id,
             ChatSendRequest(

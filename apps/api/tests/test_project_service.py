@@ -1,11 +1,6 @@
-import sys
-from pathlib import Path
-
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-
-from repositories.project_repository import SQLAlchemyProjectRepository, project_store
-from schemas.project import ProjectCreate
-from services.project_service import ProjectService, project_service
+from apps.api.repositories.project_repository import SQLAlchemyProjectRepository, project_store
+from apps.api.schemas.project import ProjectCreate
+from apps.api.services.project_service import project_service
 
 
 def test_create_project_persists_and_lists_project() -> None:

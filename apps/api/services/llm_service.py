@@ -2,7 +2,10 @@ from __future__ import annotations
 
 import httpx
 
-from config import settings
+try:
+    from ..config import settings
+except ImportError:  # pragma: no cover - direct script compatibility
+    from config import settings
 
 
 class LLMServiceError(Exception):

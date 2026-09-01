@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sonic-ai-v3.local/schemas/foresight.schema.json",
+  "title": "Sonic AI V3 Foresight",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["forecast_id", "intent_id", "prediction", "probability", "confidence", "created_at"],
+  "properties": {
+    "forecast_id": { "type": "string" },
+    "intent_id": { "type": "string" },
+    "prediction": { "type": "string" },
+    "probability": { "type": "number", "minimum": 0, "maximum": 1 },
+    "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+    "scenario": { "enum": ["base", "upside", "downside", "alternative"] },
+    "evidence_ids": { "type": "array", "items": { "type": "string" } },
+    "model": { "type": "string" },
+    "model_version": { "type": "string" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "actual_outcome": { "type": ["string", "null"] },
+    "forecast_error": { "type": ["number", "null"] },
+    "evaluated_at": { "type": ["string", "null"], "format": "date-time" }
+  }
+}

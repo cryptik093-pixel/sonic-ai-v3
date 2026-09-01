@@ -63,13 +63,14 @@ packages/
   memory/           Activity, memory, and retrieval contracts
   vault/            Asset/vault search contracts
 
-infrastructure/
+aInfrastructure/
   docker/           Local infrastructure assets
   supabase/         Database/auth configuration
 
 docs/
   architecture/     Architecture and system design
   rfc/              Product and technical RFCs
+  operating-system/ Human/AI operating and documentation protocols
 
 *.md                Audit, readiness, milestone, health, and recovery reports
 ```
@@ -85,6 +86,49 @@ docs/
 | **Memory** | Persistent context, activity history and retrieval primitives |
 | **Agent layer** | Reasoning, tool use, planning and controlled execution |
 | **Infrastructure** | Database, authentication, local development and deployment support |
+
+---
+
+## Foundational Operating Protocols
+
+Sonic AI V3 now treats the human-AI collaboration loop and its documentation model as first-priority operating architecture.
+
+### `LOCK` — execution checkpoint
+
+`LOCK` means:
+
+```text
+RE-GROUND
+  ↓
+VALIDATE
+  ↓
+OPTIMIZE
+  ↓
+ALIGN
+  ↓
+CHECKPOINT
+  ↓
+ADVANCE
+```
+
+It is not a request for reassurance. It requires the current state to be re-evaluated before the next action is selected. Completion claims must be distinguished as **PROVEN**, **SUPPORTED**, or **PROPOSED** according to their evidence level.
+
+### Human + machine documentation
+
+Sonic maintains two complementary documentation layers:
+
+- **Markdown / human layer:** architecture, rationale, procedures, audits, decisions, and strategic context.
+- **Machine-readable layer:** YAML/JSON/JSON Schema/typed contracts for deterministic state, rules, interfaces, validation, and agent execution.
+
+Neither layer replaces the other. Runtime behavior remains authoritative for what the system actually does; machine contracts define deterministic interfaces; Markdown preserves human rationale and operating context.
+
+Canonical protocol documents:
+
+- `docs/operating-system/COLLABORATION_PROTOCOL.md`
+- `docs/operating-system/DOCUMENTATION_PROTOCOL.md`
+- `docs/operating-system/collaboration_protocol.yaml`
+
+The same checkpoint principle is intended to govern Sonic's internal intelligence loop: meaningful state changes should trigger reassessment, relevance evaluation, durable state preservation, and selection of the next appropriate action rather than blind continuation.
 
 ---
 

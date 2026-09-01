@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sonic-ai-v3.local/schemas/goal-milestone-action.schema.json",
+  "title": "Sonic AI V3 Goal Milestone Action",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["goal_id", "intent_id", "statement", "status", "milestones"],
+  "properties": {
+    "goal_id": { "type": "string" },
+    "intent_id": { "type": "string" },
+    "statement": { "type": "string", "minLength": 1 },
+    "status": { "enum": ["pending", "active", "blocked", "achieved", "abandoned", "superseded"] },
+    "progress": { "type": "number", "minimum": 0, "maximum": 1 },
+    "milestones": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["milestone_id", "statement", "status", "actions"],
+        "properties": {
+          "milestone_id": { "type": "string" },
+          "statement": { "type": "string" },
+          "status": { "enum": ["pending", "active", "blocked", "achieved", "abandoned", "superseded"] },
+          "progress": { "type": "number", "minimum": 0, "maximum": 1 },
+          "actions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["action_id", "statement", "status"],
+              "properties": {
+                "action_id": { "type": "string" },
+                "statement": { "type": "string" },
+                "status": { "enum": ["planned", "ready", "in_progress", "blocked", "completed", "cancelled"] },
+                "owner": { "enum": ["creator", "sonic", "system", "shared"] },
+                "event_ids": { "type": "array", "items": { "type": "string" } }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

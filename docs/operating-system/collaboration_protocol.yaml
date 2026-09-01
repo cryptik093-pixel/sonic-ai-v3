@@ -1,0 +1,98 @@
+version: 1
+status: locked
+name: sonic-human-ai-collaboration
+scope:
+  - sonic-ai-v3
+  - omega-house-intelligence
+
+primary_trigger:
+  token: LOCK
+  meaning: validate_optimize_align_checkpoint_advance
+  steps:
+    - id: re_ground
+      action: determine_actual_current_state
+    - id: validate
+      action: check_objective_dependencies_interfaces_assumptions_and_evidence
+    - id: optimize
+      action: identify_material_improvements_before_advancing
+    - id: align
+      action: verify_alignment_with_active_system_objective
+    - id: checkpoint
+      action: record_durable_milestone_and_unresolved_risks
+    - id: advance
+      action: select_and_execute_highest_leverage_next_action_when_possible
+
+evidence_states:
+  PROVEN:
+    requires:
+      - reproducible_evidence
+  SUPPORTED:
+    requires:
+      - substantial_validation
+    limitation: empirical_checks_may_remain
+  PROPOSED:
+    requires:
+      - design_or_recommendation
+    limitation: not_implemented_or_not_validated
+
+triggers:
+  LOCK: validate_optimize_align_checkpoint_advance
+  AUDIT: deep_inspection_without_progression
+  PROVE: establish_reproducible_evidence
+  NEXT: select_highest_leverage_next_action
+  EXECUTE: perform_approved_action
+  EXPAND: increase_capability_or_architectural_scope
+  SIMPLIFY: reduce_complexity_while_preserving_requirements
+  REVERSE: reexamine_previous_decision_or_implementation
+  HOLD: preserve_state_without_advancing
+  SHIP: prepare_validated_state_for_release
+
+documentation:
+  human_layer:
+    format: markdown
+    purpose:
+      - rationale
+      - architecture
+      - procedures
+      - audits
+      - strategy
+    optimization: human_comprehension
+  machine_layer:
+    formats:
+      - yaml
+      - json
+      - json-schema
+      - typed-source-contracts
+    purpose:
+      - deterministic_interfaces
+      - state
+      - rules
+      - validation
+      - execution
+    optimization: deterministic_parsing_and_verification
+  rule: human_and_machine_layers_must_not_silently_disagree
+
+operating_loop:
+  - intent
+  - plan
+  - build
+  - verify
+  - validate
+  - optimize
+  - align
+  - checkpoint
+  - advance
+
+authority:
+  human:
+    - intent
+    - priority
+    - approval
+    - consequential_action_authority
+  ai:
+    - analysis
+    - implementation
+    - validation
+    - optimization
+    - evidence_gathering
+    - next_action_selection

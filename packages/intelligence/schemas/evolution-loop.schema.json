@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sonic-ai-v3.local/schemas/evolution-loop.schema.json",
+  "title": "Sonic AI V3 Human Machine Evolution Loop",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["event_id", "intent_id", "event_type", "occurred_at", "source"],
+  "properties": {
+    "event_id": { "type": "string" },
+    "intent_id": { "type": "string" },
+    "goal_id": { "type": ["string", "null"] },
+    "milestone_id": { "type": ["string", "null"] },
+    "event_type": { "enum": ["action", "observation", "obstacle", "intervention", "outcome", "decision", "correction", "forecast", "forecast_evaluation"] },
+    "occurred_at": { "type": "string", "format": "date-time" },
+    "source": { "enum": ["creator", "sonic", "system", "external"] },
+    "description": { "type": "string" },
+    "baseline": {},
+    "prediction": {},
+    "actual_result": {},
+    "delta": {},
+    "evidence_ids": { "type": "array", "items": { "type": "string" } },
+    "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+    "provenance": { "type": "array", "items": { "type": "string" } },
+    "obstacle": { "$ref": "#/$defs/obstacle" },
+    "intervention": { "$ref": "#/$defs/intervention" },
+    "outcome": { "$ref": "#/$defs/outcome" }
+  },
+  "$defs": {
+    "obstacle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "severity", "status"],
+      "properties": {
+        "type": { "enum": ["friction", "roadblock", "resource", "knowledge_gap", "technical", "creative", "operational", "market", "unknown"] },
+        "severity": { "enum": ["low", "medium", "high", "critical"] },
+        "status": { "enum": ["open", "mitigated", "resolved", "recurring"] },
+        "root_cause": { "type": ["string", "null"] }
+      }
+    },
+    "intervention": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["intervention_id", "method", "status"],
+      "properties": {
+        "intervention_id": { "type": "string" },
+        "method": { "type": "string" },
+        "expected_effect": {},
+        "status": { "enum": ["proposed", "accepted", "rejected", "executed", "failed", "successful", "inconclusive"] },
+        "actual_effect": {}
+      }
+    },
+    "outcome": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status"],
+      "properties": {
+        "status": { "enum": ["positive", "negative", "mixed", "neutral", "unknown"] },
+        "magnitude": { "type": ["number", "null"] },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+        "follow_up_required": { "type": "boolean" }
+      }
+    }
+  }
+}

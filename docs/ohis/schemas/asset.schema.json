@@ -1,0 +1,115 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ohis://schemas/asset/v1",
+  "title": "Omega House Intelligence System Asset",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["asset_id", "type", "state", "version"],
+  "properties": {
+    "asset_id": {
+      "type": "string",
+      "pattern": "^OH-(AS|PR|CH|MX|BT|PK|PJ)-[0-9]{6}$"
+    },
+    "name": { "type": "string", "minLength": 1 },
+    "aliases": { "type": "array", "items": { "type": "string" } },
+    "type": {
+      "type": "string",
+      "enum": [
+        "ONE_SHOT", "SAMPLE", "LOOP", "VOCAL", "STEM", "MIDI",
+        "PRESET", "CHAIN", "MIXER_PRESET", "MASTER_CHAIN", "PROJECT",
+        "BEAT", "PACK", "TEMPLATE", "DOCUMENT", "MODEL", "PROMPT", "AGENT"
+      ]
+    },
+    "role": { "type": "string" },
+    "context": { "type": "string" },
+    "state": {
+      "type": "string",
+      "enum": ["RAW", "WORKING", "TESTED", "APPROVED", "RELEASED", "ARCHIVED", "DEPRECATED", "EXPERIMENTAL"]
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^V[0-9]{2,}$"
+    },
+    "technical": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "format": { "type": "string" },
+        "sample_rate": { "type": "integer", "minimum": 1 },
+        "bit_depth": { "type": "integer", "minimum": 1 },
+        "channels": { "type": "integer", "minimum": 1 },
+        "duration_seconds": { "type": "number", "minimum": 0 },
+        "peak_dbfs": { "type": "number" },
+        "true_peak_db": { "type": "number" },
+        "integrated_lufs": { "type": "number" }
+      }
+    },
+    "musical": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "root_key": { "type": "string" },
+        "scale": { "type": "string" },
+        "bpm": { "type": "number", "minimum": 0 },
+        "time_signature": { "type": "string" },
+        "bars": { "type": "number", "minimum": 0 }
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "source_type": { "type": "string" },
+        "source_asset_id": { "type": ["string", "null"] },
+        "source_project_id": { "type": ["string", "null"] },
+        "instrument": { "type": ["string", "null"] },
+        "plugin": { "type": ["string", "null"] },
+        "preset_name": { "type": ["string", "null"] }
+      }
+    },
+    "routing": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "depth": { "type": "integer", "minimum": 1 },
+        "color_semantic": { "type": "string" },
+        "topology": { "type": "string" },
+        "bus_relationships": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "creative": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "mood": { "type": "string" },
+        "energy": { "type": "number", "minimum": 0, "maximum": 1 },
+        "timbre": { "type": "string" },
+        "brightness": { "type": "number", "minimum": 0, "maximum": 1 },
+        "warmth": { "type": "number", "minimum": 0, "maximum": 1 },
+        "density": { "type": "number", "minimum": 0, "maximum": 1 },
+        "movement": { "type": "number", "minimum": 0, "maximum": 1 },
+        "transient_strength": { "type": "number", "minimum": 0, "maximum": 1 },
+        "harmonicity": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "derived_from": { "type": "array", "items": { "type": "string" } },
+        "processed_by": { "type": "array", "items": { "type": "string" } },
+        "used_in": { "type": "array", "items": { "type": "string" } },
+        "supersedes": { "type": ["string", "null"] }
+      }
+    },
+    "quality": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "score": { "type": "number", "minimum": 0, "maximum": 1 },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+        "source": { "type": "string" }
+      }
+    }
+  }
+}

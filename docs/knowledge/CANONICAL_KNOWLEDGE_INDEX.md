@@ -41,6 +41,8 @@
 9. OH-M02 candidate signals must not be retrieved or phrased as confirmed defects, severity judgments, causal diagnoses or repair instructions.
 10. OH-M05 records with `rights.status = unknown` must never be interpreted as permission; AI/ML training permission remains unknown unless authoritative rights evidence says otherwise.
 11. A validated OH-M05 evidence state must retain its evidence references; stripping provenance/evidence downgrades trust rather than preserving validation by assumption.
+12. OH-M03 fixture bytes are authority-tier-A technical evidence only for the measurements/signals explicitly declared in their manifest; they are not evidence of subjective mix quality or release readiness.
+13. A golden-fixture hash mismatch is a failed evidence identity check and must not be normalized away as an equivalent file.
 
 ## Canonical source lineage
 
@@ -87,6 +89,16 @@ The v1 candidate-signal baseline is validated. It does not establish automatic c
 
 The v1 domain/transport baseline is validated for identity, SHA-256, lineage constraints, OH-M04/OH-M02 evidence transport, provenance, evidence state and fail-closed unknown-rights semantics. Database persistence, APIs, rights inheritance and automatic ingestion remain outside this validation scope.
 
+### OH-M03 — persistent golden audio fixtures
+
+- Semantics: `docs/knowledge/requirements/OH_M03_GOLDEN_AUDIO_FIXTURE_SET_V1.md`
+- Manifest: `tests/fixtures/audio/golden/manifest.json`
+- Manifest schema: `docs/knowledge/schemas/golden-audio-fixture-manifest.schema.json`
+- Integration test: `packages/audio-analysis/python/test_golden_audio_fixtures.py`
+- Evidence: `docs/knowledge/requirements/evidence/OH-M03-v1.yaml`
+
+The v1 persistent technical corpus is validated for fixed content hashes, deterministic amplitude/silence anchors, positive/negative stereo-correlation anchors, OH-M02 candidate mapping, and OH-M05 envelope interoperability. It does not establish subjective production quality, LUFS, true peak, real-device translation, masking, low-end ownership, or automatic repair.
+
 ## Recommended chunk metadata
 
 ```yaml
@@ -113,12 +125,15 @@ tags: []
 - `docs/knowledge/requirements/OH_M04_MEASUREMENT_PROFILE_V1.md`
 - `docs/knowledge/requirements/OH_M02_DEFECT_TAXONOMY_V1.md`
 - `docs/knowledge/requirements/OH_M05_CANONICAL_METADATA_SCHEMA_V1.md`
+- `docs/knowledge/requirements/OH_M03_GOLDEN_AUDIO_FIXTURE_SET_V1.md`
 - `docs/knowledge/requirements/evidence/OH-M04-v1.yaml`
 - `docs/knowledge/requirements/evidence/OH-M02-v1.yaml`
 - `docs/knowledge/requirements/evidence/OH-M05-v1.yaml`
+- `docs/knowledge/requirements/evidence/OH-M03-v1.yaml`
 - `docs/knowledge/schemas/audio-measurement-profile.schema.json`
 - `docs/knowledge/schemas/audio-defect-record.schema.json`
 - `docs/knowledge/schemas/asset-intelligence-envelope.schema.json`
+- `docs/knowledge/schemas/golden-audio-fixture-manifest.schema.json`
 - `docs/knowledge/metadata/METADATA_PACKAGING_LINEAGE_V1.md`
 - `docs/knowledge/strategy/SONIC_AI_STRATEGY_LINEAGE_2026.md`
 

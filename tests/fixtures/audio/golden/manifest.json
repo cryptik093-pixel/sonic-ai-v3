@@ -1,0 +1,115 @@
+{
+  "schema_id": "OH-M03",
+  "schema_version": "1.0.0",
+  "production_id": "OH-GOLDEN-AUDIO-V1",
+  "measurement_profile": "OH-M04",
+  "defect_taxonomy": "OH-M02",
+  "metadata_schema": "OH-M05",
+  "fixtures": [
+    {
+      "fixture_id": "OH-FIX-SILENCE-001",
+      "asset_id": "OH-ASSET-GOLDEN-SILENCE-001",
+      "filename": "digital_silence.wav",
+      "sha256": "4929228311b9f52b3ee22219a490688420dcc0ca1c8021198d5a8ab6e2d4c364",
+      "purpose": "Prove digital silence handling and context-dependent silence candidate signaling.",
+      "expected": {
+        "sample_rate_hz": 48000,
+        "channels": 1,
+        "bit_depth": 16,
+        "frame_count": 8,
+        "duration_seconds": 0.00016666666666666666,
+        "sample_peak_dbfs": null,
+        "rms_dbfs": null,
+        "crest_factor_db": null,
+        "full_scale_sample_count": 0,
+        "silent_sample_ratio": 1.0,
+        "stereo_correlation": null,
+        "defect_codes": ["OH-DEF-SIG-SIL-001"]
+      }
+    },
+    {
+      "fixture_id": "OH-FIX-FULLSCALE-001",
+      "asset_id": "OH-ASSET-GOLDEN-FULLSCALE-001",
+      "filename": "full_scale_incidence.wav",
+      "sha256": "d0a9a37be53716e93bbb33532b08ff863f5ce0dc078b2974195781565aff0f48",
+      "purpose": "Prove full-scale sample incidence without inferring clipping cause or limiter use.",
+      "expected": {
+        "sample_rate_hz": 48000,
+        "channels": 1,
+        "bit_depth": 16,
+        "frame_count": 4,
+        "duration_seconds": 0.00008333333333333333,
+        "sample_peak_dbfs": 0.0,
+        "rms_dbfs": -2.8767888609111525,
+        "crest_factor_db": 2.8767888609111525,
+        "full_scale_sample_count": 2,
+        "silent_sample_ratio": 0.25,
+        "stereo_correlation": null,
+        "defect_codes": ["OH-DEF-DYN-FS-001"]
+      }
+    },
+    {
+      "fixture_id": "OH-FIX-SINE-001",
+      "asset_id": "OH-ASSET-GOLDEN-SINE-001",
+      "filename": "mono_sine_0p5_1khz.wav",
+      "sha256": "8d9a122dfcc02cb6f73fd28f0b3340c3f5771c9c8475a78a6e186a62feb363ba",
+      "purpose": "Calibrated amplitude reference for sample peak, RMS and crest factor.",
+      "expected": {
+        "sample_rate_hz": 48000,
+        "channels": 1,
+        "bit_depth": 16,
+        "frame_count": 480,
+        "duration_seconds": 0.01,
+        "sample_peak_dbfs": -6.020599913279624,
+        "rms_dbfs": -9.031147422332573,
+        "crest_factor_db": 3.010547509052949,
+        "full_scale_sample_count": 0,
+        "silent_sample_ratio": 0.041666666666666664,
+        "stereo_correlation": null,
+        "defect_codes": []
+      }
+    },
+    {
+      "fixture_id": "OH-FIX-STEREO-POS-001",
+      "asset_id": "OH-ASSET-GOLDEN-STEREO-POS-001",
+      "filename": "stereo_in_phase_0p25_400hz.wav",
+      "sha256": "ca500928cbdcf8843e2c0bee7951dd5afb268b72a41b16ddd03b95d8c479fdb4",
+      "purpose": "Positive stereo correlation reference with identical channels.",
+      "expected": {
+        "sample_rate_hz": 48000,
+        "channels": 2,
+        "bit_depth": 16,
+        "frame_count": 480,
+        "duration_seconds": 0.01,
+        "sample_peak_dbfs": -12.041199826559248,
+        "rms_dbfs": -15.051660313684128,
+        "crest_factor_db": 3.0104604871248792,
+        "full_scale_sample_count": 0,
+        "silent_sample_ratio": 0.016666666666666666,
+        "stereo_correlation": 1.0,
+        "defect_codes": []
+      }
+    },
+    {
+      "fixture_id": "OH-FIX-STEREO-NEG-001",
+      "asset_id": "OH-ASSET-GOLDEN-STEREO-NEG-001",
+      "filename": "stereo_inverted_0p25_400hz.wav",
+      "sha256": "39764a9ec8550397a762546ee885883057d36c88efa4a15299f0c5ff1c031c1a",
+      "purpose": "Negative stereo correlation reference with polarity-inverted right channel.",
+      "expected": {
+        "sample_rate_hz": 48000,
+        "channels": 2,
+        "bit_depth": 16,
+        "frame_count": 480,
+        "duration_seconds": 0.01,
+        "sample_peak_dbfs": -12.041199826559248,
+        "rms_dbfs": -15.051660313684128,
+        "crest_factor_db": 3.0104604871248792,
+        "full_scale_sample_count": 0,
+        "silent_sample_ratio": 0.016666666666666666,
+        "stereo_correlation": -1.0,
+        "defect_codes": ["OH-DEF-ST-NEG-001"]
+      }
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+evidence_packet_id: OH-EVID-OH-M03-V1-001
+requirement_id: OH-M03
+schema_version: 1.0.0
+status: validated
+implementation_ref:
+  fixture_root: tests/fixtures/audio/golden
+  manifest: tests/fixtures/audio/golden/manifest.json
+  integration_test: packages/audio-analysis/python/test_golden_audio_fixtures.py
+  implementation_commit: aa2a643c5c1a22059d0fc3ad57a20ac022219e8e
+contract_ref:
+  semantics: docs/knowledge/requirements/OH_M03_GOLDEN_AUDIO_FIXTURE_SET_V1.md
+  schema: docs/knowledge/schemas/golden-audio-fixture-manifest.schema.json
+acceptance:
+  workflow_ref: .github/workflows/blank.yml
+  expected_invariants:
+    - all five golden WAV files exist in the repository
+    - each committed WAV SHA-256 equals its manifest identity
+    - OH-M04 deterministic observations equal manifest expectations
+    - OH-M02 candidate-code sets equal manifest expectations exactly
+    - every fixture forms a valid OH-M05 asset intelligence envelope
+    - evidence refs and explicit unknown-rights state survive transport
+    - upstream OH-M04, OH-M02 and OH-M05 suites remain green
+    - fixture and contract JSON schemas parse successfully
+observed:
+  commit_sha: aa2a643c5c1a22059d0fc3ad57a20ac022219e8e
+  ci_run_id: 33915885365
+  ci_run_number: 102
+  ci_result: pass
+  security_run_id: 33915885328
+  security_run_number: 114
+  security_result: pass
+validation_scope:
+  validated:
+    - persistent repository-backed golden audio corpus
+    - fixed SHA-256 content identities
+    - deterministic amplitude and silence anchors
+    - positive and negative stereo correlation anchors
+    - conservative OH-M02 candidate mapping over persistent audio bytes
+    - OH-M05 envelope interoperability over the fixture corpus
+  explicitly_not_validated:
+    - LUFS
+    - true peak
+    - subjective mix quality
+    - kick/808 ownership
+    - masking diagnosis
+    - transient or groove diagnosis
+    - real-device translation
+    - producer preference or Artist DNA
+    - automatic repair
+    - product or commercial release quality
+incident_history:
+  - The initial M03 run rejected the silence fixture because its committed bytes did not match the declared hash.
+  - The binary payload was repaired rather than weakening hash verification.
+  - The final validated silence anchor uses an intentionally minimal 8-frame, 48 kHz, 16-bit PCM WAV with SHA-256 4929228311b9f52b3ee22219a490688420dcc0ca1c8021198d5a8ab6e2d4c364.
+notes:
+  - OH-M03 establishes validation substrate; it does not turn technical anchors into production-quality judgments.
+  - The next runtime frontier is a persisted Upload -> Analyze -> Normalize -> Intelligence -> Memory -> Retrieve vertical slice using OH-M04/OH-M02/OH-M05 contracts.

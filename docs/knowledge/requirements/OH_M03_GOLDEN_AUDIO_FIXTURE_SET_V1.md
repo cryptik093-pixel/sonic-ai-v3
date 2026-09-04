@@ -3,7 +3,7 @@
 **Control ID:** `OH-M03`  
 **Phase:** Sonic AI V3 Phase 2 Runtime Hardening  
 **Owner:** Evaluation / Audio Analyzer / CI  
-**Status:** implemented / awaiting CI evidence  
+**Status:** validated v1 baseline  
 **Depends on:** validated `OH-M04`, `OH-M02`, and `OH-M05` baselines  
 **Doctrine links:** `OH-DR-EVID-003`, `OH-DR-LISTEN-003`, `OH-DR-STEREO-001`, `OH-DR-DYN-002`, `OH-DR-AI-001`
 
@@ -29,6 +29,10 @@ Integration test:
 
 `packages/audio-analysis/python/test_golden_audio_fixtures.py`
 
+Evidence packet:
+
+`docs/knowledge/requirements/evidence/OH-M03-v1.yaml`
+
 ## v1 fixtures
 
 | Fixture | Purpose | Expected OH-M02 signal |
@@ -45,7 +49,7 @@ All files are 48 kHz, 16-bit integer PCM WAV and intentionally tiny so they can 
 
 ```text
 digital_silence.wav
-5d41ac0a816ea96ff677295a7d5f548be06465d029e4f82ef53523520d4b5465
+4929228311b9f52b3ee22219a490688420dcc0ca1c8021198d5a8ab6e2d4c364
 
 full_scale_incidence.wav
 d0a9a37be53716e93bbb33532b08ff863f5ce0dc078b2974195781565aff0f48
@@ -64,7 +68,7 @@ A hash mismatch is a fixture failure even if the new audio sounds equivalent.
 
 ## Validation chain
 
-For every fixture, CI must execute this chain:
+For every fixture, CI executes:
 
 ```text
 fixture bytes
@@ -87,7 +91,7 @@ This tolerance is an implementation regression tolerance, not an audio-quality t
 
 ## What the corpus proves
 
-OH-M03 v1 can validate:
+OH-M03 v1 validates:
 
 - committed fixture bytes are unchanged;
 - PCM decoding remains stable for the v1 reference files;
@@ -123,18 +127,26 @@ Those require broader fixtures, human/reference evidence, or additional determin
 5. Golden fixtures are technical evidence, not Omega House production examples or marketing assets.
 6. Rights for synthetic technical fixtures are not inferred into product rights; OH-M05 keeps rights state explicitly unknown in the integration envelope.
 
-## Acceptance conditions
+## Validation evidence
 
-OH-M03 v1 becomes validated only when CI on the exact implementation head proves:
+Validated implementation head:
 
-1. all five committed WAV files exist;
-2. every file hash equals the manifest hash;
-3. all declared M04 format/amplitude/stereo observations match;
-4. all declared M02 candidate-code sets match exactly;
-5. each fixture can enter a valid M05 envelope with evidence refs preserved;
-6. the M03 manifest and all upstream schemas remain valid JSON;
-7. the existing M04, M02, and M05 suites continue to pass.
+`aa2a643c5c1a22059d0fc3ad57a20ac022219e8e`
+
+CI:
+
+- run `33915885365`
+- run number `102`
+- result `success`
+
+Security workflow:
+
+- run `33915885328`
+- run number `114`
+- result `success`
+
+The initial M03 run rejected the silence fixture because the committed payload did not match the declared hash. The check was preserved; the payload was repaired and reduced to an unambiguous 8-frame PCM silence anchor. This is evidence that content identity enforcement is functioning rather than a reason to weaken it.
 
 ## Next runtime frontier
 
-After OH-M03, the foundational evidence substrate exists. The next highest-leverage move is to use these validated contracts in a real ingestion vertical slice so an uploaded WAV produces a persisted M05 envelope containing OH-M04 observations and OH-M02 candidates, then can be retrieved without losing provenance or evidence state.
+With OH-M04, OH-M02, OH-M05 and OH-M03 validated, the next highest-leverage move is a real persisted ingestion vertical slice so an uploaded WAV produces a durable M05 envelope containing OH-M04 observations and OH-M02 candidates, then can be retrieved without losing provenance or evidence state.

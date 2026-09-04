@@ -33,8 +33,8 @@
 | OH-DR-LOWEND-005 | Monitoring limits affect confidence | Intelligence Core | PROVEN doctrine | planned | uncertainty/confidence contract |
 | OH-DR-MASK-001 | Diagnose target/masker pairs | Audio Analyzer | PROVEN doctrine | planned | masking-pair output schema + golden fixtures |
 | OH-DR-MASK-004 | Recommendations name competing objects, not only bands | Intelligence Core | PROVEN doctrine | planned | recommendation contract + regression tests |
-| OH-DR-STEREO-001 | Preserve center authority | Audio Analyzer | PROVEN doctrine | planned | mid/side/correlation metrics + fixture |
-| OH-DR-DYN-002 | Distinguish clipping, limiting, loudness, true peak | Audio Analyzer | PROVEN doctrine | planned | measurement profile + deterministic tests |
+| OH-DR-STEREO-001 | Preserve center authority | Audio Analyzer | PROVEN doctrine | in-progress | validated OH-M04 correlation baseline + mid/side/mono fixtures |
+| OH-DR-DYN-002 | Distinguish clipping, limiting, loudness, true peak | Audio Analyzer | PROVEN doctrine | in-progress | validated OH-M04 sample-peak/RMS/full-scale baseline; standards-compliant LUFS/true-peak proof still required |
 | OH-DR-TRANS-001 | Consequential translation uses multiple playback contexts | Evaluation / Frontend | PROVEN doctrine | planned | translation-test workflow + evidence record |
 | OH-DR-EXPORT-001 | Render configuration is evidence | Metadata / Backend | PROVEN doctrine | planned | export metadata schema + ingestion test |
 | OH-DR-EXPORT-002 | Rendered deliverable is verified independently | Pipelines | PROVEN doctrine | planned | post-render verification step + fixture |
@@ -45,7 +45,7 @@
 | OH-DR-LINEAGE-005 | Replacement defines downstream invalidation | Backend / Events | PROVEN doctrine | planned | invalidation event contract + tests |
 | OH-DR-LINEAGE-006 | Final assets/manifests support hashes | Metadata / Pipelines | SUPPORTED | planned | SHA-256 manifest generation + verification |
 | OH-DR-LINEAGE-007 | Rights/license inheritance follows derivatives | Metadata / Product | SUPPORTED | planned | rights schema + derivative propagation tests |
-| OH-DR-AI-001 | Deterministic facts are separate from interpretation | Audio Analyzer / Intelligence Core | PROVEN doctrine | in-progress | typed analysis/interpretation boundary + tests |
+| OH-DR-AI-001 | Deterministic facts are separate from interpretation | Audio Analyzer / Intelligence Core | PROVEN doctrine | in-progress | validated OH-M04 observation boundary + typed integration contract/tests |
 | OH-DR-AI-002 | Recommendations expose evidence/rule/uncertainty | Intelligence Core / Frontend | PROVEN doctrine | planned | explainability payload + UI acceptance test |
 | OH-DR-AI-003 | Producer DNA does not become universal doctrine | Artist DNA / Memory | PROVEN doctrine | planned | scoped memory policy + conflict test |
 | OH-DR-AI-004 | Durable memory requires provenance/confidence | Memory | SUPPORTED architecture | in-progress | memory schema + provenance persistence test |
@@ -58,15 +58,13 @@
 
 ## Missing-control register from the 2026 full-system audit
 
-These are cross-cutting acceptance dependencies and retain their original audit IDs.
-
 | Audit ID | Contract to build | Sonic owner | Phase 2 disposition |
 |---|---|---|---|
 | OH-M01 | critical-listening calibration | Evaluation / Curriculum | design fixture contract |
-| OH-M02 | defect taxonomy and severity | Audio Analyzer / Metadata | high priority - shared vocabulary |
-| OH-M03 | golden audio fixture set | Evaluation / CI | high priority - validation substrate |
-| OH-M04 | measurement profile | Audio Analyzer | high priority - deterministic contract |
-| OH-M05 | canonical metadata schema | Metadata / Backend | high priority - domain contract |
+| OH-M02 | defect taxonomy and severity | Audio Analyzer / Metadata | next execution gate - shared vocabulary |
+| OH-M03 | golden audio fixture set | Evaluation / CI | queued after M02/M05 - validation substrate |
+| OH-M04 | measurement profile | Audio Analyzer | **validated v1 deterministic baseline** — evidence `evidence/OH-M04-v1.yaml` |
+| OH-M05 | canonical metadata schema | Metadata / Backend | next after M02 - domain contract |
 | OH-M06 | content-addressed integrity | Pipelines | implement hashes + invalidation |
 | OH-M07 | rights/license inheritance | Metadata / Product | implement before publication automation |
 | OH-M08 | asset-class tolerances | Pipelines / QC | encode per asset class |
@@ -75,9 +73,21 @@ These are cross-cutting acceptance dependencies and retain their original audit 
 | OH-M11 | failure recovery/rollback | Backend / Pipelines | runtime-hardening priority |
 | OH-M12 | memory governance | Memory | runtime-hardening priority |
 | OH-M13 | agent/tool permissions | Agents / MCP | autonomy gate |
-| OH-M14 | repository/runtime reconciliation | Repo / CI | immediate Phase 2 gate |
+| OH-M14 | repository/runtime reconciliation | Repo / CI | Gate B/C baseline locked on `main`; implementation-branch convergence remains runtime work |
 | OH-M15 | commerce attribution | Events / Analytics | intelligence-learning gate |
 | OH-M16 | faculty operations | Curriculum | cohort-delivery gate |
+
+## OH-M04 validated evidence
+
+- Semantics: `docs/knowledge/requirements/OH_M04_MEASUREMENT_PROFILE_V1.md`
+- Schema: `docs/knowledge/schemas/audio-measurement-profile.schema.json`
+- Reference implementation: `packages/audio-analysis/python/sonic_measurement.py`
+- Acceptance tests: `packages/audio-analysis/python/test_sonic_measurement.py`
+- Evidence packet: `docs/knowledge/requirements/evidence/OH-M04-v1.yaml`
+- Validated implementation commit: `659e33a8c1f1d034f0b2cf7d7ea6809b93ca7481`
+- CI run: `33897033199` / run #79 / success
+
+OH-M04 deliberately reports LUFS and true peak as unavailable in v1 instead of approximating or mislabeling them. Therefore `OH-DR-DYN-002` remains `in-progress`.
 
 ## Required evidence packet
 
@@ -103,9 +113,9 @@ notes: <limitations or unresolved defects>
 
 ## Immediate Phase 2 proof order
 
-1. `OH-M14` repository/runtime reconciliation.
-2. `OH-M04` deterministic measurement profile.
-3. `OH-M02` shared defect taxonomy.
+1. `OH-M14` repository/runtime reconciliation baseline - locked through Gate B/C governance; continue branch convergence as runtime work.
+2. `OH-M04` deterministic measurement profile - **validated v1 baseline**.
+3. `OH-M02` shared defect taxonomy - **next execution gate**.
 4. `OH-M05` canonical metadata schema.
 5. `OH-M03` golden fixtures.
 6. Validate the first vertical slice: **Upload -> Analyze -> Normalize -> Intelligence -> Memory -> Retrieve**.

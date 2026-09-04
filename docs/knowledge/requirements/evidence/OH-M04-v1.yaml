@@ -1,0 +1,58 @@
+evidence_packet_id: OH-EVID-OH-M04-V1-001
+requirement_id: OH-M04
+profile_version: 1.0.0
+status: validated
+implementation_ref:
+  repo_path: packages/audio-analysis/python/sonic_measurement.py
+  symbol_or_contract: measure_pcm_wav
+  implementation_commit: 659e33a8c1f1d034f0b2cf7d7ea6809b93ca7481
+contract_ref:
+  semantics: docs/knowledge/requirements/OH_M04_MEASUREMENT_PROFILE_V1.md
+  schema: docs/knowledge/schemas/audio-measurement-profile.schema.json
+acceptance:
+  test_ref: packages/audio-analysis/python/test_sonic_measurement.py
+  workflow_ref: .github/workflows/blank.yml
+  expected_invariants:
+    - known 0.5-amplitude sine produces approximately -6.02 dBFS sample peak
+    - known 0.5-amplitude sine produces approximately -9.03 dBFS RMS
+    - known sine produces approximately 3.01 dB crest factor
+    - identical stereo channels produce correlation +1
+    - polarity-inverted stereo channels produce correlation -1
+    - exact PCM full-scale samples are counted without causal interpretation
+    - digital silence emits null logarithmic amplitudes rather than infinities
+    - LUFS and true peak remain explicit unavailable fields
+    - measurement output performs no production interpretation
+observed:
+  commit_sha: 659e33a8c1f1d034f0b2cf7d7ea6809b93ca7481
+  run_id: 33897033199
+  run_number: 79
+  workflow: CI
+  result: pass
+  completed_at: 2026-09-04T16:47:01Z
+validation_scope:
+  validated:
+    - PCM WAV header facts
+    - source SHA-256
+    - sample peak dBFS
+    - RMS dBFS
+    - crest factor dB
+    - per-channel DC offset
+    - exact full-scale sample incidence
+    - near-full-scale sample incidence
+    - silence ratio at -60 dBFS threshold
+    - two-channel correlation
+    - silence JSON representation
+    - observation-versus-interpretation boundary
+  explicitly_not_validated:
+    - integrated LUFS
+    - short-term or momentary loudness
+    - true peak dBTP
+    - limiter detection
+    - upstream clipping-cause detection
+    - complete mono compatibility
+    - defect diagnosis
+    - producer recommendations
+notes:
+  - OH-M04 v1 is validated only for the deterministic baseline listed above.
+  - OH-DR-DYN-002 remains in-progress because loudness and true-peak methods are intentionally unavailable.
+  - OH-M03 will add persistent golden audio fixtures beyond the generated acceptance signals used in this CI run.

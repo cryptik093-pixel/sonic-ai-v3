@@ -1,0 +1,50 @@
+evidence_packet_id: OH-EVID-OH-M02-V1-001
+requirement_id: OH-M02
+taxonomy_version: 1.0.0
+status: validated
+implementation_ref:
+  repo_path: packages/audio-analysis/python/defect_taxonomy.py
+  symbol_or_contract: detect_measurement_signals
+  implementation_commit: 5a681d5b560cd8cecaa0da711dc2c4cc0e3915f7
+contract_ref:
+  semantics: docs/knowledge/requirements/OH_M02_DEFECT_TAXONOMY_V1.md
+  schema: docs/knowledge/schemas/audio-defect-record.schema.json
+acceptance:
+  test_ref: packages/audio-analysis/python/test_defect_taxonomy.py
+  workflow_ref: .github/workflows/blank.yml
+  expected_invariants:
+    - ordinary OH-M04 measurement can emit no defect candidates
+    - exact full-scale incidence emits OH-DEF-DYN-FS-001 as candidate only
+    - full-scale incidence does not assert clipping cause or limiter use
+    - negative stereo correlation emits OH-DEF-ST-NEG-001 as candidate only
+    - negative correlation does not assert mono failure
+    - complete digital silence emits OH-DEF-SIG-SIL-001 and still requires context
+    - emitted v1 candidates retain severity unrated and cause_status unknown
+    - non-OH-M04 input is rejected
+observed:
+  commit_sha: 5a681d5b560cd8cecaa0da711dc2c4cc0e3915f7
+  run_id: 33897530294
+  run_number: 85
+  workflow: CI
+  result: pass
+  completed_at: 2026-09-04T16:52:33Z
+validation_scope:
+  validated:
+    - candidate lifecycle semantics for the three initial deterministic signals
+    - severity versus confidence/cause separation
+    - no-causal-overreach guardrails
+    - OH-M04 input boundary
+    - defect record schema syntax
+  explicitly_not_validated:
+    - automatic confirmation of production defects
+    - automatic severity assignment
+    - limiter detection
+    - clipping-cause diagnosis
+    - mono translation failure diagnosis
+    - low-end role conflict diagnosis
+    - masking diagnosis
+    - repair recommendations
+notes:
+  - The first CI attempt exposed a faulty test assertion; the test was corrected without weakening the taxonomy contract.
+  - OH-M02 v1 intentionally emits candidate signals only.
+  - OH-M05 is the next dependency for durable asset/measurement/defect metadata transport.

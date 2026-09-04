@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://omega-house.online/schemas/sonic-ai/audio-defect-record.v1.json",
+  "title": "Sonic AI V3 Audio Defect / Signal Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "taxonomy_id",
+    "taxonomy_version",
+    "defect_code",
+    "name",
+    "category",
+    "state",
+    "severity",
+    "cause_status",
+    "evidence_class",
+    "evidence",
+    "rationale",
+    "required_confirmation"
+  ],
+  "properties": {
+    "taxonomy_id": { "const": "OH-M02" },
+    "taxonomy_version": { "type": "string", "pattern": "^1\\." },
+    "defect_code": { "type": "string", "pattern": "^OH-DEF-[A-Z]+-[A-Z0-9]+-[0-9]{3}$" },
+    "name": { "type": "string", "minLength": 1 },
+    "category": {
+      "enum": [
+        "dynamics",
+        "stereo",
+        "signal_integrity",
+        "low_end",
+        "masking",
+        "temporal",
+        "translation",
+        "export",
+        "metadata"
+      ]
+    },
+    "state": { "enum": ["signal", "candidate", "confirmed", "resolved", "accepted_exception"] },
+    "severity": { "enum": ["unrated", "minor", "material", "major", "critical"] },
+    "cause_status": { "enum": ["unknown", "suspected", "supported", "confirmed"] },
+    "evidence_class": {
+      "enum": [
+        "deterministic_observation",
+        "comparative_observation",
+        "contextual_evidence",
+        "producer_assessment",
+        "runtime_outcome"
+      ]
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["measurement_profile", "field", "observed_value"],
+      "properties": {
+        "measurement_profile": { "type": "string", "minLength": 1 },
+        "field": { "type": "string", "minLength": 1 },
+        "observed_value": {}
+      }
+    },
+    "rationale": { "type": "string", "minLength": 1 },
+    "required_confirmation": { "type": "string", "minLength": 1 }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "state": { "const": "confirmed" } },
+        "required": ["state"]
+      },
+      "then": {
+        "properties": {
+          "severity": { "not": { "const": "unrated" } }
+        }
+      }
+    }
+  ]
+}

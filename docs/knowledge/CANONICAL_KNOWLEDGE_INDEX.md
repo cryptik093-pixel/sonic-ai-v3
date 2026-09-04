@@ -40,6 +40,7 @@ A future knowledge service should not treat all chunks equally. Recommended defa
 6. Every durable extracted object must preserve source filename, source hash, archive ID, lifecycle, and derivation timestamp.
 7. Conflicting knowledge must be surfaced as conflict, not silently merged.
 8. Audio interpretation must preserve the boundary between deterministic observations and producer-facing recommendations.
+9. OH-M02 candidate signals must not be retrieved or phrased as confirmed defects, severity judgments, causal diagnoses or repair instructions.
 
 ## Canonical source lineage
 
@@ -67,7 +68,7 @@ The duplicate suffixed doctrine PDF in the archive is byte-identical to the cano
 
 This remains the canonical source-to-asset production specification and should be linked, not duplicated, by derived knowledge objects.
 
-### Phase 2 deterministic measurement contract
+### Phase 2 deterministic measurement contract — OH-M04
 
 Semantics:
 
@@ -81,7 +82,31 @@ Executable reference:
 
 `packages/audio-analysis/python/sonic_measurement.py`
 
-OH-M04 is an authority-tier-A candidate only after its exact implementation commit has reproducible passing CI evidence. Until then, the semantics are canonical but runtime validation remains pending.
+Evidence:
+
+`docs/knowledge/requirements/evidence/OH-M04-v1.yaml`
+
+OH-M04's deterministic v1 baseline is validated. Its unavailable LUFS/true-peak fields remain unavailable rather than being approximated.
+
+### Phase 2 defect taxonomy contract — OH-M02
+
+Semantics:
+
+`docs/knowledge/requirements/OH_M02_DEFECT_TAXONOMY_V1.md`
+
+Machine-readable record shape:
+
+`docs/knowledge/schemas/audio-defect-record.schema.json`
+
+Executable reference:
+
+`packages/audio-analysis/python/defect_taxonomy.py`
+
+Evidence:
+
+`docs/knowledge/requirements/evidence/OH-M02-v1.yaml`
+
+OH-M02's v1 candidate-signal baseline is validated. Authority applies to its taxonomy/lifecycle semantics and three initial candidate signals only; it does not establish automatic defect confirmation, cause or severity.
 
 ## Recommended chunk metadata
 
@@ -107,7 +132,11 @@ tags: []
 - `docs/knowledge/curriculum/ELITE_AUDIO_ENGINEERING_CURRICULUM_MAP_V1.md`
 - `docs/knowledge/requirements/PHASE_2_REQUIREMENT_REGISTER.md`
 - `docs/knowledge/requirements/OH_M04_MEASUREMENT_PROFILE_V1.md`
+- `docs/knowledge/requirements/OH_M02_DEFECT_TAXONOMY_V1.md`
+- `docs/knowledge/requirements/evidence/OH-M04-v1.yaml`
+- `docs/knowledge/requirements/evidence/OH-M02-v1.yaml`
 - `docs/knowledge/schemas/audio-measurement-profile.schema.json`
+- `docs/knowledge/schemas/audio-defect-record.schema.json`
 - `docs/knowledge/metadata/METADATA_PACKAGING_LINEAGE_V1.md`
 - `docs/knowledge/strategy/SONIC_AI_STRATEGY_LINEAGE_2026.md`
 

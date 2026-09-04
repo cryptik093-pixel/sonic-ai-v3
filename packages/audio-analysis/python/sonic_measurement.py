@@ -8,7 +8,9 @@ separate, and unavailable until a standards-compliant implementation is added.
 """
 from __future__ import annotations
 
+import argparse
 import hashlib
+import json
 import math
 import struct
 import wave
@@ -196,3 +198,23 @@ def measure_pcm_wav(path: str | Path) -> dict:
             "reason": "OH-M04 produces deterministic observations only; interpretation belongs to Intelligence Core",
         },
     }
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(
+        description="Measure an uncompressed PCM WAV using Sonic AI V3 OH-M04 v1."
+    )
+    parser.add_argument("wav", type=Path, help="Path to an uncompressed PCM WAV file")
+    parser.add_argument(
+        "--compact",
+        action="store_true",
+        help="Emit compact JSON instead of indented JSON",
+    )
+    args = parser.parse_args()
+    result = measure_pcm_wav(args.wav)
+    print(json.dumps(result, indent=None if args.compact else 2, sort_keys=True))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

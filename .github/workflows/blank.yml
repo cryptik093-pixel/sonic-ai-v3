@@ -23,6 +23,7 @@ jobs:
           python -m py_compile packages/audio-analysis/python/sonic_measurement.py
           python -m py_compile packages/audio-analysis/python/defect_taxonomy.py
           python -m py_compile packages/audio-analysis/python/metadata_envelope.py
+          python -m py_compile packages/audio-analysis/python/test_golden_audio_fixtures.py
 
       - name: Run OH-M04 measurement tests
         working-directory: packages/audio-analysis/python
@@ -36,8 +37,14 @@ jobs:
         working-directory: packages/audio-analysis/python
         run: python -m unittest -v test_metadata_envelope.py
 
-      - name: Validate Phase 2 contract schemas
+      - name: Run OH-M03 persistent golden fixture tests
+        working-directory: packages/audio-analysis/python
+        run: python -m unittest -v test_golden_audio_fixtures.py
+
+      - name: Validate Phase 2 contract and fixture JSON
         run: |
           python -m json.tool docs/knowledge/schemas/audio-measurement-profile.schema.json > /dev/null
           python -m json.tool docs/knowledge/schemas/audio-defect-record.schema.json > /dev/null
           python -m json.tool docs/knowledge/schemas/asset-intelligence-envelope.schema.json > /dev/null
+          python -m json.tool docs/knowledge/schemas/golden-audio-fixture-manifest.schema.json > /dev/null
+          python -m json.tool tests/fixtures/audio/golden/manifest.json > /dev/null

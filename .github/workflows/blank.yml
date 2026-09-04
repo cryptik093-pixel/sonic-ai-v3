@@ -18,12 +18,20 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Compile OH-M04 reference implementation
-        run: python -m py_compile packages/audio-analysis/python/sonic_measurement.py
+      - name: Compile deterministic audio modules
+        run: |
+          python -m py_compile packages/audio-analysis/python/sonic_measurement.py
+          python -m py_compile packages/audio-analysis/python/defect_taxonomy.py
 
-      - name: Run OH-M04 deterministic measurement tests
+      - name: Run OH-M04 measurement tests
         working-directory: packages/audio-analysis/python
         run: python -m unittest -v test_sonic_measurement.py
 
-      - name: Validate measurement schema JSON
-        run: python -m json.tool docs/knowledge/schemas/audio-measurement-profile.schema.json > /dev/null
+      - name: Run OH-M02 taxonomy tests
+        working-directory: packages/audio-analysis/python
+        run: python -m unittest -v test_defect_taxonomy.py
+
+      - name: Validate audio contract schemas
+        run: |
+          python -m json.tool docs/knowledge/schemas/audio-measurement-profile.schema.json > /dev/null
+          python -m json.tool docs/knowledge/schemas/audio-defect-record.schema.json > /dev/null

@@ -1,0 +1,137 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://omega-house.online/schemas/sonic-ai-v3/knowledge-object.schema.json",
+  "title": "Sonic AI V3 Canonical Knowledge Object",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "knowledge_id",
+    "canonical_id",
+    "source_path",
+    "document_class",
+    "authority_tier",
+    "lifecycle",
+    "phase",
+    "runtime_validation",
+    "module_scope",
+    "content"
+  ],
+  "properties": {
+    "knowledge_id": {
+      "type": "string",
+      "pattern": "^[A-Z0-9][A-Z0-9._-]+$"
+    },
+    "canonical_id": {
+      "type": "string",
+      "minLength": 3
+    },
+    "archive_id": {
+      "type": ["string", "null"]
+    },
+    "source_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_hash_sha256": {
+      "type": ["string", "null"],
+      "pattern": "^[a-fA-F0-9]{64}$"
+    },
+    "document_class": {
+      "enum": [
+        "doctrine",
+        "architecture",
+        "runtime-evidence",
+        "curriculum",
+        "operating-protocol",
+        "metadata-contract",
+        "strategy-historical",
+        "audit"
+      ]
+    },
+    "authority_tier": {
+      "enum": ["A", "B", "C", "D", "E", "F"]
+    },
+    "lifecycle": {
+      "enum": [
+        "canonical",
+        "validated",
+        "historical",
+        "superseded",
+        "draft",
+        "evidence"
+      ]
+    },
+    "phase": {
+      "enum": ["phase-1", "phase-2", "historical"]
+    },
+    "evidence_state": {
+      "enum": ["PROVEN", "SUPPORTED", "PROPOSED", "UNCERTIFIED"]
+    },
+    "runtime_validation": {
+      "enum": ["validated", "not-validated", "not-applicable"]
+    },
+    "module_scope": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "audio-analyzer",
+          "midi-engine",
+          "artist-dna",
+          "intelligence-core",
+          "memory",
+          "backend",
+          "frontend",
+          "pipelines",
+          "commerce",
+          "agents-mcp",
+          "curriculum"
+        ]
+      }
+    },
+    "requirement_refs": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string"},
+      "default": []
+    },
+    "tags": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string"},
+      "default": []
+    },
+    "valid_from": {
+      "type": ["string", "null"],
+      "format": "date"
+    },
+    "valid_to": {
+      "type": ["string", "null"],
+      "format": "date"
+    },
+    "derived_at": {
+      "type": ["string", "null"],
+      "format": "date-time"
+    },
+    "content": {
+      "type": "object",
+      "required": ["summary"],
+      "properties": {
+        "summary": {"type": "string", "minLength": 1},
+        "principles": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "facts": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "limitations": {
+          "type": "array",
+          "items": {"type": "string"}
+        }
+      },
+      "additionalProperties": true
+    }
+  }
+}

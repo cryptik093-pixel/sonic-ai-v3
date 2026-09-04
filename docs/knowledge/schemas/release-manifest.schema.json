@@ -1,0 +1,146 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://omega-house.online/schemas/sonic-ai-v3/release-manifest.schema.json",
+  "title": "Omega House Product Release Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "release_id",
+    "product_id",
+    "version",
+    "license",
+    "assets",
+    "qc",
+    "created_at",
+    "commit_sha"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "release_id": {
+      "type": "string",
+      "pattern": "^OH-REL-[A-Z0-9._-]+$"
+    },
+    "product_id": {
+      "type": "string",
+      "pattern": "^OH-PROD-[A-Z0-9._-]+$"
+    },
+    "drop_id": {
+      "type": ["string", "null"]
+    },
+    "version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "license": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["license_id", "class", "hash_sha256"],
+      "properties": {
+        "license_id": {"type": "string"},
+        "class": {"type": "string"},
+        "hash_sha256": {
+          "type": "string",
+          "pattern": "^[a-fA-F0-9]{64}$"
+        },
+        "ai_ml_training_allowed": {
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
+    "variants": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["variant_id", "asset_id", "hash_sha256"],
+        "properties": {
+          "variant_id": {"type": "string"},
+          "asset_id": {"type": "string"},
+          "hash_sha256": {
+            "type": "string",
+            "pattern": "^[a-fA-F0-9]{64}$"
+          }
+        }
+      },
+      "default": []
+    },
+    "assets": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/asset"
+      }
+    },
+    "qc": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "evidence_refs"],
+      "properties": {
+        "status": {"enum": ["pass", "fail"]},
+        "evidence_refs": {
+          "type": "array",
+          "items": {"type": "string"}
+        }
+      }
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "commit_sha": {
+      "type": "string",
+      "pattern": "^[a-fA-F0-9]{40}$"
+    }
+  },
+  "$defs": {
+    "asset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "asset_id",
+        "class",
+        "filename",
+        "hash_sha256",
+        "rights_state"
+      ],
+      "properties": {
+        "asset_id": {"type": "string", "minLength": 1},
+        "class": {
+          "enum": [
+            "beat",
+            "melody",
+            "stem",
+            "midi",
+            "one-shot",
+            "drum",
+            "preset",
+            "master-chain",
+            "preview",
+            "artwork",
+            "document",
+            "metadata",
+            "other"
+          ]
+        },
+        "filename": {"type": "string", "minLength": 1},
+        "source_id": {"type": ["string", "null"]},
+        "hash_sha256": {
+          "type": "string",
+          "pattern": "^[a-fA-F0-9]{64}$"
+        },
+        "rights_state": {"type": "string", "minLength": 1},
+        "technical_metadata_ref": {"type": ["string", "null"]},
+        "qc_evidence_refs": {
+          "type": "array",
+          "items": {"type": "string"},
+          "default": []
+        }
+      }
+    }
+  }
+}

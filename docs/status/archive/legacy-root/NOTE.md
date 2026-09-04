@@ -1,1 +1,0 @@
-Gate B is governed by the migration map, archive control plane, and compatibility policy. This file is informational only.

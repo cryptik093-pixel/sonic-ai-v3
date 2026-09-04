@@ -3,7 +3,8 @@
 **Control ID:** `OH-M04`  
 **Phase:** Sonic AI V3 Phase 2 Runtime Hardening  
 **Owner:** Audio Analyzer / Evaluation / CI  
-**Status:** implemented / awaiting PR evidence  
+**Status:** validated deterministic v1 baseline  
+**Evidence:** `docs/knowledge/requirements/evidence/OH-M04-v1.yaml`  
 **Doctrine links:** `OH-DR-AI-001`, `OH-DR-DYN-002`, `OH-DR-STEREO-001`, `OH-DR-EVID-003`  
 **Executable reference:** `packages/audio-analysis/python/sonic_measurement.py`
 
@@ -108,7 +109,13 @@ The first acceptance set proves:
 
 ## Evidence state
 
-The implementation may be called `implemented` when source and tests exist. It becomes `validated` only after a reproducible CI run on the exact commit passes the acceptance suite and the run is linked in an evidence packet.
+The deterministic v1 baseline is validated by CI run `33897033199` on implementation commit `659e33a8c1f1d034f0b2cf7d7ea6809b93ca7481`.
+
+Evidence packet:
+
+`docs/knowledge/requirements/evidence/OH-M04-v1.yaml`
+
+This validation is deliberately scoped. It does **not** validate integrated LUFS, true peak, limiter detection, clipping-cause inference, complete mono compatibility, defect diagnosis or recommendations.
 
 ## Next controls unlocked by OH-M04
 

@@ -39,6 +39,7 @@ A future knowledge service should not treat all chunks equally. Recommended defa
 5. Doctrine may constrain behavior, but a runtime feature is only `validated` after reproducible evidence exists.
 6. Every durable extracted object must preserve source filename, source hash, archive ID, lifecycle, and derivation timestamp.
 7. Conflicting knowledge must be surfaced as conflict, not silently merged.
+8. Audio interpretation must preserve the boundary between deterministic observations and producer-facing recommendations.
 
 ## Canonical source lineage
 
@@ -66,6 +67,22 @@ The duplicate suffixed doctrine PDF in the archive is byte-identical to the cano
 
 This remains the canonical source-to-asset production specification and should be linked, not duplicated, by derived knowledge objects.
 
+### Phase 2 deterministic measurement contract
+
+Semantics:
+
+`docs/knowledge/requirements/OH_M04_MEASUREMENT_PROFILE_V1.md`
+
+Machine-readable result shape:
+
+`docs/knowledge/schemas/audio-measurement-profile.schema.json`
+
+Executable reference:
+
+`packages/audio-analysis/python/sonic_measurement.py`
+
+OH-M04 is an authority-tier-A candidate only after its exact implementation commit has reproducible passing CI evidence. Until then, the semantics are canonical but runtime validation remains pending.
+
 ## Recommended chunk metadata
 
 ```yaml
@@ -89,6 +106,8 @@ tags: []
 - `docs/knowledge/doctrine/OMEGA_HOUSE_PRODUCTION_DOCTRINE_CANONICAL_V1.md`
 - `docs/knowledge/curriculum/ELITE_AUDIO_ENGINEERING_CURRICULUM_MAP_V1.md`
 - `docs/knowledge/requirements/PHASE_2_REQUIREMENT_REGISTER.md`
+- `docs/knowledge/requirements/OH_M04_MEASUREMENT_PROFILE_V1.md`
+- `docs/knowledge/schemas/audio-measurement-profile.schema.json`
 - `docs/knowledge/metadata/METADATA_PACKAGING_LINEAGE_V1.md`
 - `docs/knowledge/strategy/SONIC_AI_STRATEGY_LINEAGE_2026.md`
 

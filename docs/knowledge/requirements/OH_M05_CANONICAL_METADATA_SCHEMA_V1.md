@@ -3,7 +3,8 @@
 **Control ID:** `OH-M05`  
 **Phase:** Sonic AI V3 Phase 2 Runtime Hardening  
 **Owner:** Metadata / Backend / Memory  
-**Status:** implemented / awaiting CI evidence  
+**Status:** validated v1 transport/domain baseline  
+**Evidence:** `docs/knowledge/requirements/evidence/OH-M05-v1.yaml`  
 **Depends on:** validated `OH-M04` measurement baseline and validated `OH-M02` defect taxonomy baseline  
 **Doctrine links:** `OH-DR-EVID-001`, `OH-DR-AI-001`, `OH-DR-AI-004`, `OH-DR-LINEAGE-001`, `OH-DR-LINEAGE-002`, `OH-DR-LINEAGE-006`, `OH-DR-EXPORT-001`
 
@@ -89,22 +90,13 @@ This begins operationalizing `OH-DR-LINEAGE-001/002/006` while leaving replaceme
 
 ### Measurement
 
-If present, `analysis.measurement` must be an OH-M04 result and must preserve:
-
-- source SHA-256;
-- profile identity;
-- `interpretation.status = not_performed`.
+If present, `analysis.measurement` must be an OH-M04 result and must preserve source SHA-256, profile identity, and `interpretation.status = not_performed`.
 
 OH-M05 must not transform an OH-M04 deterministic observation into interpretation while transporting it.
 
 ### Defects
 
-If present, `analysis.defects` must contain OH-M02 records.
-
-For v1 candidate records:
-
-- `severity` must remain `unrated`;
-- `cause_status` must remain `unknown`.
+If present, `analysis.defects` must contain OH-M02 records. For v1 candidate records, `severity` remains `unrated` and `cause_status` remains `unknown`.
 
 Measurement-derived OH-M02 records may not travel without the OH-M04 measurement that supports them. This prevents detached diagnosis-like records from losing their underlying evidence.
 
@@ -123,44 +115,21 @@ A `validated` state with no evidence reference is invalid.
 
 Rights metadata is intentionally fail-closed with respect to knowledge.
 
-### Unknown rights
-
-When `rights.status = unknown`:
-
-- `rights_state_id = null`;
-- `license_id = null`;
-- `ai_ml_training_permission = unknown`.
-
-Unknown rights cannot be upgraded into a permission by omission or default.
-
-### Known rights
+When `rights.status = unknown`, `rights_state_id` and `license_id` are null and `ai_ml_training_permission = unknown`. Unknown rights cannot be upgraded into permission by omission or default.
 
 When `rights.status = known`, an authoritative `rights_state_id` is required. OH-M05 can transport known rights state, but it does **not** validate derivative rights inheritance; that remains `OH-M07`.
 
 ## Provenance rules
 
-Every envelope records:
-
-- source class (`runtime`, `import`, `archive`, `manual`);
-- stable source reference;
-- observation/ingestion method;
-- observation timestamp.
+Every envelope records source class (`runtime`, `import`, `archive`, `manual`), stable source reference, observation/ingestion method, and observation timestamp.
 
 The provenance block describes how the envelope was created. It does not prove the content is correct; evidence state and references perform that role.
 
 ## Machine-readable contract
 
-Schema:
-
-`docs/knowledge/schemas/asset-intelligence-envelope.schema.json`
-
-Semantic reference implementation:
-
-`packages/audio-analysis/python/metadata_envelope.py`
-
-Tests:
-
-`packages/audio-analysis/python/test_metadata_envelope.py`
+Schema: `docs/knowledge/schemas/asset-intelligence-envelope.schema.json`  
+Semantic implementation: `packages/audio-analysis/python/metadata_envelope.py`  
+Tests: `packages/audio-analysis/python/test_metadata_envelope.py`
 
 The JSON Schema defines the portable shape. Python semantic validation enforces cross-field rules that must also be enforced by future Backend/domain implementations.
 
@@ -179,19 +148,18 @@ OH-M05 v1 passes when CI proves:
 9. invalid SHA-256 asset identity is rejected;
 10. the machine-readable schema is valid JSON.
 
+## Evidence state
+
+The v1 transport/domain baseline is validated by CI run `33898068922` (#91) on commit `22de23de9586efb2ce545a1ce768ebb8e60c93bc`. That run also passed the upstream OH-M04 and OH-M02 suites, proving the envelope did not break their validated boundaries.
+
+Evidence packet: `docs/knowledge/requirements/evidence/OH-M05-v1.yaml`
+
 ## Scope boundary
 
-OH-M05 v1 does not claim:
-
-- database persistence is implemented;
-- asset replacement invalidation is implemented;
-- rights inheritance is validated;
-- release manifests are complete;
-- product/customer delivery state is certified;
-- OH-M04 or OH-M02 analysis is automatically run on upload.
+OH-M05 v1 does **not** claim database persistence, API integration, automatic upload ingestion, asset replacement propagation, rights inheritance, release manifest generation, product publication, or automatic defect confirmation/repair.
 
 Those are runtime integration gates built on top of this domain contract.
 
 ## Next dependency
 
-With OH-M04, OH-M02, and OH-M05 in place, `OH-M03` can create persistent golden audio fixtures whose files, hashes, expected measurements, expected candidate signals, lineage, and evidence refs are represented with the same canonical metadata model.
+With OH-M04, OH-M02, and OH-M05 validated, `OH-M03` can create persistent golden audio fixtures whose files, hashes, expected measurements, expected candidate signals, lineage, and evidence refs are represented with the same canonical metadata model.

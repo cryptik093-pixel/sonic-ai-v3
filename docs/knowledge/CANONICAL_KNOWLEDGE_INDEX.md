@@ -19,8 +19,6 @@
 
 ## Authority and retrieval weights
 
-A future knowledge service should not treat all chunks equally. Recommended default authority tiers:
-
 | Tier | Source class | Default use |
 |---|---|---|
 | A | validated runtime evidence / accepted schema | answer factual current-state questions |
@@ -41,6 +39,8 @@ A future knowledge service should not treat all chunks equally. Recommended defa
 7. Conflicting knowledge must be surfaced as conflict, not silently merged.
 8. Audio interpretation must preserve the boundary between deterministic observations and producer-facing recommendations.
 9. OH-M02 candidate signals must not be retrieved or phrased as confirmed defects, severity judgments, causal diagnoses or repair instructions.
+10. OH-M05 records with `rights.status = unknown` must never be interpreted as permission; AI/ML training permission remains unknown unless authoritative rights evidence says otherwise.
+11. A validated OH-M05 evidence state must retain its evidence references; stripping provenance/evidence downgrades trust rather than preserving validation by assumption.
 
 ## Canonical source lineage
 
@@ -48,17 +48,9 @@ A future knowledge service should not treat all chunks equally. Recommended defa
 
 Archive: `OH-KA-2026-09-04-001`
 
-Primary canonical source:
-
-`Omega_House_Production_Doctrine_First_Edition.pdf`
-
-Editable source:
-
-`Omega_House_Production_Doctrine_First_Edition.docx`
-
-System audit:
-
-`Omega_House_Full_System_Audit_2026.pdf`
+Primary canonical source: `Omega_House_Production_Doctrine_First_Edition.pdf`  
+Editable source: `Omega_House_Production_Doctrine_First_Edition.docx`  
+System audit: `Omega_House_Full_System_Audit_2026.pdf`
 
 The duplicate suffixed doctrine PDF in the archive is byte-identical to the canonical rendered PDF and should not be separately embedded.
 
@@ -68,45 +60,32 @@ The duplicate suffixed doctrine PDF in the archive is byte-identical to the cano
 
 This remains the canonical source-to-asset production specification and should be linked, not duplicated, by derived knowledge objects.
 
-### Phase 2 deterministic measurement contract — OH-M04
+### OH-M04 — deterministic measurement
 
-Semantics:
+- Semantics: `docs/knowledge/requirements/OH_M04_MEASUREMENT_PROFILE_V1.md`
+- Schema: `docs/knowledge/schemas/audio-measurement-profile.schema.json`
+- Runtime reference: `packages/audio-analysis/python/sonic_measurement.py`
+- Evidence: `docs/knowledge/requirements/evidence/OH-M04-v1.yaml`
 
-`docs/knowledge/requirements/OH_M04_MEASUREMENT_PROFILE_V1.md`
+The deterministic v1 baseline is validated. LUFS/true peak remain explicitly unavailable.
 
-Machine-readable result shape:
+### OH-M02 — defect taxonomy
 
-`docs/knowledge/schemas/audio-measurement-profile.schema.json`
+- Semantics: `docs/knowledge/requirements/OH_M02_DEFECT_TAXONOMY_V1.md`
+- Schema: `docs/knowledge/schemas/audio-defect-record.schema.json`
+- Runtime reference: `packages/audio-analysis/python/defect_taxonomy.py`
+- Evidence: `docs/knowledge/requirements/evidence/OH-M02-v1.yaml`
 
-Executable reference:
+The v1 candidate-signal baseline is validated. It does not establish automatic confirmation, severity, cause or repair.
 
-`packages/audio-analysis/python/sonic_measurement.py`
+### OH-M05 — canonical metadata transport
 
-Evidence:
+- Semantics: `docs/knowledge/requirements/OH_M05_CANONICAL_METADATA_SCHEMA_V1.md`
+- Schema: `docs/knowledge/schemas/asset-intelligence-envelope.schema.json`
+- Runtime reference: `packages/audio-analysis/python/metadata_envelope.py`
+- Evidence: `docs/knowledge/requirements/evidence/OH-M05-v1.yaml`
 
-`docs/knowledge/requirements/evidence/OH-M04-v1.yaml`
-
-OH-M04's deterministic v1 baseline is validated. Its unavailable LUFS/true-peak fields remain unavailable rather than being approximated.
-
-### Phase 2 defect taxonomy contract — OH-M02
-
-Semantics:
-
-`docs/knowledge/requirements/OH_M02_DEFECT_TAXONOMY_V1.md`
-
-Machine-readable record shape:
-
-`docs/knowledge/schemas/audio-defect-record.schema.json`
-
-Executable reference:
-
-`packages/audio-analysis/python/defect_taxonomy.py`
-
-Evidence:
-
-`docs/knowledge/requirements/evidence/OH-M02-v1.yaml`
-
-OH-M02's v1 candidate-signal baseline is validated. Authority applies to its taxonomy/lifecycle semantics and three initial candidate signals only; it does not establish automatic defect confirmation, cause or severity.
+The v1 domain/transport baseline is validated for identity, SHA-256, lineage constraints, OH-M04/OH-M02 evidence transport, provenance, evidence state and fail-closed unknown-rights semantics. Database persistence, APIs, rights inheritance and automatic ingestion remain outside this validation scope.
 
 ## Recommended chunk metadata
 
@@ -133,11 +112,14 @@ tags: []
 - `docs/knowledge/requirements/PHASE_2_REQUIREMENT_REGISTER.md`
 - `docs/knowledge/requirements/OH_M04_MEASUREMENT_PROFILE_V1.md`
 - `docs/knowledge/requirements/OH_M02_DEFECT_TAXONOMY_V1.md`
+- `docs/knowledge/requirements/OH_M05_CANONICAL_METADATA_SCHEMA_V1.md`
 - `docs/knowledge/requirements/evidence/OH-M04-v1.yaml`
 - `docs/knowledge/requirements/evidence/OH-M02-v1.yaml`
+- `docs/knowledge/requirements/evidence/OH-M05-v1.yaml`
 - `docs/knowledge/schemas/audio-measurement-profile.schema.json`
 - `docs/knowledge/schemas/audio-defect-record.schema.json`
+- `docs/knowledge/schemas/asset-intelligence-envelope.schema.json`
 - `docs/knowledge/metadata/METADATA_PACKAGING_LINEAGE_V1.md`
 - `docs/knowledge/strategy/SONIC_AI_STRATEGY_LINEAGE_2026.md`
 
-These documents are normalized derivatives. They do not replace the immutable archived originals; they make those originals operationally useful to Sonic AI V3.
+These normalized derivatives do not replace the immutable archived originals; they make those originals operationally useful to Sonic AI V3.

@@ -1,0 +1,57 @@
+evidence_packet_id: OH-EVID-OH-M05-V1-001
+requirement_id: OH-M05
+schema_version: 1.0.0
+status: validated
+implementation_ref:
+  repo_path: packages/audio-analysis/python/metadata_envelope.py
+  symbols:
+    - build_asset_intelligence_envelope
+    - validate_asset_intelligence_envelope
+  implementation_commit: 22de23de9586efb2ce545a1ce768ebb8e60c93bc
+contract_ref:
+  semantics: docs/knowledge/requirements/OH_M05_CANONICAL_METADATA_SCHEMA_V1.md
+  schema: docs/knowledge/schemas/asset-intelligence-envelope.schema.json
+acceptance:
+  test_ref: packages/audio-analysis/python/test_metadata_envelope.py
+  workflow_ref: .github/workflows/blank.yml
+  expected_invariants:
+    - original assets have no parents
+    - derived/render/export/package assets require parent lineage
+    - duplicate parent IDs are rejected
+    - asset content identity requires lowercase SHA-256
+    - OH-M02 measurement-derived candidates cannot travel without OH-M04 measurement evidence
+    - OH-M02 candidate severity and cause cannot be promoted during transport
+    - validated evidence requires one or more evidence references
+    - OH-M04 measurement preserves interpretation.status=not_performed
+    - unknown rights remain unknown
+    - unknown rights cannot grant AI/ML training permission
+observed:
+  commit_sha: 22de23de9586efb2ce545a1ce768ebb8e60c93bc
+  run_id: 33898068922
+  run_number: 91
+  workflow: CI
+  result: pass
+validation_scope:
+  validated:
+    - canonical asset intelligence envelope shape
+    - semantic lineage constraints
+    - SHA-256 asset identity constraint
+    - OH-M04 measurement transport boundary
+    - OH-M02 candidate transport boundary
+    - evidence-state/reference constraint
+    - provenance required fields and ISO-8601 observation time
+    - fail-closed unknown-rights semantics
+    - AI/ML training permission remains unknown when rights are unknown
+  explicitly_not_validated:
+    - database persistence
+    - API integration
+    - automatic upload ingestion
+    - replacement/invalidation event propagation
+    - rights/license inheritance
+    - release manifest generation
+    - storefront/product publication
+    - automatic defect confirmation or repair
+notes:
+  - OH-M05 validates the domain/transport contract only.
+  - OH-M07 remains the authority for derivative rights inheritance.
+  - OH-M03 is the next control and will bind persistent golden fixtures to this envelope.

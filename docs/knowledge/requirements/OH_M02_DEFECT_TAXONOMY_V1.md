@@ -3,7 +3,8 @@
 **Control ID:** `OH-M02`  
 **Phase:** Sonic AI V3 Phase 2 Runtime Hardening  
 **Owner:** Audio Analyzer / Metadata / Intelligence Core  
-**Status:** implemented / awaiting CI evidence  
+**Status:** validated v1 candidate-signal baseline  
+**Evidence:** `docs/knowledge/requirements/evidence/OH-M02-v1.yaml`  
 **Depends on:** validated `OH-M04` deterministic measurement baseline  
 **Doctrine links:** `OH-DR-TRUTH-001`, `OH-DR-AI-001`, `OH-DR-RESCUE-001`, `OH-DR-LOWEND-005`
 
@@ -179,6 +180,18 @@ OH-M02 v1 passes when CI proves that:
 4. complete digital silence produces `OH-DEF-SIG-SIL-001` but remains context-dependent;
 5. every emitted candidate is `severity: unrated` and `cause_status: unknown`;
 6. non-OH-M04 measurement input is rejected.
+
+## Evidence state
+
+The v1 candidate-signal baseline is validated by CI run `33897530294` on implementation/test commit `5a681d5b560cd8cecaa0da711dc2c4cc0e3915f7`.
+
+The first CI attempt exposed an incorrect non-causation assertion in the test itself; the test was corrected without weakening the runtime guardrail. The passing run verifies both OH-M04 and OH-M02 suites.
+
+Evidence packet:
+
+`docs/knowledge/requirements/evidence/OH-M02-v1.yaml`
+
+This validation does **not** authorize automatic defect confirmation, severity scoring, cause diagnosis or repair.
 
 ## Next dependency
 

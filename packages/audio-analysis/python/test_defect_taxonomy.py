@@ -34,7 +34,8 @@ class DefectTaxonomyTests(unittest.TestCase):
         self.assertEqual(signal["state"], "candidate")
         self.assertEqual(signal["severity"], "unrated")
         self.assertEqual(signal["cause_status"], "unknown")
-        self.assertNotIn("proof of upstream clipping", signal["rationale"].lower())
+        self.assertIn("not proof of upstream clipping", signal["rationale"].lower())
+        self.assertNotEqual(signal["name"].lower(), "clipping")
 
     def test_negative_correlation_is_review_signal_not_mono_failure_claim(self) -> None:
         measurement = base_measurement()

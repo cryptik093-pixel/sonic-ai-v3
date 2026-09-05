@@ -2,11 +2,13 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from .routers import assets, chat, memory, projects, uploads, intelligence
+from .events_router import router as events_router
+from .shopify_webhooks import router as shopify_webhooks_router
 
 
 app = FastAPI(
     title="Sonic AI API",
-    version="0.3.0",
+    version="0.4.0",
     description="Sonic AI V3 — Producer Operating System API",
 )
 
@@ -24,13 +26,15 @@ app.include_router(uploads.router)
 app.include_router(chat.router)
 app.include_router(memory.router)
 app.include_router(intelligence.router)
+app.include_router(events_router)
+app.include_router(shopify_webhooks_router)
 
 
 @app.get("/")
 def root():
     return {
         "message": "Sonic AI API",
-        "version": "0.3.0",
+        "version": "0.4.0",
     }
 
 

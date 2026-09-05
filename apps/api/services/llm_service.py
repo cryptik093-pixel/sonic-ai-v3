@@ -45,10 +45,9 @@ class LLMService:
                 data = response.json()
                 return data["choices"][0]["message"]["content"]
         except httpx.HTTPStatusError as exc:
-            detail = exc.response.text
-            raise LLMServiceError(f"LLM request failed: {detail}") from exc
-        except (httpx.HTTPError, KeyError, IndexError) as exc:
-            raise LLMServiceError(f"LLM request failed: {exc}") from exc
+            raise LLMServiceError(f"LLM provider returned HTTP {exc.response.status_code}") from None
+        except (httpx.HTTPError, KeyError, IndexError, ValueError, TypeError):
+            raise LLMServiceError("LLM transport or response validation failed") from None
 
     def _fallback_response(self, messages: list[dict[str, str]]) -> str:
         user_content = next(

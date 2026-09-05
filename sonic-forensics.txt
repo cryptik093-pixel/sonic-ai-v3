@@ -1,0 +1,66 @@
+=== SONIC V3 QUICK FORENSICS ===
+PATH: C:/Users/david someone/Desktop/SONIC AI V3/sonic-ai-v3
+BRANCH: recovery/actual-project-state
+STATUS: ?? sonic-forensics.txt
+
+
+=== REMOTE ===
+origin	https://github.com/cryptik093-pixel/sonic-ai-v3.git (fetch)
+origin	https://github.com/cryptik093-pixel/sonic-ai-v3.git (push)
+
+
+=== TOP DIRECTORIES ===
+.github, .husky, .pytest_cache, .venv, .vscode, app, apps, docs, infrastructure, node_modules, packages, repositories, scripts, storage, tools
+
+=== APPS ===
+__pycache__, api, api_backup_before_import_fix, api_legacy_event_layer, web, worker
+
+=== PACKAGES ===
+assets, auth, common, events, memory, metadata, projects, vault
+
+=== API ENTRYPOINT CANDIDATES ===
+C:\Users\david someone\Desktop\SONIC AI V3\sonic-ai-v3\apps\api\venv\Lib\site-packages\annotated_doc\main.py
+C:\Users\david someone\Desktop\SONIC AI V3\sonic-ai-v3\apps\api\venv\Lib\site-packages\dotenv\main.py
+C:\Users\david someone\Desktop\SONIC AI V3\sonic-ai-v3\apps\api\venv\Lib\site-packages\dotenv\__main__.py
+C:\Users\david someone\Desktop\SONIC AI V3\sonic-ai-v3\apps\api\venv\Lib\site-packages\fastapi\security\api_key.py
+C:\Users\david someone\Desktop\SONIC AI V3\sonic-ai-v3\apps\api\venv\Lib\site-packages\fastapi\applications.py
+C:\Users\david someone\Desktop\SONIC AI V3\sonic-ai-v3\apps\api\venv\Lib\site-packages\fastapi\__main__.py
+C:\Users\david someone\Desktop\SONIC AI V3\sonic-ai-v3\apps\api\venv\Lib\site-packages\idna\__main__.py
+C:\Users\david someone\Desktop\SONIC AI V3\sonic-ai-v3\apps\api\venv\Lib\site-packages\pip\_internal\cli\main.py
+C:\Users\david someone\Desktop\SONIC AI V3\sonic-ai-v3\apps\api\venv\Lib\site-packages\pip\_internal\cli\main_parser.py
+C:\Users\david someone\Desktop\SONIC AI V3\sonic-ai-v3\apps\api\venv\Lib\site-packages\pip\_internal\utils\appdirs.py
+C:\Users\david someone\Desktop\SONIC AI V3\sonic-ai-v3\apps\api\venv\Lib\site-packages\pip\_internal\main.py
+C:\Users\david someone\Desktop\SONIC AI V3\sonic-ai-v3\apps\api\venv\Lib\site-packages\pip\_vendor\cachecontrol\filewrapper.py
+C:\Users\david someone\Desktop\SONIC AI V3\sonic-ai-v3\apps\api\venv\Lib\site-packages\pip\_vendor\cachecontrol\wrapper.py
+C:\Users\david someone\Desktop\SONIC AI V3\sonic-ai-v3\apps\api\venv\Lib\site-packages\pip\_vendor\certifi\__main__.py
+C:\Users\david someone\Desktop\SONIC AI V3\sonic-ai-v3\apps\api\venv\Lib\site-packages\pip\_vendor\dependency_groups\_pip_wrapper.py
+C:\Users\david someone\Desktop\SONIC AI V3\sonic-ai-v3\apps\api\venv\Lib\site-packages\pip\_vendor\dependency_groups\__main__.py
+C:\Users\david someone\Desktop\SONIC AI V3\sonic-ai-v3\apps\api\venv\Lib\site-packages\pip\_vendor\distro\__main__.py
+C:\Users\david someone\Desktop\SONIC AI V3\sonic-ai-v3\apps\api\venv\Lib\site-packages\pip\_vendor\platformdirs\api.py
+C:\Users\david someone\Desktop\SONIC AI V3\sonic-ai-v3\apps\api\venv\Lib\site-packages\pip\_vendor\platformdirs\__main__.py
+C:\Users\david someone\Desktop\SONIC AI V3\sonic-ai-v3\apps\api\venv\Lib\site-packages\pip\_vendor\pygments\formatters\_mapping.py
+
+=== WEB ENTRYPOINT FILES ===
+C:\Users\david someone\Desktop\SONIC AI V3\sonic-ai-v3\apps\web\.next\types\package.json
+C:\Users\david someone\Desktop\SONIC AI V3\sonic-ai-v3\apps\web\.next\package.json
+C:\Users\david someone\Desktop\SONIC AI V3\sonic-ai-v3\apps\web\node_modules\.pnpm\@alloc+quick-lru@5.2.0\node_modules\@alloc\quick-lru\package.json
+C:\Users\david someone\Desktop\SONIC AI V3\sonic-ai-v3\apps\web\node_modules\.pnpm\@babel+code-frame@7.29.7\node_modules\@babel\code-frame\package.json
+C:\Users\david someone\Desktop\SONIC AI V3\sonic-ai-v3\apps\web\node_modules\.pnpm\@babel+code-frame@7.29.7\node_modules\@babel\helper-validator-identifier\package.json
+C:\Users\david someone\Desktop\SONIC AI V3\sonic-ai-v3\apps\web\node_modules\.pnpm\@babel+code-frame@7.29.7\node_modules\js-tokens\package.json
+C:\Users\david someone\Desktop\SONIC AI V3\sonic-ai-v3\apps\web\node_modules\.pnpm\@babel+code-frame@7.29.7\node_modules\picocolors\package.json
+C:\Users\david someone\Desktop\SONIC AI V3\sonic-ai-v3\apps\web\node_modules\.pnpm\@babel+compat-data@7.29.7\node_modules\@babel\compat-data\package.json
+C:\Users\david someone\Desktop\SONIC AI V3\sonic-ai-v3\apps\web\node_modules\.pnpm\@babel+core@7.29.7\node_modules\@babel\code-frame\package.json
+C:\Users\david someone\Desktop\SONIC AI V3\sonic-ai-v3\apps\web\node_modules\.pnpm\@babel+core@7.29.7\node_modules\@babel\core\package.json
+C:\Users\david someone\Desktop\SONIC AI V3\sonic-ai-v3\apps\web\node_modules\.pnpm\@babel+core@7.29.7\node_modules\@babel\generator\package.json
+C:\Users\david someone\Desktop\SONIC AI V3\sonic-ai-v3\apps\web\node_modules\.pnpm\@babel+core@7.29.7\node_modules\@babel\helper-compilation-targets\package.json
+C:\Users\david someone\Desktop\SONIC AI V3\sonic-ai-v3\apps\web\node_modules\.pnpm\@babel+core@7.29.7\node_modules\@babel\helper-module-transforms\package.json
+C:\Users\david someone\Desktop\SONIC AI V3\sonic-ai-v3\apps\web\node_modules\.pnpm\@babel+core@7.29.7\node_modules\@babel\helpers\package.json
+C:\Users\david someone\Desktop\SONIC AI V3\sonic-ai-v3\apps\web\node_modules\.pnpm\@babel+core@7.29.7\node_modules\@babel\parser\package.json
+C:\Users\david someone\Desktop\SONIC AI V3\sonic-ai-v3\apps\web\node_modules\.pnpm\@babel+core@7.29.7\node_modules\@babel\template\package.json
+C:\Users\david someone\Desktop\SONIC AI V3\sonic-ai-v3\apps\web\node_modules\.pnpm\@babel+core@7.29.7\node_modules\@babel\traverse\package.json
+C:\Users\david someone\Desktop\SONIC AI V3\sonic-ai-v3\apps\web\node_modules\.pnpm\@babel+core@7.29.7\node_modules\@babel\types\package.json
+C:\Users\david someone\Desktop\SONIC AI V3\sonic-ai-v3\apps\web\node_modules\.pnpm\@babel+core@7.29.7\node_modules\@jridgewell\remapping\package.json
+C:\Users\david someone\Desktop\SONIC AI V3\sonic-ai-v3\apps\web\node_modules\.pnpm\@babel+core@7.29.7\node_modules\convert-source-map\package.json
+
+=== V3 VALIDATOR ===
+MISSING: scripts\validate-v3-foundation.mjs

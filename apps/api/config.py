@@ -20,8 +20,8 @@ class Settings:
     def from_env(cls) -> "Settings":
         return cls(
             openai_api_key=os.getenv("SONIC_OPENAI_API_KEY") or os.getenv("OPENAI_API_KEY"),
-            openai_model=os.getenv("SONIC_OPENAI_MODEL", "gpt-4o"),
-            openai_base_url=os.getenv("SONIC_OPENAI_BASE_URL", "https://api.openai.com/v1"),
+            openai_model=os.getenv("SONIC_OPENAI_MODEL") or "gpt-4o",
+            openai_base_url=os.getenv("SONIC_OPENAI_BASE_URL") or "https://api.openai.com/v1",
         )
 
 

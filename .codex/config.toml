@@ -1,0 +1,9 @@
+# Local single-operator example. Export the existing operator token into the
+# Codex process environment; do not paste any credential into this file.
+[mcp_servers.sonic]
+url = "http://127.0.0.1:8000/mcp"
+bearer_token_env_var = "SONIC_CONTROL_PLANE_TOKEN"
+enabled_tools = ["sonic_system_status", "sonic_integration_status", "sonic_shopify_status", "sonic_project_get", "sonic_decision_trace_get"]
+default_tools_approval_mode = "prompt"
+startup_timeout_sec = 20
+tool_timeout_sec = 30

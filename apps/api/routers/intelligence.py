@@ -1,9 +1,10 @@
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, HTTPException, Query, status
 
-from ..schemas.session_snapshot import SessionSnapshot, SessionSnapshotCreate
 from ..schemas.decision import Decision, DecisionCreate
-from ..services.session_snapshot_service import snapshot_service
+from ..schemas.session_snapshot import SessionSnapshot, SessionSnapshotCreate
+from ..services.asset_intelligence_service import asset_intelligence_service
 from ..services.decision_service import decision_service
+from ..services.session_snapshot_service import snapshot_service
 
 router = APIRouter(
     prefix="/intelligence",
@@ -35,3 +36,11 @@ def create_decision(payload: DecisionCreate):
         return decision_service.create_decision(payload)
     except ValueError as exc:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(exc)) from exc
+
+
+@router.get("/snapshot")
+def get_project_intelligence_snapshot(
+    project_id: int | None = Query(default=None),
+    asset_id: int | None = Query(default=None),
+):
+    return asset_intelligence_service.build_context_snapshot(project_id, asset_id)

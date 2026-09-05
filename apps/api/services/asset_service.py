@@ -1,27 +1,27 @@
-from ..schemas.asset import AssetCreate, Asset
-from datetime import datetime
+from __future__ import annotations
+
+from ..repositories.asset_repository import asset_store
+from ..schemas.asset import Asset, AssetCreate
 
 
 class AssetService:
+    def clear(self) -> None:
+        asset_store.clear()
 
-    def __init__(self):
-        self.assets = []
-        self.counter = 1
+    def list_assets(self) -> list[Asset]:
+        return asset_store.list_assets()
 
-    def create_asset(self, asset: AssetCreate):
-        new_asset = Asset(
-            id=self.counter,
-            created_at=datetime.utcnow(),
-            **asset.model_dump()
-        )
+    def create_asset(self, payload: AssetCreate) -> Asset:
+        return asset_store.create_asset(payload)
 
-        self.assets.append(new_asset)
-        self.counter += 1
+    def get_asset(self, asset_id: int) -> Asset | None:
+        return asset_store.get_asset(asset_id)
 
-        return new_asset
+    def save_analysis(self, asset_id: int, analysis_payload: dict) -> object:
+        return asset_store.save_analysis(asset_id, analysis_payload)
 
-    def list_assets(self):
-        return self.assets
+    def get_latest_analysis(self, asset_id: int):
+        return asset_store.get_latest_analysis(asset_id)
 
 
 asset_service = AssetService()

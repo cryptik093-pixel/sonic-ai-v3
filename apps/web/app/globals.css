@@ -1,20 +1,14 @@
-html, body {
-  margin: 0;
-  padding: 0;
-  min-height: 100%;
-  background: #0b1020;
-  color: #edf4ff;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #0a0a0a;
+  --foreground: #ededed;
 }
 
 body {
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-main {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 2rem;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: "Segoe UI", Arial, sans-serif;
 }

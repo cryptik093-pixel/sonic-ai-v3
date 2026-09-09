@@ -15,6 +15,12 @@ Current implementation truth is established in this order:
 5. dated audits/status reports;
 6. historical strategy or narrative documents.
 
+## Current dated status reports
+
+- `COMMERCE_REVENUE_STATE_2026-09-09.md` — current Shopify commerce/revenue evidence, historical beta-price reconciliation, funnel diagnosis, and next measurement gate.
+
+A dated status report is evidence for its observation window. It must be revalidated after material runtime, product, traffic, pricing, funnel, or architecture changes.
+
 ## Legacy root migration
 
 Historical root-level reports are preserved under:

@@ -33,6 +33,16 @@ Documentation never upgrades a runtime capability to `validated` by assertion.
 | `docs/audits/` | Dated audits, normalization reports, and evidence reconciliation | evidence |
 | `docs/knowledge/archive/` | Immutable historical source packages | provenance only |
 
+## Current Omega House operating control documents
+
+- `docs/operating-system/OMEGA_HOUSE_COMMAND_OS.md` — founder-approved collaborative execution doctrine governing evidence, revenue priority, engineering discipline, production learning, validation, LOCK, and forward execution.
+- `docs/architecture/OMEGA_HOUSE_AGENT_CONSTITUTION.md` — authority, permissions, source-of-truth, handoff, validation, escalation, and LOCK boundaries across Founder, ChatGPT Command, MCP, Codex, Sonic Intelligence, and Shopify/Sidekick.
+- `docs/operating-system/adaptive-commerce-intelligence-protocol.md` — commerce learning loop connecting action, measurement, learning, and payout.
+- `docs/operating-system/DOCUMENTATION_PROTOCOL.md` — human-readable and machine-readable documentation contract.
+- `docs/operating-system/COLLABORATION_PROTOCOL.md` — baseline human-AI collaboration protocol.
+
+Policy approval and runtime enforcement are separate claims. A locked operating document does not prove every agent or tool path currently enforces that policy.
+
 ## Knowledge classes
 
 Every durable knowledge document should declare one class:

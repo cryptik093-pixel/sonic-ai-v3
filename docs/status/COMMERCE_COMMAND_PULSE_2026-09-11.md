@@ -11,7 +11,10 @@ evidence_refs:
   - public omega-house.online homepage inspection 2026-09-11
   - public Flagship collection inspection 2026-09-11
   - GitHub main status directory inspection 2026-09-11
-  - GitHub issue #20
+  - GitHub issue #20 resolution
+  - Shopify collection update 2026-09-11
+  - public collection re-fetch 2026-09-11
+  - public Starter destination resolution 2026-09-11
 ---
 
 # Omega House Commerce Command Pulse — 2026-09-11
@@ -22,11 +25,11 @@ evidence_refs:
 
 **VERIFIED:** the current storefront continues to present the Flagship Producer Starter as the $5 entry point on the homepage and in the Flagship collection product grid.
 
-**VERIFIED:** the Flagship collection introduction still contains obsolete customer-facing copy instructing new customers to start with **Flagship Beats Beta for $1**.
+**COMPLETED / VERIFIED:** the obsolete **Flagship Beats Beta for $1** collection message has been removed from the live collection.
 
-**VERIFIED:** this creates a direct contradiction on the same collection surface: the introduction communicates a retired $1 beta path while navigation and the current product card communicate the active $5 Producer Starter.
+**COMPLETED / VERIFIED:** the collection introduction now presents **Flagship Producer Starter for $5** and the linked destination resolves to the active `/products/flagship-producer-starter` product.
 
-**COMPLETED:** GitHub issue #20 was created to track removal and live validation of the stale $1 copy.
+**COMPLETED:** GitHub issue #20 was resolved after Shopify Admin state and the live public storefront were re-checked.
 
 **UNKNOWN:** current Shopify conversion metrics for 2026-09-11 were not available to this run through an authorized analytics surface, so no new revenue/CVR claim is made beyond previously validated reports.
 
@@ -34,11 +37,11 @@ evidence_refs:
 
 The previously validated pre-cart bottleneck remains the governing diagnosis until newer conversion evidence disproves it.
 
-Today's newly verified defect is **offer-message inconsistency** inside the Flagship path. A customer who sees the canonical $5 entry proposition elsewhere can still encounter a $1 beta promise on the collection page. This can create price anchoring, trust friction, and uncertainty about which offer is current.
+Today's offer-message inconsistency defect was corrected. The collection now aligns with the canonical $5 Producer Starter entry offer, removing the stale $1 price anchor and restoring message continuity across the Flagship path.
 
 ## CONVERSION BOTTLENECK
 
-**Message → Offer consistency.**
+**Message → Offer consistency was the immediate defect and is now corrected.**
 
 The canonical progression should be:
 
@@ -68,23 +71,18 @@ A mature Omega House should not rely on memory to discover stale campaign or cat
 
 ## HIGHEST-LEVERAGE MOVE
 
-Remove the stale `$1 Beta` language before adding more traffic to the Flagship path.
-
-The replacement should explicitly name the current offer:
-
-> New to Flagship? Start with the Flagship Producer Starter for $5, then move into the full system when you're ready.
+**Completed:** restore one canonical entry-offer message and valid Starter link across the Flagship collection before further traffic optimization.
 
 # NOW
 
-## 1. Correct stale Flagship collection copy
+## 1. Correct stale Flagship collection copy — COMPLETED
 
 - **OWNER / ROLE:** Shopify commerce operator
-- **EXACT ACTION:** replace the legacy `$1 Beta` collection sentence with current `$5 Producer Starter` language and ensure its CTA resolves to the active Starter destination.
-- **WHY NOW:** it is a verified customer-facing contradiction on the active funnel.
-- **DEPENDENCY:** write access to the live Shopify collection/theme content.
+- **EXACT ACTION:** legacy `$1 Beta` copy removed; current `$5 Producer Starter` language retained; stale beta-product URL replaced with `/products/flagship-producer-starter`.
+- **WHY NOW:** this was a verified customer-facing contradiction on the active funnel.
 - **EXPECTED RESULT:** consistent pricing and entry-path communication.
-- **EVIDENCE REQUIRED:** live public collection page no longer contains `Beta for $1` and contains `$5 Producer Starter` language.
-- **DEFINITION OF DONE:** desktop + mobile public page inspection passes and issue #20 can be closed.
+- **EVIDENCE:** Shopify collection state updated 2026-09-11; same-day public storefront fetch shows `Flagship Producer Starter for $5`; live link resolves to the active Starter product.
+- **DEFINITION OF DONE:** core defect and destination-link defect verified resolved; issue #20 closed. Viewport-specific visual QA remains part of normal storefront QA because this change modified collection content/link state, not responsive CSS.
 
 ## 2. Complete dedicated $5 Starter acquisition destination
 
@@ -131,12 +129,12 @@ Do not modify the active $5 product price based on this defect.
 
 # VALIDATION PLAN
 
-1. Fetch the public Flagship collection after deployment.
-2. Search rendered content for `Beta for $1`, `$1`, and old beta naming.
-3. Confirm the active Starter is represented as `$5`.
-4. Confirm the collection CTA resolves to the active Starter destination.
-5. Inspect desktop/mobile rendering.
-6. Close issue #20 only after public-state verification.
+1. **PASS:** Shopify Admin collection state re-fetched after deployment.
+2. **PASS:** public rendered collection re-fetched on 2026-09-11; stale `Beta for $1` copy is absent from the collection introduction.
+3. **PASS:** active Starter is represented as `$5`.
+4. **PASS:** collection Starter link resolves to `/products/flagship-producer-starter`.
+5. **NOT SEPARATELY SCREENSHOT-VERIFIED:** viewport-specific mobile/desktop visual QA; no CSS/layout code was modified in this remediation.
+6. **PASS:** issue #20 closed after public-state validation.
 
 # WHAT DANIEL SHOULD LEARN FROM THIS
 
@@ -152,12 +150,12 @@ A funnel can be technically functional and still lose trust through inconsistent
 
 **LOCKED:** `$5 Producer Starter` remains the canonical active entry offer based on current public storefront evidence and prior validated product state.
 
-**VERIFIED DEFECT / NOT LOCKED:** stale `$1 Beta` copy remains on the Flagship collection and must be corrected.
+**LOCKED / COMPLETED:** the Flagship collection now uses the canonical `$5 Producer Starter` message and active Starter URL.
 
-**COMPLETED:** issue #20 created with acceptance criteria and validation requirements.
+**COMPLETED:** issue #20 resolved after live storefront validation.
 
 **UNCHANGED UNTIL NEW EVIDENCE:** pre-cart conversion diagnosis from the prior commerce pulse.
 
 # NEXT EXECUTION COMMAND
 
-**Replace the Flagship collection's obsolete “Beta for $1” sentence with the current $5 Producer Starter message, validate the correction on the public page, then close issue #20.**
+**Advance to the dedicated $5 Starter acquisition-path validation: verify the live landing destination, attribution tagging, and first clean cart event before increasing traffic spend.**

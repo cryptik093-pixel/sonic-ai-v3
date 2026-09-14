@@ -17,6 +17,7 @@ Current implementation truth is established in this order:
 
 ## Current dated status reports
 
+- `LIFECYCLE_CHECKPOINT_2026-09-13_2220.md` — evening reconciliation of ClickFunnels setup, Ads Manager readiness, Sonic runtime recovery, Shopify Flagship visual state, and next lifecycle gates.
 - `COMMERCE_REVENUE_STATE_2026-09-09.md` — current Shopify commerce/revenue evidence, historical beta-price reconciliation, funnel diagnosis, and next measurement gate.
 
 A dated status report is evidence for its observation window. It must be revalidated after material runtime, product, traffic, pricing, funnel, or architecture changes.

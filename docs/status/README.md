@@ -47,3 +47,8 @@ evidence_refs:
 ## Phase 2
 
 Gate B is considered structurally complete when legacy root reports are archived with compatibility aliases and indexed here. Runtime claims still require Gate C evidence binding.
+
+
+## Current commerce experiment
+
+- `STARTER_ACQUISITION_EXPERIMENT_2026-09-13.md` — controlled $5 Producer Starter acquisition experiment using the secured ClickFunnels control funnel and Shopify checkout.

@@ -12,6 +12,9 @@ evidence_refs:
   - ShopifyQL rolling 7-day landing-page funnel 2026-09-13
   - ShopifyQL rolling 7-day referrer-source sessions 2026-09-13
   - ShopifyQL rolling 7-day sales comparison 2026-09-13
+  - ClickFunnels funnel structure/configuration inspection 2026-09-13
+  - ClickFunnels funnel/page stats baseline 2026-09-13
+  - ClickFunnels domain status inspection 2026-09-13
 ---
 
 # Omega House Commerce Command Pulse — 2026-09-13
@@ -82,16 +85,24 @@ A mature Omega House would not optimize from raw session totals. It would rank a
 
 ## HIGHEST-LEVERAGE MOVE
 
-Use the dedicated Starter product page as the controlled fallback acquisition destination and make attribution mandatory before the next meaningful traffic burst.
+Promote the verified ClickFunnels control funnel **OHB — Flagship $5 Direct Sale** to primary controlled acquisition destination.
 
-Do not infer success from the 1-of-4 cart event. Treat it as a signal that justifies a controlled test, not as a proven conversion rate.
+Control route:
+
+`https://mvp.omega-house.online/flagship-entry-offer`
+
+The Shopify Starter product page remains the fallback/product source-of-truth, while Shopify cart/checkout remains the transaction source-of-truth.
+
+The ClickFunnels control funnel is live on a secured custom domain, uses direct-to-Shopify-cart CTAs, and contains an attribution script that captures UTM/click identifiers and decorates outbound Shopify URLs. Configuration is SUPPORTED; real-customer end-to-end attribution remains NOT LOCKED until observed.
+
+Do not infer success from the prior 1-of-4 Shopify Starter cart event. Treat it as a signal that justified this controlled experiment, not as a proven conversion rate.
 
 # NOW
 
 ## 1. Run a controlled Starter destination test
 
 - **OWNER / ROLE:** Growth / CRO
-- **EXACT ACTION:** send the next intentional Producer Starter acquisition traffic directly to `/products/flagship-producer-starter`, not the homepage.
+- **EXACT ACTION:** send the next intentional Producer Starter acquisition traffic to the live ClickFunnels control at `mvp.omega-house.online/flagship-entry-offer`, not the homepage.
 - **WHY NOW:** the focused Starter path has produced a cart signal while the homepage has not.
 - **DEPENDENCY:** tagged acquisition URL.
 - **EXPECTED RESULT:** measurable landing-to-cart behavior from the intended path.
@@ -133,9 +144,11 @@ Do not infer success from the 1-of-4 cart event. Treat it as a signal that justi
 
 # IMPLEMENTATION SPEC
 
-Recommended controlled URL convention:
+Canonical control URL:
 
-`/products/flagship-producer-starter?utm_source=<source>&utm_medium=<medium>&utm_campaign=starter_validation_01&utm_content=<creative_id>`
+`https://mvp.omega-house.online/flagship-entry-offer?utm_source=tiktok&utm_medium=paid_social&utm_campaign=ohb_starter_validation_20260913&utm_content=control_v1&campaign_id=ohb_starter_validation_20260913&ad_id=control_v1&placement=tiktok_promote`
+
+See `docs/operating-system/ACQUISITION_EVIDENCE_CONTRACT.md` and `docs/status/STARTER_ACQUISITION_EXPERIMENT_2026-09-13.md`.
 
 Naming must be stable and human-readable. Creative IDs should map to a documented creative ledger rather than arbitrary changing labels.
 
@@ -169,4 +182,4 @@ A promising event is not yet a result. Four Starter landings producing one cart 
 
 # NEXT EXECUTION COMMAND
 
-**Route the next controlled Producer Starter acquisition traffic directly to `/products/flagship-producer-starter` with stable source/campaign/creative tagging and require one attributable genuine cart event before increasing traffic spend.**
+**Route the next controlled Producer Starter traffic to the ClickFunnels control URL using campaign `ohb_starter_validation_20260913` and creative `control_v1`; require an attributable genuine cart event before increasing traffic spend.**

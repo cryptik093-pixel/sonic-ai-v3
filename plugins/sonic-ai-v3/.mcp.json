@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "sonic-command-center": {
+      "type": "http",
+      "url": "http://127.0.0.1:8000/mcp",
+      "bearer_token_env_var": "SONIC_CONTROL_PLANE_TOKEN",
+      "enabled_tools": [
+        "sonic_system_status",
+        "sonic_integration_status",
+        "sonic_shopify_status",
+        "sonic_project_get",
+        "sonic_decision_trace_get"
+      ]
+    }
+  }
+}

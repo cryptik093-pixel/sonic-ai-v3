@@ -1,0 +1,30 @@
+{
+  "name": "sonic-ai-v3",
+  "version": "0.1.0",
+  "description": "Read-only command center for Sonic AI V3.",
+  "author": {
+    "name": "Omega House Studio LLC"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Sonic AI V3",
+    "shortDescription": "Read-only command center for Sonic AI V3.",
+    "longDescription": "Inspect local Sonic health, known projects, decision traces, and integration readiness with evidence and explicit capability blockers.",
+    "developerName": "Omega House Studio LLC",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Read"
+    ],
+    "websiteURL": "https://omega-house.online",
+    "brandColor": "#5B21B6",
+    "defaultPrompt": [
+      "Check Sonic AI V3 health and surface blockers.",
+      "Summarize my active projects and recent assets.",
+      "Review memory, decisions, and integration readiness."
+    ]
+  },
+  "mcpServers": "./.mcp.json",
+  "repository": "https://github.com/cryptik093-pixel/sonic-ai-v3",
+  "homepage": "https://omega-house.online"
+}

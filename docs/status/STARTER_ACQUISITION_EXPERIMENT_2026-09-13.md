@@ -1,7 +1,7 @@
 ---
 document_id: SAV3-EXP-COMMERCE-STARTER-2026-09-13
 knowledge_class: audit
-observed_at: 2026-09-13T19:23:00-05:00
+observed_at: 2026-09-16T08:51:59-05:00
 lifecycle: current
 claim_state: SUPPORTED
 campaign_id: ohb_starter_validation_20260913
@@ -14,7 +14,7 @@ product_sku: OHB-FPS-001
 
 ## Objective
 
-Validate whether a focused $5 direct-response landing experience can produce attributable commercial progression from TikTok traffic.
+Validate whether a focused $5 direct-response landing experience can produce attributable commercial progression from controlled traffic.
 
 ## Control funnel
 
@@ -22,10 +22,9 @@ Validate whether a focused $5 direct-response landing experience can produce att
 - Funnel: **OHB — Flagship $5 Direct Sale**
 - Funnel public ID: `YRGmkr`
 - Domain: `mvp.omega-house.online`
-- Domain status: `secured`
-- Step: **Flagship Entry — Direct Sale**
+- Domain status: secured
+- Step: **Flagship Beats Production Suite — $5 Founder Offer**
 - User-facing path: `/flagship-entry-offer`
-- Offer: Flagship Producer Starter — Omega House Entry Pack
 - Shopify SKU: `OHB-FPS-001`
 - Shopify variant: `47889740136684`
 - Price: `$5.00`
@@ -36,102 +35,116 @@ Validate whether a focused $5 direct-response landing experience can produce att
 https://mvp.omega-house.online/flagship-entry-offer?utm_source=tiktok&utm_medium=paid_social&utm_campaign=ohb_starter_validation_20260913&utm_content=control_v1&campaign_id=ohb_starter_validation_20260913&ad_id=control_v1&placement=tiktok_promote
 ```
 
-This exact URL is the control link for the first TikTok paid/promoted validation run. A materially different creative receives a new `utm_content` / `ad_id`.
+## Baseline at experiment start — 2026-09-13
 
-## Funnel proposition
-
-The control page currently presents:
-
-- $5 entry offer;
-- direct Shopify cart CTA;
-- original producer assets;
-- Basic License;
-- one-time purchase / no subscription;
-- MVP Founder cohort positioning;
-- direct-to-cart CTAs;
-- no requirement to browse the broader storefront before purchase.
-
-## Attribution configuration
-
-The ClickFunnels funnel footer currently captures standard UTM/click identifiers and decorates outbound Omega House Shopify URLs with attribution and cart attributes.
-
-Configuration inspection: **SUPPORTED**.
-
-Observed real-customer end-to-end attribution: **NOT YET LOCKED**.
-
-## Baseline before controlled traffic
-
-### Shopify rolling 7 days at experiment start
-
+### Shopify rolling 7 days
 - Sessions: 158
 - Cart-add sessions: 2
 - Checkout-reach sessions: 1
 - Completed checkout sessions: 0
-- Conversion rate: 0%
 - Starter product landings: 4
 - Starter product cart-add sessions: 1
 - Homepage landings: 100
 - Homepage cart-add sessions: 0
-- Referrer mix: 151 direct, 5 search, 2 social
 
-### ClickFunnels control funnel at experiment start
-
-Window inspected: 2026-09-11 through 2026-09-13 19:23 CDT.
-
+### ClickFunnels control
 - Views: 0
 - Unique views: 0
-- Opt-ins: 0
 - Sales: 0
 - Sales value: $0
 
-This zero-view baseline is useful because post-launch ClickFunnels traffic should be clearly distinguishable from pre-launch behavior.
+## Observed state — 2026-09-16
 
-## Hypothesis
+### ClickFunnels control, 2026-09-13 through 2026-09-16 08:51 CDT
+- Pageviews: 16
+- Unique views: 13
+- Entry-step sales: 0
+- Checkout-step views: 0
+- Confirmation-step views: 0
+- Sales value: $0
 
-If Producer Starter acquisition traffic is sent to a focused, direct-response page rather than the broad homepage, the campaign will produce attributable cart intent at a higher useful rate than the previous broad-homepage path.
+**VERIFIED:** Gate 1 / route traffic has occurred at the ClickFunnels control surface.
 
-## Primary sequence
+**UNKNOWN:** the 13 unique views cannot yet be proven to be exclusively non-test TikTok traffic from the canonical control URL.
+
+**VERIFIED:** no ClickFunnels-native progression into its checkout or confirmation steps occurred in this observation window.
+
+### Shopify rolling 7 days ending 2026-09-16
+- Sessions: 180
+- Cart-add sessions: 4
+- Checkout-reach sessions: 3
+- Completed checkout sessions: 0
+- Orders: 0
+- Total sales: $0
+- Homepage landings: 123; cart-adds: 0
+- Starter product landings: 5; cart-adds: 1
+- Shop Pay checkout landings: 2; cart-adds: 2; checkout reaches: 2
+- Separate checkout landing: 1; cart-add: 1; checkout reach: 1
+
+**VERIFIED:** Shopify has additional cart/checkout activity compared with the experiment-start baseline.
+
+**UNKNOWN:** available analytics do not prove those Shopify cart/checkout events originated from the ClickFunnels control campaign.
+
+**VERIFIED:** the current $5 acquisition experiment has produced no paid order and no attributable revenue.
+
+## Current diagnostic
+
+The earliest proven failure is now:
 
 ```text
-tagged ClickFunnels view
-  -> outbound Shopify cart click
-  -> Shopify cart state
-  -> checkout
-  -> paid $5 order
+CONTROL VIEW -> ATTRIBUTABLE OUTBOUND / CART TRANSITION
 ```
+
+The landing surface can receive traffic. The next requirement is runtime evidence that campaign and creative identifiers survive the ClickFunnels-to-Shopify transition.
+
+## Next validation action
+
+Run exactly one marked QA attribution traversal using:
+
+```text
+utm_campaign=ohb_starter_validation_20260913
+utm_content=qa_attribution_01
+campaign_id=ohb_starter_validation_20260913
+ad_id=qa_attribution_01
+placement=qa_test
+```
+
+This traversal is test traffic and must never be counted as customer conversion evidence.
+
+Validation sequence:
+1. Observe the QA view on ClickFunnels.
+2. Follow the primary Shopify CTA.
+3. Confirm campaign/creative identifiers are present on the outbound Shopify destination or persisted cart attribution state.
+4. If propagation passes, mark the bridge VERIFIED and resume non-test control traffic.
+5. If propagation fails, repair attribution before paid scaling.
 
 ## Success gates
 
 ### Gate 1 — Route
-At least one non-test tagged visitor reaches the ClickFunnels control page.
+**VERIFIED:** control surface has received traffic.
 
 ### Gate 2 — Intent
-At least one non-test visitor reaches Shopify cart with preserved campaign/creative evidence.
+**NOT LOCKED:** no non-test cart event is yet deterministically reconciled to the control campaign.
 
 ### Gate 3 — Checkout
-At least one attributed customer reaches checkout.
+**NOT LOCKED:** Shopify checkout activity exists but is not deterministically reconciled to the control campaign.
 
 ### Gate 4 — Purchase
-At least one genuine $5 paid order is attributed to the control campaign.
+**NOT ACHIEVED:** zero paid orders in the current rolling 7-day window.
 
 ### Gate 5 — Repeatability
-Additional traffic/purchases are sufficient to judge whether the control is worth scaling.
+**NOT ACHIEVED.**
 
-## Failure handling
+## LOCK status
 
-- Views but no outbound/cart intent: revise message, proof, CTA, or creative-message fit.
-- Cart intent but no checkout: inspect cart/transition friction.
-- Checkout but no purchase: inspect trust, payment, digital-delivery, or offer objections.
-- Purchase but no repeatability: do not extrapolate economics from one order.
+**LOCKED:** the ClickFunnels control exists, is live, and has received traffic.
 
-## Current state
+**LOCKED:** the broad Shopify homepage remains non-productive for cart progression in the current rolling window.
 
-**READY FOR CONTROLLED TRAFFIC.**
+**NOT LOCKED:** ClickFunnels-to-Shopify attribution persistence.
 
-The funnel is live, its custom domain is secured, the $5 product is correct, and the attribution configuration is present.
+**NOT LOCKED:** current offer conversion rate, CAC, revenue per visitor, and campaign economics.
 
-The experiment is not yet commercially validated because ClickFunnels shows zero views and zero sales at baseline.
+## Next execution command
 
-## Next evidence event
-
-The next meaningful evidence is the **first non-test view on this control URL** followed by preservation of its campaign and creative identifiers into Shopify behavior.
+**Run one marked `qa_attribution_01` traversal through the ClickFunnels control and verify campaign/creative persistence into Shopify before increasing paid traffic.**

@@ -101,3 +101,53 @@ Staging rollback is restoration of the prior staging files or abandonment of the
 ## NEXT EXECUTION COMMAND
 
 Open the unpublished theme preview on the Flagship Producer Starter page and validate play/pause, seek, sticky dock behavior, correct audio source and mobile layout before any publish action.
+
+
+## THREE-TRACK STARTER PROOF SET
+
+Added to the unpublished `omega-entry` template after file-registry validation:
+
+1. **Drum Loop**
+   - `DRUM_LOOPP.wav`
+   - MIME: `audio/wav`
+   - Shopify file state: `READY`
+   - Original upload size: 4,380,470 bytes
+
+2. **Relinquish — B Minor / 94 BPM**
+   - `relinquish_bmin_94bpm.mp3`
+   - MIME: `audio/mpeg`
+   - Shopify file state: `READY`
+   - Original upload size: 5,186,095 bytes
+
+3. **Platinum — C Minor / 90 BPM**
+   - `c_min_90bpm_platnium.mp3`
+   - MIME: `audio/mpeg`
+   - Shopify file state: `READY`
+   - Original upload size: 5,186,095 bytes
+
+Staged presentation heading: **PREVIEW THE PACK**.
+
+Each track uses the existing `data-sf-audio` trigger and global `sf-player`; no additional player implementation was introduced.
+
+The first preview slot still preserves the product-level `custom.audio_preview` fallback when no explicit override is configured.
+
+### Validation
+
+Read-back passed for:
+
+- all three exact URLs;
+- all three display labels;
+- three audio trigger slots;
+- canonical player connection;
+- metafield fallback;
+- unpublished theme role.
+
+The MAIN theme remains intentionally unchanged.
+
+### Format note
+
+The proof set currently mixes one WAV and two MP3 assets. This is acceptable for staging QA, but delivery-format normalization remains a follow-up because consistent codec/bitrate policy can improve load-time consistency.
+
+### Remaining gate
+
+Rendered desktop/mobile playback and audible quality validation are still required before publishing.

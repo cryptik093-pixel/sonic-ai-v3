@@ -151,3 +151,45 @@ The proof set currently mixes one WAV and two MP3 assets. This is acceptable for
 ### Remaining gate
 
 Rendered desktop/mobile playback and audible quality validation are still required before publishing.
+
+
+## RUNTIME BUG — METAOBJECT PUBLICATION STATE
+
+A storefront QA report found that the staged Audio Library rendered no audio.
+
+### Root cause
+
+The `omega_audio_track` metaobject definition has Shopify's publishable capability enabled. All 44 imported track records had been created with status `DRAFT`.
+
+This produced a split state:
+
+- Admin API: 44 records visible.
+- Shopify Files: 44 READY audio files.
+- Theme/player source: correctly wired to `shop.metaobjects.omega_audio_track.values`.
+- Storefront/Liquid: no published track records available.
+
+The sticky player itself was verified mounted and enabled, with playlist visibility enabled. Therefore publication state, not player enablement, was the earliest material failure.
+
+### Fix
+
+All 44 `omega_audio_track` metaobjects were updated to:
+
+`capabilities.publishable.status = ACTIVE`
+
+Batch result:
+
+- 44 updated;
+- 0 failures;
+- 0 mutation user errors.
+
+Post-fix read-back:
+
+- 44/44 ACTIVE;
+- 44/44 have a usable source URL;
+- 44/44 file references resolve to READY Shopify GenericFile audio records.
+
+The MAIN theme was not modified.
+
+### Remaining gate
+
+Rendered storefront refresh + actual playback validation on the unpublished theme.

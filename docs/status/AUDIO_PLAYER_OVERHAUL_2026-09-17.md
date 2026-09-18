@@ -193,3 +193,39 @@ The MAIN theme was not modified.
 ### Remaining gate
 
 Rendered storefront refresh + actual playback validation on the unpublished theme.
+
+
+## INDEPENDENT SHOPIFY RE-READ — 2026-09-18
+
+A fresh Admin GraphQL read independently revalidated the post-fix data state.
+
+- `omega_audio_track` records returned: **44**
+- publishable status ACTIVE: **44/44**
+- `public_enabled=true`: **44/44**
+- `source_file` references resolving to READY GenericFile records: **44/44**
+- missing `source_url`: **0**
+- pagination remainder: **none**
+
+Staging theme read-back:
+
+- Theme: `Copy of Omega House — Sound First — Draft 01`
+- GID: `gid://shopify/OnlineStoreTheme/165581947116`
+- Role: **UNPUBLISHED**
+- Processing: **false**
+- Processing failed: **false**
+
+### Gate interpretation
+
+The publication/data/source layer is now **VERIFIED** independently of the repository report.
+
+The remaining gate is still rendered browser interaction:
+
+- track rows visibly render;
+- play/pause works;
+- seek works;
+- sticky dock behavior works;
+- the expected source is audible;
+- mobile layout is usable;
+- no clipping/truncation or wrong-file mapping is heard.
+
+Do not publish the staging theme until that rendered/audible gate passes.

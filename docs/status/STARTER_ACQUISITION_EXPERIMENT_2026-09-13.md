@@ -148,3 +148,54 @@ Validation sequence:
 ## Next execution command
 
 **Run one marked `qa_attribution_01` traversal through the ClickFunnels control and verify campaign/creative persistence into Shopify before increasing paid traffic.**
+
+
+## Checkpoint correction — 2026-09-18
+
+### Owner QA purchase classification
+
+Shopify order `#1016` is a paid, fulfilled $5 order for SKU `OHB-FPS-001`, but the customer is Daniel Sutton, the Omega House operator.
+
+**CLASSIFICATION: INTERNAL / OWNER QA.**
+
+This order proves that the current Shopify $5 checkout and fulfillment path can complete successfully. It does **not** validate customer acquisition, ClickFunnels conversion, CAC, or campaign economics and must not be counted as non-test conversion evidence.
+
+### ClickFunnels path correction
+
+The current ClickFunnels offer page does **not** route through the ClickFunnels checkout step.
+
+The published offer page contains two primary purchase CTAs pointing directly to:
+
+`https://omega-house.online/cart/47889740136684:1?ref=cf_flagship_reveal`
+
+The funnel-level attribution script is configured to decorate outbound `omega-house.online` links with observed UTM/campaign identifiers and Shopify cart attributes.
+
+Therefore:
+
+- zero ClickFunnels checkout-step views are **expected** for the current direct-to-Shopify architecture;
+- ClickFunnels checkout-step view count must not be used as a failure signal for this control;
+- the relevant bridge is `ClickFunnels offer view -> decorated outbound Shopify cart URL -> Shopify cart/checkout/order evidence`;
+- static configuration supports attribution propagation, but browser-runtime persistence remains **NOT LOCKED** until one marked traversal is observed end-to-end.
+
+### Ads Manager checkpoint
+
+Ads account `Omega house studio LLC` is active and approved.
+
+- Identity verification: **not required**.
+- Billing/tax/payment setup: **required**.
+- Campaigns currently present: **0**.
+
+Ads cannot serve until billing/tax/payment setup is completed.
+
+### Revised gate state
+
+- Gate 1 — Route: **VERIFIED**.
+- Shopify checkout functionality: **VERIFIED BY OWNER QA**, not customer evidence.
+- Direct ClickFunnels -> Shopify CTA architecture: **VERIFIED BY CONFIGURATION**.
+- Runtime attribution persistence: **NOT LOCKED**.
+- Genuine non-test customer purchase: **NOT ACHIEVED**.
+- Campaign economics: **NOT LOCKED**.
+
+## Revised next execution command
+
+**Run one marked browser traversal from the ClickFunnels offer URL through the direct Shopify cart CTA and verify that campaign/creative identifiers survive into Shopify. Then complete Ads Manager billing and create the first controlled acquisition campaign.**

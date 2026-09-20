@@ -1,4 +1,4 @@
-# Sonic AI V3
+# Sonic AI v3.5
 
 **Sonic AI V3 is the intelligence layer for a producer operating system.**
 
@@ -8,7 +8,9 @@ It is being built as a persistent, testable, deployable platform that combines a
 >
 > **Primary branch:** `main`
 >
-> **Current objective:** recover and maintain a canonical, bootable, testable, deployable Sonic AI V3 platform without losing the frontend, backend, chat pipeline, memory, or agent architecture.
+> **Current objective:** establish the v3.5 foundation on the existing architecture.
+> **Current evidence:** [Progress and milestones](docs/status/SONIC_PROGRESS.md) · [Machine state](docs/status/sonic-state.json) · [MCP setup](services/mcp/README.md).
+> Web/API/worker are placeholders on the inspected main baseline. The architecture below is the target, not a claim of implemented runtime.
 
 ---
 
@@ -63,7 +65,7 @@ packages/
   memory/           Activity, memory, and retrieval contracts
   vault/            Asset/vault search contracts
 
-aInfrastructure/
+infrastructure/
   docker/           Local infrastructure assets
   supabase/         Database/auth configuration
 
@@ -276,32 +278,10 @@ Recommended baseline for the current repository:
 
 ## Local Bootstrap
 
-From the repository root:
-
-```bash
-corepack enable
-pnpm install
-```
-
-Create the local environment from the example configuration when needed:
-
-```bash
-cp .env.example .env
-```
-
-On Windows PowerShell, use:
-
-```powershell
-Copy-Item .env.example .env
-```
-
-Start the development workspace using the repository's current package scripts:
-
-```bash
-pnpm dev
-```
-
-The frontend and backend should be validated independently as well as through the integrated development path. Do not treat a successful frontend boot as proof that the complete platform is healthy.
+Start with the tested [local MCP setup](services/mcp/README.md).
+The web/API/worker manifests currently have no development scripts; `pnpm dev` is not
+proof of a running application. Application bootstrap is an open progress gate.
+Keep secrets in `.env`; use `.env.example` only as a configuration template.
 
 ---
 

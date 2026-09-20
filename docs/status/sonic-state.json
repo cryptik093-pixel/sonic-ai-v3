@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0.0",
+  "product_version": "3.5.0-dev",
+  "observed_at": "2026-09-20",
+  "baseline_commit": "dd0af2ee1efefab0d884be58206dd756b169b0d1",
+  "scope": "Repository foundation; not a live deployment health check",
+  "components": {
+    "architecture": {
+      "status": "VERIFIED",
+      "evidence": "README.md"
+    },
+    "web": {
+      "status": "BLOCKED",
+      "reason": "apps/web contains package manifest only"
+    },
+    "api": {
+      "status": "BLOCKED",
+      "reason": "apps/api contains package manifest only"
+    },
+    "worker": {
+      "status": "BLOCKED",
+      "reason": "apps/worker contains package manifest only"
+    },
+    "audio_measurements": {
+      "status": "VERIFIED",
+      "scope": "Existing deterministic unit and fixture tests only",
+      "evidence": "python -m unittest discover -s packages/audio-analysis/python -v: 20 passed"
+    },
+    "mcp": {
+      "status": "VERIFIED",
+      "scope": "Local stdio handshake, tool discovery/calls, rejected unknown tool, failure handling; not remote deployment",
+      "evidence": "python -m unittest discover -s services/mcp/tests -v: 4 passed"
+    },
+    "agent_runtime": {
+      "status": "BLOCKED",
+      "reason": "Registry describes roles; execution runtime not implemented"
+    },
+    "remote_mcp": {
+      "status": "UNKNOWN",
+      "reason": "Public endpoint and client connection not tested"
+    }
+  },
+  "next_action": "Recover and validate API plus authenticated project ownership from the recovery branch before rebuilding equivalent code.",
+  "recovery_sources": [
+    {
+      "ref": "recovery/actual-project-state",
+      "commit": "50592e982b5a4ffb9c8c4dc367c6da4c89b298b8",
+      "finding": "API, web and domain service code retained; not executed in this inspection"
+    },
+    {
+      "ref": "recovery/runtime-baseline-integration",
+      "commit": "2625eaee5304de474a5271646b70bce895d58c4b",
+      "finding": "Runtime integration candidate; not executed in this inspection"
+    }
+  ]
+}

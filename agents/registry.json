@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.0.0",
+  "product_version": "3.5.0-dev",
+  "runtime_enabled": false,
+  "agents": [
+    {
+      "id": "orchestrator",
+      "responsibility": "Coordinate bounded tasks",
+      "model": null,
+      "allowed_mcp_tools": [
+        "sonic_get_state",
+        "sonic_list_agents"
+      ],
+      "write_authority": false
+    },
+    {
+      "id": "audio_analyst",
+      "responsibility": "Interpret deterministic audio evidence",
+      "model": null,
+      "allowed_mcp_tools": [
+        "sonic_get_state",
+        "sonic_list_agents"
+      ],
+      "write_authority": false
+    },
+    {
+      "id": "sonic_intelligence",
+      "responsibility": "Maintain evidence-backed decisions",
+      "model": null,
+      "allowed_mcp_tools": [
+        "sonic_get_state",
+        "sonic_list_agents"
+      ],
+      "write_authority": false
+    },
+    {
+      "id": "repository_engineer",
+      "responsibility": "Implement authorized repository changes",
+      "model": null,
+      "allowed_mcp_tools": [
+        "sonic_get_state",
+        "sonic_list_agents"
+      ],
+      "write_authority": false
+    },
+    {
+      "id": "validator",
+      "responsibility": "Reproduce acceptance checks",
+      "model": null,
+      "allowed_mcp_tools": [
+        "sonic_get_state",
+        "sonic_list_agents"
+      ],
+      "write_authority": false
+    }
+  ]
+}

@@ -72,6 +72,7 @@ jobs:
         run: |
           $sonicProcess = Start-Process -FilePath "dist/Sonic/Sonic.exe" -ArgumentList "--ui-smoke-test", "native-ui-smoke.json" -PassThru
           if (!$sonicProcess.WaitForExit(120000)) { Stop-Process -Id $sonicProcess.Id; throw "Native UI timed out" }
+          if (Test-Path native-ui-smoke.json) { Get-Content native-ui-smoke.json }
           if ($sonicProcess.ExitCode -ne 0) { throw "Native UI failed" }
           if (!(Test-Path native-ui-smoke.json)) { throw "Native UI evidence missing" }
           $sonicProof = Get-Content native-ui-smoke.json | ConvertFrom-Json

@@ -256,6 +256,7 @@ def main():
         if temporary:
             from apps.api.database import engine
             engine.dispose()
+            logging.shutdown()  # Windows cannot remove an open log file.
             temporary.cleanup()
 
 

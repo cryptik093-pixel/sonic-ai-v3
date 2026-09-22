@@ -68,11 +68,12 @@ def list_runs(limit=40):
 
 def artifact_path(run_id, filename):
     run = get_run(run_id)
-    allowed = {item["name"] for item in run["result"].get("artifacts", [])}
-    if run["status"] != "succeeded" or filename not in allowed or Path(filename).name != filename:
+    allowed = {item["name"]: item["name"] for item in run["result"].get("artifacts", [])}
+    stored_name = allowed.get(filename)
+    if run["status"] != "succeeded" or stored_name is None or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_.-]*", stored_name):
         raise ValueError("Artifact not available for this run.")
     directory = (root() / "runs" / str(UUID(run["id"]))).resolve()
-    path = directory / filename
+    path = directory / stored_name
     if not path.resolve().is_relative_to(directory):
         raise ValueError("Artifact path is outside this run.")
     if not path.is_file() or path.is_symlink():

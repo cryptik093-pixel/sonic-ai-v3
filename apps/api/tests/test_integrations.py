@@ -288,7 +288,8 @@ def test_expired_health_does_not_claim_current_connectivity(client):
     checked = now()
     plane._latest = [IntegrationStatus(provider="openai", configured=True, authenticated=True,
         reachable=True, checked_at=checked, last_successful_check=checked, validation_status="VALIDATED")]
-    plane._checked = 0
+    from time import monotonic
+    plane._checked = monotonic() - 61
     status = client.get("/integrations/status", headers=AUTH).json()
     item = next(x for x in status["integrations"] if x["provider"] == "openai")
     assert not status["provider_checks_fresh"]

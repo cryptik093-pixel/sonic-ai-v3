@@ -13,7 +13,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: sonic-desktop-${{ github.ref }}
+  group: sonic-desktop-${{ github.head_ref || github.ref_name }}
   cancel-in-progress: true
 
 jobs:

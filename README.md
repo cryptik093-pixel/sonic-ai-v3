@@ -15,6 +15,8 @@ Sonic now has a native desktop workbench that creates actual files. The same Pyt
 | Start a session | One next action bounded by time, energy, goal and completed local work |
 | Ask Sonic | Optional cloud interpretation grounded in a completed run; explicit local recommendation on missing key or provider failure |
 
+**Verified download:** [Sonic-Windows-x64](https://github.com/cryptik093-pixel/sonic-ai-v3/actions/runs/35721229933/artifacts/10692450374). [Full epic report and validation evidence](docs/status/SONIC_WORKBENCH_EPIC_REPORT.md).
+
 **Windows delivery:** the [Sonic desktop workflow](https://github.com/cryptik093-pixel/sonic-ai-v3/actions/workflows/sonic-desktop.yml) builds `Sonic-Windows-x64`. Extract the complete artifact and open `Sonic.exe`; Python, Node, Git and a model subscription are not required for the local workflows. Windows 10/11 x64 and WebView2 are the target. See [Quick start](apps/desktop/QUICK_START.txt).
 
 This is a single-operator, loopback-only desktop application. Files and SQLite data persist under `%LOCALAPPDATA%\OmegaHouse\Sonic`. Existing development databases are preserved and are not silently migrated. The packaged app serves its own UI and starts/stops the API; Next.js is only a development entry point to that same UI.

@@ -2,6 +2,29 @@
 
 **Sonic AI V3 is the intelligence layer for a producer operating system.**
 
+## Production Workbench — v0.5
+
+Sonic now has a native desktop workbench that creates actual files. The same Python services serve its desktop interface, HTTP API and MCP tools.
+
+| Workflow | Usable output |
+| --- | --- |
+| Create MIDI | Separate melody, chord, bass and drum MIDI; combined arrangement; audition WAV; reproducible composition metadata |
+| Check audio | Whole-file sample peak, RMS, DC, silence and stereo correlation; measured JSON and Markdown reports |
+| Build a pack | Deduplicated ZIP, inventory CSV, source IDs and SHA-256 manifest; operator-supplied license when provided |
+| Prepare a release | Inventory-grounded caption variants, demo shot list, A/B test and an unpublished Shopify draft CSV |
+| Start a session | One next action bounded by time, energy, goal and completed local work |
+| Ask Sonic | Optional cloud interpretation grounded in a completed run; explicit local recommendation on missing key or provider failure |
+
+**Windows delivery:** the [Sonic desktop workflow](https://github.com/cryptik093-pixel/sonic-ai-v3/actions/workflows/sonic-desktop.yml) builds `Sonic-Windows-x64`. Extract the complete artifact and open `Sonic.exe`; Python, Node, Git and a model subscription are not required for the local workflows. Windows 10/11 x64 and WebView2 are the target. See [Quick start](apps/desktop/QUICK_START.txt).
+
+This is a single-operator, loopback-only desktop application. Files and SQLite data persist under `%LOCALAPPDATA%\OmegaHouse\Sonic`. Existing development databases are preserved and are not silently migrated. The packaged app serves its own UI and starts/stops the API; Next.js is only a development entry point to that same UI.
+
+Local composition and draft templates are labeled as such. Audio checks do not infer tempo/key or claim LUFS/true peak. Live Shopify publishing, message sending and remote ChatGPT attachment are not implemented by these workflows.
+
+For development, install `apps/api/requirements.txt` in a Python environment and run `python apps/desktop/launcher.py --smoke-test smoke.json` to exercise HTTP, MIDI generation, downloads and authorization without a window. For the native app, install `apps/desktop/requirements.txt` and run `python apps/desktop/launcher.py`. The automated Windows build also verifies the packaged executable and its actual native Generate button.
+
+Branch recovery evidence: [50-branch audit](docs/status/workbench-branch-audit.json). The runtime was recovered from `recovery/runtime-baseline-integration`; MCP integration and durable asset repository code were reconciled from `codex/ship-sonic-integrity`.
+
 It is being built as a persistent, testable, deployable platform that combines a producer workspace, audio/asset intelligence, structured memory, event-driven workflows, and an agent layer capable of analyzing work, retrieving context, making recommendations, and eventually executing approved actions.
 
 > **Canonical repository:** `cryptik093-pixel/sonic-ai-v3`

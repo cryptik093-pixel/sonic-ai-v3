@@ -4,11 +4,24 @@ from ..schemas.session_snapshot import SessionSnapshot, SessionSnapshotCreate
 from ..schemas.decision import Decision, DecisionCreate
 from ..services.session_snapshot_service import snapshot_service
 from ..services.decision_service import decision_service
+from ..services.asset_service import asset_service
 
 router = APIRouter(
     prefix="/intelligence",
     tags=["Intelligence"],
 )
+
+
+@router.get("/snapshot")
+def get_asset_snapshot(project_id: int | None = None, asset_id: int | None = None):
+    asset = asset_service.get_asset(asset_id) if asset_id is not None else None
+    if asset is not None and project_id is not None and asset.project_id != project_id:
+        raise HTTPException(404, "Asset not found in the selected project.")
+    analysis = asset_service.get_latest_analysis(asset_id) if asset else None
+    fields = ("file_type", "duration", "sample_rate", "channels", "confidence", "provenance")
+    return {"asset": asset.model_dump() if asset else None,
+            "analysis": {k: getattr(analysis, k) for k in fields} if analysis else None,
+            "summary": "Stored asset metadata; no model inference has been performed."}
 
 
 @router.get("/snapshots", response_model=list[SessionSnapshot])

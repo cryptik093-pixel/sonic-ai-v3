@@ -23,6 +23,11 @@ coverage/
 # Local storage
 /storage/
 apps/api/storage/
+apps/api/data/
+data/
+*.spec
+artifacts/
+test-results/
 
 # Logs
 *.log

@@ -1,0 +1,52 @@
+name: Runtime baseline
+
+on:
+  push:
+    branches: ["main", "recovery/**"]
+  pull_request:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  runtime-baseline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.28.1
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install JavaScript dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Validate runtime surface
+        run: pnpm audit:v3
+
+      - name: Build web
+        run: pnpm --filter @sonic-ai/web build
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install API dependencies
+        run: python -m pip install -r apps/api/requirements.txt
+
+      - name: Compile API
+        run: python -m compileall -q apps/api
+
+      - name: Import API and verify health route
+        run: python -c "from apps.api.main import app; assert any(getattr(route, 'path', None) == '/health' for route in app.routes)"

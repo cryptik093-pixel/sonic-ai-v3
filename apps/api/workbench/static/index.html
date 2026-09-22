@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-eval'; style-src 'self'; img-src 'self' data:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'self'">
+  <title>Sonic — Production Workbench</title>
+  <link rel="stylesheet" href="/workbench/static/style.css">
+</head>
+<body>
+  <aside class="rail">
+    <div class="brand"><span class="mark">S</span><span>SONIC<span class="brand-sub">OMEGA HOUSE</span></span></div>
+    <div class="rail-label">PRODUCTION WORKBENCH</div>
+    <nav aria-label="Main navigation">
+      <button data-view="focus" class="nav active"><span>01</span> Start here</button>
+      <button data-view="midi" class="nav"><span>02</span> Create MIDI</button>
+      <button data-view="assets" class="nav"><span>03</span> Audio & packs</button>
+      <button data-view="release" class="nav"><span>04</span> Prepare a release</button>
+      <button data-view="history" class="nav"><span>05</span> Your outputs <b id="output-count">0</b></button>
+    </nav>
+    <div class="rail-bottom"><div class="save-note"><i></i> One step. Real progress.</div><button data-view="settings" class="nav">Connection & settings</button><small>Sonic Intelligence · v0.5</small></div>
+  </aside>
+  <main>
+    <header><div><span class="eyebrow">YOUR STUDIO, IN MOTION</span><p id="view-label">A little direction goes a long way.</p></div><span class="status" id="connection-status">Connecting…</span></header>
+    <div id="error" role="alert" hidden></div>
+    <div id="busy" role="status" aria-live="polite" hidden><span class="spinner"></span><span id="busy-text">Working…</span></div>
+    <section id="view-focus" class="view">
+      <div class="hero"><span class="eyebrow accent">LET'S MAKE ONE USEFUL THING</span><h1>A small win.<br>A real file.</h1><p>You don't have to solve the whole week.<br>Choose what you have energy for. Sonic will give you one next step.</p><div class="hero-wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+      <div class="two-col"><form id="focus-form" class="card"><div class="card-top"><h2>Find your next step</h2><span class="tag">BUILT AROUND YOU</span></div>
+        <label>Energy today<select name="energy"><option value="low">Low — keep it light</option><option value="steady">Steady — I can focus</option><option value="high">High — let's build</option></select></label>
+        <div class="form-row"><label>Time available<select name="minutes"><option value="5">5 minutes</option><option value="15" selected>15 minutes</option><option value="30">30 minutes</option><option value="60">60 minutes</option></select></label><label>What matters now<select name="goal"><option value="create">Create something</option><option value="finish">Finish existing work</option><option value="release">Move toward a release</option></select></label></div>
+        <button class="primary" type="submit">Give me one next step <span>↗</span></button>
+      </form><div class="card quick-card"><span class="eyebrow">SKIP THE BLANK PAGE</span><h2>Turn a direction<br>into a phrase.</h2><p>Melody, chords, bass and drums. Hear the idea, keep the MIDI, make it yours in FL Studio.</p><button class="secondary" data-view="midi">Open MIDI studio <span>→</span></button><div class="chips"><span>Works offline</span><span>Separate MIDI parts</span></div></div></div>
+      <div id="focus-result" class="card focus-result" hidden></div>
+    </section>
+    <section id="view-midi" class="view" hidden>
+      <div class="page-title"><div><span class="eyebrow accent">IDEA → AUDITION → DAW</span><h1>Create a starting point.</h1><p>A musical phrase you can hear, export and develop.</p></div><span class="tag">LOCAL COMPOSITION ENGINE</span></div>
+      <div class="work-grid"><form id="midi-form" class="card">
+        <label>Working title<input name="title" maxlength="100" value="Midnight Signal" required></label>
+        <label>Direction<select name="style"><option value="cloud">Cloud — spacious & atmospheric</option><option value="trap">Trap — tension & rhythmic movement</option><option value="soul">Soul — seventh chords & swing</option></select></label>
+        <div class="form-row"><label>Key<select name="key"><option>C</option><option>C#</option><option>D</option><option>Eb</option><option>E</option><option>F</option><option>F#</option><option>G</option><option>Ab</option><option>A</option><option>Bb</option><option>B</option></select></label><label>Scale<select name="scale"><option value="minor">Minor</option><option value="major">Major</option><option value="dorian">Dorian</option><option value="harmonic_minor">Harmonic minor</option></select></label></div>
+        <div class="form-row"><label>Tempo · BPM<input name="bpm" type="number" min="60" max="200" value="130" required></label><label>Length<select name="bars"><option value="4">4 bars</option><option value="8" selected>8 bars</option><option value="16">16 bars</option></select></label></div>
+        <div class="form-row"><label>Space<select name="density"><option value="sparse">Sparse</option><option value="balanced" selected>Balanced</option><option value="busy">Busy</option></select></label><label>Variation seed<input name="seed" type="number" min="0" max="2147483647" value="93" required></label></div>
+        <button class="primary" type="submit">Generate MIDI & audition <span>↗</span></button><button type="button" id="variation" class="text-button">Try a new variation</button>
+        <p class="fine">Seeded composition, with scale constraints and voice leading. Change the sounds in your DAW; the audition uses simple synths.</p>
+      </form><div class="card output-panel" id="midi-result"><div class="empty"><div class="empty-icon">♫</div><h2>Your next idea goes here.</h2><p>Generate to hear a phrase and see its notes.<br>Every part is saved as a MIDI file.</p></div></div></div>
+    </section>
+    <section id="view-assets" class="view" hidden>
+      <div class="page-title"><div><span class="eyebrow accent">FROM FILES TO FINISHED PACKS</span><h1>Put your sounds to work.</h1><p>Import, measure and package. Your originals stay where they are.</p></div></div>
+      <div class="import-bar card"><div><h2>Bring in your assets</h2><p>WAV, FLAC, AIFF, MP3, OGG or MIDI · up to 100 MB per file</p></div><div class="button-row"><button class="secondary" id="choose-files">Choose files</button><button class="secondary" id="choose-folder">Choose folder</button></div><input type="file" id="import-files" multiple hidden accept=".wav,.flac,.aiff,.aif,.mp3,.ogg,.mid,.midi"><input type="file" id="import-folder" multiple webkitdirectory hidden></div>
+      <div class="work-grid"><div class="card"><div class="card-top"><h2>Asset inventory</h2><button class="text-button" id="select-all">Select all</button></div><div id="asset-list" class="asset-list"></div></div>
+      <form class="card" id="pack-form"><span class="eyebrow">BUILD A DELIVERABLE</span><h2>Package a collection</h2><label>Pack name<input name="title" value="Omega House — Studio Ideas" maxlength="100" required></label><label>Artist / brand<input name="artist" value="Omega House Beats" maxlength="100" required></label><label>Include a generated MIDI set<select name="source_run_id" id="pack-source"><option value="">Imported assets only</option></select></label><label>Approved license text <span class="optional">optional for a working ZIP</span><textarea name="license_text" rows="4" maxlength="20000" placeholder="Paste the license you have approved. Sonic does not invent usage rights."></textarea></label><button class="primary" type="submit">Build ZIP & inventory <span>↗</span></button><p class="fine">Selected assets are copied and exact duplicates removed. Filenames suggest folders; check categories before release.</p></form></div>
+      <div id="asset-result" class="card" hidden></div>
+    </section>
+    <section id="view-release" class="view" hidden>
+      <div class="page-title"><div><span class="eyebrow accent">SHOW THE SOUND. MAKE THE OFFER CLEAR.</span><h1>Prepare the next release.</h1><p>Useful copy grounded in what your pack actually contains.</p></div></div>
+      <div class="work-grid"><form id="release-form" class="card"><label>Pack<select name="pack_run_id" id="release-source" required><option value="">Build a pack first</option></select></label><label>Who is it for?<input name="audience" maxlength="200" value="Hip-hop and trap producers" required></label><label>Price · USD<input name="price" type="number" min="0" max="10000" step="0.01" value="5" required></label><label>Product page<input name="product_url" type="url" maxlength="2048" value="https://omega-house.online" required></label><button class="primary" type="submit">Create release drafts <span>↗</span></button><p class="fine">Two caption hooks, a 20-second demo plan, a small A/B test and a Shopify CSV saved with draft status.</p></form><div class="card" id="release-result"><div class="empty"><div class="empty-icon">↗</div><h2>Proof before promotion.</h2><p>Choose a pack to turn its verified inventory into a release draft.</p></div></div></div>
+    </section>
+    <section id="view-history" class="view" hidden><div class="page-title"><div><span class="eyebrow accent">PROGRESS YOU CAN OPEN</span><h1>Your outputs.</h1><p>Saved files, inputs and next steps. Resume where you left off.</p></div><button class="secondary" id="refresh-history">Refresh</button></div><div id="history-list"></div><div id="history-result" class="card" hidden></div></section>
+    <section id="view-settings" class="view" hidden><div class="page-title"><div><span class="eyebrow accent">A WORKING CORE. OPTIONAL CLOUD INTELLIGENCE.</span><h1>Connections.</h1><p>MIDI, measurements, packs and draft templates work offline.</p></div></div><div class="two-col"><div class="card"><h2>Cloud AI interpretation</h2><p>Ask Sonic for a recommendation grounded in a completed run. That run's evidence and your question are sent to your configured AI provider.</p><p id="cloud-state" class="fine"></p><form id="ai-form"><label>OpenAI API key<input name="api_key" type="password" autocomplete="off" placeholder="Optional — your key stays on this computer"></label><label>Model<input name="model" value="gpt-4o" maxlength="100"></label><button class="primary" type="submit">Save AI connection</button></form><p class="fine">The Windows app uses the operating system credential store. The connection is only verified when a real request succeeds.</p></div><div class="card"><h2>MCP is part of the same engine.</h2><p>External MCP clients can list your outputs and run the same local workflows. External store changes and outbound messages are not exposed.</p><p id="mcp-address" class="mono"></p><button class="secondary" id="mcp-config">Save MCP connection file</button><p class="fine">The connection file contains your local bearer credential. Keep it private. A local URL does not connect a remote ChatGPT session by itself.</p><hr><h2>Browser connection</h2><form id="connection-form"><label>Local access token<input name="token" type="password" autocomplete="off" placeholder="Desktop connects automatically"></label><button class="secondary" type="submit">Connect</button></form></div></div></section>
+    <footer>OMEGA HOUSE BEATS <span>Build something you can use.</span></footer>
+  </main>
+  <script src="/workbench/static/app.js"></script>
+</body>
+</html>

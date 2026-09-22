@@ -71,7 +71,10 @@ def artifact_path(run_id, filename):
     allowed = {item["name"] for item in run["result"].get("artifacts", [])}
     if run["status"] != "succeeded" or filename not in allowed or Path(filename).name != filename:
         raise ValueError("Artifact not available for this run.")
-    path = root() / "runs" / run["id"] / filename
+    directory = (root() / "runs" / str(UUID(run["id"]))).resolve()
+    path = directory / filename
+    if not path.resolve().is_relative_to(directory):
+        raise ValueError("Artifact path is outside this run.")
     if not path.is_file() or path.is_symlink():
         raise ValueError("This output file is missing. Create a new run to regenerate it.")
     return path

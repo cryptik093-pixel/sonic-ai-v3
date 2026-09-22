@@ -60,7 +60,9 @@ jobs:
       - name: Verify packaged app
         shell: pwsh
         run: |
-          $sonicProcess = Start-Process -FilePath "dist/Sonic/Sonic.exe" -ArgumentList "--smoke-test", "packaged-smoke.json" -PassThru -Wait
+          $sonicProcess = Start-Process -FilePath "dist/Sonic/Sonic.exe" -ArgumentList "--smoke-test", "packaged-smoke.json" -PassThru
+          if (!$sonicProcess.WaitForExit(120000)) { Stop-Process -Id $sonicProcess.Id; throw "Packaged app timed out" }
+          if (Test-Path packaged-smoke.json) { Get-Content packaged-smoke.json }
           if ($sonicProcess.ExitCode -ne 0) { throw "Packaged app failed" }
           if (!(Test-Path packaged-smoke.json)) { throw "Packaged app did not produce verification evidence" }
           $sonicProof = Get-Content packaged-smoke.json | ConvertFrom-Json

@@ -76,6 +76,7 @@ def main():
                   const response = await fetch('/workbench/api/status', {headers:{Authorization:'Bearer '+token}});
                   return (await response.json()).runs;
                 }""")) == len(before_preview["runs"]), "Preview must not create a run"
+                page.locator("#midi-form details.advanced-controls summary").click()
                 page.locator("#midi-form select[name=bars]").select_option("4")
                 page.locator("#midi-form button[type=submit]").click()
                 page.locator("#midi-result [data-file='Melody.mid']").wait_for(timeout=30000)

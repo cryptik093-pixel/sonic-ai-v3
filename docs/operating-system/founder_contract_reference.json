@@ -1,0 +1,18 @@
+{
+  "reference_id": "SONIC-FOUNDER-ONBOARDING",
+  "version": "1.0.0",
+  "knowledge_class": "metadata-contract",
+  "adoption_status": "documentation_adopted",
+  "canonical_repository": "cryptik093-pixel/OMEGA-HOUSE-OS",
+  "canonical_commit": "5c23649207b6933a960b640ddc10b116106a5fa7",
+  "contract_id": "OH-FOUNDER-ONBOARDING",
+  "contract_version": "1.1.0",
+  "contract_path": "knowledge/founder-onboarding/founder_contract.json",
+  "contract_sha256": "07f190c5c4172deaaa163761c73f5ac6ae4c33bb838814c0f3ac7e59bda48a7b",
+  "schema_path": "knowledge/founder-onboarding/founder_contract.schema.json",
+  "package_entry": "knowledge/founder-onboarding/README.md",
+  "runtime_enforcement": "not_integrated",
+  "automatic_loading_implemented": false,
+  "capability_evidence_commit": "99f6c2d795d15756995b40cfe2fdfe39b5119307",
+  "update_rule": "Review the OS version and hash, update this pointer and the human guide together, and validate before adoption. No floating runtime fetch is implemented."
+}

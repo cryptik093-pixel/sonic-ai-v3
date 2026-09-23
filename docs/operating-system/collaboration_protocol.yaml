@@ -96,3 +96,12 @@ authority:
     - optimization
     - evidence_gathering
     - next_action_selection
+
+
+# Documentation adoption only. Existing trigger identifiers and execution steps remain stable.
+founder_onboarding:
+  reference_file: docs/operating-system/founder_contract_reference.json
+  human_guide: docs/operating-system/FOUNDER_ONBOARDING.md
+  runtime_enforcement: not_integrated
+  lock_responsibilities: [re_ground, validate, optimize, align, checkpoint, advance]
+  intelligence_loop: [work, capture, understand, formalize, validate, learn, act, work]

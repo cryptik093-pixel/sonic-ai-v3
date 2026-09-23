@@ -3,8 +3,8 @@
 **Document ID:** `SAV3-STATUS-PRODUCER-BRIEF-20260923`
 **Observed:** 2026-09-23
 **Scope:** `codex/producer-brief-intelligence` based on canonical `main`
-**Lifecycle:** implementation complete; repository CI review pending
-**Claim state:** `SUPPORTED` pending the branch's Linux, Chromium and Windows GitHub Actions run
+**Lifecycle:** implementation complete; pull request open for repository review
+**Claim state:** `SUPPORTED` by the Linux, Chromium and Windows GitHub Actions run for implementation source SHA `713ece944898941e144711fa4a3e35d6d1af4e0c` (2026-09-23)
 **Current-state reference:** [Sonic AI V3 Current-State Audit](../architecture/current-state-audit.md)
 
 ## Delivered
@@ -46,10 +46,13 @@ The existing workbench's structured MIDI form now accepts a free-text producer b
 | Python bytecode compilation of API and browser verifier | Passed |
 | `python -m pip check` | No broken requirements; this scratch environment prints warnings for an invalid leftover NumPy distribution metadata directory |
 | `git diff --check` | Passed |
-| Chromium UI run | Not yet executed locally because Playwright is absent from this scratch runtime. The modified Chromium flow is included in the pull request's GitHub Actions gate. |
-| Windows packaged/native UI checks | Pending the same GitHub Actions gate; no new Windows package is claimed before that run. |
+| [Linux API, desktop smoke, and Chromium browser workflow](https://github.com/cryptik093-pixel/sonic-ai-v3/actions/runs/35820255987) | **Passed** for source SHA `713ece9`. The browser flow generated and parsed a downloaded MIDI, exercised keep/continuity, packaging, release draft, audio analysis, persisted history and mobile layout; zero browser exceptions. `sonic-linux-verification` contains the browser proof and screenshots. |
+| Windows runtime and packaged/native UI checks | **Passed** in the same [Sonic desktop workflow](https://github.com/cryptik093-pixel/sonic-ai-v3/actions/runs/35820255987), including native package creation, packaged app verification, native window MIDI generation and quick-start inclusion. `Sonic-Windows-x64` was uploaded as a 43.9 MB workflow artifact. |
+| [Runtime baseline](https://github.com/cryptik093-pixel/sonic-ai-v3/actions/runs/35820255986) | **Passed**: web build and API install/compile/health checks. |
+| [Deterministic audio contract CI](https://github.com/cryptik093-pixel/sonic-ai-v3/actions/runs/35820256035) | **Passed**. |
+| Veracode workflow | Job completed successfully with scan steps skipped because Veracode secrets are not configured; this is **not** a completed security scan. |
 
-The local environment's NumPy 2.5.3 wheel crashed while importing the audio stack. The API requirement is now bounded to the tested 2.0–2.3 series; the complete API suite and desktop smoke passed with NumPy 2.3.5. The remote clean Linux/Windows install will verify this bound.
+The local environment's NumPy 2.5.3 wheel crashed while importing the audio stack. The API requirement is now bounded to the tested 2.0–2.3 series; the complete API suite and desktop smoke passed with NumPy 2.3.5, and clean Linux/Windows workflow installs passed.
 
 ## Explicit limits
 

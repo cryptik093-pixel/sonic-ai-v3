@@ -73,7 +73,8 @@ def main():
                 assert "trap" in page.locator("#midi-brief-preview").inner_text()
                 assert len(page.evaluate("""async () => {
                   const token = sessionStorage.getItem('sonic-token');
-                  return (await fetch('/workbench/api/status', {headers:{Authorization:'Bearer '+token}})).json().runs;
+                  const response = await fetch('/workbench/api/status', {headers:{Authorization:'Bearer '+token}});
+                  return (await response.json()).runs;
                 }""")) == len(before_preview["runs"]), "Preview must not create a run"
                 page.locator("#midi-form select[name=bars]").select_option("4")
                 page.locator("#midi-form button[type=submit]").click()

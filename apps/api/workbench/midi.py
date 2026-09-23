@@ -1,4 +1,5 @@
 """Seeded, scale-aware composition. No external service is needed to make a file."""
+import hashlib
 import json
 import math
 import random
@@ -22,6 +23,11 @@ def slug(text: str) -> str:
     return re.sub(r"[^A-Za-z0-9_-]+", "_", text).strip("_")[:70] or "Sonic"
 
 
+def sha256_file(path: Path) -> str:
+    with path.open("rb") as source:
+        return hashlib.file_digest(source, "sha256").hexdigest()
+
+
 def compose(p: MidiCommand) -> list[dict]:
     rng = random.Random(p.seed)
     scale, root = SCALES[p.scale], ROOTS[p.key]
@@ -38,8 +44,26 @@ def compose(p: MidiCommand) -> list[dict]:
                       "duration": round(min(duration, p.bars * 4 - start), 5),
                       "velocity": max(25, min(120, velocity + rng.randint(-6, 6)))})
 
-    progression = [0, 5, 3, 4] if p.scale == "major" else ([0, 3, 5, 4] if p.style == "soul" else [0, 5, 2, 6])
-    motif = [0, 2, 1, 4, 2, 1, 0, 2]
+    mood_progressions = {
+        "dark": [0, 5, 6, 4],
+        "hopeful": [0, 3, 4, 0],
+        "dreamy": [0, 5, 3, 4],
+        "tense": [0, 6, 2, 6],
+        "uplifting": [0, 3, 4, 0],
+    }
+    if p.mood != "neutral":
+        progression = mood_progressions[p.mood]
+    else:
+        progression = [0, 5, 3, 4] if p.scale == "major" else ([0, 3, 5, 4] if p.style == "soul" else [0, 5, 2, 6])
+    motifs = {
+        "neutral": [0, 2, 1, 4, 2, 1, 0, 2],
+        "dark": [0, 3, 2, 6, 5, 3, 2, 0],
+        "hopeful": [0, 2, 4, 5, 4, 2, 4, 0],
+        "dreamy": [0, 4, 2, 6, 4, 2, 1, 0],
+        "tense": [0, 6, 2, 5, 3, 1, 4, 0],
+        "uplifting": [0, 2, 4, 6, 5, 4, 2, 0],
+    }
+    motif = motifs[p.mood]
     if p.seed % 3 == 1:
         motif = [2, 1, 0, 4, 3, 2, 1, 0]
     elif p.seed % 3 == 2:
@@ -145,7 +169,7 @@ def render_preview(notes, bpm, bars, path):
     sf.write(str(path), signal, sr, subtype="PCM_16")
 
 
-def generate(p: MidiCommand, folder: Path):
+def generate(p: MidiCommand, folder: Path, production_brief: dict | None = None):
     notes = compose(p)
     prefix = f"{slug(p.title)}_{p.key.replace('#', 'sharp')}_{p.scale}_{p.bpm}BPM"
     song = mido.MidiFile(type=1, ticks_per_beat=TICKS)
@@ -158,7 +182,50 @@ def generate(p: MidiCommand, folder: Path):
         part.save(folder / f"{name}.mid")
     song.save(folder / f"{prefix}.mid")
     render_preview(notes, p.bpm, p.bars, folder / "Audition.wav")
-    (folder / "Composition.json").write_text(json.dumps({"schema_version": "1.0", "parameters": p.model_dump(mode="json"), "notes": notes}, indent=2), encoding="utf-8")
+    brief = production_brief or {
+        "schema_version": "sonic.production-brief/1.0",
+        "compiler": "structured_controls_v1",
+        "interpretation": "structured_controls",
+        "source_prompt": p.prompt,
+        "resolved_parameters": {field: getattr(p, field) for field in ("title", "key", "scale", "style", "mood", "bpm", "bars", "density", "seed")},
+        "assumptions": [],
+        "warnings": [],
+    }
+    source_id = f"brief:{p.request_id}"
+    part_ids = {name: f"{p.request_id}:{name.casefold()}" for name in ("Melody", "Chords", "Bass", "Drums")}
+    arrangement_name = f"{prefix}.mid"
+    lineage = {
+        "standard_id": "OH_METADATA_PACKAGING_LINEAGE_V1",
+        "standard_reference": "docs/knowledge/metadata/METADATA_PACKAGING_LINEAGE_V1.md",
+        "source": {
+            "asset_id": source_id,
+            "type": "producer_brief" if p.prompt else "structured_controls",
+            "storage": "embedded_in_Composition.json",
+            "rights_status": "not_assessed",
+        },
+        "outputs": [
+            {"asset_id": part_ids[name], "artifact": f"{name}.mid", "role": name.casefold(), "created_from": [source_id], "included_in": [f"{p.request_id}:arrangement"]}
+            for name in ("Melody", "Chords", "Bass", "Drums")
+        ] + [
+            {"asset_id": f"{p.request_id}:arrangement", "artifact": arrangement_name, "role": "multitrack_arrangement", "created_from": [source_id], "includes": list(part_ids.values())},
+            {"asset_id": f"{p.request_id}:audition", "artifact": "Audition.wav", "role": "synth_audition", "created_from": [f"{p.request_id}:arrangement", source_id]},
+        ],
+    }
+    for asset in lineage["outputs"]:
+        path = folder / asset["artifact"]
+        asset["bytes"] = path.stat().st_size
+        asset["sha256"] = sha256_file(path)
+    composition = {
+        "schema_version": "sonic.composition/1.0",
+        "engine": "local_algorithmic_composition_v2",
+        "request_id": str(p.request_id),
+        "rights_status": "not_assessed",
+        "parameters": {field: getattr(p, field) for field in ("title", "key", "scale", "style", "mood", "bpm", "bars", "density", "seed")},
+        "production_brief": brief,
+        "lineage": lineage,
+        "notes": notes,
+    }
+    (folder / "Composition.json").write_text(json.dumps(composition, indent=2, allow_nan=False), encoding="utf-8")
     instructions = (f"# {p.title}\n\n{p.bars} bars • {p.bpm} BPM • {p.key} {p.scale.replace('_',' ')}\n\n"
         "Drag the individual Melody.mid, Chords.mid or Bass.mid into an FL Studio instrument's Piano Roll. "
         "Set the project tempo to the BPM above. Open the combined MIDI through File > Import > MIDI file to import all parts. "
@@ -166,9 +233,10 @@ def generate(p: MidiCommand, folder: Path):
         "Audition.wav is a simple synthesized rhythm/harmony preview, not a finished or mastered recording. "
         "Replace the audition sounds with your instruments. Keep the seed to reproduce notes; change it for a variation.\n")
     (folder / "FL_Studio_Readme.md").write_text(instructions, encoding="utf-8")
-    return {"title": p.title, "engine": "local_composition_v1", "bpm": p.bpm, "key": p.key,
-            "scale": p.scale, "bars": p.bars, "seed": p.seed, "note_count": len(notes),
+    return {"title": p.title, "engine": "local_algorithmic_composition_v2", "bpm": p.bpm, "key": p.key,
+            "scale": p.scale, "style": p.style, "mood": p.mood, "bars": p.bars, "seed": p.seed, "density": p.density,
+            "parameters": composition["parameters"], "production_brief": brief, "lineage": lineage, "note_count": len(notes),
             "tracks": [t[0] for t in TRACKS], "notes": notes,
-            "summary": f"{p.bars} bars of melody, voice-led chords, bass and drums, ready to import.",
+            "summary": f"{p.bars} bars in {p.key} {p.scale.replace('_', ' ')} at {p.bpm} BPM: {p.mood} {p.style} melody, voice-led chords, bass and drums.",
             "next_action": "Audition the phrase, then drag Melody.mid into an FL Studio instrument and choose your sound.",
-            "warnings": ["Algorithmic composition; aesthetic quality is a listening decision.", "Audition audio uses simple synth sounds."]}
+            "warnings": ["Algorithmic composition; aesthetic quality is a listening decision.", "Audition audio uses simple synth sounds.", *brief.get("warnings", [])]}

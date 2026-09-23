@@ -1,7 +1,7 @@
 "use strict";
 const $ = (s, root = document) => root.querySelector(s);
 const esc = value => String(value ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-const state = {runs: [], assets: [], selected: new Set(), view: "focus", busy: false, urls: new Map(), timer: null};
+const state = {runs: [], assets: [], selected: new Set(), view: "focus", busy: false, urls: new Map(), timer: null, midiOverrides: new Set()};
 let token = sessionStorage.getItem("sonic-token") || "";
 const fragment = new URLSearchParams(location.hash.slice(1));
 if (fragment.has("token")) {
@@ -10,10 +10,15 @@ if (fragment.has("token")) {
 }
 const savedInputs = JSON.parse(localStorage.getItem("sonic-inputs") || "{}");
 for (const [id, values] of Object.entries(savedInputs)) {
+  const midiOverrides = new Set(values.__midiOverrides || []);
   const form = document.getElementById(id);
   if (form) for (const [name, value] of Object.entries(values)) {
+    if (name === "__midiOverrides") continue;
     const field = form.elements.namedItem(name);
-    if (field && !["source_run_id", "pack_run_id"].includes(name)) field.value = value;
+    if (field && !["source_run_id", "pack_run_id"].includes(name)) {
+      field.value = value;
+      if (id === "midi-form" && midiOverrides.has(name)) state.midiOverrides.add(name);
+    }
   }
 }
 function reportError(error) {
@@ -57,6 +62,7 @@ async function busy(label, fn) {
 function values(form) {
   const data = Object.fromEntries(new FormData(form));
   if (!["ai-form", "connection-form"].includes(form.id)) {
+    if (form.id === "midi-form") data.__midiOverrides = [...state.midiOverrides];
     savedInputs[form.id] = data; localStorage.setItem("sonic-inputs", JSON.stringify(savedInputs));
   }
   return data;
@@ -86,7 +92,7 @@ async function refresh() {
   $("#connection-status").textContent = "● Local engine ready";
   $("#output-count").textContent = state.runs.filter(r => r.status === "succeeded").length;
   $("#cloud-state").textContent = data.cloud_ai === "not_configured" ? "Cloud AI is not connected. Local workflows are ready." : "AI is configured. A successful insight request verifies the connection.";
-  $("#mcp-address").textContent = location.origin + "/mcp";
+  $("#mcp-address").textContent = data.mcp_url;
   renderAssets(); renderHistory();
   const finished = state.runs.filter(r => r.status === "succeeded");
   replaceOptions($("#pack-source"), finished.filter(r => r.kind === "midi"), "Imported assets only");
@@ -115,6 +121,25 @@ function piano(canvas, result) {
     ctx.fillRect(n.start / (result.bars * 4) * width, (max - n.pitch) * row, Math.max(2, n.duration / (result.bars * 4) * width - 1), Math.max(2, row - 1));
   }
 }
+function productionBrief(brief) {
+  if (!brief) return "";
+  const p = brief.resolved_parameters || {};
+  const settings = [
+    ["Style", p.style], ["Mood", p.mood], ["Key", [p.key, p.scale?.replaceAll("_", " ")].filter(Boolean).join(" ")],
+    ["Tempo", p.bpm ? p.bpm + " BPM" : ""], ["Length", p.bars ? p.bars + " bars" : ""], ["Density", p.density],
+  ].filter(([, value]) => value);
+  const assumptions = (brief.assumptions || []).map(x => `<li>${esc(x)}</li>`).join("");
+  const signals = (brief.evidence || []).filter(x => x.prompt_excerpt).map(x => `<li><strong>${esc(x.field)}:</strong> ${esc(x.value)} ← “${esc(x.prompt_excerpt)}”</li>`).join("");
+  const context = brief.continuity?.used ? `<p class="fine">Reused saved run ${esc(brief.continuity.source_run?.run_id || "")} for continuity.</p>` : "";
+  const source = brief.source_prompt ? `<p class="brief-prompt">${esc(brief.source_prompt)}</p>` : `<p class="brief-prompt">Structured controls supplied; no free-text prompt.</p>`;
+  return `<details class="production-brief" open><summary>Sonic's production brief</summary>${source}<div class="result-meta">${settings.map(([k,v]) => `<span>${esc(k)}: ${esc(v)}</span>`).join("")}</div>${signals ? `<p class="fine">Prompt signals Sonic mapped</p><ul>${signals}</ul>` : ""}${assumptions ? `<p class="fine">Assumptions</p><ul>${assumptions}</ul>` : ""}${context}<p class="fine">${esc(brief.scope || "")}</p></details>`;
+}
+function showBriefPreview(preview) {
+  const target = $("#midi-brief-preview"), b = preview.brief;
+  const details = productionBrief(b);
+  target.innerHTML = `<span class="eyebrow accent">INTERPRETATION PREVIEW · NO FILES CREATED</span><p><strong>${esc(preview.title)}</strong> · ${esc(preview.summary)}</p>${details}${(b.warnings || []).map(w => `<p class="warning">${esc(w)}</p>`).join("")}`;
+  target.hidden = false;
+}
 async function blobURL(runId, name) {
   const key = runId + "/" + name;
   if (!state.urls.has(key)) {
@@ -129,7 +154,7 @@ async function showRun(run, container) {
   const r = run.result;
   if (run.status !== "succeeded") { container.innerHTML = `<h2>${esc(run.status)}</h2><p>${esc(run.error || "This run has not finished.")}</p>`; return; }
   let body = "";
-  if (run.kind === "midi") body = `<div class="result-meta"><span>${r.bars} bars</span><span>${esc(r.key)} ${esc(r.scale.replaceAll("_", " "))}</span><span>${r.bpm} BPM</span><span>${r.note_count} notes</span></div><canvas class="piano" role="img" aria-label="Piano roll of generated melody, chords and bass"></canvas><div class="audio-row"><audio controls preload="none" aria-label="Audition the generated phrase"></audio><p class="fine">Synth audition · melody / chords / bass / drums</p></div>`;
+  if (run.kind === "midi") body = `<div class="result-meta"><span>${r.bars} bars</span><span>${esc(r.key)} ${esc(r.scale.replaceAll("_", " "))}</span><span>${r.bpm} BPM</span><span>${esc(r.mood)} ${esc(r.style)}</span><span>${r.note_count} notes</span></div>${productionBrief(r.production_brief)}<canvas class="piano" role="img" aria-label="Piano roll of generated melody, chords and bass"></canvas><div class="audio-row"><audio controls preload="none" aria-label="Audition the generated phrase"></audio><p class="fine">Synth audition · melody / chords / bass / drums</p></div>`;
   if (run.kind === "analysis") {
     const m = r.measurements;
     body = `<div class="metrics">${[["Sample peak", m.sample_peak_dbfs === null ? "Silent" : m.sample_peak_dbfs + " dBFS"],["RMS",m.rms_dbfs === null ? "Silent" : m.rms_dbfs + " dBFS"],["Duration",m.duration_seconds + "s"],["Stereo correlation",m.stereo_correlation ?? "Not defined"]].map(([name,value]) => `<div class="metric"><span>${esc(name)}</span><strong>${esc(value)}</strong></div>`).join("")}</div>` + m.observations.map(o => `<div class="next-step"><strong>${esc(o.fact)}</strong><p>${esc(o.action)}</p></div>`).join("");
@@ -137,7 +162,9 @@ async function showRun(run, container) {
   if (run.kind === "release") body = `<pre class="report-copy">${esc(r.copy)}</pre>`;
   if (run.kind === "focus") body = `<p>${esc(r.message)}</p><div class="timer" data-minutes="${r.minutes}">${r.minutes}:00</div><p><strong>Done when:</strong> ${esc(r.done_when)}</p><div class="button-row"><button class="secondary" data-action="timer">Start focus timer</button><button class="secondary" data-view="${esc(r.target)}">Open this workflow →</button></div>`;
   if (run.kind === "pack") body = `<div class="result-meta">${Object.entries(r.manifest.category_counts).map(([category,count]) => `<span>${count} ${esc(category)}</span>`).join("")}</div><p class="fine">${r.manifest.license_status === "missing" ? "License not supplied." : "Operator-supplied license included; terms have not been legally validated."}</p>`;
-  container.innerHTML = `<div class="rendered" data-output-id="${run.id}"><span class="eyebrow accent">${esc(run.kind)} · SAVED</span><h2 class="result-title">${esc(r.title)}</h2><p>${esc(r.summary)}</p>${body}<div class="next-step"><span class="eyebrow">NEXT USEFUL STEP</span><p>${esc(r.next_action)}</p></div><div class="button-row">${run.kind === "midi" ? `<button class="secondary" data-pack-midi="${run.id}">Package this MIDI set</button>` : ""}${run.kind === "pack" ? `<button class="secondary" data-release-pack="${run.id}">Prepare its release</button>` : ""}<button class="secondary" data-save-run="${run.id}">Export all files</button></div>${fileButtons(run)}${(r.warnings || []).map(w => `<p class="warning">${esc(w)}</p>`).join("")}${!["coach", "focus"].includes(run.kind) ? `<hr><label>Ask Sonic about this output<input data-question value="What is the most useful next step?" maxlength="2000"></label><button class="secondary" data-coach="${run.id}">Get a grounded insight</button>` : ""}<p class="fine">${esc(r.engine)} · ${esc(run.id.slice(0,8))}</p></div>`;
+  const latestFeedback = run.feedback?.at(-1);
+  const feedbackControls = run.kind === "midi" ? `<hr><p class="fine">Your decision is saved with this output and can guide a later request that refers to a kept direction.</p>${latestFeedback ? `<p class="fine">Latest decision: ${latestFeedback.decision === "keep" ? "Keep this direction" : "Not for me"}</p>` : ""}<div class="button-row"><button class="secondary" data-feedback="keep" data-run-id="${run.id}">Keep this direction</button><button class="secondary" data-feedback="not_for_me" data-run-id="${run.id}">Not for me</button></div>` : "";
+  container.innerHTML = `<div class="rendered" data-output-id="${run.id}"><span class="eyebrow accent">${esc(run.kind)} · SAVED</span><h2 class="result-title">${esc(r.title)}</h2><p>${esc(r.summary)}</p>${body}${feedbackControls}<div class="next-step"><span class="eyebrow">NEXT USEFUL STEP</span><p>${esc(r.next_action)}</p></div><div class="button-row">${run.kind === "midi" ? `<button class="secondary" data-pack-midi="${run.id}">Package this MIDI set</button>` : ""}${run.kind === "pack" ? `<button class="secondary" data-release-pack="${run.id}">Prepare its release</button>` : ""}<button class="secondary" data-save-run="${run.id}">Export all files</button></div>${fileButtons(run)}${(r.warnings || []).map(w => `<p class="warning">${esc(w)}</p>`).join("")}${!["coach", "focus"].includes(run.kind) ? `<hr><label>Ask Sonic about this output<input data-question value="What is the most useful next step?" maxlength="2000"></label><button class="secondary" data-coach="${run.id}">Get a grounded insight</button>` : ""}<p class="fine">${esc(r.engine)} · ${esc(run.id.slice(0,8))}</p></div>`;
   if (run.kind === "midi") {
     piano($("canvas", container), r);
     try { $("audio", container).src = await blobURL(run.id, "Audition.wav"); } catch(e) { reportError(e); }
@@ -151,6 +178,30 @@ async function download(runId, name) {
     const url = await blobURL(runId, name), a = document.createElement("a");
     a.href = url; a.download = name; a.click();
   }
+}
+function midiPayload(form) {
+  const all = values(form), hasPrompt = Boolean(all.prompt?.trim()), payload = {};
+  if (hasPrompt) payload.prompt = all.prompt.trim();
+  const fields = ["title", "style", "key", "scale", "mood", "bpm", "bars", "density", "seed"];
+  for (const name of fields) {
+    if (name === "title" && !all.title?.trim()) continue;
+    if (!hasPrompt || state.midiOverrides.has(name)) payload[name] = all[name];
+  }
+  for (const name of ["bpm", "bars", "seed"]) if (name in payload) payload[name] = Number(payload[name]);
+  return payload;
+}
+async function saveFeedback(runId, decision, container) {
+  const key = "sonic-feedback-" + runId, canonical = JSON.stringify({runId, decision});
+  let pending = JSON.parse(localStorage.getItem(key) || "null");
+  if (!pending || pending.canonical !== canonical) {
+    pending = {canonical, id: crypto.randomUUID()};
+    localStorage.setItem(key, JSON.stringify(pending));
+  }
+  await api(`/runs/${runId}/feedback`, {method:"POST", body:JSON.stringify({request_id:pending.id, decision})});
+  localStorage.removeItem(key);
+  const run = await api(`/runs/${runId}`);
+  await refresh();
+  await showRun(run, container);
 }
 document.addEventListener("click", e => {
   const button = e.target.closest("button"); if (!button) return;
@@ -173,6 +224,10 @@ document.addEventListener("click", e => {
     const question = $("[data-question]", button.closest(".rendered")).value;
     const run = await command("coach", {run_id:button.dataset.coach,question}); showView("history"); await showRun(run,$("#history-result"));
   });
+  if (button.dataset.feedback) busy("Saving your decision with this output…", async () => {
+    const container = button.closest(".rendered").parentElement;
+    await saveFeedback(button.dataset.runId, button.dataset.feedback, container);
+  });
   if (button.dataset.action === "timer") {
     if (state.timer) { clearInterval(state.timer); state.timer = null; button.textContent = "Resume focus timer"; return; }
     const display = $(".timer", button.closest(".rendered"));
@@ -186,11 +241,21 @@ document.addEventListener("click", e => {
   }
 });
 document.addEventListener("change", e => { if (e.target.dataset.asset) { e.target.checked ? state.selected.add(e.target.dataset.asset) : state.selected.delete(e.target.dataset.asset); } });
+for (const field of $("#midi-form").elements) {
+  if (!field.name || field.name === "prompt") continue;
+  field.addEventListener("input", () => state.midiOverrides.add(field.name));
+  field.addEventListener("change", () => state.midiOverrides.add(field.name));
+}
+$("#preview-brief").addEventListener("click", () => busy("Reading your brief and checking saved continuity…", async () => {
+  const preview = await api("/midi/preview", {method:"POST", body:JSON.stringify(midiPayload($("#midi-form")))});
+  showBriefPreview(preview);
+}));
 $("#midi-form").addEventListener("submit", e => { e.preventDefault(); busy("Composing your phrase and rendering the audition…", async () => {
-  const p = values(e.target); for (const k of ["bpm","bars","seed"]) p[k] = Number(p[k]);
-  await showRun(await command("midi",p),$("#midi-result"));
+  const run = await command("midi", midiPayload(e.target));
+  $("#midi-brief-preview").hidden = true;
+  await showRun(run,$("#midi-result"));
 }); });
-$("#variation").addEventListener("click", () => { $("#midi-form").elements.seed.value = Math.floor(Math.random()*2147483647); $("#midi-form").requestSubmit(); });
+$("#variation").addEventListener("click", () => { $("#midi-form").elements.seed.value = Math.floor(Math.random()*2147483647); state.midiOverrides.add("seed"); $("#midi-form").requestSubmit(); });
 $("#focus-form").addEventListener("submit", e => { e.preventDefault(); busy("Choosing one useful next step…", async () => { const p = values(e.target); p.minutes = Number(p.minutes); if(state.timer){clearInterval(state.timer);state.timer=null;} await showRun(await command("focus",p),$("#focus-result")); }); });
 $("#pack-form").addEventListener("submit", e => { e.preventDefault(); busy("Copying selected assets and building the pack…", async () => { const p = values(e.target); p.source_run_id ||= null; p.asset_ids = [...state.selected]; if (!p.asset_ids.length && !p.source_run_id) throw new Error("Select at least one imported asset or a generated MIDI set."); await showRun(await command("pack",p),$("#asset-result")); }); });
 $("#release-form").addEventListener("submit", e => { e.preventDefault(); busy("Drafting from your pack inventory…", async () => { const p = values(e.target); p.price = Number(p.price); await showRun(await command("release",p),$("#release-result")); }); });

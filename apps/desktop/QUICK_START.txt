@@ -1,33 +1,33 @@
-SONIC — OMEGA HOUSE PRODUCTION WORKBENCH
+SONIC — OMEGA HOUSE PRODUCTION WORKBENCH 0.6
 
-1. Extract the entire Sonic-Windows-x64 ZIP into a folder.
-2. Open Sonic.exe. Keep the _internal folder beside it.
-3. Choose Create MIDI > Generate MIDI & audition.
-4. Play the phrase, then export Melody.mid into an FL Studio instrument's Piano Roll.
+1. Extract the complete Sonic-Windows-x64 ZIP into a folder.
+2. Keep the _internal folder beside Sonic.exe; open Sonic.exe.
+3. Choose Create MIDI and describe a musical direction.
+4. Preview Sonic's interpretation, then generate and audition the phrase.
+5. Download Melody.mid and import it into an instrument in your DAW.
+
+The output also includes chord, bass and drum MIDI, a combined arrangement, a WAV audition,
+Composition.json with prompt evidence and output checksums, and FL Studio import notes.
+The MIDI is created locally by a seeded algorithmic composer. The WAV uses simple synth sounds.
 
 No Git, Node, Python, terminal or AI subscription is required for local workflows.
-The app targets Windows 10/11 x64 and uses Microsoft's WebView2 runtime.
+The app targets Windows 10/11 x64 and requires Microsoft's WebView2 runtime.
 
-Start here: one bounded next step, matched to your goal and energy.
-Create MIDI: four separate parts, one multitrack MIDI, an audition WAV and composition metadata.
-Audio & packs: import sources, measure audio and build ZIPs with inventory and checksums.
-Prepare a release: caption variants, a demonstration plan and a Shopify draft CSV.
-Your outputs: reopen saved results, export files and get a grounded Sonic recommendation.
+Start with one bounded next step, matched to your goal and energy.
+Create MIDI from a prompt; import audio; measure it; build a ZIP with inventory and checksums;
+prepare release copy and an unpublished Shopify draft CSV; reopen saved outputs in Your Outputs.
 
-Core tools use local composition, measurements and workflow rules. They are clearly labeled.
-Optional cloud interpretation requires your own configured API key. Save it in Connections.
-Its usage is billed by your provider; only use it when you want a model interpretation.
+Optional cloud coaching requires your own configured API key and is billed by your provider.
+It uses a saved output as evidence; it does not create the MIDI.
 
 Your new Sonic data is stored under %LOCALAPPDATA%\OmegaHouse\Sonic.
 Existing development databases and source packs are not moved or deleted.
-Import your audio/MIDI through the app; originals remain unchanged.
+Imported sources are copied into the local workspace; source files are not overwritten.
 
-The API and MCP run on this computer only. The MCP connection file is private.
-The application is a single-operator desktop tool, not a hosted multi-user service.
-No live Shopify publication, email sending or ad spending occurs from these workflows.
+The API and MCP run on this computer only. Sonic uses a free loopback port if 8000 is busy
+and shows the actual local MCP address in Connections. Its MCP file is private to your machine.
+This is a single-operator desktop tool, not a hosted multi-user service.
+No live Shopify publication, email sending or ad spending occurs from the workbench.
 
 This build is unsigned. Windows may show the publisher as unknown.
-If another local service already uses port 8000, Sonic uses another available port.
-Use Connections to save the current MCP address.
-
 Project: https://github.com/cryptik093-pixel/sonic-ai-v3

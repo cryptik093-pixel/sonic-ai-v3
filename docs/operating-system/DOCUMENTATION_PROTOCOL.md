@@ -113,3 +113,8 @@ Can the system recover the relevant state later?
 ```
 
 If any answer is no, the documentation/architecture milestone is not fully closed.
+
+
+## Founder package adoption
+
+Canonical company onboarding lives in Omega House OS. Use [the integration guide](FOUNDER_ONBOARDING.md) and [pinned contract reference](founder_contract_reference.json) to identify the adopted human/machine versions. A schema-valid documentation contract is not proof of runtime enforcement. Preserve a named OS revision and content hash until a separately validated adoption change replaces them.

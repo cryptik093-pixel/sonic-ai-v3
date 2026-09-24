@@ -1,10 +1,16 @@
 # Sonic AI V3 Documentation System
 
 **Documentation standard:** evidence-first, runtime-aware, versioned, and retrieval-safe  
-**Current phase:** Phase 2 - Runtime Hardening  
-**Canonical branch for this normalization pass:** `docs/omega-house-knowledge-archive-2026-09-04`
+**Runtime scope:** see the current product README and dated workbench evidence. The Phase 2 material below retains its original scope.  
+**Canonical product branch:** `main`. Historical normalization branch: `docs/omega-house-knowledge-archive-2026-09-04`.
 
 This directory is the documentation control plane for Sonic AI V3. It separates executable truth, normative doctrine, operational protocols, current architecture evidence, planning material, and historical source archives so that documentation can support the runtime without overstating it.
+
+## Founder onboarding entry point
+
+Start with [Founder onboarding integration](operating-system/FOUNDER_ONBOARDING.md). Company definitions, the Omega Intelligence Loop, presentation and Operator Brief live in the canonical Omega House OS package. [The pinned reference](operating-system/founder_contract_reference.json) identifies the adopted version. Publication and runtime enforcement remain separate claims.
+
+The founder package keeps onboarding claim evidence and work statuses in distinct fields. Existing UNCERTIFIED, engineering lifecycle and Command OS observation vocabularies retain their own namespaces; the integration guide explains the boundary.
 
 ## Authority order
 
@@ -100,3 +106,4 @@ Examples:
 - `DOCUMENTATION_NORMALIZATION_AUDIT_2026-09-04.md`
 
 Avoid filenames such as `final-final`, numbered duplicate suffixes, ambiguous `status` files without dates, and names that imply current truth when the content is historical.
+

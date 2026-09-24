@@ -114,6 +114,12 @@ docs/
 
 ---
 
+## Founder onboarding
+
+Use the [founder onboarding integration guide](docs/operating-system/FOUNDER_ONBOARDING.md) for the canonical Omega House OS package, five-name taxonomy, Intelligence Loop and role handoffs. The [pinned contract reference](docs/operating-system/founder_contract_reference.json) records the adopted OS revision and hash.
+
+This documentation adoption does not implement automatic contract loading or enforcement in Sonic.
+
 ## Foundational Operating Protocols
 
 Sonic AI V3 now treats the human-AI collaboration loop and its documentation model as first-priority operating architecture.
@@ -439,3 +445,4 @@ The repository should be evaluated by actual runtime capability, tests and verif
 The immediate engineering objective is simple:
 
 > **Restore the complete Sonic AI V3 system as one coherent, bootable, testable platform, then continue advancing the intelligence loop without losing the foundation.**
+

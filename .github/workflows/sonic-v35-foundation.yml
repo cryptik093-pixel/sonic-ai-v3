@@ -1,0 +1,18 @@
+name: Sonic v3.5 foundation
+on:
+  pull_request:
+    paths: ['services/mcp/**', 'agents/**', 'docs/status/sonic-state.json', 'packages/audio-analysis/**', '.github/workflows/sonic-v35-foundation.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  foundation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r services/mcp/requirements.txt
+      - run: python -m unittest discover -s services/mcp/tests -v
+      - run: python -m unittest discover -s packages/audio-analysis/python -v

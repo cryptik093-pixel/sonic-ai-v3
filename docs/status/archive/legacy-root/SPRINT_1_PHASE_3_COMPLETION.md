@@ -1,5 +1,7 @@
 # Sprint 1 Phase 3 - Backend Modules Complete
 
+> Historical snapshot note: file paths and API routes in this June 2026 report describe the legacy Sprint 1 implementation. File paths are preserved as plain references, not links to current source. These are not the current API contract. For current routes and architecture, see the [current-state audit](../../../architecture/current-state-audit.md).
+
 **Date:** 2026-06-16  
 **Status:** Phase 3 Complete - 60% Overall Sprint 1 Progress  
 **Next:** Events System, Metadata Worker, Testing
@@ -21,28 +23,28 @@ Successfully implemented **5 core backend modules** with full authentication, us
 ## 📦 New Files Created (20 files)
 
 ### Projects Module
-1. [`apps/api/modules/projects/__init__.py`](apps/api/modules/projects/__init__.py)
-2. [`apps/api/modules/projects/schemas.py`](apps/api/modules/projects/schemas.py) - Pydantic models
-3. [`apps/api/modules/projects/service.py`](apps/api/modules/projects/service.py) - Business logic with event emission
-4. [`apps/api/modules/projects/router.py`](apps/api/modules/projects/router.py) - Protected CRUD endpoints
+1. `apps/api/modules/projects/__init__.py` (`apps/api/modules/projects/__init__.py`)
+2. `apps/api/modules/projects/schemas.py` (`apps/api/modules/projects/schemas.py`) - Pydantic models
+3. `apps/api/modules/projects/service.py` (`apps/api/modules/projects/service.py`) - Business logic with event emission
+4. `apps/api/modules/projects/router.py` (`apps/api/modules/projects/router.py`) - Protected CRUD endpoints
 
 ### Assets Module
-5. [`apps/api/modules/assets/__init__.py`](apps/api/modules/assets/__init__.py)
-6. [`apps/api/modules/assets/schemas.py`](apps/api/modules/assets/schemas.py) - Upload/response schemas
-7. [`apps/api/modules/assets/service.py`](apps/api/modules/assets/service.py) - Upload pipeline with storage
-8. [`apps/api/modules/assets/router.py`](apps/api/modules/assets/router.py) - File upload endpoints
+5. `apps/api/modules/assets/__init__.py` (`apps/api/modules/assets/__init__.py`)
+6. `apps/api/modules/assets/schemas.py` (`apps/api/modules/assets/schemas.py`) - Upload/response schemas
+7. `apps/api/modules/assets/service.py` (`apps/api/modules/assets/service.py`) - Upload pipeline with storage
+8. `apps/api/modules/assets/router.py` (`apps/api/modules/assets/router.py`) - File upload endpoints
 
 ### Activity Module
-9. [`apps/api/modules/activity/__init__.py`](apps/api/modules/activity/__init__.py)
-10. [`apps/api/modules/activity/schemas.py`](apps/api/modules/activity/schemas.py) - Event response models
-11. [`apps/api/modules/activity/router.py`](apps/api/modules/activity/router.py) - Activity feed endpoints
+9. `apps/api/modules/activity/__init__.py` (`apps/api/modules/activity/__init__.py`)
+10. `apps/api/modules/activity/schemas.py` (`apps/api/modules/activity/schemas.py`) - Event response models
+11. `apps/api/modules/activity/router.py` (`apps/api/modules/activity/router.py`) - Activity feed endpoints
 
 ### Vault Module
-12. [`apps/api/modules/vault/__init__.py`](apps/api/modules/vault/__init__.py)
-13. [`apps/api/modules/vault/router.py`](apps/api/modules/vault/router.py) - Search with filters
+12. `apps/api/modules/vault/__init__.py` (`apps/api/modules/vault/__init__.py`)
+13. `apps/api/modules/vault/router.py` (`apps/api/modules/vault/router.py`) - Search with filters
 
 ### Storage Enhancement
-14. [`apps/api/storage/local.py`](apps/api/storage/local.py) - Added LocalStorage class wrapper
+14. `apps/api/storage/local.py` (`apps/api/storage/local.py`) - Added LocalStorage class wrapper
 
 ### Documentation
 15. `SPRINT_1_PHASE_3_COMPLETION.md` (this file)
@@ -51,8 +53,8 @@ Successfully implemented **5 core backend modules** with full authentication, us
 
 ## 🔧 Files Modified (2 files)
 
-1. [`apps/api/main.py`](apps/api/main.py) - Registered all new routers
-2. [`apps/api/storage/local.py`](apps/api/storage/local.py) - Added LocalStorage class
+1. `apps/api/main.py` (`apps/api/main.py`) - Registered all new routers
+2. `apps/api/storage/local.py` (`apps/api/storage/local.py`) - Added LocalStorage class
 
 ---
 

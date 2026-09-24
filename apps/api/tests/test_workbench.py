@@ -91,6 +91,106 @@ def test_midi_assets_parse_with_balanced_notes_and_exact_duration(client):
     assert sr == 22050 and np.abs(audio).max() > .1 and np.abs(audio).max() < 1
 
 
+def test_producer_brief_preview_maps_only_supported_signals_and_keeps_evidence(client):
+    response = client.post("/workbench/api/midi/preview", json={
+        "prompt": "A dreamy F# natural minor soul idea at 121 BPM, 16 bars, spacious."
+    })
+    assert response.status_code == 200, response.text
+    preview = response.json()
+    brief = preview["brief"]
+    assert preview["title"] == "F# minor soul idea"
+    assert brief["resolved_parameters"]["key"] == "F#"
+    assert brief["resolved_parameters"]["scale"] == "minor"
+    assert brief["resolved_parameters"]["mood"] == "dreamy"
+    assert brief["resolved_parameters"]["bpm"] == 121
+    assert brief["resolved_parameters"]["bars"] == 16
+    assert brief["resolved_parameters"]["density"] == "sparse"
+    assert brief["field_sources"]["key"] == "prompt"
+    assert any(e["field"] == "key" and "F# natural minor" in e["prompt_excerpt"] for e in brief["evidence"])
+    assert client.get("/workbench/api/status").json()["runs"] == []
+
+
+def test_prompt_english_article_is_not_mistaken_for_a_musical_key():
+    from apps.api.workbench.intelligence import parse_prompt
+
+    captured, warnings, _ = parse_prompt("Use a dreamy sound in a dark room, with space for the vocal.")
+    assert "key" not in captured
+    assert captured["mood"] == "dreamy"
+    assert captured["density"] == "sparse"
+    assert not warnings
+
+
+def test_prompt_negation_and_explicit_controls_are_resolved_before_generation(client):
+    response = client.post("/workbench/api/midi/preview", json={
+        "prompt": "Not dark, but hopeful; not trap, but soul; not busy, but sparse; not 150 BPM, but 120 BPM; 8 bars.",
+        "key": "F", "bpm": 100,
+    })
+    assert response.status_code == 200, response.text
+    brief = response.json()["brief"]
+    params = brief["resolved_parameters"]
+    assert (params["key"], params["bpm"], params["mood"], params["style"], params["density"]) == ("F", 100, "hopeful", "soul", "sparse")
+    assert brief["field_sources"]["key"] == brief["field_sources"]["bpm"] == "operator_control"
+
+
+def test_prompt_generated_midi_carries_reproducible_lineage_and_rights_boundary(client):
+    run = post(client, "midi", {"prompt": "C# minor trap, dark, 142 BPM, 8 bars, sparse"})
+    result = run["result"]
+    assert (result["key"], result["scale"], result["style"], result["mood"], result["bpm"], result["bars"]) == ("C#", "minor", "trap", "dark", 142, 8)
+    composition = json.loads(read_file(client, run, "Composition.json"))
+    assert composition["schema_version"] == "sonic.composition/1.0"
+    assert composition["engine"] == "local_algorithmic_composition_v2"
+    assert composition["request_id"] == run["request"]["request_id"]
+    assert composition["rights_status"] == "not_assessed"
+    lineage = composition["lineage"]
+    assert lineage["standard_id"] == "OH_METADATA_PACKAGING_LINEAGE_V1"
+    assert lineage["source"]["rights_status"] == "not_assessed"
+    artifacts = {item["name"]: item for item in result["artifacts"]}
+    for entry in lineage["outputs"]:
+        data = read_file(client, run, entry["artifact"])
+        assert entry["bytes"] == len(data)
+        assert entry["sha256"] == hashlib.sha256(data).hexdigest() == artifacts[entry["artifact"]]["sha256"]
+    assert all((note["pitch"] - 1) % 12 in midi.SCALES["minor"] for note in result["notes"] if note["track"] != "Drums")
+
+
+def test_keep_feedback_is_idempotent_scoped_and_drives_explicit_continuity(client):
+    run = post(client, "midi", {"prompt": "Dreamy G major soul at 112 BPM, 8 bars"})
+    request_id = str(uuid4())
+    payload = {"request_id": request_id, "decision": "keep", "note": "The lift in the last two bars works."}
+    first = client.post(f"/workbench/api/runs/{run['id']}/feedback", json=payload)
+    retry = client.post(f"/workbench/api/runs/{run['id']}/feedback", json=payload)
+    assert first.status_code == 200 and first.json()["recorded"]
+    assert retry.status_code == 200 and not retry.json()["recorded"]
+    saved_feedback = client.get(f"/workbench/api/runs/{run['id']}").json()["feedback"][-1]
+    assert saved_feedback["decision"] == "keep"
+    assert saved_feedback["schema_version"] == "sonic.workbench-feedback/1.0"
+    preview = client.post("/workbench/api/midi/preview", json={"prompt": "Make a variation of the kept direction, but not dark, more uplifting."}).json()["brief"]
+    params = preview["resolved_parameters"]
+    assert params["key"] == "G" and params["scale"] == "major" and params["style"] == "soul" and params["bpm"] == 112
+    assert params["mood"] == "uplifting" and params["seed"] == run["result"]["seed"] + 1
+    assert preview["continuity"]["used"]
+    assert preview["continuity"]["source_run"]["run_id"] == run["id"]
+    assert preview["field_sources"]["key"] == "kept_output"
+    assert preview["field_sources"]["mood"] == "prompt"
+    conflict = client.post(f"/workbench/api/runs/{run['id']}/feedback", json={**payload, "decision": "not_for_me"})
+    assert conflict.status_code == 422
+    rejected = client.post(f"/workbench/api/runs/{run['id']}/feedback", json={**payload, "request_id":str(uuid4()), "decision":"not_for_me"})
+    assert rejected.status_code == 200 and rejected.json()["recorded"]
+    no_kept = client.post("/workbench/api/midi/preview", json={"prompt":"Create a variation of the kept direction."}).json()["brief"]
+    assert not no_kept["continuity"]["used"]
+    assert "no matching saved MIDI output" in no_kept["warnings"][0]
+
+
+def test_variation_uses_latest_success_only_after_explicit_continuity_request(client):
+    run = post(client, "midi", {"prompt": "Hopeful Eb major soul, 104 BPM, 4 bars"})
+    plain = client.post("/workbench/api/midi/preview", json={"prompt": "Make something uplifting and sparse."}).json()["brief"]
+    assert not plain["continuity"]["requested"] and not plain["continuity"]["used"]
+    variation = client.post("/workbench/api/midi/preview", json={"prompt": "Make a variation of the last phrase."}).json()["brief"]
+    assert variation["continuity"]["source_run"]["run_id"] == run["id"]
+    assert variation["resolved_parameters"]["key"] == "Eb"
+    assert variation["resolved_parameters"]["bpm"] == 104
+    assert variation["resolved_parameters"]["seed"] == run["result"]["seed"] + 1
+
+
 @pytest.mark.parametrize("style", ["cloud", "trap", "soul"])
 @pytest.mark.parametrize("scale", list(midi.SCALES))
 def test_composition_reproducible_and_in_key_across_styles(scale, style):
@@ -104,6 +204,13 @@ def test_composition_reproducible_and_in_key_across_styles(scale, style):
         assert 0 <= note["pitch"] <= 127 and 1 <= note["velocity"] <= 127
         if note["track"] != "Drums":
             assert (note["pitch"] - 6) % 12 in midi.SCALES[scale]
+
+
+def test_mood_changes_the_generated_phrase_and_remains_reproducible():
+    neutral = MidiCommand(key="C", scale="minor", mood="neutral", seed=93)
+    dark = neutral.model_copy(update={"mood":"dark"})
+    assert midi.compose(dark) == midi.compose(dark)
+    assert midi.compose(dark) != midi.compose(neutral)
 
 
 def test_idempotent_retry_conflicting_request_and_restart(client):
@@ -129,6 +236,15 @@ def test_authentication_host_origin_and_download_boundaries(client, monkeypatch)
     assert client.get(f"/workbench/api/runs/{run['id']}/files/sonic_ai.db").status_code == 404
     monkeypatch.delenv("SONIC_CONTROL_PLANE_TOKEN")
     assert client.get("/workbench/api/status").status_code == 503
+
+
+def test_status_reports_runtime_mcp_address_and_shared_api_version(client):
+    from apps.api.version import APP_VERSION
+
+    assert client.get("/").json()["version"] == APP_VERSION
+    assert client.get("/workbench/api/status").json()["version"] == APP_VERSION
+    with TestClient(app, base_url="http://localhost:8765", headers=AUTH) as ported:
+        assert ported.get("/workbench/api/status").json()["mcp_url"] == "http://localhost:8765/mcp"
 
 
 def test_validation_invalid_scope_and_missing_asset(client):
@@ -248,6 +364,13 @@ def test_mcp_creation_is_idempotent_and_oauth_read_cannot_write(client,monkeypat
     one=json.loads(first["content"][0]["text"])
     two=json.loads(second["content"][0]["text"])
     assert one["id"]==two["id"] and one["result"]["artifacts"]
+    preview = call({"name":"sonic_compile_production_brief","arguments":{"command":{"prompt":"Dreamy C minor soul at 110 BPM"}}})
+    assert not preview["isError"]
+    preview_data = json.loads(preview["content"][0]["text"])
+    assert preview_data["status"] == "previewed" and preview_data["brief"]["captured"]["mood"] == "dreamy"
+    feedback_args = {"run_id": one["id"], "command": {"request_id": str(uuid4()), "decision": "keep"}}
+    feedback = call({"name":"sonic_record_workbench_feedback","arguments":feedback_args})
+    assert not feedback["isError"] and json.loads(feedback["content"][0]["text"])["recorded"]
     # Direct tool execution keeps the OAuth guard even if a future transport grants read access.
     from apps.api.integrations.gateway import build_mcp
     from apps.api.integrations.service import ControlPlane
@@ -255,3 +378,5 @@ def test_mcp_creation_is_idempotent_and_oauth_read_cannot_write(client,monkeypat
     monkeypatch.setenv("SONIC_PUBLIC_MCP_URL","https://sonic.example/mcp")
     with pytest.raises(Exception,match="OAuth read scopes"):
         asyncio.run(server.call_tool("sonic_generate_midi",{"command":{"bars":4}}))
+    with pytest.raises(Exception,match="OAuth read scopes"):
+        asyncio.run(server.call_tool("sonic_record_workbench_feedback", feedback_args))

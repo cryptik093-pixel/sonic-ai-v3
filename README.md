@@ -1,441 +1,68 @@
 # Sonic AI V3
 
-**Sonic AI V3 is the intelligence layer for a producer operating system.**
+Sonic AI V3 is a producer workbench with local MIDI creation, measured audio checks, asset packaging, release preparation and a scoped Sonic Intelligence layer. The current code version is **0.6.0**.
 
-## Production Workbench — v0.5
+The production path is the Windows desktop app. It launches a local FastAPI service and a bundled workbench UI. The same services power the HTTP API and local MCP server, so the app and tools produce the same saved outputs.
 
-Sonic now has a native desktop workbench that creates actual files. The same Python services serve its desktop interface, HTTP API and MCP tools.
+## What works now
 
-| Workflow | Usable output |
-| --- | --- |
-| Create MIDI | Separate melody, chord, bass and drum MIDI; combined arrangement; audition WAV; reproducible composition metadata |
-| Check audio | Whole-file sample peak, RMS, DC, silence and stereo correlation; measured JSON and Markdown reports |
-| Build a pack | Deduplicated ZIP, inventory CSV, source IDs and SHA-256 manifest; operator-supplied license when provided |
-| Prepare a release | Inventory-grounded caption variants, demo shot list, A/B test and an unpublished Shopify draft CSV |
-| Start a session | One next action bounded by time, energy, goal and completed local work |
-| Ask Sonic | Optional cloud interpretation grounded in a completed run; explicit local recommendation on missing key or provider failure |
+| Workflow | What Sonic saves | Current boundary |
+| --- | --- | --- |
+| **Producer brief → MIDI** | Four MIDI parts, a multitrack MIDI arrangement, WAV audition, composition JSON with mapped prompt evidence and SHA-256 lineage, and DAW import notes | Deterministic local composition; no generative model or network call is required |
+| **Audio check** | Imported source, measured peak/RMS/DC/silence/stereo evidence, JSON and Markdown report | Does not claim tempo, key, LUFS or true peak for imported audio |
+| **Pack assets** | Deduplicated ZIP, inventory, source IDs and file hashes | Supplied license text is preserved; rights are not legally validated |
+| **Prepare a release** | Inventory-grounded copy, demo plan, A/B test and an unpublished Shopify draft CSV | Does not publish a Shopify product, send a message or spend money |
+| **Focus session** | One bounded proposed action and saved session record | A proposed action is not recorded as completed |
+| **Ask Sonic** | An optional recommendation grounded in a saved run | Optional provider call; it does not generate the MIDI |
 
-**Verified download:** [Sonic-Windows-x64](https://github.com/cryptik093-pixel/sonic-ai-v3/actions/runs/35721229933/artifacts/10692450374). [Full epic report and validation evidence](docs/status/SONIC_WORKBENCH_EPIC_REPORT.md).
+## Create from a producer brief
 
-**Windows delivery:** the [Sonic desktop workflow](https://github.com/cryptik093-pixel/sonic-ai-v3/actions/workflows/sonic-desktop.yml) builds `Sonic-Windows-x64`. Extract the complete artifact and open `Sonic.exe`; Python, Node, Git and a model subscription are not required for the local workflows. Windows 10/11 x64 and WebView2 are the target. See [Quick start](apps/desktop/QUICK_START.txt).
+Open **Create MIDI**, describe the musical direction, preview Sonic's interpretation, then generate and audition it. Sonic maps only explicit supported controls: key/scale, style, mood, tempo, length and density. It shows the phrases it mapped, field sources, defaults and warnings before generation. Unmapped language remains attached as creative context; it is not treated as a measured or inferred musical fact.
 
-This is a single-operator, loopback-only desktop application. Files and SQLite data persist under `%LOCALAPPDATA%\OmegaHouse\Sonic`. Existing development databases are preserved and are not silently migrated. The packaged app serves its own UI and starts/stops the API; Next.js is only a development entry point to that same UI.
+The interpreter recognizes common key/scale forms such as `C# minor`, `in F major`, and `key of D dorian`; BPM; 4, 8 or 16 bars; cloud/ambient, soul/R&B, or trap/hip-hop direction; dark, hopeful, dreamy, tense or uplifting mood; and sparse, balanced or busy density. An explicitly adjusted structured control wins over the prompt. The full accepted command and the compiled brief are stored with the output.
 
-Local composition and draft templates are labeled as such. Audio checks do not infer tempo/key or claim LUFS/true peak. Live Shopify publishing, message sending and remote ChatGPT attachment are not implemented by these workflows.
+A generated MIDI can be marked **Keep this direction** or **Not for me**. Sonic stores that decision against the run. A later request must refer to a kept/saved direction or ask for continuity before Sonic reads saved composition settings. The preview reveals which saved run and fields it would reuse. Feedback is local to this single-operator workspace.
 
-For development, install `apps/api/requirements.txt` in a Python environment and run `python apps/desktop/launcher.py --smoke-test smoke.json` to exercise HTTP, MIDI generation, downloads and authorization without a window. For the native app, install `apps/desktop/requirements.txt` and run `python apps/desktop/launcher.py`. The automated Windows build also verifies the packaged executable and its actual native Generate button.
+The generated `.mid` files are standard MIDI files with separate melody, chord, bass and drum parts plus a combined arrangement. The included WAV is a simple synthesized audition, not a finished or mastered recording. The engine uses reproducible rules and a seed; musical quality remains a listening decision.
 
-Branch recovery evidence: [50-branch audit](docs/status/workbench-branch-audit.json). The runtime was recovered from `recovery/runtime-baseline-integration`; MCP integration and durable asset repository code were reconciled from `codex/ship-sonic-integrity`.
+## Sonic Intelligence and asset lineage
 
-It is being built as a persistent, testable, deployable platform that combines a producer workspace, audio/asset intelligence, structured memory, event-driven workflows, and an agent layer capable of analyzing work, retrieving context, making recommendations, and eventually executing approved actions.
+The intelligence layer is a deterministic decision record rather than an opaque chat response:
 
-> **Canonical repository:** `cryptik093-pixel/sonic-ai-v3`
->
-> **Primary branch:** `main`
->
-> **Current objective:** recover and maintain a canonical, bootable, testable, deployable Sonic AI V3 platform without losing the frontend, backend, chat pipeline, memory, or agent architecture.
-
----
+1. Preserve the producer's original brief and explicit control values.
+2. Map supported phrases to typed composition settings and retain the source phrase for each mapping.
+3. Apply the documented precedence: explicit controls, supported prompt signals, explicitly requested saved continuity, then defaults.
+4. Expose assumptions, continuity source and warnings in a no-write preview.
+5. Generate local MIDI/WAV outputs from the resolved settings and persist the run.
+6. Record the operator's explicit feedback as a workspace-scoped event for future, explicitly requested continuity.
 
-## Product Vision
+`Composition.json` includes compiler and composer versions, prompt evidence, resolved parameters, source/run references, rights status (`not_assessed`), and checksums for production outputs. The lineage contract follows the principles in [Omega House metadata and packaging lineage](docs/knowledge/metadata/METADATA_PACKAGING_LINEAGE_V1.md). A prompt, checksum or generated file is not proof of rights ownership or legal clearance.
 
-Sonic AI V3 is not intended to be a generic chatbot. It is an intelligence system built around the producer's actual creative workflow and accumulated data.
+## Runtime and local data
 
-The long-term loop is:
+This release is a **single-operator local desktop tool**, not a hosted or multi-tenant service. Workbench runs use the fixed local owner `local-producer` and workspace `omega-house-studio`. SQLite and output files persist on the machine. The packaged desktop app uses `%LOCALAPPDATA%\OmegaHouse\Sonic`; source runs default to `apps/api/data`. Files imported into a pack are copied; the workbench does not overwrite the originals.
 
-```text
-Producer
-   ↓
-Workspace / Chat
-   ↓
-Projects + Audio + Assets
-   ↓
-Deterministic Analysis
-   ↓
-Producer Intelligence
-   ↓
-Memory + Knowledge
-   ↓
-Agent Reasoning
-   ↓
-Recommendations / Actions
-   ↓
-New Events + Outcomes
-   ↺
-```
+- **Windows app:** the [Sonic Desktop workflow](https://github.com/cryptik093-pixel/sonic-ai-v3/actions/workflows/sonic-desktop.yml) builds a Windows x64 artifact after its native checks pass. Extract the full ZIP and open `Sonic.exe`; WebView2 is required. The build is unsigned.
+- **Run from source:** install `apps/api/requirements.txt` and `apps/desktop/requirements.txt`, then launch `python apps/desktop/launcher.py` from the repository root.
+- **API smoke test:** `python apps/desktop/launcher.py --smoke-test /tmp/sonic-smoke.json` exercises the local service and writes a proof file. On Windows, choose a path that exists and is writable.
+- **Web development shell:** `apps/web` is a Next.js redirect to the API-hosted workbench. It is not a second implementation; start the API on port 8000 before using that redirect.
 
-The system should become more useful as the producer uploads more work, records more decisions, completes more workflows, and generates more measurable outcomes.
+For direct API development, see [.env.example](.env.example). The desktop launcher manages its local token and chooses a free loopback port. The MCP address shown in the UI is read from the live API address, including when port 8000 is occupied.
 
----
+## HTTP and MCP
 
-## Core System
+The local workbench is served at `/workbench`. Its API is under `/workbench/api`; the current routes and authentication boundary are documented in the [current-state audit](docs/architecture/current-state-audit.md). `/mcp` exposes typed tools backed by the same workbench services. Read-only tools include `sonic_compile_production_brief`; `sonic_generate_midi` creates output; `sonic_record_workbench_feedback` records an operator decision. OAuth read-only contexts cannot call local write tools.
 
-Sonic AI V3 is organized as a monorepo with application services and shared domain packages.
+## Repository map
 
-```text
-apps/
-  web/              Producer-facing frontend
-  api/              FastAPI application/API layer
-  worker/           Background and event-processing workers
+- `apps/desktop/` — Windows launcher, native app and packaging checks
+- `apps/api/workbench/` — HTTP routes, local job service, MIDI/audio workflows, prompt compiler, MCP tools and bundled UI
+- `apps/api/tests/` — API, composition, persistence, authorization and MCP contracts
+- `apps/web/` — development redirect to the API-served UI
+- `docs/architecture/current-state-audit.md` — dated runtime truth and known limits
+- `docs/knowledge/` — production doctrine, lineage and requirements that inform the runtime
+- `docs/status/` — dated evidence and historical reports, not timeless runtime truth
 
-packages/
-  common/           Shared types and utilities
-  events/           Event contracts and event infrastructure
-  auth/             Authentication/domain helpers
-  projects/         Project domain
-  assets/           Audio/asset domain
-  metadata/         Deterministic metadata contracts and processing
-  memory/           Activity, memory, and retrieval contracts
-  vault/            Asset/vault search contracts
+## Documentation authority
 
-aInfrastructure/
-  docker/           Local infrastructure assets
-  supabase/         Database/auth configuration
-
-docs/
-  architecture/     Architecture and system design
-  rfc/              Product and technical RFCs
-  operating-system/ Human/AI operating and documentation protocols
-
-*.md                Audit, readiness, milestone, health, and recovery reports
-```
-
-### Runtime responsibilities
-
-| Layer | Responsibility |
-|---|---|
-| **Web** | Producer UI, projects, uploads, vault, activity, chat and intelligence surfaces |
-| **API** | Authentication-aware application boundary, domain APIs and orchestration |
-| **Worker** | Background processing, durable event handling and asynchronous jobs |
-| **Packages** | Shared contracts so services agree on the same domain model |
-| **Memory** | Persistent context, activity history and retrieval primitives |
-| **Agent layer** | Reasoning, tool use, planning and controlled execution |
-| **Infrastructure** | Database, authentication, local development and deployment support |
-
----
-
-## Foundational Operating Protocols
-
-Sonic AI V3 now treats the human-AI collaboration loop and its documentation model as first-priority operating architecture.
-
-### `LOCK` — execution checkpoint
-
-`LOCK` means:
-
-```text
-RE-GROUND
-  ↓
-VALIDATE
-  ↓
-OPTIMIZE
-  ↓
-ALIGN
-  ↓
-CHECKPOINT
-  ↓
-ADVANCE
-```
-
-It is not a request for reassurance. It requires the current state to be re-evaluated before the next action is selected. Completion claims must be distinguished as **PROVEN**, **SUPPORTED**, or **PROPOSED** according to their evidence level.
-
-### Human + machine documentation
-
-Sonic maintains two complementary documentation layers:
-
-- **Markdown / human layer:** architecture, rationale, procedures, audits, decisions, and strategic context.
-- **Machine-readable layer:** YAML/JSON/JSON Schema/typed contracts for deterministic state, rules, interfaces, validation, and agent execution.
-
-Neither layer replaces the other. Runtime behavior remains authoritative for what the system actually does; machine contracts define deterministic interfaces; Markdown preserves human rationale and operating context.
-
-Canonical protocol documents:
-
-- `docs/operating-system/COLLABORATION_PROTOCOL.md`
-- `docs/operating-system/DOCUMENTATION_PROTOCOL.md`
-- `docs/operating-system/collaboration_protocol.yaml`
-
-The same checkpoint principle is intended to govern Sonic's internal intelligence loop: meaningful state changes should trigger reassessment, relevance evaluation, durable state preservation, and selection of the next appropriate action rather than blind continuation.
-
----
-
-## Producer Intelligence Architecture
-
-The foundational intelligence path is designed as a vertical slice:
-
-```text
-UPLOAD
-  ↓
-ANALYZE
-  ↓
-NORMALIZE
-  ↓
-AUDIO ANALYST
-  ↓
-PRODUCER INTELLIGENCE
-  ↓
-MEMORY
-  ↓
-RETRIEVE
-  ↓
-ACT
-```
-
-This architecture separates deterministic computation from model reasoning. Audio facts, metadata, events, identifiers and system state should be generated from reproducible application logic wherever possible. Models should reason over structured evidence rather than becoming the source of truth for system state.
-
----
-
-## Event-Driven Foundation
-
-Important business and creative actions are represented as structured events. Examples include:
-
-- `product_viewed`
-- `add_to_cart`
-- `checkout_started`
-- `order_created`
-- `refund`
-- `customer_updated`
-- project creation
-- asset upload
-- metadata extraction
-- vault activity
-- producer profile updates
-
-The event layer is intended to support both real-time processing and batch/replay workflows.
-
-The long-term intelligence system can consume these events to understand:
-
-- what happened
-- when it happened
-- which entity changed
-- what caused the action
-- what outcome followed
-- what should happen next
-
----
-
-## Chat + Agent Layer
-
-Chat is a first-class interface to the system, not a separate chatbot bolted onto the application.
-
-The target architecture is:
-
-```text
-Chat UI
-  ↓
-Conversation / Context Manager
-  ↓
-Agent Registry
-  ↓
-Model Configuration
-  ↓
-Tool / MCP Boundary
-  ↓
-Application Services
-  ↓
-Events + Memory
-  ↓
-Observed Result
-```
-
-Agents should operate through explicit tools and contracts. They should not directly mutate arbitrary application state or bypass domain boundaries.
-
-The system is being developed toward a registry-driven agent architecture so agents, tools, models, permissions and execution policies remain inspectable and testable.
-
----
-
-## Memory + Knowledge
-
-Sonic AI V3 treats memory as infrastructure.
-
-Memory should distinguish between:
-
-1. **System state** — authoritative records such as projects, assets, users and orders.
-2. **Activity history** — what the user or system did.
-3. **Structured knowledge** — normalized facts derived from assets, projects and workflows.
-4. **Long-term producer context** — durable preferences, patterns and decisions.
-5. **Retrieval context** — the bounded information supplied to an agent for a particular task.
-
-The goal is persistent intelligence without allowing conversational context to become the database.
-
----
-
-## Current Development Priorities
-
-### Phase 0 — Trust the foundation
-
-- Canonicalize the repository and branch state.
-- Verify frontend/backend boot paths.
-- Verify environment configuration.
-- Verify API contracts.
-- Verify agent registry and model configuration.
-- Verify MCP/tool boundaries.
-- Establish reliable tests and health checks.
-
-### Phase 1 — Producer Intelligence Loop
-
-Build and validate the complete vertical slice:
-
-```text
-Upload → Analyze → Normalize → Audio Analyst
-→ Producer Intelligence → Memory → Retrieve
-```
-
-### Subsequent phases
-
-Expand the intelligence layer into project assistance, creative analysis, workflow automation, business intelligence, and controlled autonomous execution while preserving deterministic state and human approval boundaries.
-
----
-
-## Development Requirements
-
-Recommended baseline for the current repository:
-
-- Node.js 20+
-- pnpm 10+
-- Python 3.12+
-- PostgreSQL 15+
-- Git
-
-> Use the versions declared by the repository's package/tool configuration when they are more specific than these minimums.
-
----
-
-## Local Bootstrap
-
-From the repository root:
-
-```bash
-corepack enable
-pnpm install
-```
-
-Create the local environment from the example configuration when needed:
-
-```bash
-cp .env.example .env
-```
-
-On Windows PowerShell, use:
-
-```powershell
-Copy-Item .env.example .env
-```
-
-Start the development workspace using the repository's current package scripts:
-
-```bash
-pnpm dev
-```
-
-The frontend and backend should be validated independently as well as through the integrated development path. Do not treat a successful frontend boot as proof that the complete platform is healthy.
-
----
-
-## Verification Standard
-
-A change is not considered complete merely because it compiles.
-
-Minimum verification should cover the affected layer:
-
-```text
-Install
-  ↓
-Type / Syntax Validation
-  ↓
-Unit Tests
-  ↓
-Integration Tests
-  ↓
-API / Contract Checks
-  ↓
-Frontend Boot
-  ↓
-Backend Boot
-  ↓
-End-to-End Critical Path
-```
-
-For recovery work, the critical path is:
-
-```text
-Repository → Web → API → Database/Auth → Chat → Agent/Tools
-```
-
-Any broken dependency in that chain must be recorded explicitly rather than hidden behind a green-looking frontend.
-
----
-
-## Recovery / Audit Documents
-
-The repository contains dedicated reports for diagnosing and recovering the platform, including:
-
-- `SONIC_AI_V3_HEALTH_MAP.md`
-- `BOOT_FAILURE_REPORT.md`
-- `FRONTEND_FAILURE_REPORT.md`
-- `RUNTIME_FAILURES.md`
-- `CRITICAL_BLOCKERS.md`
-- `LAUNCH_BLOCKERS.md`
-- `PRODUCTION_CHECKLIST.md`
-- `PRODUCTION_READINESS_REPORT.md`
-- `ALPHA_DEPLOYMENT_READINESS.md`
-- `FINAL_AUDIT_REPORT.md`
-- `PROJECT_AUDIT.md`
-- `SPRINT_1_COMPLETION_SUMMARY.md`
-- `PHASE_4_COMPLETION_REPORT.md`
-- `PHASES_5_7_IMPLEMENTATION_REPORT.md`
-- `PHASE_6_7_IMPLEMENTATION_REPORT.md`
-
-These documents are evidence and diagnostics. The source code, tests, configuration and runtime behavior remain the authoritative implementation state.
-
----
-
-## Engineering Principles
-
-### 1. Deterministic before generative
-
-If a fact can be computed reliably by software, compute it deterministically before asking a model to infer it.
-
-### 2. Contracts before convenience
-
-Shared schemas, events, APIs and tool contracts prevent individual services from silently developing incompatible assumptions.
-
-### 3. Memory is infrastructure
-
-Persistent memory must be structured, scoped and retrievable. Conversation history alone is not an intelligence architecture.
-
-### 4. Agents operate through tools
-
-Agents should reason, plan and execute through explicit capabilities with permissions, observability and failure handling.
-
-### 5. Evidence over claims
-
-Health, readiness and completion states must be supported by tests, logs, runtime checks or other reproducible evidence.
-
-### 6. Recovery preserves capability
-
-When repairing the platform, restore the existing architecture before replacing it. Do not delete functional frontend, backend, chat, memory or agent capabilities merely because one layer is currently failing.
-
-### 7. Main is canonical
-
-The `main` branch is the canonical product baseline. Experimental work should be isolated in feature/recovery branches and merged only after verification.
-
----
-
-## Security
-
-Never commit real credentials, API keys, access tokens, private keys or production secrets.
-
-Use `.env` for local secrets and `.env.example` for documented configuration shape.
-
-See `SECURITY.md` for repository-specific security guidance.
-
----
-
-## Project Status
-
-**Sonic AI V3 is under active development and recovery toward a canonical bootable platform.**
-
-The repository should be evaluated by actual runtime capability, tests and verified integration paths—not by the presence of documentation or historical completion reports.
-
-The immediate engineering objective is simple:
-
-> **Restore the complete Sonic AI V3 system as one coherent, bootable, testable platform, then continue advancing the intelligence loop without losing the foundation.**
+Runtime behavior, schemas and tests establish what works. The [current-state audit](docs/architecture/current-state-audit.md) records the verified boundary. Older Sprint, launch and recovery reports are preserved as historical evidence and are not current status. The [documentation index](docs/README.md) describes the authority order.

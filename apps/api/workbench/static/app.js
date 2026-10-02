@@ -8,12 +8,16 @@ if (fragment.has("token")) {
   token = fragment.get("token"); sessionStorage.setItem("sonic-token", token);
   history.replaceState(null, "", location.pathname);
 }
-const savedInputs = JSON.parse(localStorage.getItem("sonic-inputs") || "{}");
+function storedJSON(key, fallback) { try { return JSON.parse(localStorage.getItem(key) || "null") ?? fallback; } catch { return fallback; } }
+function plainObject(value) { return value !== null && typeof value === "object" && !Array.isArray(value); }
+const loadedInputs = storedJSON("sonic-inputs", {});
+const savedInputs = plainObject(loadedInputs) ? loadedInputs : {};
 for (const [id, values] of Object.entries(savedInputs)) {
+  if (!plainObject(values)) continue;
   const form = document.getElementById(id);
   if (form) for (const [name, value] of Object.entries(values)) {
     const field = form.elements.namedItem(name);
-    if (field && !["source_run_id", "pack_run_id"].includes(name)) field.value = value;
+    if (field && !["source_run_id", "pack_run_id"].includes(name)) { if (field.type === "checkbox") field.checked = value === true || value === "true"; else field.value = value; }
   }
 }
 function reportError(error) {
@@ -56,6 +60,7 @@ async function busy(label, fn) {
 }
 function values(form) {
   const data = Object.fromEntries(new FormData(form));
+  for (const field of form.querySelectorAll('input[type="checkbox"]')) data[field.name] = field.checked;
   if (!["ai-form", "connection-form"].includes(form.id)) {
     savedInputs[form.id] = data; localStorage.setItem("sonic-inputs", JSON.stringify(savedInputs));
   }
@@ -63,15 +68,15 @@ function values(form) {
 }
 async function command(kind, payload) {
   const storageKey = "sonic-pending-" + kind, canonical = JSON.stringify(payload);
-  let pending = JSON.parse(localStorage.getItem(storageKey) || "null");
-  if (!pending || pending.canonical !== canonical) {
+  let pending = storedJSON(storageKey, null);
+  if (!plainObject(pending) || pending.canonical !== canonical || typeof pending.id !== "string" || !/^[0-9a-f-]{36}$/i.test(pending.id)) {
     pending = {canonical, id: crypto.randomUUID()};
     localStorage.setItem(storageKey, JSON.stringify(pending));
   }
   const run = await api("/" + kind, {method:"POST", body:JSON.stringify({...payload, request_id:pending.id})});
-  localStorage.removeItem(storageKey);
+  if (run.status !== "succeeded") { localStorage.removeItem(storageKey); await refresh(); throw new Error(run.error || "The run did not finish. Start a new run."); }
   await refresh();
-  if (run.status !== "succeeded") throw new Error(run.error || "The run did not finish. Start a new run.");
+  localStorage.removeItem(storageKey);
   return run;
 }
 function bytes(n) { return n > 1048576 ? (n / 1048576).toFixed(1) + " MB" : Math.max(1, Math.round(n / 1024)) + " KB"; }
@@ -106,12 +111,13 @@ function piano(canvas, result) {
   const ctx = canvas.getContext("2d"), width = canvas.width = 900, height = canvas.height = 240;
   ctx.fillStyle = "#141819"; ctx.fillRect(0, 0, width, height);
   const notes = result.notes.filter(n => n.track !== "Drums");
+  if (!notes.length) { ctx.fillStyle = "#c1ee8c"; ctx.font = "18px sans-serif"; ctx.fillText("Drum pattern · GM notes 36 / 38 / 42", 28, 115); return; }
   const min = Math.min(...notes.map(n => n.pitch)) - 1, max = Math.max(...notes.map(n => n.pitch)) + 1;
   const row = height / (max - min + 1);
   ctx.strokeStyle = "#29302c";
   for (let i = 0; i <= result.bars * 4; i++) { const x = i / (result.bars * 4) * width; ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, height); ctx.stroke(); }
   for (const n of notes) {
-    ctx.fillStyle = {Melody:"#c1ee8c", Chords:"#556c76", Bass:"#bb9461"}[n.track];
+    ctx.fillStyle = {Melody:"#c1ee8c", Chords:"#556c76", Bass:"#bb9461", Countermelody:"#aa9de8"}[n.track];
     ctx.fillRect(n.start / (result.bars * 4) * width, (max - n.pitch) * row, Math.max(2, n.duration / (result.bars * 4) * width - 1), Math.max(2, row - 1));
   }
 }
@@ -129,7 +135,8 @@ async function showRun(run, container) {
   const r = run.result;
   if (run.status !== "succeeded") { container.innerHTML = `<h2>${esc(run.status)}</h2><p>${esc(run.error || "This run has not finished.")}</p>`; return; }
   let body = "";
-  if (run.kind === "midi") body = `<div class="result-meta"><span>${r.bars} bars</span><span>${esc(r.key)} ${esc(r.scale.replaceAll("_", " "))}</span><span>${r.bpm} BPM</span><span>${r.note_count} notes</span></div><canvas class="piano" role="img" aria-label="Piano roll of generated melody, chords and bass"></canvas><div class="audio-row"><audio controls preload="none" aria-label="Audition the generated phrase"></audio><p class="fine">Synth audition · melody / chords / bass / drums</p></div>`;
+  if (run.kind === "midi") body = `<div class="result-meta"><span>${r.bars} bars</span><span>${esc(r.key)} ${esc(r.scale.replaceAll("_", " "))}</span><span>${r.bpm} BPM</span><span>${r.note_count} notes</span></div><canvas class="piano" role="img" aria-label="Piano roll of generated melody, counter-melody, chords and bass"></canvas><div class="audio-row"><audio controls preload="none" aria-label="Audition the generated phrase"></audio><p class="fine">Synth audition · selected MIDI parts</p></div>`;
+  if (run.kind === "midi") body += studioResult(run);
   if (run.kind === "analysis") {
     const m = r.measurements;
     body = `<div class="metrics">${[["Sample peak", m.sample_peak_dbfs === null ? "Silent" : m.sample_peak_dbfs + " dBFS"],["RMS",m.rms_dbfs === null ? "Silent" : m.rms_dbfs + " dBFS"],["Duration",m.duration_seconds + "s"],["Stereo correlation",m.stereo_correlation ?? "Not defined"]].map(([name,value]) => `<div class="metric"><span>${esc(name)}</span><strong>${esc(value)}</strong></div>`).join("")}</div>` + m.observations.map(o => `<div class="next-step"><strong>${esc(o.fact)}</strong><p>${esc(o.action)}</p></div>`).join("");
@@ -187,8 +194,9 @@ document.addEventListener("click", e => {
 });
 document.addEventListener("change", e => { if (e.target.dataset.asset) { e.target.checked ? state.selected.add(e.target.dataset.asset) : state.selected.delete(e.target.dataset.asset); } });
 $("#midi-form").addEventListener("submit", e => { e.preventDefault(); busy("Composing your phrase and rendering the audition…", async () => {
-  const p = values(e.target); for (const k of ["bpm","bars","seed"]) p[k] = Number(p[k]);
-  await showRun(await command("midi",p),$("#midi-result"));
+  values(e.target); const p = readStudioCommand(e.target);
+  const run = await command("midi",p); studio.editingRun = run.id;
+  await showRun(run,$("#midi-result"));
 }); });
 $("#variation").addEventListener("click", () => { $("#midi-form").elements.seed.value = Math.floor(Math.random()*2147483647); $("#midi-form").requestSubmit(); });
 $("#focus-form").addEventListener("submit", e => { e.preventDefault(); busy("Choosing one useful next step…", async () => { const p = values(e.target); p.minutes = Number(p.minutes); if(state.timer){clearInterval(state.timer);state.timer=null;} await showRun(await command("focus",p),$("#focus-result")); }); });

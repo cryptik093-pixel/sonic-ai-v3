@@ -15,6 +15,7 @@ TICKS = 480
 ROOTS = {k: n for n, k in enumerate(["C", "C#", "D", "Eb", "E", "F", "F#", "G", "Ab", "A", "Bb", "B"])}
 SCALES = {"minor": [0, 2, 3, 5, 7, 8, 10], "major": [0, 2, 4, 5, 7, 9, 11],
           "dorian": [0, 2, 3, 5, 7, 9, 10], "harmonic_minor": [0, 2, 3, 5, 7, 8, 11]}
+STUDIO_EXTRA_TRACKS = [("Countermelody", 3, 10)]
 TRACKS = [("Melody", 0, 0), ("Chords", 1, 89), ("Bass", 2, 38), ("Drums", 9, 0)]
 
 
@@ -137,7 +138,7 @@ def render_preview(notes, bpm, bars, path):
             sound = (np.sin(2*np.pi*frequency*t) + .22*np.sin(4*np.pi*frequency*t)) * attack * release * decay
         start = round(n["start"] * seconds_per_beat * sr)
         end = min(len(signal), start + len(sound))
-        gain = {"Melody": .22, "Chords": .075, "Bass": .23, "Drums": .23}[n["track"]]
+        gain = {"Melody": .22, "Chords": .075, "Bass": .23, "Drums": .23, "Countermelody": .15}[n["track"]]
         signal[start:end] += sound[:end-start] * gain * n["velocity"] / 127
     peak = float(np.max(np.abs(signal)))
     if peak > 0:
@@ -158,7 +159,7 @@ def generate(p: MidiCommand, folder: Path):
         part.save(folder / f"{name}.mid")
     song.save(folder / f"{prefix}.mid")
     render_preview(notes, p.bpm, p.bars, folder / "Audition.wav")
-    (folder / "Composition.json").write_text(json.dumps({"schema_version": "1.0", "parameters": p.model_dump(mode="json"), "notes": notes}, indent=2), encoding="utf-8")
+    (folder / "Composition.json").write_text(json.dumps({"schema_version": "1.0", "parameters": p.model_dump(mode="json", exclude={"settings", "prompt", "interpretation_method"}), "notes": notes}, indent=2), encoding="utf-8")
     instructions = (f"# {p.title}\n\n{p.bars} bars • {p.bpm} BPM • {p.key} {p.scale.replace('_',' ')}\n\n"
         "Drag the individual Melody.mid, Chords.mid or Bass.mid into an FL Studio instrument's Piano Roll. "
         "Set the project tempo to the BPM above. Open the combined MIDI through File > Import > MIDI file to import all parts. "

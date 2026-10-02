@@ -21,7 +21,7 @@ from sqlalchemy import select
 from ..database import DB_DIR, ProjectORM, SessionLocal
 from . import audio, midi
 from .models import Asset, OWNER, Run, WORKSPACE, WorkEvent
-from .schemas import AnalyzeCommand, CoachCommand, FocusCommand, MidiCommand, PackCommand, ReleaseCommand
+from .schemas import AnalyzeCommand, CoachCommand, FocusCommand, MidiCommand, MidiRevisionCommand, MidiInterpretCommand, PackCommand, ReleaseCommand
 
 MAX_UPLOAD = 100 * 1024 * 1024
 MAX_PACK = 500 * 1024 * 1024
@@ -91,8 +91,12 @@ def recover_interrupted():
         s.commit()
 
 
-def execute(kind, command, builder):
+def execute(kind, command, builder, *, with_context=False):
     payload = command.model_dump(mode="json")
+    if isinstance(command, MidiCommand) and command.settings is None:
+        # Preserve persisted v1 retry fingerprints and Composition.json contract.
+        for key in ("settings", "prompt", "interpretation_method"):
+            payload.pop(key, None)
     fingerprint = hashlib.sha256(json.dumps({"kind": kind, **{k: v for k, v in payload.items() if k != "request_id"}}, sort_keys=True).encode()).hexdigest()
     with _lock:
         with SessionLocal() as s:
@@ -111,7 +115,8 @@ def execute(kind, command, builder):
         staging = root() / "staging" / run_id
         staging.mkdir(parents=True)
         try:
-            result = builder(staging)
+            context = {"run_id": run_id, "owner_id": OWNER, "workspace_id": WORKSPACE, "project_id": command.project_id}
+            result = builder(staging, context) if with_context else builder(staging)
             files = []
             for file in sorted(staging.iterdir()):
                 if file.is_file():
@@ -224,7 +229,33 @@ def import_asset(filename, stream):
 
 
 def generate_midi(command: MidiCommand):
-    return execute("midi", command, lambda folder: midi.generate(command, folder))
+    if command.settings is None:
+        return execute("midi", command, lambda folder: midi.generate(command, folder))
+    from .midi_studio import compose_studio
+    from . import midi_quality
+    notes = compose_studio(command)
+    midi_quality.validate_notes(notes, command)
+    return execute("midi", command, lambda folder, context: midi_quality.export_studio(command, notes, folder, context), with_context=True)
+
+
+def revise_midi(command: MidiRevisionCommand):
+    from .midi_revision import resolve_revision
+    from . import midi_quality
+    parent = get_run(command.parent_run_id)
+    resolved, notes, revision = resolve_revision(parent, command)
+    if command.project_id is not None and command.project_id != parent.get("project_id"):
+        raise ValueError("A revision stays in its parent project.")
+    command = command.model_copy(update={"project_id": parent.get("project_id")})
+    midi_quality.validate_notes(notes, resolved)
+    def build(folder, context):
+        context.update(parent_run_id=parent["id"], revision=revision)
+        return midi_quality.export_studio(resolved, notes, folder, context)
+    return execute("midi", command, build, with_context=True)
+
+
+def interpret_midi(command: MidiInterpretCommand):
+    from .midi_prompt import interpret_prompt
+    return interpret_prompt(command).model_dump(mode="json")
 
 
 def analyze_audio(command: AnalyzeCommand):
@@ -251,7 +282,10 @@ def build_pack(command: PackCommand):
             if source["kind"] != "midi" or source["status"] != "succeeded":
                 raise ValueError("Choose a completed MIDI run as the pack source.")
             # Package separate parts only; the full arrangement is not an additional unique composition.
-            for name in ["Melody.mid", "Chords.mid", "Bass.mid", "Drums.mid"]:
+            available = {item["name"] for item in source["result"].get("artifacts", [])}
+            for name in ["Melody.mid", "Chords.mid", "Bass.mid", "Drums.mid", "Countermelody.mid"]:
+                if name not in available:
+                    continue
                 path = artifact_path(source["id"], name)
                 sha = digest(path)
                 if sha in seen:

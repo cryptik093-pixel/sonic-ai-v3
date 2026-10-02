@@ -12,7 +12,7 @@ from starlette.responses import JSONResponse
 
 from ..config import Settings
 from . import service
-from .schemas import AnalyzeCommand, CoachCommand, FocusCommand, MidiCommand, PackCommand, ReleaseCommand
+from .schemas import AnalyzeCommand, CoachCommand, FocusCommand, MidiCommand, MidiRevisionCommand, MidiInterpretCommand, PackCommand, ReleaseCommand
 
 router = APIRouter(prefix="/workbench/api", tags=["Production Workbench"])
 
@@ -143,3 +143,13 @@ def focus(payload: FocusCommand):
 @router.post("/coach")
 def coach(payload: CoachCommand):
     return call(service.coach, payload)
+
+
+@router.post("/midi/revise")
+def revise_midi(payload: MidiRevisionCommand):
+    return call(service.revise_midi, payload)
+
+
+@router.post("/midi/interpret")
+def interpret_midi(payload: MidiInterpretCommand):
+    return call(service.interpret_midi, payload)

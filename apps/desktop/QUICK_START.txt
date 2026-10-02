@@ -31,3 +31,21 @@ If another local service already uses port 8000, Sonic uses another available po
 Use Connections to save the current MCP address.
 
 Project: https://github.com/cryptik093-pixel/sonic-ai-v3
+
+MIDI STUDIO (source upgrade; requires a rebuilt desktop distribution)
+
+Select MIDI Studio. Describe supported musical settings and choose Interpret
+Direction to review a proposal, or edit the controls directly. Generate saves
+selected MIDI parts, audition WAV, Composition.json and Quality_Report.json.
+Enable Countermelody for an optional fifth part. Response mode places notes in
+lead rests; Parallel mode plays alongside it. Final harmony Resolve lands on I/i;
+Loop preserves the progression. Maximum melodic leap controls melodic movement.
+Unlock a response Countermelody together with its Melody when revising the lead.
+
+Reuse settings to edit a saved run. Select tracks under its result and choose
+Revise selected tracks. Locked notes are preserved exactly. Unlock all parent
+tracks to change key, scale, tempo or length. Export all files saves the set.
+
+Audition synthesis is a sketch. Choose your own sounds in FL Studio and judge
+melody development, harmony and groove by listening. New native Windows UI and
+FL Studio import checks must be completed before declaring release readiness.

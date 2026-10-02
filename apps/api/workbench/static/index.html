@@ -33,13 +33,19 @@
       <div id="focus-result" class="card focus-result" hidden></div>
     </section>
     <section id="view-midi" class="view" hidden>
-      <div class="page-title"><div><span class="eyebrow accent">IDEA → AUDITION → DAW</span><h1>Create a starting point.</h1><p>A musical phrase you can hear, export and develop.</p></div><span class="tag">LOCAL COMPOSITION ENGINE</span></div>
+      <div class="page-title"><div><span class="eyebrow accent">IDEA → AUDITION → DAW</span><h1>MIDI Studio.</h1><p>Shape the phrase. Preserve the state. Develop your sound.</p></div><span class="tag">LOCAL COMPOSITION ENGINE</span></div>
       <div class="work-grid"><form id="midi-form" class="card">
+        <label>Engine<select name="engine_mode"><option value="studio">MIDI Studio</option><option value="legacy">Legacy v1</option></select></label>
+        <label>Musical direction<textarea name="prompt" rows="3" maxlength="2000" placeholder="F# minor, 140 bpm, sparse trap, seventh chords, 58% swing"></textarea></label>
+        <label class="check-label"><input type="checkbox" name="use_cloud"> Use cloud interpretation · sends this prompt and settings to your provider</label>
+        <button type="button" id="interpret-midi" class="secondary">Interpret direction</button><div id="midi-proposal" aria-live="polite" hidden></div>
+        <input type="hidden" name="interpretation_method" value="manual">
         <label>Working title<input name="title" maxlength="100" value="Midnight Signal" required></label>
-        <label>Direction<select name="style"><option value="cloud">Cloud — spacious & atmospheric</option><option value="trap">Trap — tension & rhythmic movement</option><option value="soul">Soul — seventh chords & swing</option></select></label>
+        <label>Direction<select name="style"><option value="cloud">Cloud — spacious & atmospheric</option><option value="trap">Trap — tension & rhythmic movement</option><option value="soul">Soul — harmonic movement</option></select></label>
         <div class="form-row"><label>Key<select name="key"><option>C</option><option>C#</option><option>D</option><option>Eb</option><option>E</option><option>F</option><option>F#</option><option>G</option><option>Ab</option><option>A</option><option>Bb</option><option>B</option></select></label><label>Scale<select name="scale"><option value="minor">Minor</option><option value="major">Major</option><option value="dorian">Dorian</option><option value="harmonic_minor">Harmonic minor</option></select></label></div>
-        <div class="form-row"><label>Tempo · BPM<input name="bpm" type="number" min="60" max="200" value="130" required></label><label>Length<select name="bars"><option value="4">4 bars</option><option value="8" selected>8 bars</option><option value="16">16 bars</option></select></label></div>
+        <div class="form-row"><label>Tempo · BPM<input name="bpm" type="number" min="60" max="200" value="130" required></label><label>Length<select name="bars"><option value="4">4 bars</option><option value="8" selected>8 bars</option><option value="16">16 bars</option><option value="32">32 bars</option></select></label></div>
         <div class="form-row"><label>Space<select name="density"><option value="sparse">Sparse</option><option value="balanced" selected>Balanced</option><option value="busy">Busy</option></select></label><label>Variation seed<input name="seed" type="number" min="0" max="2147483647" value="93" required></label></div>
+        <div id="studio-controls"></div>
         <button class="primary" type="submit">Generate MIDI & audition <span>↗</span></button><button type="button" id="variation" class="text-button">Try a new variation</button>
         <p class="fine">Seeded composition, with scale constraints and voice leading. Change the sounds in your DAW; the audition uses simple synths.</p>
       </form><div class="card output-panel" id="midi-result"><div class="empty"><div class="empty-icon">♫</div><h2>Your next idea goes here.</h2><p>Generate to hear a phrase and see its notes.<br>Every part is saved as a MIDI file.</p></div></div></div>
@@ -59,6 +65,7 @@
     <section id="view-settings" class="view" hidden><div class="page-title"><div><span class="eyebrow accent">A WORKING CORE. OPTIONAL CLOUD INTELLIGENCE.</span><h1>Connections.</h1><p>MIDI, measurements, packs and draft templates work offline.</p></div></div><div class="two-col"><div class="card"><h2>Cloud AI interpretation</h2><p>Ask Sonic for a recommendation grounded in a completed run. That run's evidence and your question are sent to your configured AI provider.</p><p id="cloud-state" class="fine"></p><form id="ai-form"><label>OpenAI API key<input name="api_key" type="password" autocomplete="off" placeholder="Optional — your key stays on this computer"></label><label>Model<input name="model" value="gpt-4o" maxlength="100"></label><button class="primary" type="submit">Save AI connection</button></form><p class="fine">The Windows app uses the operating system credential store. The connection is only verified when a real request succeeds.</p></div><div class="card"><h2>MCP is part of the same engine.</h2><p>External MCP clients can list your outputs and run the same local workflows. External store changes and outbound messages are not exposed.</p><p id="mcp-address" class="mono"></p><button class="secondary" id="mcp-config">Save MCP connection file</button><p class="fine">The connection file contains your local bearer credential. Keep it private. A local URL does not connect a remote ChatGPT session by itself.</p><hr><h2>Browser connection</h2><form id="connection-form"><label>Local access token<input name="token" type="password" autocomplete="off" placeholder="Desktop connects automatically"></label><button class="secondary" type="submit">Connect</button></form></div></div></section>
     <footer>OMEGA HOUSE BEATS <span>Build something you can use.</span></footer>
   </main>
+  <script src="/workbench/static/studio.js"></script>
   <script src="/workbench/static/app.js"></script>
 </body>
 </html>

@@ -2,6 +2,23 @@
 
 **Sonic AI V3 is the intelligence layer for a producer operating system.**
 
+## MIDI Studio — coherent five-part composition
+
+The versioned `local_composition_v3` engine shares a harmonic timeline across chords, melody, bass and optional counter-melody. It plans melody pitches over the full phrase to enforce a configurable leap limit and cadence, anchors strong beats to chord tones, adds bass fifths/pickups, and places response counter-melody in lead rests. Final harmony **Resolve** lands the last bar on I/i; **Loop** preserves the supplied progression. Drum fills and performance controls shape articulation.
+
+MIDI Studio adds editable prompt-to-settings proposals, 4/8/16/32-bar composition, progression/voicing/register/groove controls, selected tracks, immutable parent-linked revisions and technical quality reports. Desktop, HTTP and MCP call the same services. Requests without `settings` retain the legacy v1 composer; `settings: {}` selects the current Studio engine (settings contract version 2). Old notes remain saved under their recorded engine version; partial revisions of older runs preserve their harmonic timeline.
+
+Interpretation proposes controls for review. Local interpretation recognizes supported instructions and lists unhandled text; optional cloud interpretation sends the prompt and current settings to your configured provider. It never runs code or creates files. Generate uses the displayed controls.
+
+Exports preserve the prompt, seed, resolved settings, engine version, lineage and technical evidence. Use **Reuse settings** to edit a saved generation, select the tracks to regenerate, then **Revise selected tracks**. Other note records stay identical. Unlock a response Countermelody alongside its Melody when changing the lead. Key, scale, BPM and length changes require unlocking all enabled parent tracks. **Regenerate all** creates a new independent run.
+
+- HTTP: `POST /workbench/api/midi`, `/midi/interpret`, `/midi/revise`.
+- MCP: `sonic_generate_midi`, `sonic_interpret_midi_prompt`, `sonic_revise_midi`.
+- Validation: [Five-part upgrade evidence and release gates](docs/status/MIDI_COHERENCE_UPGRADE.md); [earlier MIDI Studio validation](docs/status/MIDI_STUDIO_VALIDATION.md).
+- Listening comparison: `python scripts/prepare-midi-studio-listening.py OUTPUT_DIRECTORY` creates six paired unscored examples and a rating CSV. Use identical DAW sounds for each pair.
+
+Technical validity and reproducibility are verified locally; musical quality, the new Windows native UI and FL Studio import require operator verification. Folder/catalog scaling and general project-aware conversation remain subsequent upgrades. This checkout does not create a new downloadable Windows release.
+
 ## Production Workbench — v0.5
 
 Sonic now has a native desktop workbench that creates actual files. The same Python services serve its desktop interface, HTTP API and MCP tools.

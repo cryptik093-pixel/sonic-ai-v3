@@ -6,7 +6,7 @@ from mcp.types import ToolAnnotations
 
 from ..integrations.config import ControlConfig
 from . import service
-from .schemas import AnalyzeCommand, FocusCommand, MidiCommand, PackCommand, ReleaseCommand
+from .schemas import AnalyzeCommand, FocusCommand, MidiCommand, MidiRevisionCommand, MidiInterpretCommand, PackCommand, ReleaseCommand
 
 
 def register(server):
@@ -44,7 +44,7 @@ def register(server):
 
     @server.tool(annotations=write)
     async def sonic_generate_midi(command: MidiCommand) -> dict:
-        """Create local melody, chord, bass and drum MIDI plus an audition WAV. Reuse request_id only to retry identical inputs. No external provider is called."""
+        """Create local melody, optional counter-melody, chord, bass and drum MIDI plus an audition WAV. Reuse request_id only to retry identical inputs. No external provider is called."""
         return await execute(service.generate_midi, command)
 
     @server.tool(annotations=write)
@@ -66,3 +66,15 @@ def register(server):
     async def sonic_plan_session(command: FocusCommand) -> dict:
         """Save one bounded next action based on goal, time, energy and completed work. This is a proposed plan, not completed work."""
         return await execute(service.focus_session, command)
+
+    @server.tool(annotations=write)
+    async def sonic_revise_midi(command: MidiRevisionCommand) -> dict:
+        """Create a parent-linked MIDI revision. Locked track notes are copied exactly; retry identical commands with the same request_id."""
+        return await execute(service.revise_midi, command)
+
+    @server.tool(annotations=ToolAnnotations(readOnlyHint=True, destructiveHint=False, idempotentHint=False, openWorldHint=True))
+    async def sonic_interpret_midi_prompt(command: MidiInterpretCommand) -> dict:
+        """Propose validated MIDI settings without saving a run. Optional cloud interpretation sends prompt/settings to the configured provider; review before generation."""
+        if command.use_cloud and ControlConfig.from_env().oauth_requested:
+            raise ToolError("Cloud interpretation requires the local operator bearer token.")
+        return await asyncio.to_thread(service.interpret_midi, command)

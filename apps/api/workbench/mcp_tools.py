@@ -5,6 +5,7 @@ from mcp.server.fastmcp.exceptions import ToolError
 from mcp.types import ToolAnnotations
 
 from ..integrations.config import ControlConfig
+from ..intelligence_store import IntelligenceStore
 from . import service
 from .schemas import AnalyzeCommand, FeedbackCommand, FocusCommand, MidiCommand, PackCommand, ReleaseCommand
 
@@ -39,6 +40,28 @@ def register(server):
         """Read one output run, its artifacts/checksums, evidence and next action by UUID."""
         try:
             return await asyncio.to_thread(service.get_run, run_id)
+        except ValueError as exc:
+            raise ToolError(str(exc)) from None
+
+    @server.tool(annotations=read)
+    async def sonic_intelligence_retrieve(query: str, intent_id: str | None = None, limit: int = 8) -> dict:
+        """Retrieve explicitly materialized local intelligence memories with evidence-backed scoring. Public/OAuth MCP mode is denied."""
+        if ControlConfig.from_env().oauth_requested:
+            raise ToolError("Intelligence memory retrieval is local-operator-only; OAuth/public MCP access is not authorized.")
+        try:
+            memories = await asyncio.to_thread(
+                IntelligenceStore().retrieve_materialized_memories,
+                query,
+                intent_id=intent_id,
+                limit=limit,
+            )
+            return {
+                "authority": "materialized_memory_read_only",
+                "method": "tier2_lexical_evidence_v1",
+                "query": query,
+                "intent_id": intent_id,
+                "memories": memories,
+            }
         except ValueError as exc:
             raise ToolError(str(exc)) from None
 

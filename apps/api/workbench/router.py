@@ -11,9 +11,11 @@ from starlette.datastructures import Headers
 from starlette.responses import JSONResponse
 
 from ..config import Settings
+from ..intelligence_store import IntelligenceStore
 from ..version import APP_VERSION
 from . import service
 from .schemas import AnalyzeCommand, CoachCommand, FeedbackCommand, FocusCommand, MidiCommand, PackCommand, ReleaseCommand
+from .intelligence_schemas import CandidateCreate, CandidateDecisionCreate, CheckpointCreate, EvidenceCreate, IntentCreate
 
 router = APIRouter(prefix="/workbench/api", tags=["Production Workbench"])
 
@@ -154,3 +156,52 @@ def focus(payload: FocusCommand):
 @router.post("/coach")
 def coach(payload: CoachCommand):
     return call(service.coach, payload)
+
+
+def intelligence_store():
+    return IntelligenceStore()
+
+
+@router.get("/intelligence/status")
+def intelligence_status():
+    return {"status": "ready", "authority": "candidate-ledger-only", "counts": intelligence_store().counts()}
+
+
+@router.post("/intelligence/intents")
+def create_intelligence_intent(payload: IntentCreate):
+    return call(intelligence_store().put_intent, payload.model_dump(mode="json"))
+
+
+@router.get("/intelligence/intents/{intent_id}")
+def get_intelligence_intent(intent_id: str):
+    return call(intelligence_store().get_intent, intent_id)
+
+
+@router.post("/intelligence/evidence")
+def create_intelligence_evidence(payload: EvidenceCreate):
+    return call(intelligence_store().append_evidence, payload.model_dump(mode="json"))
+
+
+@router.post("/intelligence/checkpoints")
+def create_intelligence_checkpoint(payload: CheckpointCreate):
+    return call(intelligence_store().append_checkpoint, payload.model_dump(mode="json"))
+
+
+@router.post("/intelligence/candidates")
+def create_intelligence_candidate(payload: CandidateCreate):
+    return call(intelligence_store().append_candidate, payload.model_dump(mode="json"))
+
+
+@router.get("/intelligence/candidates")
+def list_intelligence_candidates(intent_id: str | None = None, candidate_type: str | None = None):
+    return call(intelligence_store().list_candidates, intent_id=intent_id, candidate_type=candidate_type)
+
+
+@router.get("/intelligence/candidates/{candidate_id}")
+def get_intelligence_candidate(candidate_id: str):
+    return call(intelligence_store().get_candidate, candidate_id)
+
+
+@router.post("/intelligence/candidates/{candidate_id}/decision")
+def decide_intelligence_candidate(candidate_id: str, payload: CandidateDecisionCreate):
+    return call(intelligence_store().decide_candidate, candidate_id, payload.model_dump(mode="json"))

@@ -1,0 +1,35 @@
+name: Tier 2 controlled materialization
+
+on:
+  push:
+    branches:
+      - "tier2/gate-2-3-controlled-materialization-2026-10-05"
+  pull_request:
+    paths:
+      - "apps/api/intelligence_store.py"
+      - "apps/api/workbench/intelligence_schemas.py"
+      - "apps/api/workbench/router.py"
+      - "apps/api/tests/test_intelligence_materialization.py"
+      - "apps/api/tests/test_intelligence_store.py"
+      - ".github/workflows/tier2-controlled-materialization.yml"
+      - "docs/recovery/TIER2_GATE_2_3_2026-10-05.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  controlled-materialization:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install API dependencies
+        run: python -m pip install -r apps/api/requirements.txt
+      - name: Compile materialization surfaces
+        run: python -m py_compile apps/api/intelligence_store.py apps/api/workbench/intelligence_schemas.py apps/api/workbench/router.py
+      - name: Run Tier 2 persistence + materialization tests
+        run: python -m pytest apps/api/tests/test_intelligence_store.py apps/api/tests/test_intelligence_materialization.py -q

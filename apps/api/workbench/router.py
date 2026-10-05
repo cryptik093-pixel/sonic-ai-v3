@@ -5,14 +5,15 @@ from zipfile import ZipFile, ZIP_DEFLATED
 from pathlib import Path
 from uuid import UUID
 
-from fastapi import APIRouter, File, HTTPException, UploadFile
+from fastapi import APIRouter, File, HTTPException, Request, UploadFile
 from fastapi.responses import FileResponse, StreamingResponse
 from starlette.datastructures import Headers
 from starlette.responses import JSONResponse
 
 from ..config import Settings
+from ..version import APP_VERSION
 from . import service
-from .schemas import AnalyzeCommand, CoachCommand, FocusCommand, MidiCommand, PackCommand, ReleaseCommand
+from .schemas import AnalyzeCommand, CoachCommand, FeedbackCommand, FocusCommand, MidiCommand, PackCommand, ReleaseCommand
 
 router = APIRouter(prefix="/workbench/api", tags=["Production Workbench"])
 
@@ -46,20 +47,20 @@ class WorkbenchAuth:
         await self.app(scope, receive, send)
 
 
-def call(fn, payload):
+def call(fn, *args):
     try:
-        return fn(payload)
+        return fn(*args)
     except ValueError as exc:
         raise HTTPException(422, str(exc)) from None
 
 
 @router.get("/status")
-def status():
+def status(request: Request):
     configured = bool(Settings.from_env().openai_api_key)
-    return {"version": "0.5.0", "owner_id": service.OWNER, "workspace_id": service.WORKSPACE,
+    return {"version": APP_VERSION, "owner_id": service.OWNER, "workspace_id": service.WORKSPACE,
             "local_engine": "ready", "cloud_ai": "configured_not_verified" if configured else "not_configured",
-            "capabilities": ["midi", "analysis", "pack", "release", "focus", "coach"],
-            "mcp_url": "http://127.0.0.1:8000/mcp", "runs": service.list_runs(), "assets": service.list_assets()}
+            "capabilities": ["prompt_to_midi", "analysis", "pack", "release", "focus", "coach", "feedback_memory"],
+            "mcp_url": str(request.base_url).rstrip("/") + "/mcp", "runs": service.list_runs(), "assets": service.list_assets()}
 
 
 @router.get("/runs/{run_id}")
@@ -118,6 +119,16 @@ def archive(run_id: UUID):
 @router.post("/midi")
 def generate_midi(payload: MidiCommand):
     return call(service.generate_midi, payload)
+
+
+@router.post("/midi/preview")
+def preview_midi(payload: MidiCommand):
+    return call(service.preview_midi, payload)
+
+
+@router.post("/runs/{run_id}/feedback")
+def run_feedback(run_id: UUID, payload: FeedbackCommand):
+    return call(service.record_feedback, str(run_id), payload)
 
 
 @router.post("/analysis")

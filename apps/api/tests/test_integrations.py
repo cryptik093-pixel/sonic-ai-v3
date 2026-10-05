@@ -168,8 +168,8 @@ def test_mcp_initialization_discovery_read_and_mutation_rejection(client):
     initialized = rpc(client, "initialize", {"protocolVersion": "2025-06-18", "capabilities": {}, "clientInfo": {"name": "sonic-tests", "version": "1"}})
     assert initialized["result"]["serverInfo"]["name"] == "Sonic AI V3"
     tools = rpc(client, "tools/list")["result"]["tools"]
-    readonly = {"sonic_system_status", "sonic_integration_status", "sonic_shopify_status", "sonic_project_get", "sonic_decision_trace_get", "sonic_workbench_runs", "sonic_workbench_assets", "sonic_workbench_run_get"}
-    local_writes = {"sonic_generate_midi", "sonic_analyze_audio", "sonic_build_pack", "sonic_draft_release", "sonic_plan_session"}
+    readonly = {"sonic_system_status", "sonic_integration_status", "sonic_shopify_status", "sonic_project_get", "sonic_decision_trace_get", "sonic_workbench_runs", "sonic_workbench_assets", "sonic_workbench_run_get", "sonic_compile_production_brief"}
+    local_writes = {"sonic_generate_midi", "sonic_record_workbench_feedback", "sonic_analyze_audio", "sonic_build_pack", "sonic_draft_release", "sonic_plan_session"}
     assert {t["name"] for t in tools} == readonly | local_writes
     assert all(t["annotations"]["readOnlyHint"] == (t["name"] in readonly) and not t["annotations"]["destructiveHint"] for t in tools)
     before = app.state.control_plane.store.count()

@@ -2,6 +2,8 @@
 
 Date: 2026-09-22. Repository: `cryptik093-pixel/sonic-ai-v3`. Delivery PR: [#25](https://github.com/cryptik093-pixel/sonic-ai-v3/pull/25).
 
+**Lifecycle:** historical 0.5 workbench baseline. The 0.6 producer brief, interpretation preview, feedback continuity and expanded MCP contracts are described in [the 2026-09-23 delivery record](SONIC_PRODUCER_BRIEF_INTELLIGENCE_2026-09-23.md) and [current-state audit](../architecture/current-state-audit.md).
+
 ## Outcome
 
 This epic replaces the recovered placeholder experience with an output-producing desktop workbench. It connects creation, deterministic measurement, packaging, release preparation, session guidance and optional cloud interpretation through shared HTTP/MCP services and persistent local state.

@@ -1,38 +1,22 @@
-# Sonic AI V3 Status & Historical Evidence
+# Sonic AI V3 Status and Evidence Index
 
-**Authority:** lifecycle index for status, readiness, audit, failure, and milestone reports.
+**Authority:** lifecycle index for dated implementation, runtime and historical reports.
 
 ## Current-state rule
 
-No document in `docs/status/archive/` is authoritative for the present runtime merely because its title contains `FINAL`, `COMPLETION`, `READINESS`, `LAUNCH`, or `VALIDATION`.
+A status report describes its stated observation window. It does not become timeless runtime truth because its filename contains `FINAL`, `COMPLETION`, `READINESS`, `LAUNCH` or `VALIDATION`. Revalidate it after a material source or runtime change.
 
-Current implementation truth is established in this order:
+## Current reports
 
-1. repository state on the canonical branch;
-2. reproducible runtime behavior;
-3. automated tests and CI evidence;
-4. current evidence packets in `docs/knowledge/requirements/`;
-5. dated audits/status reports;
-6. historical strategy or narrative documents.
-
-## Current dated status reports
-
-- `LIFECYCLE_CHECKPOINT_2026-09-13_2220.md` — evening reconciliation of ClickFunnels setup, Ads Manager readiness, Sonic runtime recovery, Shopify Flagship visual state, and next lifecycle gates.
-- `COMMERCE_REVENUE_STATE_2026-09-09.md` — current Shopify commerce/revenue evidence, historical beta-price reconciliation, funnel diagnosis, and next measurement gate.
-
-A dated status report is evidence for its observation window. It must be revalidated after material runtime, product, traffic, pricing, funnel, or architecture changes.
+- `SONIC_PRODUCER_BRIEF_INTELLIGENCE_2026-09-23.md` — current feature implementation evidence for the 0.6 prompt-to-MIDI, deterministic brief compiler, saved feedback continuity, composition lineage and MCP contracts.
+- `SONIC_WORKBENCH_EPIC_REPORT.md` — 2026-09-22 baseline for the 0.5 workbench epic; historical after the 0.6 feature.
+- Other dated reports in this directory record their original commerce, lifecycle or runtime context and are not product certification.
 
 ## Legacy root migration
 
-Historical root-level reports are preserved under:
+Historical root-level reports are preserved in `archive/legacy-root/`. Their root paths are compatibility notices, not active status documents. See that folder's `MIGRATION_MAP.md`.
 
-`docs/status/archive/legacy-root/`
-
-The original root paths remain as compatibility aliases only. Their content has been replaced by a migration notice so old links do not silently present historical assertions as current truth.
-
-## Lifecycle metadata
-
-A new status report should include:
+## Required metadata for new reports
 
 ```yaml
 document_id: SAV3-STATUS-...
@@ -44,12 +28,3 @@ supersedes: <document IDs if applicable>
 evidence_refs:
   - <tests/runs/fixtures/logs>
 ```
-
-## Phase 2
-
-Gate B is considered structurally complete when legacy root reports are archived with compatibility aliases and indexed here. Runtime claims still require Gate C evidence binding.
-
-
-## Current commerce experiment
-
-- `STARTER_ACQUISITION_EXPERIMENT_2026-09-13.md` — controlled $5 Producer Starter acquisition experiment using the secured ClickFunnels control funnel and Shopify checkout.

@@ -1,222 +1,88 @@
-# Sonic AI Current-State Audit
+# Sonic AI V3 Current-State Audit
 
-## Phase 1: System overview
+**Observed:** 2026-09-23
+**Repository:** `cryptik093-pixel/sonic-ai-v3`
+**Implementation:** producer brief intelligence vertical slice, API version 0.6.0
+**Evidence status:** implementation claims are limited to checked source, tests and generated artifacts; see the dated delivery record for this change.
 
-**Core purpose:** Sonic AI is intended to become a producer-focused audio asset platform: sign in, create projects, upload audio assets, generate deterministic metadata, search a personal vault, track activity, and build a producer profile from upload behavior.
+## Product state
 
-**Target user:** Music producers, beatmakers, sample-pack creators, and audio-first creators who need an organized vault of project assets and production preferences.
+The repository contains a runnable single-operator production workbench. The Windows desktop app starts a loopback FastAPI service and opens its bundled UI. The same service layer backs the HTTP and MCP interfaces. The current release is a local producer tool; this audit does not claim a hosted, multi-user, commercially certified or autonomously publishing platform.
 
-**Specific problem solved:** Producers accumulate loops, samples, demos, exports, reports, and references across disconnected folders. Sprint 1 solves the foundational organization problem before adding AI: authenticated storage, project ownership, metadata, search, and activity history.
+The flagship workflow is free-text producer brief → inspectable composition plan → downloadable MIDI/WAV files. It extends the existing deterministic MIDI generator; it is not neural music generation. Optional cloud coaching is a separate capability that sends the question and selected saved-run evidence to the configured provider.
 
-**Core features planned for Sprint 1:**
+## Verified workflow surfaces
 
-- Supabase-backed sign-in and user synchronization.
-- Project CRUD with ownership validation.
-- Local disk asset uploads.
-- Deterministic metadata stubs.
-- SQL-backed vault search.
-- Activity timeline.
-- Producer profile aggregation.
+| Surface | Route / artifact | Behavior and boundary |
+| --- | --- | --- |
+| Desktop UI | `GET /workbench` | Bundled workbench; desktop starts the local service and supplies its private token |
+| Health | `GET /health` | Process health only; does not establish provider, audio or commerce health |
+| Workbench status | `GET /workbench/api/status` | Version, local capability list, runs, assets and live MCP base URL |
+| MIDI preview | `POST /workbench/api/midi/preview` | Read-only interpretation; reads saved state only for an explicit continuity request; creates no run or file |
+| MIDI generation | `POST /workbench/api/midi` | Locally writes separate parts, arrangement, audition and metadata; request ID makes identical retries return the same run |
+| Feedback | `POST /workbench/api/runs/{run_id}/feedback` | Saves an idempotent keep/not-for-me event on a completed MIDI run |
+| Import | `POST /workbench/api/imports` | Copies supported audio/MIDI source into the local workspace, deduplicating exact content |
+| Audio analysis | `POST /workbench/api/analysis` | Saves measured audio evidence; does not infer musical key or BPM |
+| Pack / release | `POST /workbench/api/pack`, `POST /workbench/api/release` | Writes a local ZIP or unpublished Shopify CSV; does not validate legal rights or publish |
+| Focus / coach | `POST /workbench/api/focus`, `POST /workbench/api/coach` | Saves a proposed bounded next step or a grounded run recommendation |
+| Run retrieval | `GET /workbench/api/runs/{run_id}` | Returns the saved run, artifact records and its feedback history |
+| File / archive retrieval | `GET /workbench/api/runs/{run_id}/files/{filename}`, `GET /workbench/api/runs/{run_id}/archive` | Serves only files recorded in the run's output manifest |
+| MCP | `POST /mcp` | Authenticated local MCP endpoint; read queries and local write tools use the same services |
 
-**Differentiation:** Sonic AI is positioned less as a generic file manager and more as a producer memory layer. Its strongest future differentiator is the combination of asset metadata, creative history, profile aggregation, and later agentic workflows. That differentiation is planned, not yet implemented.
+Workbench routes require the local bearer token and reject non-loopback hosts/origins. The desktop launcher chooses a free port and the status response derives its MCP URL from the request address. The app uses that returned URL when showing its connection details.
 
-## Phase 2: Functionality breakdown
+## Producer brief intelligence
 
-| Module | Status | Issues / missing components | Performance quality |
-| --- | --- | --- | --- |
-| Audio processing | Not started | No upload API, no metadata worker, no DSP, no playback/editing/generation. Sprint 1 explicitly uses deterministic metadata only. | Basic planned |
-| AI models | Not started | No AI generation, embeddings, agent, model provider, or evaluation pipeline. Correctly deferred to later sprints. | Not applicable |
-| UI/UX flow | Not started | No Next.js app, routes, components, login, dashboard, project page, vault, activity, or profile UI. | Not applicable |
-| Backend APIs | Not started | No FastAPI app, routers, database session, auth middleware, storage service, event bus, or worker hooks. | Not applicable |
-| File handling | Not started | No multipart upload route, file validation, disk writer, checksum, MIME handling, or storage abstraction. | Not applicable |
-| Authentication | Not started | Supabase Auth is selected, but routes and JWT/profile synchronization are not implemented. | Not applicable |
-| Payment system | Not started | No pricing, billing provider, subscriptions, entitlements, or checkout. Not required for Sprint 1 foundation. | Not applicable |
+`apps/api/workbench/intelligence.py` compiles only supported, explicit control signals. It preserves the full producer brief but does not reinterpret unmatched adjectives as facts. Prompt signals include key/scale, style, mood, BPM, bar count, density and quoted title. Seed is a structured setting or an explicitly derived variation value; it is not extracted from prose. The MIDI engine supports 4/8/16 bars, 60–200 BPM, four scales, three style patterns, six mood patterns and three density patterns.
 
-## Phase 3: Build and development status
+Resolution order is explicit operator control → recognized prompt signal → continuity explicitly requested from an eligible saved run → documented default. The preview returns the resolved parameters, source per field, matched prompt excerpt, assumptions, continuity reference and warnings. A plain language request without a supported control is retained as context and calls out the defaults. The parser is deterministic; it does not contact an LLM.
 
-**Current stage:** Idea / bootstrap.
+Feedback is scoped to `local-producer` / `omega-house-studio` and stored as versioned `workbench.feedback_recorded` events. A prompt that explicitly refers to a kept/saved direction selects the most recent run with a current `keep` decision. An explicit variation/continuation request without that wording uses the most recent successful MIDI run. Ordinary prompts reuse no saved run. A later `not_for_me` decision supersedes that run's earlier feedback state. The compiler does not search across other owners or workspaces.
 
-**Fully working right now:**
+The persisted `Composition.json` includes the source brief, compiler version, parsed evidence, resolved values, composer version and lineage references. The SHA-256 and byte length for each MIDI/WAV production output match the run's artifact manifest. Rights status is explicitly `not_assessed`, following [Omega House metadata/packaging lineage V1](../knowledge/metadata/METADATA_PACKAGING_LINEAGE_V1.md). A file hash proves byte identity, not ownership or license clearance.
 
-- Monorepo workspace skeleton.
-- Root-level setup metadata.
-- Sprint 1 implementation plan.
-
-**Partially working:**
-
-- Repository organization exists, but application code is still pending.
-
-**Broken or not implemented:**
-
-- FastAPI app.
-- Database models and migrations.
-- Supabase Auth integration.
-- Project CRUD.
-- Asset upload.
-- Event bus.
-- Metadata worker.
-- Vault search.
-- Activity feed.
-- Producer profile aggregation.
-- Next.js frontend.
-
-**Launch blockers:**
-
-- No runnable product surface yet.
-- No database schema.
-- No authentication path.
-- No upload or storage implementation.
-- No end-to-end tests.
-- No deployment target.
-
-## Phase 4: Testing and access
-
-**Is Sonic AI currently testable?** No, not as an application.
-
-**Immediate steps required to make it testable:**
-
-1. Implement FastAPI foundation with `/health` and `/api/v1/status`.
-2. Add PostgreSQL, SQLAlchemy 2.x, Alembic, and initial migrations.
-3. Add Supabase JWT verification and `/auth/me` profile sync.
-4. Implement project CRUD.
-5. Implement local file upload and database asset records.
-6. Add in-process events and deterministic metadata generation.
-7. Add vault search, activity feed, and producer profile updates.
-8. Build minimal Next.js pages for the Sprint 1 user journey.
-
-**Local testing instructions today:**
-
-```bash
-corepack enable
-pnpm install
-```
-
-**Deployment status:** Local bootstrap only. No staging or live deployment exists.
-
-## Phase 5: Launch readiness score
-
-| Category | Score | Reason |
-| --- | ---: | --- |
-| Product readiness | 1/10 | Clear scope exists, but core flows are not implemented. |
-| Technical stability | 1/10 | Skeleton exists; no runtime services yet. |
-| User experience | 0/10 | No frontend or authenticated flow yet. |
-| Market readiness | 2/10 | Strong problem framing, but no usable product or launch funnel. |
-
-**Can this launch right now?** No. Sonic AI cannot launch because users cannot sign in, create projects, upload assets, view metadata, search the vault, or access a UI.
-
-## Phase 6: Critical fixes before launch
-
-1. Build the FastAPI foundation and health/status endpoints.
-2. Add PostgreSQL models and Alembic migrations for Sprint 1 tables only.
-3. Implement Supabase Auth JWT verification and profile synchronization.
-4. Implement project CRUD with ownership validation.
-5. Implement upload storage, asset records, and file validation.
-6. Implement event persistence and in-process event dispatch.
-7. Implement deterministic metadata generation on `asset.uploaded`.
-8. Implement vault search filters and indexed queries.
-9. Implement activity feed and producer profile aggregation.
-10. Build the Next.js MVP screens and connect them with TanStack Query.
-11. Add integration tests for the full Sprint 1 happy path.
-12. Add local Docker/PostgreSQL setup and deployment documentation.
-
-## Phase 7: Full technical breakdown
-
-**Current tech stack:**
-
-- Monorepo: pnpm workspaces.
-- Frontend planned: Next.js 15, TypeScript, Tailwind, shadcn/ui, TanStack Query.
-- Backend planned: FastAPI, Python, SQLAlchemy 2.x, Alembic.
-- Database planned: PostgreSQL.
-- Auth planned: Supabase Auth.
-- Storage planned: local disk at `/storage/uploads`, Supabase Storage later.
-- Eventing planned: in-process pub/sub first, Redis later.
-- AI/DSP planned: explicitly out of Sprint 1.
-
-**Current file structure:**
+## Architecture
 
 ```text
-apps/web/package.json
-apps/api/package.json
-apps/worker/package.json
-packages/common/package.json
-packages/events/package.json
-packages/auth/package.json
-packages/projects/package.json
-packages/assets/package.json
-packages/metadata/package.json
-packages/memory/package.json
-packages/vault/package.json
-infrastructure/docker/
-infrastructure/supabase/
-docs/architecture/current-state-audit.md
-docs/planning/sprint-1-implementation-backlog.md
+Producer UI / MCP
+        ↓
+Typed FastAPI / MCP command
+        ↓
+Brief compiler + continuity reader
+        ↓
+Seeded MIDI composer / measured audio services
+        ↓
+SQLite runs + local files + scoped events
+        ↓
+Run manifest, evidence and downloadable output
 ```
 
-**Key scripts:**
+The UI, HTTP routes and MCP tools call `apps/api/workbench/service.py`. The compiler and MIDI engine are local. Run creation uses request IDs, input fingerprints, a staging directory and durable success/failure records. SQLite is the workbench system of record. The desktop API binds to loopback. This is a coherent local vertical slice, not a queue-backed multi-process platform.
 
-- `pnpm install`: installs workspace dependencies.
-- `pnpm dev`: planned recursive development command; app-level `dev` scripts still need to be added.
-- `pnpm build`: planned recursive build command; app/package build scripts still need to be added.
-- `pnpm lint`: planned recursive lint command; app/package lint scripts still need to be added.
-- `pnpm test`: planned recursive test command; app/package test scripts still need to be added.
-- `pnpm typecheck`: planned recursive typecheck command; app/package typecheck scripts still need to be added.
+The MCP server currently exposes 15 tools across integration, project and workbench queries and local output commands, including `sonic_compile_production_brief`, `sonic_generate_midi` and `sonic_record_workbench_feedback`. Contract tests pin the tool set and annotations. Local write tools reject OAuth read-only contexts. `sonic_compile_production_brief` is a query; generation and feedback are commands.
 
-**APIs and integrations:** None implemented yet. Planned Sprint 1 APIs are documented in the implementation backlog.
+## Runtime configuration and storage
 
-**Database structure:** No database exists yet. Planned first tables: `users`, `profiles`, `projects`, `assets`, `asset_metadata`, `memory_events`, and `producer_profiles`.
+- Source mode defaults to SQLite at `apps/api/data/sonic_ai.db`; workbench output defaults under `apps/api/data/workbench/`.
+- The packaged desktop app stores data under `%LOCALAPPDATA%\OmegaHouse\Sonic`.
+- `SONIC_DATA_DIR`, `SONIC_DB_PATH` and `SONIC_EVENT_DB` can override paths.
+- `SONIC_CONTROL_PLANE_TOKEN` protects direct local API use. The desktop launcher manages its own token.
+- `SONIC_OPENAI_API_KEY` is optional and is used for grounded coaching, not MIDI generation.
+- The workbench release flow exports a draft CSV. It performs no live store mutation, publication, email delivery or ad spend.
 
-## Phase 8: Handoff code package
+See [.env.example](../../.env.example) for actual configuration names. Postgres, Redis, S3, Supabase Auth and a hosted multi-user service are not dependencies of the production workbench. Other historical/legacy API modules remain in the repository; their presence does not establish that they are integrated into the desktop workflow or ready for hosted operation.
 
-### Clean summarized architecture
+## Known limits
 
-Sonic AI should be built as a pnpm monorepo with a FastAPI backend, a Next.js frontend, a lightweight worker/event layer, and shared domain packages. Sprint 1 should keep all intelligence deterministic and SQL-backed. User identity starts in Supabase Auth, synchronizes into local `users` and `profiles` tables, then gates project, asset, vault, activity, and profile operations by ownership.
+- Prompt parsing is a deterministic controlled vocabulary, not general semantic understanding. Unsupported language is carried as context and may not influence the composition.
+- The MIDI is seeded algorithmic output. It is valid downloadable MIDI with musical note patterns, but a human still judges whether it sounds good and chooses instruments in a DAW.
+- The audition WAV uses basic synthesized tones, not production instruments or a mastered mix.
+- Imported audio analysis is limited to the documented measured fields; it does not identify key, tempo, true peak or LUFS.
+- One fixed local owner/workspace is implemented. Multi-user identity, tenant isolation and remote deployment require further architecture and tests.
+- The optional model coach depends on a configured provider and network. Configuration alone is not proof that a live call will succeed.
+- Generated or imported assets are not legally certified. Commercial release requires separate rights, license, QC and delivery validation.
+- A source change does not itself create a Windows installer; use the artifact from the successful desktop workflow run for the matching commit.
 
-### Core logic snippets
+## Evidence and docs
 
-**Event contract:**
-
-```python
-event_bus.publish("asset.uploaded", {"asset_id": asset.id, "user_id": user.id})
-```
-
-**Metadata stub:**
-
-```python
-metadata = {
-    "bpm": 150,
-    "musical_key": "F Minor",
-    "genre": "Trap",
-    "duration_seconds": 120,
-    "sample_rate": 44100,
-    "lufs": -8.1,
-    "peak_db": -0.7,
-}
-```
-
-**Vault query shape:**
-
-```sql
-SELECT assets.id AS asset_id, projects.name AS project_name, asset_metadata.bpm
-FROM assets
-JOIN projects ON projects.id = assets.project_id
-JOIN asset_metadata ON asset_metadata.asset_id = assets.id
-WHERE assets.user_id = :user_id;
-```
-
-### Setup instructions
-
-```bash
-corepack enable
-pnpm install
-cp .env.example .env
-```
-
-### Deployment instructions
-
-Deployment is not ready. Before deployment, add Docker Compose for PostgreSQL/API/web, configure Supabase Auth keys, add production environment variables, and choose a storage volume for `/storage/uploads`.
-
-### Notes for further development
-
-- Execute `docs/planning/sprint-1-implementation-backlog.md` in order.
-- Keep Sprint 1 free of AI generation, embeddings, agent behavior, Redis, Celery, pgvector, and DSP-heavy analysis.
-- Add integration tests at each milestone rather than waiting for the full frontend.
+The implementation-specific test command is `python -m pytest apps/api/tests`. The producer brief delivery record lists the observed result and contract coverage. Historical reports under `docs/status/` describe their original observation dates and do not override this audit or current source/tests.

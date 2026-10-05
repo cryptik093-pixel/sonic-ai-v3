@@ -7,6 +7,8 @@ from mcp.types import ToolAnnotations
 from ..integrations.config import ControlConfig
 from ..intelligence_store import IntelligenceStore
 from . import service
+from .decision_intelligence import DecisionIntelligence
+from .decision_schemas import DecisionRankRequest
 from .schemas import AnalyzeCommand, FeedbackCommand, FocusCommand, MidiCommand, PackCommand, ReleaseCommand
 
 
@@ -62,6 +64,16 @@ def register(server):
                 "intent_id": intent_id,
                 "memories": memories,
             }
+        except ValueError as exc:
+            raise ToolError(str(exc)) from None
+
+    @server.tool(annotations=read)
+    async def sonic_rank_next_actions(request: DecisionRankRequest) -> dict:
+        """Rank operator-supplied action options against explicit factors and scoped evidence. Recommendation only; no action is executed."""
+        if ControlConfig.from_env().oauth_requested:
+            raise ToolError("Decision intelligence is local-operator-only; OAuth/public MCP access is not authorized.")
+        try:
+            return await asyncio.to_thread(DecisionIntelligence(IntelligenceStore()).rank, request)
         except ValueError as exc:
             raise ToolError(str(exc)) from None
 

@@ -225,3 +225,8 @@ def materialize_intelligence_memory(candidate_id: str, payload: MaterializationE
 @router.post("/intelligence/candidates/{candidate_id}/retire")
 def retire_intelligence_memory(candidate_id: str, payload: MaterializationEventCreate):
     return call(intelligence_store().retire_materialized_memory, candidate_id, payload.model_dump(mode="json"))
+
+
+@router.get("/intelligence/retrieve")
+def retrieve_intelligence_memories(query: str, intent_id: str | None = None, limit: int = 8):
+    return call(intelligence_store().retrieve_materialized_memories, query, intent_id=intent_id, limit=limit)

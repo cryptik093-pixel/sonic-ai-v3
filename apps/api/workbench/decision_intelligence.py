@@ -124,13 +124,12 @@ class DecisionIntelligence:
         ranked = [self._rank_option(option, request.intent_id) for option in request.options]
         ranked.sort(
             key=lambda item: (
-                item.score,
-                item.evidence_strength,
-                -item.risk,
-                -AUTHORITY_ORDER[item.authority_level],
+                -item.score,
+                -item.evidence_strength,
+                item.risk,
+                AUTHORITY_ORDER[item.authority_level],
                 item.option_id,
-            ),
-            reverse=True,
+            )
         )
 
         top = ranked[0]
@@ -186,7 +185,7 @@ class DecisionIntelligence:
             "authority": {
                 "recommendation_only": True,
                 "execution_exposed": False,
-                "required_for_recommendation": top.authority_level,
+                "recommended_action_authority": top.authority_level,
                 "explicit_approval_required": top.authority_level != "L0_READ_ONLY",
             },
             "why_this_beats_runner_up": {

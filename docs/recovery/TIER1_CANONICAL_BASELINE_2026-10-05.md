@@ -145,3 +145,13 @@ Do not merge any divergent line. Next recovery work should separately validate t
 - Its repository-state snapshot claims API/web are blocked/package-manifest-only, which is stale relative to canonical main.
 - Its local read-only MCP is narrower than current main's authenticated HTTP MCP/workbench surface.
 - Agent operating-model concepts may be referenced manually, but the v3.5 state snapshot/server must not replace current runtime truth.
+
+
+### Canonical doctrine and 168-hour curriculum
+- No recovery transplant is required.
+- Canonical production doctrine is already present on current `main` at `docs/knowledge/doctrine/OMEGA_HOUSE_PRODUCTION_DOCTRINE_CANONICAL_V1.md`.
+- Canonical curriculum map is already present on current `main` at `docs/knowledge/curriculum/ELITE_AUDIO_ENGINEERING_CURRICULUM_MAP_V1.md`.
+- The curriculum defines 168 guided hours across four evidence-gated tiers: 24 + 36 + 48 + 60 hours.
+- The immutable historical curriculum archive remains under `docs/knowledge/archive/omega-house-curriculum/2026-09-04/`, including the packaged SCORM/source archive.
+- The doctrine explicitly separates normative requirements from runtime validation, and the curriculum explicitly separates educational certification from software production readiness.
+- Decision: preserve these current-main documents as canonical; do not create duplicate recovered copies.

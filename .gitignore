@@ -25,6 +25,9 @@ coverage/
 apps/api/storage/
 apps/api/data/
 data/
+*.db
+*.sqlite
+*.sqlite3
 *.spec
 artifacts/
 test-results/

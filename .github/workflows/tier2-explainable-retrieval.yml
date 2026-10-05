@@ -1,0 +1,35 @@
+name: Tier 2 explainable retrieval
+
+on:
+  push:
+    branches:
+      - "tier2/gate-2-4-explainable-retrieval-2026-10-05"
+  pull_request:
+    paths:
+      - "apps/api/intelligence_store.py"
+      - "apps/api/workbench/router.py"
+      - "apps/api/workbench/mcp_tools.py"
+      - "apps/api/tests/test_intelligence_retrieval.py"
+      - "apps/api/tests/test_integrations.py"
+      - ".github/workflows/tier2-explainable-retrieval.yml"
+      - "docs/recovery/TIER2_GATE_2_4_2026-10-05.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  explainable-retrieval:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install API dependencies
+        run: python -m pip install -r apps/api/requirements.txt
+      - name: Compile retrieval surfaces
+        run: python -m py_compile apps/api/intelligence_store.py apps/api/workbench/router.py apps/api/workbench/mcp_tools.py
+      - name: Run retrieval and MCP boundary tests
+        run: python -m pytest apps/api/tests/test_intelligence_retrieval.py apps/api/tests/test_integrations.py -q

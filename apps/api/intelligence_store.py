@@ -195,6 +195,8 @@ class IntelligenceStore:
         return {**payload, "created_at": row["created_at"], "updated_at": row["updated_at"]}
 
     def append_evidence(self, record: dict[str, Any]) -> dict[str, Any]:
+        if record.get("intent_id"):
+            self.get_intent(record["intent_id"])
         payload = {
             "evidence_id": record["evidence_id"],
             "intent_id": record.get("intent_id"),
@@ -234,6 +236,7 @@ class IntelligenceStore:
         return payload | {"created_at": created, "recorded": True}
 
     def append_checkpoint(self, record: dict[str, Any]) -> dict[str, Any]:
+        self.get_intent(record["intent_id"])
         payload = {
             "checkpoint_id": record["checkpoint_id"],
             "intent_id": record["intent_id"],
@@ -271,6 +274,7 @@ class IntelligenceStore:
         return payload | {"created_at": created, "recorded": True}
 
     def append_candidate(self, record: dict[str, Any]) -> dict[str, Any]:
+        self.get_intent(record["intent_id"])
         candidate_type = record["candidate_type"]
         if candidate_type not in CANDIDATE_TYPES:
             raise ValueError(f"candidate_type must be one of {sorted(CANDIDATE_TYPES)}")
@@ -289,6 +293,25 @@ class IntelligenceStore:
         encoded, digest = canonical(payload), fingerprint(payload)
         created = record.get("created_at") or now()
         with self._connect() as c:
+            if payload["source_checkpoint_id"]:
+                checkpoint = c.execute(
+                    """SELECT intent_id FROM intelligence_checkpoints
+                       WHERE owner_id=? AND workspace_id=? AND checkpoint_id=?""",
+                    (*self.scope, payload["source_checkpoint_id"]),
+                ).fetchone()
+                if not checkpoint or checkpoint["intent_id"] != payload["intent_id"]:
+                    raise ValueError("Source checkpoint does not exist for this intent.")
+            if payload["evidence_ids"]:
+                placeholders = ",".join("?" for _ in payload["evidence_ids"])
+                rows = c.execute(
+                    f"""SELECT evidence_id,intent_id FROM intelligence_evidence
+                        WHERE owner_id=? AND workspace_id=? AND evidence_id IN ({placeholders})""",
+                    [*self.scope, *payload["evidence_ids"]],
+                ).fetchall()
+                found = {row["evidence_id"] for row in rows if row["intent_id"] in {None, payload["intent_id"]}}
+                missing = sorted(set(payload["evidence_ids"]) - found)
+                if missing:
+                    raise ValueError("Candidate references missing or cross-intent evidence: " + ", ".join(missing))
             existing = c.execute(
                 """SELECT payload_hash,created_at FROM intelligence_candidates
                    WHERE owner_id=? AND workspace_id=? AND candidate_id=?""",
@@ -300,12 +323,14 @@ class IntelligenceStore:
                 return self.get_candidate(payload["candidate_id"]) | {"recorded": False}
             if payload["supersedes_candidate_id"]:
                 prior = c.execute(
-                    """SELECT 1 FROM intelligence_candidates
+                    """SELECT intent_id,candidate_type FROM intelligence_candidates
                        WHERE owner_id=? AND workspace_id=? AND candidate_id=?""",
                     (*self.scope, payload["supersedes_candidate_id"]),
                 ).fetchone()
                 if not prior:
                     raise ValueError("Superseded candidate does not exist in this workspace.")
+                if prior["intent_id"] != payload["intent_id"] or prior["candidate_type"] != payload["candidate_type"]:
+                    raise ValueError("Candidates may supersede only the same type within the same intent.")
             c.execute(
                 """INSERT INTO intelligence_candidates
                    (owner_id,workspace_id,candidate_id,intent_id,candidate_type,content_json,

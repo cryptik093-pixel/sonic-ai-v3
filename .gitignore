@@ -25,6 +25,9 @@ coverage/
 apps/api/storage/
 apps/api/data/
 data/
+*.db
+*.sqlite
+*.sqlite3
 *.spec
 artifacts/
 test-results/
@@ -38,3 +41,6 @@ pnpm-debug.log*
 .DS_Store
 .idea/
 .vscode/
+
+# Private contact/address-book exports
+*.vcf

@@ -61,7 +61,7 @@ def status(request: Request):
     configured = bool(Settings.from_env().openai_api_key)
     return {"version": APP_VERSION, "owner_id": service.OWNER, "workspace_id": service.WORKSPACE,
             "local_engine": "ready", "cloud_ai": "configured_not_verified" if configured else "not_configured",
-            "capabilities": ["prompt_to_midi", "analysis", "pack", "release", "focus", "coach", "feedback_memory"],
+            "capabilities": ["prompt_to_midi", "analysis", "pack", "release", "focus", "coach", "feedback_memory", "intelligence_candidate_ledger"],
             "mcp_url": str(request.base_url).rstrip("/") + "/mcp", "runs": service.list_runs(), "assets": service.list_assets()}
 
 

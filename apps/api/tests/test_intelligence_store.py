@@ -236,7 +236,7 @@ def test_intelligence_api_is_authenticated_and_candidate_only(client):
     assert status.json() == {
         "status": "ready",
         "authority": "candidate-ledger-only",
-        "counts": {"intents": 1, "evidence": 1, "checkpoints": 1, "candidates": 1, "decisions": 1},
+        "counts": {"intents": 1, "evidence": 1, "checkpoints": 1, "candidates": 1, "decisions": 1, "materialization_events": 0},
     }
 
     listed = client.get(

@@ -49,9 +49,9 @@ class WorkbenchAuth:
         await self.app(scope, receive, send)
 
 
-def call(fn, *args):
+def call(fn, *args, **kwargs):
     try:
-        return fn(*args)
+        return fn(*args, **kwargs)
     except ValueError as exc:
         raise HTTPException(422, str(exc)) from None
 

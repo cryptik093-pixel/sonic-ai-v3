@@ -19,6 +19,7 @@ from .integrations.store import EventStore
 from .integrations.webhooks import router as webhook_router
 
 from .routers import assets, chat, memory, projects, uploads, intelligence
+from .version import APP_VERSION
 
 
 @asynccontextmanager
@@ -34,7 +35,7 @@ async def lifespan(app):
 
 app = FastAPI(
     title="Sonic AI API",
-    version="0.5.0",
+    version=APP_VERSION,
     description="Sonic AI V3 — Producer Operating System API",
     lifespan=lifespan,
 )
@@ -75,7 +76,7 @@ def production_workbench():
 def root():
     return {
         "message": "Sonic AI API",
-        "version": "0.5.0",
+        "version": APP_VERSION,
     }
 
 

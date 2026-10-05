@@ -95,3 +95,20 @@ Desktop CI verifies:
 ### Immediate decision
 
 Do not merge any divergent line. Next recovery work should separately validate the clean MIDI commit, inventory unique OHIS documents/schemas, and decompose Studio Drop/event-store changes by concern.
+
+
+## Tier 1 execution update
+
+### Repository data hygiene
+- `dev.db` was the only tracked SQLite/database file in the canonical tree.
+- Blob SHA: `1c8fda75727c07c340939e57f54a05969a2fc67f`.
+- Provenance: introduced by commit `6a86f891e1cd6295d119b5171d069df05d5311e1` ("Add files via upload", 2026-06-20).
+- Schema scan identified `users`, `projects`, `assets`, `analyses`, and `producer_profiles`.
+- Content scan found no email-like values, UUIDs, URLs, API-key patterns, bearer tokens, JWTs, or password strings.
+- Recovery branch removes the tracked local DB and ignores `*.db`, `*.sqlite`, and `*.sqlite3`.
+
+### MIDI candidate
+- `upgrade/midi-musical-coherence` remains one clean commit ahead of main.
+- Exact candidate SHA `c2dcefb582c65d1d5f7f78dbbe335378725a577e` passed Runtime Baseline, CI, Veracode, and Sonic Desktop workflows.
+- Existing draft PR: #28.
+- Remaining release gates are Windows packaged/native UI acceptance, FL Studio import verification, and operator listening acceptance; no forced merge is authorized.

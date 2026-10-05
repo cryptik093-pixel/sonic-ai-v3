@@ -9,6 +9,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import re
 import sqlite3
 from datetime import UTC, datetime
 from pathlib import Path
@@ -525,6 +526,64 @@ class IntelligenceStore:
                 "materialization": state,
             })
         return sorted(result, key=lambda item: (item["created_at"], item["candidate_id"]))
+
+    def retrieve_materialized_memories(
+        self,
+        query_text: str,
+        *,
+        intent_id: str | None = None,
+        limit: int = 8,
+    ) -> list[dict[str, Any]]:
+        query = query_text.strip().lower()
+        if not query:
+            raise ValueError("query_text is required")
+        if limit < 1 or limit > 20:
+            raise ValueError("limit must be between 1 and 20")
+
+        tokens = sorted({token for token in re.findall(r"[a-z0-9][a-z0-9_'-]+", query) if len(token) >= 3})
+        if not tokens:
+            raise ValueError("query_text must contain at least one meaningful token")
+
+        ranked: list[dict[str, Any]] = []
+        for memory in self.list_materialized_memories(intent_id=intent_id):
+            text = str(memory["content"]).lower()
+            hits = [token for token in tokens if token in text]
+            if not hits and query not in text:
+                continue
+            coverage = len(hits) / len(tokens)
+            exact_phrase = 1.0 if query in text else 0.0
+            confidence = float(memory["confidence"])
+            evidence_strength = min(len(memory["evidence_ids"]) / 5.0, 1.0)
+            score = (
+                0.55 * coverage
+                + 0.20 * confidence
+                + 0.15 * evidence_strength
+                + 0.10 * exact_phrase
+            )
+            ranked.append({
+                **memory,
+                "retrieval": {
+                    "score": round(score, 6),
+                    "token_coverage": round(coverage, 6),
+                    "matched_tokens": hits,
+                    "exact_phrase": bool(exact_phrase),
+                    "confidence_component": round(confidence, 6),
+                    "evidence_strength": round(evidence_strength, 6),
+                    "method": "tier2_lexical_evidence_v1",
+                },
+            })
+
+        ranked.sort(
+            key=lambda item: (
+                item["retrieval"]["score"],
+                item["confidence"],
+                len(item["evidence_ids"]),
+                item["created_at"],
+                item["candidate_id"],
+            ),
+            reverse=True,
+        )
+        return ranked[:limit]
 
     def list_candidates(self, *, intent_id: str | None = None, candidate_type: str | None = None) -> list[dict[str, Any]]:
         query = """SELECT candidate_id FROM intelligence_candidates

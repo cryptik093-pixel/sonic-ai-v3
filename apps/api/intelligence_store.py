@@ -570,10 +570,10 @@ class IntelligenceStore:
         for memory in self.list_materialized_memories(intent_id=intent_id):
             text = str(memory["content"]).lower()
             hits = [token for token in tokens if token in text]
-            if not hits and query not in text:
-                continue
             coverage = len(hits) / len(tokens)
             exact_phrase = 1.0 if query in text else 0.0
+            if not exact_phrase and coverage < 0.40:
+                continue
             confidence = float(memory["confidence"])
             evidence_strength = min(len(memory["evidence_ids"]) / 5.0, 1.0)
             score = (

@@ -1,0 +1,32 @@
+{
+  "intent_id": "SI-OH-LEGACY-001",
+  "statement": "Expand Omega House Beats legacy when revenue activation, flagship portfolio balance, timing, creative readiness, and evidence quality support the next major release decision.",
+  "intent_class": "strategic",
+  "status": "active",
+  "priority": 100,
+  "horizon": "long_term",
+  "created_at": "2026-09-01T00:00:00Z",
+  "updated_at": "2026-09-01T00:00:00Z",
+  "goals": [
+    {
+      "goal_id": "GOAL-OH-LEGACY-001",
+      "statement": "Establish a healthy measurable trajectory for the Heirglyphic and Rebellion flagship products before expanding the legacy.",
+      "status": "active",
+      "milestone_ids": ["MS-OH-LEGACY-001"],
+      "metric_targets": [
+        { "metric": "monthly_net_revenue", "target": [4000, 10000], "comparison": "within_range", "observation_window": "configured_sustained_window" },
+        { "metric": "flagship_portfolio_balance", "target": "healthy_configured_range", "comparison": "within_range", "observation_window": "configured_sustained_window" }
+      ]
+    }
+  ],
+  "gates": {
+    "revenue": { "status": "unknown", "score": null, "evidence_ids": [], "rationale": "Awaiting measured transaction history." },
+    "portfolio_balance": { "status": "insufficient", "score": null, "evidence_ids": [], "rationale": "Healthy range must be established from product-level evidence." },
+    "timing": { "status": "unknown", "score": null, "evidence_ids": [], "rationale": "Timing evaluation is deferred until trajectory evidence is sufficient." },
+    "creative_readiness": { "status": "unknown", "score": null, "evidence_ids": [], "rationale": "Creator readiness must be explicitly captured at decision time." },
+    "evidence_quality": { "status": "insufficient", "score": null, "evidence_ids": [], "rationale": "Initial intent has strategic evidence but not yet sufficient outcome data." }
+  },
+  "evidence_ids": [],
+  "forecast_ids": [],
+  "decision_event_id": null
+}

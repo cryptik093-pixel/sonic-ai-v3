@@ -80,3 +80,18 @@ Desktop CI verifies:
 - recovery fixes remain reversible
 - coherent fixes committed only after validation
 - no destructive history operation performed
+
+
+## Branch comparison classification
+
+- `codex/sonic-production-workbench`: 0 ahead / 2 behind. No unique commits remain relative to main; treat as already subsumed, not a recovery source.
+- `recovery/runtime-baseline-integration`: 0 ahead / 7 behind. No unique commits remain relative to main; preserve for provenance only.
+- `upgrade/midi-musical-coherence`: 1 ahead / 0 behind; 34 changed files. Clean candidate for isolated validation before any integration.
+- `codex/sonic-v3.5-clean-foundation`: diverged, 1 ahead / 13 behind; selective extraction only.
+- `feat/ohis-foundation-v1`: diverged, 11 ahead / 47 behind; unique OHIS doctrine/schema assets identified; selective recovery only.
+- `feat/studio-drop-002-packaging`: diverged, 19 ahead / 69 behind; product packaging plus event-store work present; selective recovery only.
+- `recovery/actual-project-state`: diverged, 30 ahead / 69 behind across 149 files; high-risk wholesale merge source. Use as evidence reservoir only until decomposed.
+
+### Immediate decision
+
+Do not merge any divergent line. Next recovery work should separately validate the clean MIDI commit, inventory unique OHIS documents/schemas, and decompose Studio Drop/event-store changes by concern.

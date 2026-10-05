@@ -134,6 +134,18 @@ class IntelligenceStore:
                     PRIMARY KEY (owner_id, workspace_id, decision_id)
                 );
 
+                CREATE TABLE IF NOT EXISTS intelligence_materialization_events (
+                    owner_id TEXT NOT NULL,
+                    workspace_id TEXT NOT NULL,
+                    materialization_event_id TEXT NOT NULL,
+                    candidate_id TEXT NOT NULL,
+                    action TEXT NOT NULL CHECK (action IN ('activate','retire')),
+                    rationale TEXT NOT NULL,
+                    occurred_at TEXT NOT NULL,
+                    payload_hash TEXT NOT NULL,
+                    PRIMARY KEY (owner_id, workspace_id, materialization_event_id)
+                );
+
                 CREATE INDEX IF NOT EXISTS idx_intelligence_evidence_intent
                     ON intelligence_evidence(owner_id, workspace_id, intent_id, observed_at);
                 CREATE INDEX IF NOT EXISTS idx_intelligence_checkpoints_intent
@@ -142,6 +154,8 @@ class IntelligenceStore:
                     ON intelligence_candidates(owner_id, workspace_id, intent_id, candidate_type, created_at);
                 CREATE INDEX IF NOT EXISTS idx_intelligence_candidate_decisions
                     ON intelligence_candidate_decisions(owner_id, workspace_id, candidate_id, decided_at);
+                CREATE INDEX IF NOT EXISTS idx_intelligence_materialization_events
+                    ON intelligence_materialization_events(owner_id, workspace_id, candidate_id, occurred_at);
                 """
             )
 
@@ -411,6 +425,107 @@ class IntelligenceStore:
             "decisions": [dict(d) for d in decisions],
         }
 
+    def materialization_state(self, candidate_id: str) -> dict[str, Any]:
+        candidate = self.get_candidate(candidate_id)
+        with self._connect() as c:
+            rows = c.execute(
+                """SELECT materialization_event_id,action,rationale,occurred_at
+                   FROM intelligence_materialization_events
+                   WHERE owner_id=? AND workspace_id=? AND candidate_id=?
+                   ORDER BY occurred_at ASC, materialization_event_id ASC""",
+                (*self.scope, candidate_id),
+            ).fetchall()
+        events = [dict(row) for row in rows]
+        requested_active = bool(events and events[-1]["action"] == "activate")
+        eligible = candidate["candidate_type"] == "memory" and candidate["status"] == "accepted"
+        return {
+            "candidate_id": candidate_id,
+            "candidate_type": candidate["candidate_type"],
+            "candidate_status": candidate["status"],
+            "requested_active": requested_active,
+            "active": requested_active and eligible,
+            "blocked_reason": None if (not requested_active or eligible) else "candidate_not_accepted",
+            "events": events,
+        }
+
+    def _record_materialization(self, candidate_id: str, event: dict[str, Any], action: str) -> dict[str, Any]:
+        candidate = self.get_candidate(candidate_id)
+        if candidate["candidate_type"] != "memory":
+            raise ValueError("Only memory candidates can be materialized at Gate 2.3.")
+
+        payload = {
+            "materialization_event_id": event["materialization_event_id"],
+            "candidate_id": candidate_id,
+            "action": action,
+            "rationale": event.get("rationale", ""),
+            "occurred_at": event.get("occurred_at") or now(),
+        }
+        digest = fingerprint(payload)
+        with self._connect() as c:
+            existing = c.execute(
+                """SELECT payload_hash FROM intelligence_materialization_events
+                   WHERE owner_id=? AND workspace_id=? AND materialization_event_id=?""",
+                (*self.scope, payload["materialization_event_id"]),
+            ).fetchone()
+            if existing:
+                if existing["payload_hash"] != digest:
+                    raise ValueError("Materialization event ID collision.")
+                return self.materialization_state(candidate_id) | {"recorded": False}
+
+        if action == "activate" and candidate["status"] != "accepted":
+            raise ValueError("Memory candidate must be explicitly accepted before materialization.")
+        state = self.materialization_state(candidate_id)
+        if action == "activate" and state["active"]:
+            raise ValueError("Memory candidate is already active.")
+        if action == "retire" and not state["requested_active"]:
+            raise ValueError("Memory candidate is not currently materialized.")
+
+        with self._connect() as c:
+            c.execute(
+                """INSERT INTO intelligence_materialization_events
+                   (owner_id,workspace_id,materialization_event_id,candidate_id,action,rationale,occurred_at,payload_hash)
+                   VALUES (?,?,?,?,?,?,?,?)""",
+                (*self.scope, payload["materialization_event_id"], candidate_id, action,
+                 payload["rationale"], payload["occurred_at"], digest),
+            )
+        return self.materialization_state(candidate_id) | {"recorded": True}
+
+    def materialize_memory(self, candidate_id: str, event: dict[str, Any]) -> dict[str, Any]:
+        candidate = self.get_candidate(candidate_id)
+        content = candidate["content"].get("content") or candidate["content"].get("claim")
+        if not isinstance(content, str) or not content.strip():
+            raise ValueError("Memory candidate must contain non-empty 'content' or 'claim' text.")
+        return self._record_materialization(candidate_id, event, "activate")
+
+    def retire_materialized_memory(self, candidate_id: str, event: dict[str, Any]) -> dict[str, Any]:
+        return self._record_materialization(candidate_id, event, "retire")
+
+    def list_materialized_memories(self, *, intent_id: str | None = None) -> list[dict[str, Any]]:
+        query = """SELECT DISTINCT candidate_id FROM intelligence_materialization_events
+                   WHERE owner_id=? AND workspace_id=?"""
+        params: list[Any] = [*self.scope]
+        with self._connect() as c:
+            ids = [row["candidate_id"] for row in c.execute(query, params).fetchall()]
+        result: list[dict[str, Any]] = []
+        for candidate_id in ids:
+            candidate = self.get_candidate(candidate_id)
+            if intent_id and candidate["intent_id"] != intent_id:
+                continue
+            state = self.materialization_state(candidate_id)
+            if not state["active"]:
+                continue
+            content = candidate["content"].get("content") or candidate["content"].get("claim")
+            result.append({
+                "candidate_id": candidate_id,
+                "intent_id": candidate["intent_id"],
+                "content": content,
+                "confidence": candidate["confidence"],
+                "evidence_ids": candidate["evidence_ids"],
+                "created_at": candidate["created_at"],
+                "materialization": state,
+            })
+        return sorted(result, key=lambda item: (item["created_at"], item["candidate_id"]))
+
     def list_candidates(self, *, intent_id: str | None = None, candidate_type: str | None = None) -> list[dict[str, Any]]:
         query = """SELECT candidate_id FROM intelligence_candidates
                    WHERE owner_id=? AND workspace_id=?"""
@@ -435,6 +550,7 @@ class IntelligenceStore:
             "checkpoints": "intelligence_checkpoints",
             "candidates": "intelligence_candidates",
             "decisions": "intelligence_candidate_decisions",
+            "materialization_events": "intelligence_materialization_events",
         }
         result: dict[str, int] = {}
         with self._connect() as c:

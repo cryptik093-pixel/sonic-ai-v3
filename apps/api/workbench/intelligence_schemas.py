@@ -61,3 +61,9 @@ class CandidateDecisionCreate(BaseModel):
     status: Literal["accepted", "rejected", "superseded"]
     rationale: str = Field(default="", max_length=8000)
     decided_at: str = Field(default_factory=utc_now)
+
+
+class MaterializationEventCreate(BaseModel):
+    materialization_event_id: str = Field(min_length=1, max_length=160)
+    rationale: str = Field(default="", max_length=8000)
+    occurred_at: str = Field(default_factory=utc_now)

@@ -15,7 +15,7 @@ from ..intelligence_store import IntelligenceStore
 from ..version import APP_VERSION
 from . import service
 from .schemas import AnalyzeCommand, CoachCommand, FeedbackCommand, FocusCommand, MidiCommand, PackCommand, ReleaseCommand
-from .intelligence_schemas import CandidateCreate, CandidateDecisionCreate, CheckpointCreate, EvidenceCreate, IntentCreate
+from .intelligence_schemas import CandidateCreate, CandidateDecisionCreate, CheckpointCreate, EvidenceCreate, IntentCreate, MaterializationEventCreate
 
 router = APIRouter(prefix="/workbench/api", tags=["Production Workbench"])
 
@@ -205,3 +205,23 @@ def get_intelligence_candidate(candidate_id: str):
 @router.post("/intelligence/candidates/{candidate_id}/decision")
 def decide_intelligence_candidate(candidate_id: str, payload: CandidateDecisionCreate):
     return call(intelligence_store().decide_candidate, candidate_id, payload.model_dump(mode="json"))
+
+
+@router.get("/intelligence/materialized-memories")
+def list_materialized_intelligence_memories(intent_id: str | None = None):
+    return call(intelligence_store().list_materialized_memories, intent_id=intent_id)
+
+
+@router.get("/intelligence/candidates/{candidate_id}/materialization")
+def get_candidate_materialization(candidate_id: str):
+    return call(intelligence_store().materialization_state, candidate_id)
+
+
+@router.post("/intelligence/candidates/{candidate_id}/materialize")
+def materialize_intelligence_memory(candidate_id: str, payload: MaterializationEventCreate):
+    return call(intelligence_store().materialize_memory, candidate_id, payload.model_dump(mode="json"))
+
+
+@router.post("/intelligence/candidates/{candidate_id}/retire")
+def retire_intelligence_memory(candidate_id: str, payload: MaterializationEventCreate):
+    return call(intelligence_store().retire_materialized_memory, candidate_id, payload.model_dump(mode="json"))

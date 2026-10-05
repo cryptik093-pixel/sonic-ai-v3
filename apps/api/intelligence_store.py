@@ -452,13 +452,6 @@ class IntelligenceStore:
         candidate = self.get_candidate(candidate_id)
         if candidate["candidate_type"] != "memory":
             raise ValueError("Only memory candidates can be materialized at Gate 2.3.")
-        if action == "activate" and candidate["status"] != "accepted":
-            raise ValueError("Memory candidate must be explicitly accepted before materialization.")
-        state = self.materialization_state(candidate_id)
-        if action == "activate" and state["active"]:
-            raise ValueError("Memory candidate is already active.")
-        if action == "retire" and not state["requested_active"]:
-            raise ValueError("Memory candidate is not currently materialized.")
 
         payload = {
             "materialization_event_id": event["materialization_event_id"],
@@ -478,6 +471,16 @@ class IntelligenceStore:
                 if existing["payload_hash"] != digest:
                     raise ValueError("Materialization event ID collision.")
                 return self.materialization_state(candidate_id) | {"recorded": False}
+
+        if action == "activate" and candidate["status"] != "accepted":
+            raise ValueError("Memory candidate must be explicitly accepted before materialization.")
+        state = self.materialization_state(candidate_id)
+        if action == "activate" and state["active"]:
+            raise ValueError("Memory candidate is already active.")
+        if action == "retire" and not state["requested_active"]:
+            raise ValueError("Memory candidate is not currently materialized.")
+
+        with self._connect() as c:
             c.execute(
                 """INSERT INTO intelligence_materialization_events
                    (owner_id,workspace_id,materialization_event_id,candidate_id,action,rationale,occurred_at,payload_hash)

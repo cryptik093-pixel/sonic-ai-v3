@@ -14,6 +14,8 @@ from ..config import Settings
 from ..intelligence_store import IntelligenceStore
 from ..version import APP_VERSION
 from . import service
+from .decision_intelligence import DecisionIntelligence
+from .decision_schemas import DecisionRankRequest
 from .schemas import AnalyzeCommand, CoachCommand, FeedbackCommand, FocusCommand, MidiCommand, PackCommand, ReleaseCommand
 from .intelligence_schemas import CandidateCreate, CandidateDecisionCreate, CheckpointCreate, EvidenceCreate, IntentCreate, MaterializationEventCreate
 
@@ -61,7 +63,7 @@ def status(request: Request):
     configured = bool(Settings.from_env().openai_api_key)
     return {"version": APP_VERSION, "owner_id": service.OWNER, "workspace_id": service.WORKSPACE,
             "local_engine": "ready", "cloud_ai": "configured_not_verified" if configured else "not_configured",
-            "capabilities": ["prompt_to_midi", "analysis", "pack", "release", "focus", "coach", "feedback_memory", "intelligence_candidate_ledger"],
+            "capabilities": ["prompt_to_midi", "analysis", "pack", "release", "focus", "coach", "feedback_memory", "intelligence_candidate_ledger", "decision_intelligence_ranker"],
             "mcp_url": str(request.base_url).rstrip("/") + "/mcp", "runs": service.list_runs(), "assets": service.list_assets()}
 
 
@@ -230,3 +232,8 @@ def retire_intelligence_memory(candidate_id: str, payload: MaterializationEventC
 @router.get("/intelligence/retrieve")
 def retrieve_intelligence_memories(query: str, intent_id: str | None = None, limit: int = 8):
     return call(intelligence_store().retrieve_materialized_memories, query, intent_id=intent_id, limit=limit)
+
+
+@router.post("/intelligence/decisions/rank")
+def rank_intelligence_decision(payload: DecisionRankRequest):
+    return call(DecisionIntelligence(intelligence_store()).rank, payload)

@@ -112,3 +112,36 @@ Do not merge any divergent line. Next recovery work should separately validate t
 - Exact candidate SHA `c2dcefb582c65d1d5f7f78dbbe335378725a577e` passed Runtime Baseline, CI, Veracode, and Sonic Desktop workflows.
 - Existing draft PR: #28.
 - Remaining release gates are Windows packaged/native UI acceptance, FL Studio import verification, and operator listening acceptance; no forced merge is authorized.
+
+
+### OHIS selective recovery
+- Source `feat/ohis-foundation-v1` was 11 ahead / 47 behind and therefore not merged.
+- Unique doctrine/schema blobs were transplanted onto canonical main ancestry in `recovery/tier1-ohis-selective-2026-10-05`.
+- Recovery commit: `754659ce1ad0571dbca5fa935c7c3c62d6190b97`.
+- JSON Schema Draft 2020-12 parsed successfully.
+- Runtime Baseline: PASS.
+- Draft PR: #30.
+
+### Studio Drop 002 evidence
+- Source `feat/studio-drop-002-packaging` was 19 ahead / 69 behind.
+- Seven unique product/package documents were preserved verbatim under a recovery-only namespace on `recovery/tier1-studio-drop-002-evidence-2026-10-05`.
+- Recovery commit: `810e25d611212aa14a95a207e4be1acba1a342a2`.
+- Runtime Baseline: PASS before PR checks.
+- Draft PR: #31.
+- The historical manifest's `MVP_CERTIFIED` label conflicts with its own unresolved filenames/formats/metadata/checksums/package-validation requirements; recovered docs are evidence, not current release certification.
+- Event/runtime files embedded in the Studio Drop branch were verified byte-identical to dedicated Tier-5 branches and excluded from product recovery.
+
+### Tier 5 event foundation
+- Historical Gate 1: 13 ahead / 69 behind; old CI passed but old Veracode failed.
+- Historical Gate 2: 15 ahead / 69 behind; no recorded workflow evidence.
+- Selective recovery branch: `recovery/tier1-tier5-event-contract-2026-10-05`.
+- Recovery commit: `bbecbaffb01d06d59ad105c80e3e0d6ddfdfd86c`.
+- Recovered only the internal canonical event envelope, validator/bus, durable SQLite store, and tests.
+- External events router and Shopify webhook ingestion remain excluded because the historical contract explicitly deferred authentication/signature verification.
+- Draft PR: #32.
+
+### Sonic v3.5 foundation classification
+- `codex/sonic-v3.5-clean-foundation` is **historical design evidence, not a runtime recovery source**.
+- Its repository-state snapshot claims API/web are blocked/package-manifest-only, which is stale relative to canonical main.
+- Its local read-only MCP is narrower than current main's authenticated HTTP MCP/workbench surface.
+- Agent operating-model concepts may be referenced manually, but the v3.5 state snapshot/server must not replace current runtime truth.

@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sonic-ai-v3.local/schemas/future-intent.schema.json",
+  "title": "Sonic AI V3 Future Intent",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["intent_id", "statement", "status", "created_at", "updated_at", "gates"],
+  "properties": {
+    "intent_id": { "type": "string", "pattern": "^SI-[A-Z0-9-]+$" },
+    "statement": { "type": "string", "minLength": 1 },
+    "intent_class": { "enum": ["prospective", "strategic", "creative", "operational", "learning"] },
+    "status": { "enum": ["captured", "clarified", "active", "progressing", "ready_for_decision", "achieved", "abandoned", "superseded"] },
+    "priority": { "type": "integer", "minimum": 0, "maximum": 100 },
+    "horizon": { "enum": ["immediate", "short_term", "medium_term", "long_term", "open_ended"] },
+    "created_at": { "type": "string", "format": "date-time" },
+    "updated_at": { "type": "string", "format": "date-time" },
+    "supersedes": { "type": ["string", "null"] },
+    "goals": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/goal" }
+    },
+    "gates": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["revenue", "portfolio_balance", "timing", "creative_readiness", "evidence_quality"],
+      "properties": {
+        "revenue": { "$ref": "#/$defs/gate" },
+        "portfolio_balance": { "$ref": "#/$defs/gate" },
+        "timing": { "$ref": "#/$defs/gate" },
+        "creative_readiness": { "$ref": "#/$defs/gate" },
+        "evidence_quality": { "$ref": "#/$defs/gate" }
+      }
+    },
+    "creator_readiness": { "$ref": "#/$defs/creatorReadiness" },
+    "evidence_ids": { "type": "array", "items": { "type": "string" } },
+    "forecast_ids": { "type": "array", "items": { "type": "string" } },
+    "decision_event_id": { "type": ["string", "null"] }
+  },
+  "$defs": {
+    "goal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["goal_id", "statement", "status"],
+      "properties": {
+        "goal_id": { "type": "string" },
+        "statement": { "type": "string" },
+        "status": { "enum": ["pending", "active", "blocked", "achieved", "abandoned", "superseded"] },
+        "milestone_ids": { "type": "array", "items": { "type": "string" } },
+        "metric_targets": { "type": "array", "items": { "$ref": "#/$defs/metricTarget" } }
+      }
+    },
+    "metricTarget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["metric", "target", "comparison"],
+      "properties": {
+        "metric": { "type": "string" },
+        "target": {},
+        "comparison": { "enum": ["gte", "lte", "eq", "within_range", "trend_positive", "trend_stable"] },
+        "observation_window": { "type": ["string", "null"] }
+      }
+    },
+    "gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status"],
+      "properties": {
+        "status": { "enum": ["unknown", "insufficient", "pass", "fail", "conflicted"] },
+        "score": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
+        "evidence_ids": { "type": "array", "items": { "type": "string" } },
+        "rationale": { "type": "string" }
+      }
+    },
+    "creatorReadiness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["value", "source", "timestamp"],
+      "properties": {
+        "value": { "enum": ["ready", "not_ready", "uncertain"] },
+        "source": { "const": "creator" },
+        "rationale": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      }
+    }
+  }
+}

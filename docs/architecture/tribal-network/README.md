@@ -16,7 +16,7 @@ This folder preserves two truths at the same time:
 - `03_TRIBAL_NETWORK_FUTURE_DESIGN_FEATURE_BLUEPRINT.md` — full future-state design and feature blueprint.
 - `04_TRIBAL_NETWORK_CONCEPT_TO_BUILD_BENCHMARK.md` — benchmark and maturity system for comparing current builds to the intended final system.
 - `MAGICPATH_HANDOFF.md` — concise product-design handoff for future MagicPath implementation work.
-- `source-docx/` — formatted Word-source versions of the same four specifications.
+- The Markdown specifications in this folder are the canonical agent/build-readable copies. Formatted Word originals are maintained as companion artifacts outside the repository unless explicitly committed later.
 
 ## Core operating rule
 

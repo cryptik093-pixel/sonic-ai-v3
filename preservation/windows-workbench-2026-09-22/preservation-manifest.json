@@ -1,0 +1,121 @@
+{
+  "preserved_at": "2026-10-10",
+  "repository": "cryptik093-pixel/sonic-ai-v3",
+  "source_commit": "c390daa0f14d307d79d46dc8508fca76622d806b",
+  "workflow_run_id": 35721229933,
+  "workflow_conclusion": "success",
+  "artifacts": [
+    {
+      "artifact_id": 10692450374,
+      "file": "Sonic-Windows-x64.zip",
+      "bytes": 43814804,
+      "recorded_digest": "sha256:d8f2cc2865c9f6fb2546d8d74b6e6ca5a9db0622125a6c1eebfab3f29e70a778",
+      "computed_sha256": "d8f2cc2865c9f6fb2546d8d74b6e6ca5a9db0622125a6c1eebfab3f29e70a778",
+      "digest_matches": true,
+      "zip_integrity_passed": true,
+      "original_expires_at": "2026-12-21T11:24:01Z"
+    },
+    {
+      "artifact_id": 10691622330,
+      "file": "sonic-windows-verification.zip",
+      "bytes": 554,
+      "recorded_digest": "sha256:aecfe1f6ec62ee94f4143506cae8735cd1e7f4ad46db78d3f1b66029f8e14427",
+      "computed_sha256": "aecfe1f6ec62ee94f4143506cae8735cd1e7f4ad46db78d3f1b66029f8e14427",
+      "digest_matches": true,
+      "zip_integrity_passed": true,
+      "original_expires_at": "2026-12-21T11:24:01Z"
+    },
+    {
+      "artifact_id": 10691282117,
+      "file": "sonic-linux-verification.zip",
+      "bytes": 572858,
+      "recorded_digest": "sha256:d58eb3792fa9090667e2a8cdfb0dcb109e1bbc132a66c047717e1b8bd26497b6",
+      "computed_sha256": "d58eb3792fa9090667e2a8cdfb0dcb109e1bbc132a66c047717e1b8bd26497b6",
+      "digest_matches": true,
+      "zip_integrity_passed": true,
+      "original_expires_at": "2026-12-21T11:24:01Z"
+    }
+  ],
+  "verification_records": [
+    {
+      "archive": "sonic-windows-verification.zip",
+      "entry": "packaged-smoke.json",
+      "result": {
+        "passed": true,
+        "run_id": "91c98149-57f6-494c-99b7-8b2b81354ec4",
+        "artifacts": 8,
+        "checks": [
+          "packaged_http_boot",
+          "bundled_ui_assets",
+          "midi_parse",
+          "download_zip",
+          "authorization"
+        ]
+      }
+    },
+    {
+      "archive": "sonic-windows-verification.zip",
+      "entry": "native-ui-smoke.json",
+      "result": {
+        "passed": true,
+        "checks": [
+          "native_window_boot",
+          "automatic_connection",
+          "generate_button",
+          "audition_audio_loaded"
+        ]
+      }
+    },
+    {
+      "archive": "sonic-linux-verification.zip",
+      "entry": "browser-proof.json",
+      "result": {
+        "passed": true,
+        "checks": [
+          "automatic_token_bootstrap",
+          "generate_button",
+          "piano_roll",
+          "audition_decoding_playback",
+          "midi_download_parse",
+          "pack_zip_manifest",
+          "release_csv",
+          "audio_upload_analysis",
+          "energy_bounded_focus_timer",
+          "persisted_history_after_reload",
+          "mobile_no_overflow",
+          "zero_browser_exceptions"
+        ],
+        "screenshots": "test-results/screenshots"
+      }
+    },
+    {
+      "archive": "sonic-linux-verification.zip",
+      "entry": "desktop-smoke.json",
+      "result": {
+        "passed": true,
+        "run_id": "11f46a33-dbec-4442-9f9e-933ba32643fc",
+        "artifacts": 8,
+        "checks": [
+          "packaged_http_boot",
+          "bundled_ui_assets",
+          "midi_parse",
+          "download_zip",
+          "authorization"
+        ]
+      }
+    }
+  ],
+  "limitations": [
+    "Executable not run during preservation",
+    "Physical FL Studio validation not performed",
+    "Source snapshot does not include complete Git history",
+    "Later MIDI upgrade not included"
+  ],
+  "source_snapshot": {
+    "file": "source-c390daa0f14d307d79d46dc8508fca76622d806b.zip",
+    "sha256": "a7c4274c74a2a8a135916af196de6f6c4c4632223034fdb9fa5e1cfe5b4c56f6",
+    "bytes": 523361,
+    "zip_integrity_passed": true,
+    "url": "https://codeload.github.com/cryptik093-pixel/sonic-ai-v3/zip/c390daa0f14d307d79d46dc8508fca76622d806b"
+  }
+}

@@ -74,5 +74,7 @@ async def studio_chat_socket(ws: WebSocket):
             except (ValueError, ValidationError):
                 await ws.send_json({"type": "ERROR", "request_id": request_id,
                                     "message": "That production brief could not be previewed."})
-    except (WebSocketDisconnect, asyncio.TimeoutError, ValueError, TypeError):
-        await ws.close(code=1000)
+    except WebSocketDisconnect:
+        return
+    except (asyncio.TimeoutError, ValueError, TypeError):
+        await ws.close(code=1002)

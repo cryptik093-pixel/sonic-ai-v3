@@ -17,6 +17,7 @@ export function StudioChat({ socketClient, getCurrentProjectState }: Props) {
   }]);
   const [input, setInput] = useState("");
   const [processing, setProcessing] = useState(false);
+  const [connected, setConnected] = useState(true);
   const end = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -27,6 +28,7 @@ export function StudioChat({ socketClient, getCurrentProjectState }: Props) {
         id: crypto.randomUUID(), sender, text: event.message,
       }]);
       if (event.type === "SUCCESS" || event.type === "ERROR") setProcessing(false);
+      if (event.type === "ERROR" && event.message.startsWith("Studio disconnected.")) setConnected(false);
     });
     return unsubscribe;
   }, [socketClient]);
@@ -36,7 +38,7 @@ export function StudioChat({ socketClient, getCurrentProjectState }: Props) {
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const text = input.trim();
-    if (!text || processing) return;
+    if (!text || processing || !connected) return;
     try {
       socketClient.sendPromptToAI(text, getCurrentProjectState());
       setMessages((prev) => [...prev.slice(-99), {
@@ -58,7 +60,7 @@ export function StudioChat({ socketClient, getCurrentProjectState }: Props) {
         <h2 className="text-sm font-semibold tracking-wider">SONIC STUDIO CHAT</h2>
         <span className="flex items-center gap-2 text-xs text-zinc-400">
           <span className={`h-2 w-2 rounded-full ${processing ? "animate-pulse bg-amber-500" : "bg-emerald-500"}`} />
-          {processing ? "Previewing" : "Connected"}
+          {!connected ? "Disconnected" : processing ? "Previewing" : "Connected"}
         </span>
       </header>
       <div aria-live="polite" aria-relevant="additions" className="flex-1 space-y-3 overflow-y-auto p-4">
@@ -77,10 +79,10 @@ export function StudioChat({ socketClient, getCurrentProjectState }: Props) {
       <form onSubmit={submit} className="flex gap-2 border-t border-zinc-800 p-3">
         <label htmlFor="studio-prompt" className="sr-only">Production prompt</label>
         <input id="studio-prompt" type="text" maxLength={2000} autoComplete="off"
-          value={input} onChange={(e) => setInput(e.target.value)} disabled={processing}
+          value={input} onChange={(e) => setInput(e.target.value)} disabled={processing || !connected}
           placeholder="e.g. Dark F minor trap at 130 BPM"
           className="min-w-0 flex-1 rounded-md border border-zinc-700 bg-zinc-900 px-3 py-2 text-sm outline-none focus:border-blue-400 disabled:opacity-50" />
-        <button type="submit" disabled={processing || !input.trim()}
+        <button type="submit" disabled={processing || !connected || !input.trim()}
           className="rounded-md bg-blue-700 px-4 py-2 text-sm font-semibold hover:bg-blue-600 disabled:opacity-40">
           Send
         </button>

@@ -1,0 +1,9 @@
+{
+  "version": 3,
+  "configurePresets": [
+    {"name":"windows-release","generator":"Ninja","binaryDir":"${sourceDir}/build/windows-release","cacheVariables":{"CMAKE_BUILD_TYPE":"Release","ADLIB93_BUILD_PLUGIN":"OFF"}},
+    {"name":"native-tests","generator":"Ninja","binaryDir":"${sourceDir}/build/native-tests","cacheVariables":{"CMAKE_BUILD_TYPE":"Release","ADLIB93_BUILD_PLUGIN":"OFF"}}
+  ],
+  "buildPresets":[{"name":"windows-release","configurePreset":"windows-release","jobs":1},{"name":"native-tests","configurePreset":"native-tests","jobs":1}],
+  "testPresets":[{"name":"windows-release","configurePreset":"windows-release","output":{"outputOnFailure":true}},{"name":"native-tests","configurePreset":"native-tests","output":{"outputOnFailure":true}}]
+}

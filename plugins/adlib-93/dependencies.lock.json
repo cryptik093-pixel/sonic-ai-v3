@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "juce": {
+    "version":"9.0.4",
+    "commit":"3fb5cbc0340758596dac39f7c8de47d562b4896e",
+    "archiveUrl":"https://github.com/juce-framework/JUCE/archive/3fb5cbc0340758596dac39f7c8de47d562b4896e.zip",
+    "archiveSha256":"47722c9e64f5af35b99c6d5f9605a2213e41858ff6ef1f5b9a9747b1fd310de3",
+    "licenseSelection":"Open-source development route; public/proprietary distribution requires owner licensing review. No paid terms accepted."
+  },
+  "handoffZipSha256":"d66a893c7411b07a10725b20478385e3fcf78a960bc00a83ac79e0362c803438",
+  "compiler":"MSVC 19.51.36256.0 x64",
+  "cmake":"4.3.1-msvc1",
+  "windowsSdk":"10.0.26100.0"
+}

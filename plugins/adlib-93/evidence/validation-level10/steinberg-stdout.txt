@@ -1,0 +1,364 @@
+* Loading module...
+
+	C:\Users\david someone\Desktop\SONIC AI V3\sonic-ai-v3\plugins\adlib-93\dist\ADLIB93.vst3
+
+* Check valid bundle structure...
+
+* Scanning classes...
+
+  Factory Info:
+	vendor = Omega House Studio LLC
+	url = 
+	email = 
+
+  Class Info 0:
+	name = ADLIB-93
+	category = Audio Module Class
+	subCategories = Fx|Delay|Reverb|Modulation|Distortion
+	version = 0.1.0
+	sdkVersion = VST 3.8.0
+	cid = ABCDEF019182FAEB4F6D487341643933
+
+  Class Info 1:
+	name = ADLIB-93
+	category = Component Controller Class
+	subCategories = Fx|Delay|Reverb|Modulation|Distortion
+	version = 0.1.0
+	sdkVersion = VST 3.8.0
+	cid = ABCDEF011234ABCD4F6D487341643933
+
+* Checking snapshots...
+
+Info: No snapshots in Bundle.
+
+* Creating tests...
+
+* Running tests...
+
+-------------------------------------------------------------
+TestSuite : ADLIB-93
+-------------------------------------------------------------
+
+-------------------------------------------------------------
+TestSuite : General Tests
+-------------------------------------------------------------
+
+[Scan Editor Classes]
+Info:  ===Scan Editor Classes ====================================
+Info:  This component has an edit controller class
+Info:     Controller CID: {ABCDEF01-1234-ABCD-4F6D-487341643933}
+[Succeeded]
+
+[Scan Buses]
+Info:  ===Scan Buses ====================================
+Info:  => Audio Buses: [1 In(s) => 1 Out(s)]
+Info:       In [0]: "Vocal input" (Main-Default Active) 
+Info:       Out[0]: "Processed vocal" (Main-Default Active) 
+Info:  => Event Buses: [0 In(s) => 0 Out(s)]
+[Succeeded]
+
+[Scan Parameters]
+Info:  ===Scan Parameters ====================================
+Info:  This component exports 70 parameter(s)
+Info:     Parameter 000 (id=1341029155): [title="Input"] [unit="dB"] [type = Float, default = 0.500000, unit = 0]
+Info:     Parameter 001 (id=2112744734): [title="Gate"] [unit=""] [type = Toggle, default = 0.000000, unit = 0]
+Info:     Parameter 002 (id=61817608): [title="Gate threshold"] [unit="dBFS"] [type = Float, default = 0.441176, unit = 0]
+Info:     Parameter 003 (id=1893325447): [title="Gate attenuation"] [unit="dB"] [type = Float, default = 0.375000, unit = 0]
+Info:     Parameter 004 (id=1345215691): [title="Gate attack"] [unit="ms"] [type = Float, default = 0.076923, unit = 0]
+Info:     Parameter 005 (id=725624834): [title="Gate hold"] [unit="ms"] [type = Float, default = 0.200000, unit = 0]
+Info:     Parameter 006 (id=517966308): [title="Gate release"] [unit="ms"] [type = Float, default = 0.208333, unit = 0]
+Info:     Parameter 007 (id=348166327): [title="De-esser"] [unit=""] [type = Toggle, default = 0.000000, unit = 0]
+Info:     Parameter 008 (id=142019922): [title="De-ess frequency"] [unit="Hz"] [type = Float, default = 0.500000, unit = 0]
+Info:     Parameter 009 (id=814050401): [title="De-ess threshold"] [unit="dBFS"] [type = Float, default = 0.600000, unit = 0]
+Info:     Parameter 010 (id=1862592953): [title="De-ess"] [unit="dB"] [type = Float, default = 0.500000, unit = 0]
+Info:     Parameter 011 (id=623212945): [title="Listen"] [unit=""] [type = Toggle, default = 0.000000, unit = 0]
+Info:     Parameter 012 (id=2026642812): [title="Character"] [unit=""] [type = Toggle, default = 0.000000, unit = 0]
+Info:     Parameter 013 (id=311642440): [title="Character mode"] [unit=""] [type = Discrete, default = 0.000000, unit = 0]
+Info:     Parameter 014 (id=1299827860): [title="High-pass enabled"] [unit=""] [type = Toggle, default = 0.000000, unit = 0]
+Info:     Parameter 015 (id=704233965): [title="High-pass"] [unit="Hz"] [type = Float, default = 0.000000, unit = 0]
+Info:     Parameter 016 (id=512460952): [title="Low-pass enabled"] [unit=""] [type = Toggle, default = 0.000000, unit = 0]
+Info:     Parameter 017 (id=704234089): [title="Low-pass"] [unit="Hz"] [type = Float, default = 1.000000, unit = 0]
+Info:     Parameter 018 (id=1062764165): [title="Drive"] [unit="dB"] [type = Float, default = 0.000000, unit = 0]
+Info:     Parameter 019 (id=311854023): [title="Character trim"] [unit="dB"] [type = Float, default = 0.666667, unit = 0]
+Info:     Parameter 020 (id=1408094527): [title="Direct"] [unit="dB"] [type = Float, default = 1.000000, unit = 0]
+Info:     Parameter 021 (id=28358180): [title="Double"] [unit=""] [type = Toggle, default = 0.000000, unit = 0]
+Info:     Parameter 022 (id=1280500710): [title="Double left"] [unit="ms"] [type = Float, default = 0.187500, unit = 0]
+Info:     Parameter 023 (id=1280500716): [title="Double right"] [unit="ms"] [type = Float, default = 0.437500, unit = 0]
+Info:     Parameter 024 (id=1280637606): [title="Double depth left"] [unit="ms"] [type = Float, default = 0.066667, unit = 0]
+Info:     Parameter 025 (id=1280637612): [title="Double depth right"] [unit="ms"] [type = Float, default = 0.066667, unit = 0]
+Info:     Parameter 026 (id=2132334351): [title="Double rate left"] [unit="Hz"] [type = Float, default = 0.128205, unit = 0]
+Info:     Parameter 027 (id=2132334357): [title="Double rate right"] [unit="Hz"] [type = Float, default = 0.128205, unit = 0]
+Info:     Parameter 028 (id=2126914343): [title="Double level"] [unit="dB"] [type = Float, default = 0.000000, unit = 0]
+Info:     Parameter 029 (id=1823610617): [title="Chorus"] [unit=""] [type = Toggle, default = 0.000000, unit = 0]
+Info:     Parameter 030 (id=2054345531): [title="Chorus delay"] [unit="ms"] [type = Float, default = 0.500000, unit = 0]
+Info:     Parameter 031 (id=2054349947): [title="Chorus depth"] [unit="ms"] [type = Float, default = 0.600000, unit = 0]
+Info:     Parameter 032 (id=1382882344): [title="Chorus rate"] [unit="Hz"] [type = Float, default = 0.151515, unit = 0]
+Info:     Parameter 033 (id=2061743420): [title="Chorus level"] [unit="dB"] [type = Float, default = 0.000000, unit = 0]
+Info:     Parameter 034 (id=686388647): [title="Pan"] [unit="fraction"] [type = Float, default = 0.500000, unit = 0]
+Info:     Parameter 035 (id=348706896): [title="Width"] [unit="fraction"] [type = Float, default = 1.000000, unit = 0]
+Info:     Parameter 036 (id=1936859606): [title="Echo"] [unit=""] [type = Toggle, default = 0.000000, unit = 0]
+Info:     Parameter 037 (id=455349286): [title="Tempo sync"] [unit=""] [type = Toggle, default = 0.000000, unit = 0]
+Info:     Parameter 038 (id=455363672): [title="Echo time"] [unit="ms"] [type = Float, default = 0.060150, unit = 0]
+Info:     Parameter 039 (id=783117496): [title="Division"] [unit=""] [type = Discrete, default = 0.400000, unit = 0]
+Info:     Parameter 040 (id=1950367458): [title="Modifier"] [unit=""] [type = Discrete, default = 0.000000, unit = 0]
+Info:     Parameter 041 (id=178914702): [title="Manual tempo"] [unit="BPM"] [type = Float, default = 0.333333, unit = 0]
+Info:     Parameter 042 (id=226895760): [title="Feedback"] [unit="fraction"] [type = Float, default = 0.000000, unit = 0]
+Info:     Parameter 043 (id=2138524789): [title="Ping-pong"] [unit="fraction"] [type = Float, default = 0.000000, unit = 0]
+Info:     Parameter 044 (id=816115027): [title="Echo high-pass"] [unit="Hz"] [type = Float, default = 0.411408, unit = 0]
+Info:     Parameter 045 (id=816115151): [title="Echo low-pass"] [unit="Hz"] [type = Float, default = 0.694135, unit = 0]
+Info:     Parameter 046 (id=1402900762): [title="Diffuse"] [unit="fraction"] [type = Float, default = 0.000000, unit = 0]
+Info:     Parameter 047 (id=1223873369): [title="Echo level"] [unit="dB"] [type = Float, default = 0.000000, unit = 0]
+Info:     Parameter 048 (id=976598782): [title="Throw mode"] [unit=""] [type = Toggle, default = 0.000000, unit = 0]
+Info:     Parameter 049 (id=33689358): [title="Throw"] [unit=""] [type = Toggle, default = 0.000000, unit = 0]
+Info:     Parameter 050 (id=842469692): [title="Throw latch"] [unit=""] [type = Toggle, default = 0.000000, unit = 0]
+Info:     Parameter 051 (id=1308529445): [title="Space"] [unit=""] [type = Toggle, default = 0.000000, unit = 0]
+Info:     Parameter 052 (id=1124477276): [title="Predelay"] [unit="ms"] [type = Float, default = 0.133333, unit = 0]
+Info:     Parameter 053 (id=449333406): [title="Target decay"] [unit="s"] [type = Float, default = 0.152542, unit = 0]
+Info:     Parameter 054 (id=60343526): [title="Damping"] [unit="Hz"] [type = Float, default = 0.598104, unit = 0]
+Info:     Parameter 055 (id=456739944): [title="Space level"] [unit="dB"] [type = Float, default = 0.000000, unit = 0]
+Info:     Parameter 056 (id=1381376655): [title="Echo to space"] [unit="dB"] [type = Float, default = 0.000000, unit = 0]
+Info:     Parameter 057 (id=1232145164): [title="Ducking"] [unit=""] [type = Toggle, default = 0.000000, unit = 0]
+Info:     Parameter 058 (id=2061671798): [title="Duck threshold"] [unit="dBFS"] [type = Float, default = 0.500000, unit = 0]
+Info:     Parameter 059 (id=1104651396): [title="Duck"] [unit="dB"] [type = Float, default = 0.333333, unit = 0]
+Info:     Parameter 060 (id=1039714589): [title="Duck attack"] [unit="ms"] [type = Float, default = 0.081633, unit = 0]
+Info:     Parameter 061 (id=1784850386): [title="Duck release"] [unit="ms"] [type = Float, default = 0.210526, unit = 0]
+Info:     Parameter 062 (id=1703289405): [title="Freeze"] [unit=""] [type = Toggle, default = 0.000000, unit = 0]
+Info:     Parameter 063 (id=838643754): [title="Mix"] [unit="fraction"] [type = Float, default = 1.000000, unit = 0]
+Info:     Parameter 064 (id=1503632843): [title="Routing"] [unit=""] [type = Toggle, default = 0.000000, unit = 0]
+Info:     Parameter 065 (id=1367036163): [title="Bypass"] [unit=""] [type = Toggle, default = 0.000000, unit = 0]
+Info:     Parameter 066 (id=1277420620): [title="Output"] [unit="dB"] [type = Float, default = 0.666667, unit = 0]
+Info:     Parameter 067 (id=1808320763): [title="Limiter"] [unit=""] [type = Toggle, default = 1.000000, unit = 0]
+Info:     Parameter 068 (id=1930818167): [title="Ceiling"] [unit="dBFS"] [type = Float, default = 0.924370, unit = 0]
+Info:     Parameter 069 (id=213542337): [title="Limiter release"] [unit="ms"] [type = Float, default = 0.166667, unit = 0]
+[Succeeded]
+
+[MIDI Mapping]
+Info:  ===MIDI Mapping ====================================
+[Succeeded]
+
+[MIDI Learn]
+Info:  ===MIDI Learn ====================================
+Info:  No MIDI Learn interface supplied!
+[Succeeded]
+
+[Scan Units]
+Info:  ===Scan Units ====================================
+Info:  This component has 1 unit(s).
+Info:     Unit000 (ID = 0): "Root Unit" (parent ID = -1, programlist ID = 1886548852)
+[Succeeded]
+
+[Scan Programs]
+Info:  ===Scan Programs ====================================
+Info:  Programlist 000 (id=1886548852):  "Factory Presets" (1 programs).
+Info:  Programlist 000->Program 000: "Current State"
+[Succeeded]
+
+[Terminate/Initialize]
+Info:  ===Terminate/Initialize ====================================
+[Succeeded]
+
+[Check Unit Structure]
+Info:  ===Check Unit Structure ====================================
+Info:  All units have valid parent IDs.
+[Succeeded]
+
+[Valid State Transition 32bits]
+Info:  ===Valid State Transition 32bits ====================================
+[Succeeded]
+
+[Valid State Transition 64bits]
+Info:  ===Valid State Transition 64bits ====================================
+Info:  64bit Audio Processing not supported.
+[Succeeded]
+
+[Bus Consistency]
+Info:  ===Bus Consistency ====================================
+[Succeeded]
+
+[Bus Activation]
+Info:  ===Bus Activation ====================================
+Info:     Bus Activation: Input Audio Bus (0) (kMain)
+Info:     Bus Activation: Output Audio Bus (0) (kMain)
+[Succeeded]
+
+[Check Audio Bus Arrangement]
+Info:  ===Check Audio Bus Arrangement ====================================
+Info:     Check Input Audio Bus Arrangement (0)
+Info:     Check Output Audio Bus Arrangement (0)
+[Succeeded]
+
+[SideChain Arrangement]
+Info:  ===SideChain Arrangement ====================================
+[Succeeded]
+
+[Suspend/Resume]
+Info:  ===Suspend/Resume ====================================
+[Succeeded]
+
+[Note Expression]
+Info:  ===Note Expression ====================================
+Info:  No Note Expression interface supplied!
+[Succeeded]
+
+[Keyswitch]
+Info:  ===Keyswitch ====================================
+Info:  No Keyswitch interface supplied!
+[Succeeded]
+
+[ProcessContext Requirements]
+Info:  ===ProcessContext Requirements ====================================
+Info:  ProcessContextRequirements:
+Info:   - SystemTime
+Info:   - ContinousTimeSamples
+Info:   - ProjectTimeMusic
+Info:   - BarPosititionMusic
+Info:   - CycleMusic
+Info:   - SamplesToNextClock
+Info:   - Tempo
+Info:   - TimeSignature
+Info:   - Chord
+Info:   - FrameRate
+Info:   - TransportState
+[Succeeded]
+
+-------------------------------------------------------------
+TestSuite : Single Precision (32 bit) Tests
+-------------------------------------------------------------
+
+[Process Test]
+[Succeeded]
+
+[Process function running in another thread]
+Info:  ===Process function running in another thread ====================================
+[Succeeded]
+
+[Silence Flags]
+Info:  ===Silence Flags ====================================
+[Succeeded]
+
+[Silence Processing]
+Info:  ===Silence Processing ====================================
+[Succeeded]
+
+[Parameters Flush (no Buffer)]
+Info:  ===Parameters Flush (no Buffer) ====================================
+[Succeeded]
+
+[Parameters Flush 2 (only numChannel==0)]
+Info:  ===Parameters Flush 2 (only numChannel==0) ====================================
+[Succeeded]
+
+[Parameters Flush 2 (no Buffer, no parameter change)]
+Info:  ===Parameters Flush 2 (no Buffer, no parameter change) ====================================
+[Succeeded]
+
+[Variable Block Size]
+Info:  ===Variable Block Size ====================================
+[Succeeded]
+
+[Process Format]
+Info:  ===Process Format ====================================
+Info:  ***Tested Sample Rates***
+Info:        22050 Hz - processed successfully!
+Info:        32000 Hz - processed successfully!
+Info:        44100 Hz - processed successfully!
+Info:        48000 Hz - processed successfully!
+Info:        88200 Hz - processed successfully!
+Info:        96000 Hz - processed successfully!
+Info:       192000 Hz - processed successfully!
+Info:       384000 Hz - processed successfully!
+Info:    1234.5678 Hz - processed successfully!
+Info:    12345.678 Hz - processed successfully!
+Info:    123456.78 Hz - processed successfully!
+Info:    1234567.8 Hz - processed successfully!
+[Succeeded]
+
+[Parameter Bypass persistence]
+Info:  ===Parameter Bypass persistence ====================================
+ERROR: The bypass parameter is not in sync in the controller!
+[XXXXXXX Failed]
+
+[In: Stereo: 2 Channels, Out: Stereo: 2 Channels]
+Info:  ===In: Stereo: 2 Channels, Out: Stereo: 2 Channels ====================================
+[Succeeded]
+
+[In: Mono: 1 Channels, Out: Mono: 1 Channels]
+Info:  ===In: Mono: 1 Channels, Out: Mono: 1 Channels ====================================
+[Succeeded]
+
+[Accuracy: Block, 1 Parameters, Change every100 Samples]
+Info:  ===Accuracy: Block, 1 Parameters, Change every100 Samples ====================================
+[Succeeded]
+
+[Accuracy: Sample, 1 Parameters, Change every100 Samples]
+Info:  ===Accuracy: Sample, 1 Parameters, Change every100 Samples ====================================
+Info:     Not all points have been read via IParameterChanges
+[Succeeded]
+
+-------------------------------------------------------------
+TestSuite : Double Precision (64 bit) Tests
+-------------------------------------------------------------
+
+[Process Test]
+Info:  64bit Audio Processing not supported.
+[Succeeded]
+
+[Process function running in another thread]
+Info:  64bit Audio Processing not supported.
+[Succeeded]
+
+[Silence Flags]
+Info:  64bit Audio Processing not supported.
+[Succeeded]
+
+[Silence Processing]
+Info:  64bit Audio Processing not supported.
+[Succeeded]
+
+[Parameters Flush (no Buffer)]
+Info:  64bit Audio Processing not supported.
+[Succeeded]
+
+[Parameters Flush 2 (only numChannel==0)]
+Info:  64bit Audio Processing not supported.
+[Succeeded]
+
+[Parameters Flush 2 (no Buffer, no parameter change)]
+Info:  64bit Audio Processing not supported.
+[Succeeded]
+
+[Variable Block Size]
+Info:  64bit Audio Processing not supported.
+[Succeeded]
+
+[Process Format]
+Info:  64bit Audio Processing not supported.
+[Succeeded]
+
+[Parameter Bypass persistence]
+Info:  64bit Audio Processing not supported.
+[Succeeded]
+
+[In: Stereo: 2 Channels, Out: Stereo: 2 Channels]
+Info:  ===In: Stereo: 2 Channels, Out: Stereo: 2 Channels ====================================
+Info:  64bit Audio Processing not supported.
+[Succeeded]
+
+[In: Mono: 1 Channels, Out: Mono: 1 Channels]
+Info:  ===In: Mono: 1 Channels, Out: Mono: 1 Channels ====================================
+Info:  64bit Audio Processing not supported.
+[Succeeded]
+
+[Accuracy: Block, 1 Parameters, Change every100 Samples]
+Info:  ===Accuracy: Block, 1 Parameters, Change every100 Samples ====================================
+Info:  64bit Audio Processing not supported.
+[Succeeded]
+
+[Accuracy: Sample, 1 Parameters, Change every100 Samples]
+Info:  ===Accuracy: Sample, 1 Parameters, Change every100 Samples ====================================
+Info:  64bit Audio Processing not supported.
+[Succeeded]
+
+-------------------------------------------------------------
+Result: 46 tests passed, 1 tests failed
+-------------------------------------------------------------

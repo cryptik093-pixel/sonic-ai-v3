@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "timestampUtc": "2026-10-16T08:20:16.228Z",
+  "osType": "Windows_NT",
+  "osRelease": "10.0.19045",
+  "osVersion": "Windows 10 Pro",
+  "architecture": "x64",
+  "cpuModels": [
+    "Intel(R) Core(TM) i5-4310U CPU @ 2.00GHz"
+  ],
+  "logicalCpus": 4,
+  "totalMemoryBytes": 8490680320,
+  "freeMemoryBytesAtSample": 1195585536,
+  "benchmarkSha256": "8126c52cc89b7e8b4c733aabff77057e411df9bbe191cc81cc8b05914c9edd01",
+  "sampleRate": 48000,
+  "blockSize": 128,
+  "requestedSecondsPerMode": 600,
+  "modes": [
+    "steady",
+    "transitions"
+  ],
+  "measurementScope": "Production Transitions engine; excludes JUCE wrapper, correlation metering, audio driver and host scheduling. Existing user processes preserved; no machine-wide priority or power changes."
+}

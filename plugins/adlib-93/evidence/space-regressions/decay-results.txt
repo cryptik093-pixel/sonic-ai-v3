@@ -1,0 +1,18 @@
+Space.Decay sampleRate=44100 targetSeconds=0.5 midbandSeconds=0.470068 broadbandSeconds=0.444014 impulseEnergy=0.161248 within25Percent=1
+Space.Decay sampleRate=44100 targetSeconds=2 midbandSeconds=1.97299 broadbandSeconds=1.69061 impulseEnergy=0.311986 within25Percent=1
+Space.Decay sampleRate=44100 targetSeconds=6 midbandSeconds=5.82769 broadbandSeconds=4.90476 impulseEnergy=0.5707 within25Percent=1
+Space.Decay sampleRate=44100 targetSeconds=12 midbandSeconds=11.4482 broadbandSeconds=9.85803 impulseEnergy=0.823348 within25Percent=1
+Space.Decay sampleRate=48000 targetSeconds=0.5 midbandSeconds=0.471 broadbandSeconds=0.443937 impulseEnergy=0.160001 within25Percent=1
+Space.Decay sampleRate=48000 targetSeconds=2 midbandSeconds=1.96981 broadbandSeconds=1.65694 impulseEnergy=0.302024 within25Percent=1
+Space.Decay sampleRate=48000 targetSeconds=6 midbandSeconds=5.82625 broadbandSeconds=4.88675 impulseEnergy=0.536292 within25Percent=1
+Space.Decay sampleRate=48000 targetSeconds=12 midbandSeconds=11.4056 broadbandSeconds=9.85156 impulseEnergy=0.76084 within25Percent=1
+Space.Decay sampleRate=88200 targetSeconds=0.5 midbandSeconds=0.46966 broadbandSeconds=0.373197 impulseEnergy=0.148436 within25Percent=1
+Space.Decay sampleRate=88200 targetSeconds=2 midbandSeconds=1.95915 broadbandSeconds=1.52262 impulseEnergy=0.226962 within25Percent=1
+Space.Decay sampleRate=88200 targetSeconds=6 midbandSeconds=5.75772 broadbandSeconds=4.78575 impulseEnergy=0.33479 within25Percent=1
+Space.Decay sampleRate=88200 targetSeconds=12 midbandSeconds=11.2263 broadbandSeconds=9.71388 impulseEnergy=0.433308 within25Percent=1
+Space.Decay sampleRate=96000 targetSeconds=0.5 midbandSeconds=0.468656 broadbandSeconds=0.359375 impulseEnergy=0.146838 within25Percent=1
+Space.Decay sampleRate=96000 targetSeconds=2 midbandSeconds=1.95822 broadbandSeconds=1.52141 impulseEnergy=0.218607 within25Percent=1
+Space.Decay sampleRate=96000 targetSeconds=6 midbandSeconds=5.76053 broadbandSeconds=4.76319 impulseEnergy=0.315975 within25Percent=1
+Space.Decay sampleRate=96000 targetSeconds=12 midbandSeconds=11.2321 broadbandSeconds=9.68803 impulseEnergy=0.404872 within25Percent=1
+PASS Space.Decay
+1 cases, 0 failures

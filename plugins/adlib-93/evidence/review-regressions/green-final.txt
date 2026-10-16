@@ -1,0 +1,5 @@
+Manual fallback host 3/4: 2000.000000000 ms; expected2000; PASS
+Manual fallback host 6/8: 2000.000000000 ms; expected2000; PASS
+Freeze held 5000 samples, prior -0.306322843, release -0.308090270, retrigger -0.309868097; discontinuity 0.001777828; PASS
+Freeze held 20000 samples, prior 0.125052407, release 0.127698332, retrigger 0.130348429; discontinuity 0.002650097; PASS
+-60 dB representation 1.1920929e-07; gain 0.0010000011; PASS

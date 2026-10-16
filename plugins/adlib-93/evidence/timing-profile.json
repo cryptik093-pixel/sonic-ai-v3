@@ -1,0 +1,9 @@
+{"profileOnly":true,"acceptance":false,"method":"1000 unpaced blocks per production module, fixed generated 128-frame input repeated; isolated module inputs differ from full chain; not a replacement for reference run","modules":[
+{"module":"Cleanup","p50Milliseconds":0.1594,"p99Milliseconds":1.3049,"maxMilliseconds":6.4288},
+{"module":"Character","p50Milliseconds":0.1753,"p99Milliseconds":2.1041,"maxMilliseconds":7.5349},
+{"module":"Movement","p50Milliseconds":0.1537,"p99Milliseconds":3.1169,"maxMilliseconds":17.2879},
+{"module":"Echo","p50Milliseconds":0.1832,"p99Milliseconds":1.4945,"maxMilliseconds":3.4649},
+{"module":"Space","p50Milliseconds":0.2203,"p99Milliseconds":1.4432,"maxMilliseconds":2.4382},
+{"module":"OutputStage","p50Milliseconds":0.0261,"p99Milliseconds":0.1057,"maxMilliseconds":0.269},
+{"module":"Transitions","p50Milliseconds":0.9987,"p99Milliseconds":2.2369,"maxMilliseconds":9.0916}
+]}

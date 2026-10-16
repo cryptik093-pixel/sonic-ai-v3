@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="7"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname=""
+	time="28"
+	timestamp="2026-10-16T03:14:30"
+	>
+	<testcase name="Processor.Parameters" classname="Processor.Parameters" time="5.07104" status="run">
+		<properties/>
+		<system-out>PASS Processor.Parameters
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="Processor.Layouts" classname="Processor.Layouts" time="1.66945" status="run">
+		<properties/>
+		<system-out>PASS Processor.Layouts
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="Processor.State" classname="Processor.State" time="0.64257" status="run">
+		<properties/>
+		<system-out>PASS Processor.State
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="Processor.Realtime" classname="Processor.Realtime" time="0.963562" status="run">
+		<properties/>
+		<system-out>PASS Processor.Realtime
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="Processor.Meters" classname="Processor.Meters" time="1.65636" status="run">
+		<properties/>
+		<system-out>PASS Processor.Meters
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="Processor.Editor" classname="Processor.Editor" time="13.1118" status="run">
+		<properties/>
+		<system-out>PASS Processor.Editor
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="Processor.ConcurrentRecall" classname="Processor.ConcurrentRecall" time="1.39235" status="run">
+		<properties/>
+		<system-out>PASS Processor.ConcurrentRecall
+1 cases, 0 failures
+</system-out>
+	</testcase>
+</testsuite>

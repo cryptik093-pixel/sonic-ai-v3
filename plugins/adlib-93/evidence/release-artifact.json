@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "timestampUtc": "2026-10-16T08:07:27.927Z",
+  "buildExitCode": 0,
+  "sourceBundle": "C:/Users/david someone/Desktop/SONIC AI V3/sonic-ai-v3/plugins/adlib-93/build/windows-release/ADLIB93_artefacts/Release/VST3/ADLIB-93.vst3",
+  "stagedBundle": "C:/Users/david someone/Desktop/SONIC AI V3/sonic-ai-v3/plugins/adlib-93/dist/ADLIB93.vst3",
+  "binarySha256": "fb3857081e07bce6769207cad27b65984081742f02e87feb7a1de81a62ffa52e",
+  "binaryBytes": 4716032,
+  "peMachine": "8664",
+  "displayIdentityPreserved": true,
+  "change": "Staged bundle and inner binary basename ADLIB93; binary bytes unchanged; no system installation"
+}

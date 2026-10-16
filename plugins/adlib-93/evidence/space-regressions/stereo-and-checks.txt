@@ -1,0 +1,10 @@
+PASS Space.Injection
+1 cases, 0 failures
+Space.Stereo sampleRate=44100 leftEnergy=0.140583 rightEnergy=0.136142 absoluteDifference=44.7082
+Space.Stereo sampleRate=48000 leftEnergy=0.134317 rightEnergy=0.130012 absoluteDifference=44.6173
+Space.Stereo sampleRate=88200 leftEnergy=0.101189 rightEnergy=0.0987451 absoluteDifference=44.1766
+Space.Stereo sampleRate=96000 leftEnergy=0.0981147 rightEnergy=0.095647 absoluteDifference=44.0448
+PASS Space.Stereo
+1 cases, 0 failures
+PASS Space.Duck
+1 cases, 0 failures

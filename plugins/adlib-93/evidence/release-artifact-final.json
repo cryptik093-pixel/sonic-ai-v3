@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "timestampUtc": "2026-10-16T08:14:22.401Z",
+  "buildExitCode": 0,
+  "bundle": "C:/Users/david someone/Desktop/SONIC AI V3/sonic-ai-v3/plugins/adlib-93/dist/rc1/ADLIB93.vst3",
+  "binarySha256": "fe6c2fb05a4742ed2fd71d87c87f66b2148b2cd58b2abe41fa9bb5cf6ab99cd9",
+  "binaryBytes": 4716032,
+  "peMachine": "8664",
+  "previousCandidate": "dist/ADLIB93.vst3 retained with its failed validator evidence; do not install it",
+  "productParameters": 70,
+  "hostBypass": "Distinct JUCE wrapper-owned persistent bypass",
+  "installed": false
+}

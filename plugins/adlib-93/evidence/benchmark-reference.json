@@ -1,0 +1,18 @@
+{
+  "schemaVersion":1,
+  "sampleRate":48000,
+  "blockSize":128,
+  "requestedSecondsPerMode":600,
+  "paced":true,
+  "deadlineMilliseconds":2.66667,
+  "hardwareIdentityEvidence":"docs/ENVIRONMENT.md; record machine alongside this report",
+  "measurement":"steady_clock around request plus sample DSP only; preparation, generator, checks and pacing excluded; timer overhead not subtracted",
+  "cpuBudget":"FAIL",
+  "diagnosticCriteriaMet":false,
+  "modes":[
+    {"mode":"steady","blocks":225000,"wallSeconds":600.009,"p50Milliseconds":1.0554,"p99Milliseconds":4.572,"maxMilliseconds":184.963,"finite":true},
+    {"mode":"transitions","blocks":225000,"wallSeconds":600.006,"p50Milliseconds":1.235,"p99Milliseconds":4.155,"maxMilliseconds":63.3739,"finite":true}
+  ],
+  "flStudio":"PENDING",
+  "listening":"PENDING"
+}

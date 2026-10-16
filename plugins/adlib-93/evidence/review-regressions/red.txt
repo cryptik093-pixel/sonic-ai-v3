@@ -1,0 +1,3 @@
+Manual fallback host 3/4: 1500.000000000 ms; expected2000; FAIL
+Manual fallback host 6/8: 1500.000000000 ms; expected2000; FAIL
+Freeze held -0.306322843, release -0.308090270, retrigger 0.169208065; discontinuity 0.477298319

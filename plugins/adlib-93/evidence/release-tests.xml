@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="63"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname=""
+	time="88"
+	timestamp="2026-10-16T03:07:17"
+	>
+	<testcase name="Build.Configuration" classname="Build.Configuration" time="0.737237" status="run">
+		<properties/>
+		<system-out>PASS Build.Configuration
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="Character.Transfer" classname="Character.Transfer" time="0.151602" status="run">
+		<properties/>
+		<system-out>PASS Character.Transfer
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="Character.Filters" classname="Character.Filters" time="0.612714" status="run">
+		<properties/>
+		<system-out>PASS Character.Filters
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="Character.DcBlock" classname="Character.DcBlock" time="0.17716" status="run">
+		<properties/>
+		<system-out>PASS Character.DcBlock
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="Cleanup.Gate" classname="Cleanup.Gate" time="0.843411" status="run">
+		<properties/>
+		<system-out>PASS Cleanup.Gate
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="Cleanup.Deess" classname="Cleanup.Deess" time="0.879172" status="run">
+		<properties/>
+		<system-out>PASS Cleanup.Deess
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="Cleanup.Listen" classname="Cleanup.Listen" time="0.121555" status="run">
+		<properties/>
+		<system-out>PASS Cleanup.Listen
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="Echo.Impulse" classname="Echo.Impulse" time="0.183609" status="run">
+		<properties/>
+		<system-out>PASS Echo.Impulse
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="Echo.PingPong" classname="Echo.PingPong" time="0.309431" status="run">
+		<properties/>
+		<system-out>PASS Echo.PingPong
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="Echo.Throw" classname="Echo.Throw" time="0.137669" status="run">
+		<properties/>
+		<system-out>PASS Echo.Throw
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="Echo.Stability" classname="Echo.Stability" time="1.73326" status="run">
+		<properties/>
+		<system-out>PASS Echo.Stability
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="Performance.Freeze" classname="Performance.Freeze" time="2.01747" status="run">
+		<properties/>
+		<system-out>PASS Performance.Freeze
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="Performance.FreezeOverlap" classname="Performance.FreezeOverlap" time="0.874718" status="run">
+		<properties/>
+		<system-out>PASS Performance.FreezeOverlap
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="Performance.FreezeRetrigger" classname="Performance.FreezeRetrigger" time="0.557636" status="run">
+		<properties/>
+		<system-out>PASS Performance.FreezeRetrigger
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="Performance.FreezeRetriggerContinuity" classname="Performance.FreezeRetriggerContinuity" time="0.312035" status="run">
+		<properties/>
+		<system-out>PASS Performance.FreezeRetriggerContinuity
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="Integration.OfflineParity" classname="Integration.OfflineParity" time="6.31938" status="run">
+		<properties/>
+		<system-out>PASS Integration.OfflineParity
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="Integration.Matrix" classname="Integration.Matrix" time="1.92636" status="run">
+		<properties/>
+		<system-out>PASS Integration.Matrix
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="Integration.Fuzz" classname="Integration.Fuzz" time="0.722547" status="run">
+		<properties/>
+		<system-out>PASS Integration.Fuzz
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="Movement.Delays" classname="Movement.Delays" time="0.175587" status="run">
+		<properties/>
+		<system-out>PASS Movement.Delays
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="Movement.Mono" classname="Movement.Mono" time="0.350391" status="run">
+		<properties/>
+		<system-out>PASS Movement.Mono
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="Output.Ceiling" classname="Output.Ceiling" time="0.287085" status="run">
+		<properties/>
+		<system-out>PASS Output.Ceiling
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="Output.Linked" classname="Output.Linked" time="0.215023" status="run">
+		<properties/>
+		<system-out>PASS Output.Linked
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="Output.Exceptional" classname="Output.Exceptional" time="0.144726" status="run">
+		<properties/>
+		<system-out>PASS Output.Exceptional
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="Parameters.Schema" classname="Parameters.Schema" time="0.220359" status="run">
+		<properties/>
+		<system-out>PASS Parameters.Schema
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="Presets.Bank" classname="Presets.Bank" time="0.173611" status="run">
+		<properties/>
+		<system-out>PASS Presets.Bank
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="Presets.Locks" classname="Presets.Locks" time="0.293814" status="run">
+		<properties/>
+		<system-out>PASS Presets.Locks
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="Presets.Files" classname="Presets.Files" time="0.707653" status="run">
+		<properties/>
+		<system-out>PASS Presets.Files
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="Presets.Recall" classname="Presets.Recall" time="0.100823" status="run">
+		<properties/>
+		<system-out>PASS Presets.Recall
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="Realtime.NoAllocation" classname="Realtime.NoAllocation" time="1.75746" status="run">
+		<properties/>
+		<system-out>PASS Realtime.NoAllocation
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="Realtime.Budget" classname="Realtime.Budget" time="1.27962" status="run">
+		<properties/>
+		<system-out>DSP buffer bytes (two engines,96kHz): 7572616. Timed10minute CPU budget belongs to benchmark, not this assertion.
+PASS Realtime.Budget
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="Routing.Identity" classname="Routing.Identity" time="1.76873" status="run">
+		<properties/>
+		<system-out>PASS Routing.Identity
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="Routing.Layouts" classname="Routing.Layouts" time="0.146645" status="run">
+		<properties/>
+		<system-out>PASS Routing.Layouts
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="Routing.Blocks" classname="Routing.Blocks" time="0.291141" status="run">
+		<properties/>
+		<system-out>PASS Routing.Blocks
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="Routing.SendBypass" classname="Routing.SendBypass" time="0.266493" status="run">
+		<properties/>
+		<system-out>PASS Routing.SendBypass
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="Routing.ListenAndDuck" classname="Routing.ListenAndDuck" time="0.150174" status="run">
+		<properties/>
+		<system-out>PASS Routing.ListenAndDuck
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="Space.Decay" classname="Space.Decay" time="11.3526" status="run">
+		<properties/>
+		<system-out>Space.Decay sampleRate=44100 targetSeconds=0.5 midbandSeconds=0.470068 broadbandSeconds=0.444014 impulseEnergy=0.161248 within25Percent=1
+Space.Decay sampleRate=44100 targetSeconds=2 midbandSeconds=1.97299 broadbandSeconds=1.69061 impulseEnergy=0.311986 within25Percent=1
+Space.Decay sampleRate=44100 targetSeconds=6 midbandSeconds=5.82769 broadbandSeconds=4.90476 impulseEnergy=0.5707 within25Percent=1
+Space.Decay sampleRate=44100 targetSeconds=12 midbandSeconds=11.4482 broadbandSeconds=9.85803 impulseEnergy=0.823348 within25Percent=1
+Space.Decay sampleRate=48000 targetSeconds=0.5 midbandSeconds=0.471 broadbandSeconds=0.443937 impulseEnergy=0.160001 within25Percent=1
+Space.Decay sampleRate=48000 targetSeconds=2 midbandSeconds=1.96981 broadbandSeconds=1.65694 impulseEnergy=0.302024 within25Percent=1
+Space.Decay sampleRate=48000 targetSeconds=6 midbandSeconds=5.82625 broadbandSeconds=4.88675 impulseEnergy=0.536292 within25Percent=1
+Space.Decay sampleRate=48000 targetSeconds=12 midbandSeconds=11.4056 broadbandSeco...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="Space.Duck" classname="Space.Duck" time="0.187229" status="run">
+		<properties/>
+		<system-out>PASS Space.Duck
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="Space.Stereo" classname="Space.Stereo" time="0.351077" status="run">
+		<properties/>
+		<system-out>Space.Stereo sampleRate=44100 leftEnergy=0.140583 rightEnergy=0.136142 absoluteDifference=44.7082
+Space.Stereo sampleRate=48000 leftEnergy=0.134317 rightEnergy=0.130012 absoluteDifference=44.6173
+Space.Stereo sampleRate=88200 leftEnergy=0.101189 rightEnergy=0.0987451 absoluteDifference=44.1766
+Space.Stereo sampleRate=96000 leftEnergy=0.0981147 rightEnergy=0.095647 absoluteDifference=44.0448
+PASS Space.Stereo
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="Space.Injection" classname="Space.Injection" time="0.0763468" status="run">
+		<properties/>
+		<system-out>PASS Space.Injection
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="State.RoundTrip" classname="State.RoundTrip" time="0.065349" status="run">
+		<properties/>
+		<system-out>PASS State.RoundTrip
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="State.Malformed" classname="State.Malformed" time="0.0742411" status="run">
+		<properties/>
+		<system-out>PASS State.Malformed
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="State.Concurrent" classname="State.Concurrent" time="0.0749836" status="run">
+		<properties/>
+		<system-out>PASS State.Concurrent
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="State.PresetBaseline" classname="State.PresetBaseline" time="0.079873" status="run">
+		<properties/>
+		<system-out>PASS State.PresetBaseline
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="Echo.Timing" classname="Echo.Timing" time="0.118191" status="run">
+		<properties/>
+		<system-out>PASS Echo.Timing
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="Performance.LongFreezeRelease" classname="Performance.LongFreezeRelease" time="11.3954" status="run">
+		<properties/>
+		<system-out>PASS Performance.LongFreezeRelease
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="Performance.PendingAutomation" classname="Performance.PendingAutomation" time="0.185166" status="run">
+		<properties/>
+		<system-out>PASS Performance.PendingAutomation
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="Performance.Switches" classname="Performance.Switches" time="0.779779" status="run">
+		<properties/>
+		<system-out>PASS Performance.Switches
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="Performance.Clear" classname="Performance.Clear" time="0.360056" status="run">
+		<properties/>
+		<system-out>PASS Performance.Clear
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="UI.BrowserActivation" classname="UI.BrowserActivation" time="0.158922" status="run">
+		<properties/>
+		<system-out>PASS UI.BrowserActivation
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="UI.Diagnostics" classname="UI.Diagnostics" time="0.278444" status="run">
+		<properties/>
+		<system-out>PASS UI.Diagnostics
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="UI.Bindings" classname="UI.Bindings" time="0.243582" status="run">
+		<properties/>
+		<system-out>PASS UI.Bindings
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="UI.RoutingOverrides" classname="UI.RoutingOverrides" time="0.233743" status="run">
+		<properties/>
+		<system-out>PASS UI.RoutingOverrides
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="UI.Gestures" classname="UI.Gestures" time="0.231711" status="run">
+		<properties/>
+		<system-out>PASS UI.Gestures
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="Tools.WaveRoundTrip" classname="Tools.WaveRoundTrip" time="0.319262" status="run">
+		<properties/>
+		<system-out>PASS Tools.WaveRoundTrip
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="Tools.WaveMalformed" classname="Tools.WaveMalformed" time="0.265991" status="run">
+		<properties/>
+		<system-out>PASS Tools.WaveMalformed
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="Build.UnknownCase" classname="Build.UnknownCase" time="0.221282" status="run">
+		<properties/>
+		<system-out>Unknown case: nonexistent
+</system-out>
+	</testcase>
+	<testcase name="Processor.Parameters" classname="Processor.Parameters" time="6.68904" status="run">
+		<properties/>
+		<system-out>PASS Processor.Parameters
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="Processor.Layouts" classname="Processor.Layouts" time="2.26264" status="run">
+		<properties/>
+		<system-out>PASS Processor.Layouts
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="Processor.State" classname="Processor.State" time="0.701832" status="run">
+		<properties/>
+		<system-out>PASS Processor.State
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="Processor.Realtime" classname="Processor.Realtime" time="1.90966" status="run">
+		<properties/>
+		<system-out>PASS Processor.Realtime
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="Processor.Meters" classname="Processor.Meters" time="2.0743" status="run">
+		<properties/>
+		<system-out>PASS Processor.Meters
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="Processor.Editor" classname="Processor.Editor" time="13.7211" status="run">
+		<properties/>
+		<system-out>PASS Processor.Editor
+1 cases, 0 failures
+</system-out>
+	</testcase>
+	<testcase name="Processor.ConcurrentRecall" classname="Processor.ConcurrentRecall" time="1.12791" status="run">
+		<properties/>
+		<system-out>PASS Processor.ConcurrentRecall
+1 cases, 0 failures
+</system-out>
+	</testcase>
+</testsuite>

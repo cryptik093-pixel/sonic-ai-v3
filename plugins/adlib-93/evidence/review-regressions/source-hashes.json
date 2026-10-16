@@ -1,0 +1,42 @@
+[
+  {
+    "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\adlib-93\\src\\core\\Parameters.cpp",
+    "sha256": "0fb926313fd22f9cbd6879d78d21301d585ca83f3683e639b3c6d983cdf53594"
+  },
+  {
+    "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\adlib-93\\src\\dsp\\Echo.cpp",
+    "sha256": "dcc59971ddee3b8e0d765ef5e2931b9543da0e97ceab8d9991b8b38514c8ab8b"
+  },
+  {
+    "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\adlib-93\\src\\dsp\\Freeze.cpp",
+    "sha256": "bac3666ee6d6dac7ea1c1caed4ba4468326eeedac39e048fec39d525f5af2f51"
+  },
+  {
+    "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\adlib-93\\tests\\ParameterTests.cpp",
+    "sha256": "acc38a0f5765354cc3d1e08534daa2b77f65661b813de3a3835dc696da9f45aa"
+  },
+  {
+    "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\adlib-93\\tests\\TimingTests.cpp",
+    "sha256": "328326fe9e00c64c1815b06c5abbc8aa391cd5c696bea1c06c85d0ce193271fd"
+  },
+  {
+    "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\adlib-93\\tests\\FreezeTests.cpp",
+    "sha256": "559a64e5e73fa60ceb0e097add390bd58638cbecb442f21150a519de073d38ea"
+  },
+  {
+    "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\adlib-93\\evidence\\review-regressions\\Echo-before-correction.cpp",
+    "sha256": "0d427dfb441fdb0f7ad612ffde5e7da0cecd2d678ed7bd5194df3bcdf8c83e39"
+  },
+  {
+    "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\adlib-93\\evidence\\review-regressions\\Freeze-before-correction.cpp",
+    "sha256": "0c336a5144f2e5b7cdcb163e8f5e73e00b509dc3e701a4df67da3a12502cb6b6"
+  },
+  {
+    "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\adlib-93\\evidence\\review-regressions\\green-probe.cpp",
+    "sha256": "01e68e6779a365131b15bc5e374978522a3150f4a5e1a4b98ad6327e7c412f99"
+  },
+  {
+    "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\adlib-93\\evidence\\review-regressions\\red-probe.cpp",
+    "sha256": "2492645777053ec692affd9840889fc44899f70ae5a0e9cd8a58db2df26c5502"
+  }
+]

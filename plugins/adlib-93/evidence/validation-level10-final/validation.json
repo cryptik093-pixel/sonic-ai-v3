@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 2,
+  "timestampUtc": "2026-10-16T08:15:20.838469+00:00",
+  "state": "PASS",
+  "bundle": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\adlib-93\\dist\\rc1\\ADLIB93.vst3",
+  "binary": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\adlib-93\\dist\\rc1\\ADLIB93.vst3\\Contents\\x86_64-win\\ADLIB93.vst3",
+  "binarySha256Before": "fe6c2fb05a4742ed2fd71d87c87f66b2148b2cd58b2abe41fa9bb5cf6ab99cd9",
+  "binarySha256After": "fe6c2fb05a4742ed2fd71d87c87f66b2148b2cd58b2abe41fa9bb5cf6ab99cd9",
+  "artifactUnchanged": true,
+  "strictness": 10,
+  "bundleFilesBefore": {
+    "Contents/Resources/moduleinfo.json": "80d47d5563bb51998ce8f793ad02dbebf2b489eb827190f3959eb6dc246529fd",
+    "Contents/x86_64-win/ADLIB93.vst3": "fe6c2fb05a4742ed2fd71d87c87f66b2148b2cd58b2abe41fa9bb5cf6ab99cd9"
+  },
+  "bundleFilesAfter": {
+    "Contents/Resources/moduleinfo.json": "80d47d5563bb51998ce8f793ad02dbebf2b489eb827190f3959eb6dc246529fd",
+    "Contents/x86_64-win/ADLIB93.vst3": "fe6c2fb05a4742ed2fd71d87c87f66b2148b2cd58b2abe41fa9bb5cf6ab99cd9"
+  },
+  "bundleSha256Before": "081d1193b337e4e6306c411e09776096666feb628bdddeffb0f5067c112cdccb",
+  "bundleSha256After": "081d1193b337e4e6306c411e09776096666feb628bdddeffb0f5067c112cdccb",
+  "guiTestsRequested": true,
+  "sampleRates": [
+    44100,
+    48000,
+    96000
+  ],
+  "blockSizes": [
+    64,
+    128,
+    256,
+    512,
+    1024
+  ],
+  "tools": {
+    "pluginval": {
+      "state": "PASS",
+      "reason": "Positive completion summary and exit zero",
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\sonic-pocket\\build\\pluginval\\pluginval.exe",
+      "args": [
+        "--strictness-level",
+        "10",
+        "--random-seed",
+        "0x504f434b",
+        "--sample-rates",
+        "44100,48000,96000",
+        "--block-sizes",
+        "64,128,256,512,1024",
+        "--repeat",
+        "1",
+        "--timeout-ms",
+        "1800000",
+        "--output-dir",
+        "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\adlib-93\\evidence\\validation-level10-final",
+        "--output-filename",
+        "pluginval.txt",
+        "--validate",
+        "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\adlib-93\\dist\\rc1\\ADLIB93.vst3"
+      ],
+      "version": null,
+      "sha256": "f4ac5c31c5544a434f73e686b816861d92c22ae849d69ad693681cbc9522fcd8",
+      "exitCode": 0,
+      "stdout": "pluginval-stdout.txt",
+      "stdoutSha256": "35aca27f7fa663d217e5622fafe9135ce52783790dd8ee021ad5a8f748c8ab21",
+      "stderr": "pluginval-stderr.txt",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "steinberg": {
+      "state": "PASS",
+      "reason": "Positive completion summary and exit zero",
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\sonic-pocket\\build\\steinberg-validator\\bin\\validator.exe",
+      "args": [
+        "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\adlib-93\\dist\\rc1\\ADLIB93.vst3"
+      ],
+      "version": "3.8.0",
+      "sha256": "f10e187c972008a4e5e804c33376b4d8184c5a9e2ff25fb8753581d778bc2650",
+      "exitCode": 0,
+      "stdout": "steinberg-stdout.txt",
+      "stdoutSha256": "e36dd925398b6df450c4f2cc3c2a75adf4403ee73e067a9b50d9e949c2e95e77",
+      "stderr": "steinberg-stderr.txt",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "flStudio": "PENDING",
+  "listening": "PENDING",
+  "commercialRelease": "PENDING"
+}

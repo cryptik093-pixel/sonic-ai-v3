@@ -42,3 +42,5 @@ A document cannot promote a proposed capability to implemented or validated by a
 ## Historical reports
 
 Root-level migration aliases point to preserved historical reports under `status/archive/legacy-root/`. Read those files only as historical evidence. Current implementation truth comes from the source and tests on the canonical repository branch, not a title containing “final”, “complete” or “production ready”.
+
+- [Professional VST3 Plugin Engineering Standard (2026-10-16)](production/PROFESSIONAL_VST3_PLUGIN_STANDARD_2026-10-16.md) — adopted plugin DSP, host, realtime, QA and commercial release requirements; not proof of implementation.

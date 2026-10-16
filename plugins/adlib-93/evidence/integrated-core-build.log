@@ -1,0 +1,37 @@
+[0/2] Re-checking globbed directories...
+[1/36] Building CXX object CMakeFiles\adlib93_dsp.dir\src\core\Parameters.cpp.obj
+[2/36] Building CXX object CMakeFiles\adlib93_dsp.dir\src\core\StateCodec.cpp.obj
+[3/36] Building CXX object CMakeFiles\adlib93_dsp.dir\src\dsp\AdlibEngine.cpp.obj
+[4/36] Building CXX object CMakeFiles\adlib93_dsp.dir\src\dsp\Character.cpp.obj
+[5/36] Building CXX object CMakeFiles\adlib93_dsp.dir\src\dsp\Cleanup.cpp.obj
+[6/36] Building CXX object CMakeFiles\adlib93_dsp.dir\src\dsp\Echo.cpp.obj
+[7/36] Building CXX object CMakeFiles\adlib93_dsp.dir\src\dsp\Freeze.cpp.obj
+[8/36] Building CXX object CMakeFiles\adlib93_dsp.dir\src\dsp\Movement.cpp.obj
+[9/36] Building CXX object CMakeFiles\adlib93_dsp.dir\src\dsp\Space.cpp.obj
+[10/36] Building CXX object CMakeFiles\adlib93_dsp.dir\src\dsp\Transitions.cpp.obj
+[11/36] Building CXX object CMakeFiles\adlib93_dsp.dir\src\presets\FactoryBank.cpp.obj
+[12/36] Building CXX object CMakeFiles\adlib93_dsp.dir\src\presets\PresetStore.cpp.obj
+C:\Users\david someone\Desktop\SONIC AI V3\sonic-ai-v3\plugins\adlib-93\src\presets\PresetStore.cpp(19): warning C4996: '_wgetenv': This function or variable may be unsafe. Consider using _wdupenv_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+[13/36] Linking CXX static library adlib93_dsp.lib
+[14/36] Building CXX object CMakeFiles\adlib93_tests.dir\tests\CharacterTests.cpp.obj
+[15/36] Building CXX object CMakeFiles\adlib93_tests.dir\tests\CleanupTests.cpp.obj
+[16/36] Building CXX object CMakeFiles\adlib93_tests.dir\tests\EchoTests.cpp.obj
+[17/36] Building CXX object CMakeFiles\adlib93_tests.dir\tests\FreezeTests.cpp.obj
+[18/36] Building CXX object CMakeFiles\adlib93_tests.dir\tests\IntegrationTests.cpp.obj
+[19/36] Building CXX object CMakeFiles\adlib93_tests.dir\tests\MovementTests.cpp.obj
+[20/36] Building CXX object CMakeFiles\adlib93_tests.dir\tests\OutputTests.cpp.obj
+[21/36] Building CXX object CMakeFiles\adlib93_tests.dir\tests\ParameterTests.cpp.obj
+[22/36] Building CXX object CMakeFiles\adlib93_tests.dir\tests\PresetTests.cpp.obj
+[23/36] Building CXX object CMakeFiles\adlib93_tests.dir\tests\RealtimeTests.cpp.obj
+[24/36] Building CXX object CMakeFiles\adlib93_tests.dir\tests\RoutingTests.cpp.obj
+[25/36] Building CXX object CMakeFiles\adlib93_tests.dir\tests\SpaceTests.cpp.obj
+[26/36] Building CXX object CMakeFiles\adlib93_tests.dir\tests\StateTests.cpp.obj
+[27/36] Building CXX object CMakeFiles\adlib93_tests.dir\tests\TimingTests.cpp.obj
+[28/36] Building CXX object CMakeFiles\adlib93_tests.dir\tests\TransitionsTests.cpp.obj
+[29/36] Building CXX object CMakeFiles\adlib93_tests.dir\tests\UiModelTests.cpp.obj
+[30/36] Building CXX object CMakeFiles\adlib93_tests.dir\tests\WaveTests.cpp.obj
+[31/36] Building CXX object CMakeFiles\adlib93_render.dir\tools\RenderFixtures.cpp.obj
+[32/36] Building CXX object CMakeFiles\adlib93_benchmark.dir\tools\Benchmark.cpp.obj
+[33/36] Linking CXX executable adlib93_tests.exe
+[34/36] Linking CXX executable adlib93_render.exe
+[35/36] Linking CXX executable adlib93_benchmark.exe

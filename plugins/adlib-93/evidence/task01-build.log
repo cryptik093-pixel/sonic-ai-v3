@@ -1,0 +1,7 @@
+[0/2] Re-checking globbed directories...
+[1/7] Building CXX object CMakeFiles\adlib93_dsp.dir\src\core\BuildInfo.cpp.obj
+[2/7] Linking CXX static library adlib93_dsp.lib
+[3/7] Building CXX object CMakeFiles\adlib93_tests.dir\tests\TestMain.cpp.obj
+[4/7] Building CXX object CMakeFiles\adlib93_tests.dir\tests\TestSupport.cpp.obj
+[5/7] Building CXX object CMakeFiles\adlib93_tests.dir\tests\BuildTests.cpp.obj
+[6/7] Linking CXX executable adlib93_tests.exe

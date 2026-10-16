@@ -1,0 +1,120 @@
+Test project C:/Users/david someone/Desktop/SONIC AI V3/sonic-ai-v3/plugins/adlib-93/build/windows-release
+      Start  1: Build.Configuration
+ 1/50 Test  #1: Build.Configuration ..............   Passed    2.15 sec
+      Start  2: Character.Transfer
+ 2/50 Test  #2: Character.Transfer ...............   Passed    0.66 sec
+      Start  3: Character.Filters
+ 3/50 Test  #3: Character.Filters ................   Passed    2.33 sec
+      Start  4: Character.DcBlock
+ 4/50 Test  #4: Character.DcBlock ................   Passed    0.94 sec
+      Start  5: Cleanup.Gate
+ 5/50 Test  #5: Cleanup.Gate .....................   Passed    2.12 sec
+      Start  6: Cleanup.Deess
+ 6/50 Test  #6: Cleanup.Deess ....................   Passed    2.25 sec
+      Start  7: Cleanup.Listen
+ 7/50 Test  #7: Cleanup.Listen ...................   Passed    0.60 sec
+      Start  8: Echo.Impulse
+ 8/50 Test  #8: Echo.Impulse .....................   Passed    0.91 sec
+      Start  9: Echo.PingPong
+ 9/50 Test  #9: Echo.PingPong ....................   Passed    0.67 sec
+      Start 10: Echo.Throw
+10/50 Test #10: Echo.Throw .......................   Passed    0.98 sec
+      Start 11: Echo.Stability
+11/50 Test #11: Echo.Stability ...................   Passed    3.03 sec
+      Start 12: Performance.Freeze
+12/50 Test #12: Performance.Freeze ...............   Passed    2.73 sec
+      Start 13: Performance.FreezeOverlap
+13/50 Test #13: Performance.FreezeOverlap ........   Passed    0.54 sec
+      Start 14: Performance.FreezeRetrigger
+14/50 Test #14: Performance.FreezeRetrigger ......   Passed    0.55 sec
+      Start 15: Integration.OfflineParity
+15/50 Test #15: Integration.OfflineParity ........   Passed    8.18 sec
+      Start 16: Integration.Matrix
+16/50 Test #16: Integration.Matrix ...............   Passed    3.28 sec
+      Start 17: Integration.Fuzz
+17/50 Test #17: Integration.Fuzz .................   Passed    1.89 sec
+      Start 18: Movement.Delays
+18/50 Test #18: Movement.Delays ..................   Passed    0.52 sec
+      Start 19: Movement.Mono
+19/50 Test #19: Movement.Mono ....................   Passed    0.71 sec
+      Start 20: Output.Ceiling
+20/50 Test #20: Output.Ceiling ...................   Passed    0.61 sec
+      Start 21: Output.Linked
+21/50 Test #21: Output.Linked ....................   Passed    0.47 sec
+      Start 22: Output.Exceptional
+22/50 Test #22: Output.Exceptional ...............   Passed    0.69 sec
+      Start 23: Parameters.Schema
+23/50 Test #23: Parameters.Schema ................***Failed    0.55 sec
+FAIL Parameters.Schema: -60 dB uses a normal positive value distinct from mute
+1 cases, 1 failures
+
+      Start 24: Presets.Bank
+24/50 Test #24: Presets.Bank .....................   Passed    0.58 sec
+      Start 25: Presets.Locks
+25/50 Test #25: Presets.Locks ....................   Passed    0.65 sec
+      Start 26: Presets.Files
+26/50 Test #26: Presets.Files ....................   Passed    1.84 sec
+      Start 27: Presets.Recall
+27/50 Test #27: Presets.Recall ...................   Passed    0.74 sec
+      Start 28: Realtime.NoAllocation
+28/50 Test #28: Realtime.NoAllocation ............   Passed    3.55 sec
+      Start 29: Realtime.Budget
+29/50 Test #29: Realtime.Budget ..................   Passed    3.04 sec
+      Start 30: Routing.Identity
+30/50 Test #30: Routing.Identity .................   Passed    6.52 sec
+      Start 31: Routing.Layouts
+31/50 Test #31: Routing.Layouts ..................   Passed    1.34 sec
+      Start 32: Routing.Blocks
+32/50 Test #32: Routing.Blocks ...................   Passed    1.84 sec
+      Start 33: Routing.SendBypass
+33/50 Test #33: Routing.SendBypass ...............   Passed    2.08 sec
+      Start 34: Routing.ListenAndDuck
+34/50 Test #34: Routing.ListenAndDuck ............   Passed    1.02 sec
+      Start 35: Space.Decay
+35/50 Test #35: Space.Decay ......................***Failed    1.31 sec
+FAIL Space.Decay: reverb emits impulse energy
+1 cases, 1 failures
+
+      Start 36: Space.Duck
+36/50 Test #36: Space.Duck .......................   Passed    1.60 sec
+      Start 37: Space.Stereo
+37/50 Test #37: Space.Stereo .....................***Failed    1.31 sec
+FAIL Space.Stereo: one input channel excites nonidentical stereo returns
+1 cases, 1 failures
+
+      Start 38: State.RoundTrip
+38/50 Test #38: State.RoundTrip ..................   Passed    1.02 sec
+      Start 39: State.Malformed
+39/50 Test #39: State.Malformed ..................   Passed    0.91 sec
+      Start 40: State.Concurrent
+40/50 Test #40: State.Concurrent .................   Passed    1.21 sec
+      Start 41: Echo.Timing
+41/50 Test #41: Echo.Timing ......................   Passed    0.98 sec
+      Start 42: Performance.PendingAutomation
+42/50 Test #42: Performance.PendingAutomation ....   Passed    1.16 sec
+      Start 43: Performance.Switches
+43/50 Test #43: Performance.Switches .............   Passed    2.10 sec
+      Start 44: Performance.Clear
+44/50 Test #44: Performance.Clear ................   Passed    1.29 sec
+      Start 45: UI.Bindings
+45/50 Test #45: UI.Bindings ......................   Passed    0.96 sec
+      Start 46: UI.RoutingOverrides
+46/50 Test #46: UI.RoutingOverrides ..............   Passed    0.78 sec
+      Start 47: UI.Gestures
+47/50 Test #47: UI.Gestures ......................   Passed    1.07 sec
+      Start 48: Tools.WaveRoundTrip
+48/50 Test #48: Tools.WaveRoundTrip ..............   Passed    1.35 sec
+      Start 49: Tools.WaveMalformed
+49/50 Test #49: Tools.WaveMalformed ..............   Passed    1.59 sec
+      Start 50: Build.UnknownCase
+50/50 Test #50: Build.UnknownCase ................   Passed    0.93 sec
+
+94% tests passed, 3 tests failed out of 50
+
+Total Test time (real) =  82.14 sec
+
+The following tests FAILED:
+	 23 - Parameters.Schema (Failed)
+	 35 - Space.Decay (Failed)
+	 37 - Space.Stereo (Failed)
+Errors while running CTest

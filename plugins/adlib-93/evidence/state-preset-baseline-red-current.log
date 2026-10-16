@@ -1,0 +1,2 @@
+FAIL State.PresetBaseline: Loaded preset baseline survives project round trip separately from modified values
+1 cases, 1 failures

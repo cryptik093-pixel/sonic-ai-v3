@@ -1,0 +1,24 @@
+[0/2] Re-checking globbed directories...
+[1/26] Building CXX object JUCE\extras\Build\juceaide\CMakeFiles\juceaide.dir\Main.cpp.obj
+[2/26] Building CXX object JUCE\extras\Build\juceaide\CMakeFiles\juceaide.dir\8e9f9ef094bf1a50d543741a0243d89f\extras\Build\juce_build_tools\juce_build_tools.cpp.obj
+[3/26] Building CXX object JUCE\extras\Build\juceaide\CMakeFiles\juceaide.dir\8e9f9ef094bf1a50d543741a0243d89f\modules\juce_graphics\juce_graphics.cpp.obj
+cl : Command line warning D9025 : overriding '/Ox' with '/O1'
+[4/26] Building CXX object JUCE\extras\Build\juceaide\CMakeFiles\juceaide.dir\8e9f9ef094bf1a50d543741a0243d89f\modules\juce_graphics\juce_graphics_Harfbuzz.cpp.obj
+cl : Command line warning D9025 : overriding '/Ox' with '/O1'
+[5/26] Building C object JUCE\extras\Build\juceaide\CMakeFiles\juceaide.dir\8e9f9ef094bf1a50d543741a0243d89f\modules\juce_graphics\juce_graphics_Sheenbidi.c.obj
+[6/26] Building C object JUCE\extras\Build\juceaide\CMakeFiles\juceaide.dir\8e9f9ef094bf1a50d543741a0243d89f\modules\juce_graphics\juce_graphics_libjpg_1.c.obj
+[7/26] Building C object JUCE\extras\Build\juceaide\CMakeFiles\juceaide.dir\8e9f9ef094bf1a50d543741a0243d89f\modules\juce_graphics\juce_graphics_libjpg_2.c.obj
+[8/26] Building C object JUCE\extras\Build\juceaide\CMakeFiles\juceaide.dir\8e9f9ef094bf1a50d543741a0243d89f\modules\juce_graphics\juce_graphics_libjpg_3.c.obj
+[9/26] Building C object JUCE\extras\Build\juceaide\CMakeFiles\juceaide.dir\8e9f9ef094bf1a50d543741a0243d89f\modules\juce_graphics\juce_graphics_libpng.c.obj
+[10/26] Building C object JUCE\extras\Build\juceaide\CMakeFiles\juceaide.dir\8e9f9ef094bf1a50d543741a0243d89f\modules\juce_graphics\juce_graphics_libwebp_dec.c.obj
+[11/26] Building C object JUCE\extras\Build\juceaide\CMakeFiles\juceaide.dir\8e9f9ef094bf1a50d543741a0243d89f\modules\juce_graphics\juce_graphics_libwebp_dsp_dec.c.obj
+[12/26] Building C object JUCE\extras\Build\juceaide\CMakeFiles\juceaide.dir\8e9f9ef094bf1a50d543741a0243d89f\modules\juce_graphics\juce_graphics_libwebp_dsp_dec_avx2.c.obj
+[13/26] Building C object JUCE\extras\Build\juceaide\CMakeFiles\juceaide.dir\8e9f9ef094bf1a50d543741a0243d89f\modules\juce_graphics\juce_graphics_libwebp_dsp_dec_sse41.c.obj
+[14/26] Building C object JUCE\extras\Build\juceaide\CMakeFiles\juceaide.dir\8e9f9ef094bf1a50d543741a0243d89f\modules\juce_graphics\juce_graphics_libwebp_dsp_enc.c.obj
+[15/26] Building C object JUCE\extras\Build\juceaide\CMakeFiles\juceaide.dir\8e9f9ef094bf1a50d543741a0243d89f\modules\juce_graphics\juce_graphics_libwebp_dsp_enc_avx2.c.obj
+[16/26] Building C object JUCE\extras\Build\juceaide\CMakeFiles\juceaide.dir\8e9f9ef094bf1a50d543741a0243d89f\modules\juce_graphics\juce_graphics_libwebp_dsp_enc_sse41.c.obj
+[17/26] Building C object JUCE\extras\Build\juceaide\CMakeFiles\juceaide.dir\8e9f9ef094bf1a50d543741a0243d89f\modules\juce_graphics\juce_graphics_libwebp_enc.c.obj
+[18/26] Building C object JUCE\extras\Build\juceaide\CMakeFiles\juceaide.dir\8e9f9ef094bf1a50d543741a0243d89f\modules\juce_graphics\juce_graphics_libwebp_sharpyuv.c.obj
+[19/26] Building C object JUCE\extras\Build\juceaide\CMakeFiles\juceaide.dir\8e9f9ef094bf1a50d543741a0243d89f\modules\juce_graphics\juce_graphics_libwebp_utils.c.obj
+[20/26] Building C object JUCE\extras\Build\juceaide\CMakeFiles\juceaide.dir\8e9f9ef094bf1a50d543741a0243d89f\modules\juce_graphics\juce_graphics_lunasvg.c.obj
+[21/26] Building CXX object JUCE\extras\Build\juceaide\CMakeFiles\juceaide.dir\8e9f9ef094bf1a50d543741a0243d89f\modules\juce_events\juce_events.cpp.obj

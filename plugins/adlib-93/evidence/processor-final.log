@@ -1,0 +1,19 @@
+Test project C:/Users/david someone/Desktop/SONIC AI V3/sonic-ai-v3/plugins/adlib-93/build/windows-release
+    Start 57: Processor.Parameters
+1/7 Test #57: Processor.Parameters .............   Passed    5.07 sec
+    Start 58: Processor.Layouts
+2/7 Test #58: Processor.Layouts ................   Passed    1.67 sec
+    Start 59: Processor.State
+3/7 Test #59: Processor.State ..................   Passed    0.64 sec
+    Start 60: Processor.Realtime
+4/7 Test #60: Processor.Realtime ...............   Passed    0.96 sec
+    Start 61: Processor.Meters
+5/7 Test #61: Processor.Meters .................   Passed    1.66 sec
+    Start 62: Processor.Editor
+6/7 Test #62: Processor.Editor .................   Passed   13.11 sec
+    Start 63: Processor.ConcurrentRecall
+7/7 Test #63: Processor.ConcurrentRecall .......   Passed    1.39 sec
+
+100% tests passed, 0 tests failed out of 7
+
+Total Test time (real) =  28.60 sec

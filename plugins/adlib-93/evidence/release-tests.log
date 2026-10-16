@@ -1,0 +1,131 @@
+Test project C:/Users/david someone/Desktop/SONIC AI V3/sonic-ai-v3/plugins/adlib-93/build/windows-release
+      Start  1: Build.Configuration
+ 1/63 Test  #1: Build.Configuration .....................   Passed    0.74 sec
+      Start  2: Character.Transfer
+ 2/63 Test  #2: Character.Transfer ......................   Passed    0.15 sec
+      Start  3: Character.Filters
+ 3/63 Test  #3: Character.Filters .......................   Passed    0.61 sec
+      Start  4: Character.DcBlock
+ 4/63 Test  #4: Character.DcBlock .......................   Passed    0.18 sec
+      Start  5: Cleanup.Gate
+ 5/63 Test  #5: Cleanup.Gate ............................   Passed    0.84 sec
+      Start  6: Cleanup.Deess
+ 6/63 Test  #6: Cleanup.Deess ...........................   Passed    0.88 sec
+      Start  7: Cleanup.Listen
+ 7/63 Test  #7: Cleanup.Listen ..........................   Passed    0.12 sec
+      Start  8: Echo.Impulse
+ 8/63 Test  #8: Echo.Impulse ............................   Passed    0.18 sec
+      Start  9: Echo.PingPong
+ 9/63 Test  #9: Echo.PingPong ...........................   Passed    0.31 sec
+      Start 10: Echo.Throw
+10/63 Test #10: Echo.Throw ..............................   Passed    0.14 sec
+      Start 11: Echo.Stability
+11/63 Test #11: Echo.Stability ..........................   Passed    1.73 sec
+      Start 12: Performance.Freeze
+12/63 Test #12: Performance.Freeze ......................   Passed    2.02 sec
+      Start 13: Performance.FreezeOverlap
+13/63 Test #13: Performance.FreezeOverlap ...............   Passed    0.87 sec
+      Start 14: Performance.FreezeRetrigger
+14/63 Test #14: Performance.FreezeRetrigger .............   Passed    0.56 sec
+      Start 15: Performance.FreezeRetriggerContinuity
+15/63 Test #15: Performance.FreezeRetriggerContinuity ...   Passed    0.31 sec
+      Start 16: Integration.OfflineParity
+16/63 Test #16: Integration.OfflineParity ...............   Passed    6.32 sec
+      Start 17: Integration.Matrix
+17/63 Test #17: Integration.Matrix ......................   Passed    1.93 sec
+      Start 18: Integration.Fuzz
+18/63 Test #18: Integration.Fuzz ........................   Passed    0.72 sec
+      Start 19: Movement.Delays
+19/63 Test #19: Movement.Delays .........................   Passed    0.18 sec
+      Start 20: Movement.Mono
+20/63 Test #20: Movement.Mono ...........................   Passed    0.35 sec
+      Start 21: Output.Ceiling
+21/63 Test #21: Output.Ceiling ..........................   Passed    0.29 sec
+      Start 22: Output.Linked
+22/63 Test #22: Output.Linked ...........................   Passed    0.22 sec
+      Start 23: Output.Exceptional
+23/63 Test #23: Output.Exceptional ......................   Passed    0.14 sec
+      Start 24: Parameters.Schema
+24/63 Test #24: Parameters.Schema .......................   Passed    0.22 sec
+      Start 25: Presets.Bank
+25/63 Test #25: Presets.Bank ............................   Passed    0.17 sec
+      Start 26: Presets.Locks
+26/63 Test #26: Presets.Locks ...........................   Passed    0.29 sec
+      Start 27: Presets.Files
+27/63 Test #27: Presets.Files ...........................   Passed    0.71 sec
+      Start 28: Presets.Recall
+28/63 Test #28: Presets.Recall ..........................   Passed    0.10 sec
+      Start 29: Realtime.NoAllocation
+29/63 Test #29: Realtime.NoAllocation ...................   Passed    1.76 sec
+      Start 30: Realtime.Budget
+30/63 Test #30: Realtime.Budget .........................   Passed    1.28 sec
+      Start 31: Routing.Identity
+31/63 Test #31: Routing.Identity ........................   Passed    1.77 sec
+      Start 32: Routing.Layouts
+32/63 Test #32: Routing.Layouts .........................   Passed    0.15 sec
+      Start 33: Routing.Blocks
+33/63 Test #33: Routing.Blocks ..........................   Passed    0.29 sec
+      Start 34: Routing.SendBypass
+34/63 Test #34: Routing.SendBypass ......................   Passed    0.27 sec
+      Start 35: Routing.ListenAndDuck
+35/63 Test #35: Routing.ListenAndDuck ...................   Passed    0.15 sec
+      Start 36: Space.Decay
+36/63 Test #36: Space.Decay .............................   Passed   11.35 sec
+      Start 37: Space.Duck
+37/63 Test #37: Space.Duck ..............................   Passed    0.19 sec
+      Start 38: Space.Stereo
+38/63 Test #38: Space.Stereo ............................   Passed    0.35 sec
+      Start 39: Space.Injection
+39/63 Test #39: Space.Injection .........................   Passed    0.08 sec
+      Start 40: State.RoundTrip
+40/63 Test #40: State.RoundTrip .........................   Passed    0.07 sec
+      Start 41: State.Malformed
+41/63 Test #41: State.Malformed .........................   Passed    0.07 sec
+      Start 42: State.Concurrent
+42/63 Test #42: State.Concurrent ........................   Passed    0.07 sec
+      Start 43: State.PresetBaseline
+43/63 Test #43: State.PresetBaseline ....................   Passed    0.08 sec
+      Start 44: Echo.Timing
+44/63 Test #44: Echo.Timing .............................   Passed    0.12 sec
+      Start 45: Performance.LongFreezeRelease
+45/63 Test #45: Performance.LongFreezeRelease ...........   Passed   11.40 sec
+      Start 46: Performance.PendingAutomation
+46/63 Test #46: Performance.PendingAutomation ...........   Passed    0.19 sec
+      Start 47: Performance.Switches
+47/63 Test #47: Performance.Switches ....................   Passed    0.78 sec
+      Start 48: Performance.Clear
+48/63 Test #48: Performance.Clear .......................   Passed    0.36 sec
+      Start 49: UI.BrowserActivation
+49/63 Test #49: UI.BrowserActivation ....................   Passed    0.16 sec
+      Start 50: UI.Diagnostics
+50/63 Test #50: UI.Diagnostics ..........................   Passed    0.28 sec
+      Start 51: UI.Bindings
+51/63 Test #51: UI.Bindings .............................   Passed    0.24 sec
+      Start 52: UI.RoutingOverrides
+52/63 Test #52: UI.RoutingOverrides .....................   Passed    0.23 sec
+      Start 53: UI.Gestures
+53/63 Test #53: UI.Gestures .............................   Passed    0.23 sec
+      Start 54: Tools.WaveRoundTrip
+54/63 Test #54: Tools.WaveRoundTrip .....................   Passed    0.32 sec
+      Start 55: Tools.WaveMalformed
+55/63 Test #55: Tools.WaveMalformed .....................   Passed    0.27 sec
+      Start 56: Build.UnknownCase
+56/63 Test #56: Build.UnknownCase .......................   Passed    0.22 sec
+      Start 57: Processor.Parameters
+57/63 Test #57: Processor.Parameters ....................   Passed    6.69 sec
+      Start 58: Processor.Layouts
+58/63 Test #58: Processor.Layouts .......................   Passed    2.26 sec
+      Start 59: Processor.State
+59/63 Test #59: Processor.State .........................   Passed    0.70 sec
+      Start 60: Processor.Realtime
+60/63 Test #60: Processor.Realtime ......................   Passed    1.91 sec
+      Start 61: Processor.Meters
+61/63 Test #61: Processor.Meters ........................   Passed    2.07 sec
+      Start 62: Processor.Editor
+62/63 Test #62: Processor.Editor ........................   Passed   13.72 sec
+      Start 63: Processor.ConcurrentRecall
+63/63 Test #63: Processor.ConcurrentRecall ..............   Passed    1.13 sec
+
+100% tests passed, 0 tests failed out of 63
+
+Total Test time (real) =  88.50 sec

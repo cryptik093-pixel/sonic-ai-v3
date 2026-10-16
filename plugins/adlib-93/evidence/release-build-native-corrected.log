@@ -1,0 +1,116 @@
+[0/2] Re-checking globbed directories...
+[1/94] Building CXX object CMakeFiles\adlib93_dsp.dir\src\core\BuildInfo.cpp.obj
+[2/94] Building CXX object CMakeFiles\adlib93_dsp.dir\src\core\Parameters.cpp.obj
+[3/94] Building CXX object CMakeFiles\adlib93_dsp.dir\src\core\StateCodec.cpp.obj
+[4/94] Building CXX object CMakeFiles\adlib93_dsp.dir\src\dsp\AdlibEngine.cpp.obj
+[5/94] Building CXX object CMakeFiles\adlib93_dsp.dir\src\dsp\Character.cpp.obj
+[6/94] Building CXX object CMakeFiles\adlib93_dsp.dir\src\dsp\Cleanup.cpp.obj
+[7/94] Building CXX object CMakeFiles\adlib93_dsp.dir\src\dsp\Echo.cpp.obj
+[8/94] Building CXX object CMakeFiles\adlib93_dsp.dir\src\dsp\Freeze.cpp.obj
+[9/94] Building CXX object CMakeFiles\adlib93_dsp.dir\src\dsp\Movement.cpp.obj
+[10/94] Building CXX object CMakeFiles\adlib93_dsp.dir\src\dsp\Space.cpp.obj
+[11/94] Building CXX object CMakeFiles\adlib93_dsp.dir\src\dsp\Transitions.cpp.obj
+[12/94] Building CXX object CMakeFiles\adlib93_dsp.dir\src\presets\FactoryBank.cpp.obj
+[13/94] Building CXX object CMakeFiles\adlib93_dsp.dir\src\presets\PresetStore.cpp.obj
+C:\Users\david someone\Desktop\SONIC AI V3\sonic-ai-v3\plugins\adlib-93\src\presets\PresetStore.cpp(19): warning C4996: '_wgetenv': This function or variable may be unsafe. Consider using _wdupenv_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+[14/94] Linking CXX static library adlib93_dsp.lib
+[15/94] Building CXX object CMakeFiles\ADLIB93.dir\src\plugin\PluginProcessor.cpp.obj
+[16/94] Building CXX object CMakeFiles\ADLIB93.dir\src\plugin\PluginEditor.cpp.obj
+C:\Users\david someone\Desktop\SONIC AI V3\sonic-ai-v3\plugins\adlib-93\src\plugin\PluginEditor.cpp(13): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+[17/94] Building CXX object CMakeFiles\ADLIB93.dir\src\ui\PedalLookAndFeel.cpp.obj
+[18/94] Building CXX object CMakeFiles\ADLIB93.dir\build\deps\JUCE-3fb5cbc0340758596dac39f7c8de47d562b4896e\modules\juce_audio_processors\juce_audio_processors.cpp.obj
+[19/94] Building CXX object CMakeFiles\ADLIB93.dir\build\deps\JUCE-3fb5cbc0340758596dac39f7c8de47d562b4896e\modules\juce_gui_extra\juce_gui_extra.cpp.obj
+[20/94] Building CXX object CMakeFiles\ADLIB93.dir\build\deps\JUCE-3fb5cbc0340758596dac39f7c8de47d562b4896e\modules\juce_gui_basics\juce_gui_basics.cpp.obj
+cl : Command line warning D9025 : overriding '/O2' with '/O1'
+[21/94] Building CXX object CMakeFiles\ADLIB93.dir\build\deps\JUCE-3fb5cbc0340758596dac39f7c8de47d562b4896e\modules\juce_gui_basics\juce_gui_basics_2.cpp.obj
+cl : Command line warning D9025 : overriding '/O2' with '/O1'
+[22/94] Building CXX object CMakeFiles\ADLIB93.dir\build\deps\JUCE-3fb5cbc0340758596dac39f7c8de47d562b4896e\modules\juce_gui_basics\juce_gui_basics_3.cpp.obj
+cl : Command line warning D9025 : overriding '/O2' with '/O1'
+[23/94] Building CXX object CMakeFiles\ADLIB93.dir\build\deps\JUCE-3fb5cbc0340758596dac39f7c8de47d562b4896e\modules\juce_gui_basics\juce_gui_basics_4.cpp.obj
+cl : Command line warning D9025 : overriding '/O2' with '/O1'
+[24/94] Building CXX object CMakeFiles\ADLIB93.dir\build\deps\JUCE-3fb5cbc0340758596dac39f7c8de47d562b4896e\modules\juce_gui_basics\juce_gui_basics_5.cpp.obj
+cl : Command line warning D9025 : overriding '/O2' with '/O1'
+[25/94] Building CXX object CMakeFiles\ADLIB93.dir\build\deps\JUCE-3fb5cbc0340758596dac39f7c8de47d562b4896e\modules\juce_graphics\juce_graphics.cpp.obj
+cl : Command line warning D9025 : overriding '/O2' with '/O1'
+[26/94] Building CXX object CMakeFiles\ADLIB93.dir\build\deps\JUCE-3fb5cbc0340758596dac39f7c8de47d562b4896e\modules\juce_graphics\juce_graphics_Harfbuzz.cpp.obj
+cl : Command line warning D9025 : overriding '/O2' with '/O1'
+[27/94] Building C object CMakeFiles\ADLIB93.dir\build\deps\JUCE-3fb5cbc0340758596dac39f7c8de47d562b4896e\modules\juce_graphics\juce_graphics_Sheenbidi.c.obj
+[28/94] Building C object CMakeFiles\ADLIB93.dir\build\deps\JUCE-3fb5cbc0340758596dac39f7c8de47d562b4896e\modules\juce_graphics\juce_graphics_libjpg_1.c.obj
+[29/94] Building C object CMakeFiles\ADLIB93.dir\build\deps\JUCE-3fb5cbc0340758596dac39f7c8de47d562b4896e\modules\juce_graphics\juce_graphics_libjpg_2.c.obj
+[30/94] Building C object CMakeFiles\ADLIB93.dir\build\deps\JUCE-3fb5cbc0340758596dac39f7c8de47d562b4896e\modules\juce_graphics\juce_graphics_libjpg_3.c.obj
+[31/94] Building C object CMakeFiles\ADLIB93.dir\build\deps\JUCE-3fb5cbc0340758596dac39f7c8de47d562b4896e\modules\juce_graphics\juce_graphics_libpng.c.obj
+[32/94] Building C object CMakeFiles\ADLIB93.dir\build\deps\JUCE-3fb5cbc0340758596dac39f7c8de47d562b4896e\modules\juce_graphics\juce_graphics_libwebp_dec.c.obj
+[33/94] Building C object CMakeFiles\ADLIB93.dir\build\deps\JUCE-3fb5cbc0340758596dac39f7c8de47d562b4896e\modules\juce_graphics\juce_graphics_libwebp_dsp_dec.c.obj
+[34/94] Building C object CMakeFiles\ADLIB93.dir\build\deps\JUCE-3fb5cbc0340758596dac39f7c8de47d562b4896e\modules\juce_graphics\juce_graphics_libwebp_dsp_dec_avx2.c.obj
+[35/94] Building C object CMakeFiles\ADLIB93.dir\build\deps\JUCE-3fb5cbc0340758596dac39f7c8de47d562b4896e\modules\juce_graphics\juce_graphics_libwebp_dsp_dec_sse41.c.obj
+[36/94] Building C object CMakeFiles\ADLIB93.dir\build\deps\JUCE-3fb5cbc0340758596dac39f7c8de47d562b4896e\modules\juce_graphics\juce_graphics_libwebp_dsp_enc.c.obj
+[37/94] Building C object CMakeFiles\ADLIB93.dir\build\deps\JUCE-3fb5cbc0340758596dac39f7c8de47d562b4896e\modules\juce_graphics\juce_graphics_libwebp_dsp_enc_avx2.c.obj
+[38/94] Building C object CMakeFiles\ADLIB93.dir\build\deps\JUCE-3fb5cbc0340758596dac39f7c8de47d562b4896e\modules\juce_graphics\juce_graphics_libwebp_dsp_enc_sse41.c.obj
+[39/94] Building C object CMakeFiles\ADLIB93.dir\build\deps\JUCE-3fb5cbc0340758596dac39f7c8de47d562b4896e\modules\juce_graphics\juce_graphics_libwebp_enc.c.obj
+[40/94] Building C object CMakeFiles\ADLIB93.dir\build\deps\JUCE-3fb5cbc0340758596dac39f7c8de47d562b4896e\modules\juce_graphics\juce_graphics_libwebp_sharpyuv.c.obj
+[41/94] Building C object CMakeFiles\ADLIB93.dir\build\deps\JUCE-3fb5cbc0340758596dac39f7c8de47d562b4896e\modules\juce_graphics\juce_graphics_libwebp_utils.c.obj
+[42/94] Building C object CMakeFiles\ADLIB93.dir\build\deps\JUCE-3fb5cbc0340758596dac39f7c8de47d562b4896e\modules\juce_graphics\juce_graphics_lunasvg.c.obj
+[43/94] Building CXX object CMakeFiles\ADLIB93.dir\build\deps\JUCE-3fb5cbc0340758596dac39f7c8de47d562b4896e\modules\juce_events\juce_events.cpp.obj
+[44/94] Building CXX object CMakeFiles\ADLIB93.dir\build\deps\JUCE-3fb5cbc0340758596dac39f7c8de47d562b4896e\modules\juce_core\juce_core.cpp.obj
+[45/94] Building CXX object CMakeFiles\ADLIB93.dir\build\deps\JUCE-3fb5cbc0340758596dac39f7c8de47d562b4896e\modules\juce_core\juce_core_CompilationTime.cpp.obj
+[46/94] Building C object CMakeFiles\ADLIB93.dir\build\deps\JUCE-3fb5cbc0340758596dac39f7c8de47d562b4896e\modules\juce_core\juce_core_zlib.c.obj
+[47/94] Building CXX object CMakeFiles\ADLIB93.dir\build\deps\JUCE-3fb5cbc0340758596dac39f7c8de47d562b4896e\modules\juce_data_structures\juce_data_structures.cpp.obj
+[48/94] Building CXX object CMakeFiles\ADLIB93.dir\552ed2d13eb94a093aa6ed736a68cde5\modules\juce_audio_processors_headless\juce_audio_processors_headless.cpp.obj
+[49/94] Building CXX object CMakeFiles\ADLIB93.dir\552ed2d13eb94a093aa6ed736a68cde5\modules\juce_audio_processors_headless\juce_audio_processors_headless_ara.cpp.obj
+[50/94] Building CXX object CMakeFiles\ADLIB93.dir\552ed2d13eb94a093aa6ed736a68cde5\modules\juce_audio_processors_headless\juce_audio_processors_headless_lv2_libs.cpp.obj
+[51/94] Building CXX object CMakeFiles\ADLIB93.dir\build\deps\JUCE-3fb5cbc0340758596dac39f7c8de47d562b4896e\modules\juce_audio_basics\juce_audio_basics.cpp.obj
+[52/94] Building VST3 manifest helper for ADLIB93
+-- The CXX compiler identification is MSVC 19.51.36256.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/VC/Tools/MSVC/14.51.36231/bin/Hostx64/x64/cl.exe - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring done (20.8s)
+-- Generating done (0.9s)
+-- Build files have been written to: C:/Users/david someone/Desktop/SONIC AI V3/sonic-ai-v3/plugins/adlib-93/build/windows-release/vst3_helpers/ADLIB93
+[1/2] Building CXX object CMakeFiles\vst3_helper.dir\8e9f9ef094bf1a50d543741a0243d89f\modules\juce_audio_plugin_client\VST3\juce_VST3ManifestHelper.cpp.obj
+[2/2] Linking CXX executable vst3_helper.exe
+[53/94] Generating ADLIB93_artefacts/JuceLibraryCode/ADLIB93_resources.rc
+[54/94] Building CXX object CMakeFiles\adlib93_tests.dir\tests\TestMain.cpp.obj
+[55/94] Building CXX object CMakeFiles\adlib93_tests.dir\tests\TestSupport.cpp.obj
+[56/94] Building CXX object CMakeFiles\adlib93_tests.dir\tests\BuildTests.cpp.obj
+[57/94] Building CXX object CMakeFiles\adlib93_tests.dir\tests\CharacterTests.cpp.obj
+[58/94] Building CXX object CMakeFiles\adlib93_tests.dir\tests\CleanupTests.cpp.obj
+[59/94] Building CXX object CMakeFiles\adlib93_tests.dir\tests\EchoTests.cpp.obj
+[60/94] Building CXX object CMakeFiles\adlib93_tests.dir\tests\FreezeTests.cpp.obj
+[61/94] Building CXX object CMakeFiles\adlib93_tests.dir\tests\IntegrationTests.cpp.obj
+[62/94] Building CXX object CMakeFiles\adlib93_tests.dir\tests\MovementTests.cpp.obj
+[63/94] Building CXX object CMakeFiles\adlib93_tests.dir\tests\OutputTests.cpp.obj
+[64/94] Building CXX object CMakeFiles\adlib93_tests.dir\tests\ParameterTests.cpp.obj
+[65/94] Building CXX object CMakeFiles\adlib93_tests.dir\tests\PresetTests.cpp.obj
+[66/94] Building CXX object CMakeFiles\adlib93_tests.dir\tests\RealtimeTests.cpp.obj
+[67/94] Building CXX object CMakeFiles\adlib93_tests.dir\tests\RoutingTests.cpp.obj
+[68/94] Building CXX object CMakeFiles\adlib93_tests.dir\tests\SpaceTests.cpp.obj
+[69/94] Building CXX object CMakeFiles\adlib93_tests.dir\tests\StateTests.cpp.obj
+[70/94] Building CXX object CMakeFiles\adlib93_tests.dir\tests\TimingTests.cpp.obj
+[71/94] Building CXX object CMakeFiles\adlib93_tests.dir\tests\TransitionsTests.cpp.obj
+[72/94] Building CXX object CMakeFiles\adlib93_tests.dir\tests\UiModelTests.cpp.obj
+[73/94] Building CXX object CMakeFiles\adlib93_tests.dir\tests\WaveTests.cpp.obj
+[74/94] Building CXX object CMakeFiles\adlib93_render.dir\tools\RenderFixtures.cpp.obj
+[75/94] Building CXX object CMakeFiles\adlib93_benchmark.dir\tools\Benchmark.cpp.obj
+[76/94] Linking CXX static library ADLIB93_artefacts\Release\ADLIB-93_SharedCode.lib
+[77/94] Building CXX object CMakeFiles\ADLIB93_VST3.dir\build\deps\JUCE-3fb5cbc0340758596dac39f7c8de47d562b4896e\modules\juce_audio_plugin_client\juce_audio_plugin_client_AAX.cpp.obj
+[78/94] Building CXX object CMakeFiles\ADLIB93_VST3.dir\552ed2d13eb94a093aa6ed736a68cde5\modules\juce_audio_plugin_client\juce_audio_plugin_client_AAX_utils.cpp.obj
+[79/94] Building CXX object CMakeFiles\ADLIB93_VST3.dir\build\deps\JUCE-3fb5cbc0340758596dac39f7c8de47d562b4896e\modules\juce_audio_plugin_client\juce_audio_plugin_client_ARA.cpp.obj
+[80/94] Building CXX object CMakeFiles\ADLIB93_VST3.dir\build\deps\JUCE-3fb5cbc0340758596dac39f7c8de47d562b4896e\modules\juce_audio_plugin_client\juce_audio_plugin_client_LV2.cpp.obj
+[81/94] Building CXX object CMakeFiles\ADLIB93_VST3.dir\552ed2d13eb94a093aa6ed736a68cde5\modules\juce_audio_plugin_client\juce_audio_plugin_client_Standalone.cpp.obj
+[82/94] Building CXX object CMakeFiles\ADLIB93_VST3.dir\552ed2d13eb94a093aa6ed736a68cde5\modules\juce_audio_plugin_client\juce_audio_plugin_client_Unity.cpp.obj
+[83/94] Building CXX object CMakeFiles\ADLIB93_VST3.dir\552ed2d13eb94a093aa6ed736a68cde5\modules\juce_audio_plugin_client\juce_audio_plugin_client_VST2.cpp.obj
+[84/94] Building CXX object CMakeFiles\ADLIB93_VST3.dir\552ed2d13eb94a093aa6ed736a68cde5\modules\juce_audio_plugin_client\juce_audio_plugin_client_VST3.cpp.obj
+[85/94] Building RC object CMakeFiles\ADLIB93_rc_lib.dir\ADLIB93_artefacts\JuceLibraryCode\ADLIB93_resources.rc.res
+[86/94] Building CXX object CMakeFiles\adlib93_processor_tests.dir\tests\TestMain.cpp.obj
+[87/94] Building CXX object CMakeFiles\adlib93_processor_tests.dir\tests\TestSupport.cpp.obj
+[88/94] Building CXX object CMakeFiles\adlib93_processor_tests.dir\tests\ProcessorTests.cpp.obj
+[89/94] Linking CXX executable adlib93_tests.exe
+[90/94] Linking CXX executable adlib93_render.exe
+[91/94] Linking CXX executable adlib93_benchmark.exe
+[92/94] Linking CXX shared module ADLIB93_artefacts\Release\VST3\ADLIB-93.vst3\Contents\x86_64-win\ADLIB-93.vst3
+removing moduleinfo.json
+creating C:/Users/david someone/Desktop/SONIC AI V3/sonic-ai-v3/plugins/adlib-93/build/windows-release/ADLIB93_artefacts/Release/VST3/ADLIB-93.vst3/Contents/Resources/moduleinfo.json
+[93/94] Linking CXX executable adlib93_processor_tests.exe

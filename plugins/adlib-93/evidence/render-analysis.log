@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "state": "TESTED",
+  "renderer": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\adlib-93\\build\\windows-release\\adlib93_render.exe",
+  "rendererSha256": "3314232112e951f27bf974a0558b6ea7c07769c50df547cf091dd84c1412a97c",
+  "inputSha256": "d4cde23253ef619e0966c388c0d8bf1a87b8f98f152c931519c85a819173ed57",
+  "sampleRate": 44100,
+  "toneHz": 5480.2001953125,
+  "inputPeak": 0.5,
+  "analysisFrames": 4096,
+  "dftCalibratedAmplitude": 0.5000000000000405,
+  "method": "Coherent2secondtone; last4096leftframes, rectangularDFT. Measure bins at folded harmonics5..64; first4harmonics lie belowNyquist. Whole factory presets including their filters/blend/echo, not isolated waveshapers.",
+  "limits": "Selected folded-bin energy is a limited alias indicator, not total alias power or an audibility/acceptance threshold. No oversampling reference. No level-matched vocal audition.",
+  "formulaReference": "https://numpy.org/doc/stable/reference/routines.fft.html",
+  "listening": "PENDING",
+  "aliasingAcceptability": "PENDING"
+}
+Dry Bite (soft) -52.791902721891155 dB selected folded bins; listening PENDING
+Radio Bite (asymmetric) -53.232149861528086 dB selected folded bins; listening PENDING
+Broken Speaker (hard) -28.558553210345103 dB selected folded bins; listening PENDING

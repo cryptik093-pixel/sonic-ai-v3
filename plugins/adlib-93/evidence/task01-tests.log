@@ -1,0 +1,9 @@
+Test project C:/Users/david someone/Desktop/SONIC AI V3/sonic-ai-v3/plugins/adlib-93/build/windows-release
+    Start 1: Build.Configuration
+1/2 Test #1: Build.Configuration ..............   Passed   13.65 sec
+    Start 2: Build.UnknownCase
+2/2 Test #2: Build.UnknownCase ................   Passed    8.96 sec
+
+100% tests passed, 0 tests failed out of 2
+
+Total Test time (real) =  26.73 sec

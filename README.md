@@ -66,3 +66,7 @@ The local workbench is served at `/workbench`. Its API is under `/workbench/api`
 ## Documentation authority
 
 Runtime behavior, schemas and tests establish what works. The [current-state audit](docs/architecture/current-state-audit.md) records the verified boundary. Older Sprint, launch and recovery reports are preserved as historical evidence and are not current status. The [documentation index](docs/README.md) describes the authority order.
+
+## Forge ZIP review
+
+The existing `/workbench` includes an authenticated **Forge ZIP review** tab for nested ZIP inventory, batch metadata/rights review, revision approval, checksum-preserving exports and unpublished offline Shopify CSV drafts. It uses the existing local operator/workspace identity and SQLite database; hosted tenancy and automatic BPM/key estimation remain unimplemented. See [Forge implementation and verification](docs/forge/IMPLEMENTATION.md).

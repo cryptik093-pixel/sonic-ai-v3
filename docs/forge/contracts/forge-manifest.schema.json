@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://omega-house.online/schemas/forge-manifest-1.0.json",
+  "title": "Omega Forge Offline Pack Manifest v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "pack_id", "title", "taxonomy", "source_zip_sha256", "assets", "status", "rights_state"],
+  "properties": {
+    "schema_version": {"const": "omega.forge.manifest/1.0"},
+    "pack_id": {"type": "string", "pattern": "^oh-pack-[a-f0-9]{20}$"},
+    "title": {"type": "string", "minLength": 1, "maxLength": 100},
+    "taxonomy": {"type": "string", "minLength": 1, "maxLength": 120},
+    "source_zip_sha256": {"$ref": "#/$defs/sha256"},
+    "status": {"enum": ["awaiting_operator_review", "review_in_progress", "reviewed"]},
+    "rights_state": {"enum": ["unverified", "cleared"]},
+    "assets": {"type": "array", "minItems": 1, "maxItems": 500, "items": {"$ref": "#/$defs/asset"}}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "estimate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["value", "confidence", "method", "reason"],
+      "properties": {
+        "value": {"type": ["null", "number", "string"]},
+        "confidence": {"type": ["null", "number"], "minimum": 0, "maximum": 1},
+        "method": {"type": "string", "minLength": 1},
+        "reason": {"type": "string"}
+      }
+    },
+    "asset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["asset_id", "original_path", "proposed_path", "sha256", "bytes", "asset_type", "taxonomy", "bpm", "key", "rights_state", "review_state", "tags", "audio"],
+      "properties": {
+        "asset_id": {"type": "string", "pattern": "^oh-asset-[a-f0-9]{20}$"},
+        "original_path": {"type": "string", "minLength": 1},
+        "proposed_path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "bytes": {"type": "integer", "minimum": 0},
+        "asset_type": {"enum": ["audio", "midi", "preset", "artwork", "document"]},
+        "taxonomy": {"type": "string", "minLength": 1, "maxLength": 120},
+        "bpm": {"$ref": "#/$defs/estimate"},
+        "key": {"$ref": "#/$defs/estimate"},
+        "rights_state": {"enum": ["unverified", "cleared", "restricted"]},
+        "review_state": {"enum": ["pending", "approved"]},
+        "tags": {"type": "array", "maxItems": 25, "items": {"type": "string", "maxLength": 40}},
+        "audio": {"type": "object", "additionalProperties": true}
+      }
+    }
+  }
+}

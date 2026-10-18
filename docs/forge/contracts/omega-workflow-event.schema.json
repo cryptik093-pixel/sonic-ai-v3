@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://omega-house.online/schemas/omega-event-1.0.json",
+  "title": "Omega House Workflow Event Envelope — design contract, not deployed",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "event_id", "event_type", "occurred_at", "correlation_id", "tenant_id", "actor_id", "resource_type", "resource_id", "resource_revision", "result", "evidence_refs", "payload"],
+  "properties": {
+    "schema_version": {"const": "omega.workflow-event/1.0"},
+    "event_id": {"type": "string", "format": "uuid"},
+    "event_type": {"type": "string", "pattern": "^[a-z][a-z0-9_.-]+$"},
+    "occurred_at": {"type": "string", "format": "date-time"},
+    "correlation_id": {"type": "string", "format": "uuid"},
+    "tenant_id": {"type": "string", "minLength": 1},
+    "actor_id": {"type": "string", "minLength": 1},
+    "resource_type": {"type": "string", "minLength": 1},
+    "resource_id": {"type": "string", "minLength": 1},
+    "resource_revision": {"type": "integer", "minimum": 0},
+    "result": {"enum": ["succeeded", "rejected", "failed", "pending_approval"]},
+    "evidence_refs": {"type": "array", "items": {"type": "string"}},
+    "payload": {"type": "object"}
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema_version":1,
+  "description":"Design targets: core prototype approximates these, production DSP must realize richer sound families.",
+  "anchors":[
+    {"name":"Bass","morph":0.0,"attack_ms":3,"decay_ms":130,"sustain":0.82,"release_ms":110,"cutoff_hz":700,"harmonicity":0.08,"noise_level":0.01,"pitch_drop_semitones":3},
+    {"name":"Bells","morph":0.25,"attack_ms":2,"decay_ms":1550,"sustain":0.25,"release_ms":1200,"cutoff_hz":8200,"harmonicity":0.82,"noise_level":0.06,"pitch_drop_semitones":0},
+    {"name":"Lead","morph":0.5,"attack_ms":8,"decay_ms":180,"sustain":0.72,"release_ms":240,"cutoff_hz":4600,"harmonicity":0.08,"noise_level":0.01,"pitch_drop_semitones":0},
+    {"name":"Synth","morph":0.75,"attack_ms":30,"decay_ms":600,"sustain":0.65,"release_ms":650,"cutoff_hz":2700,"harmonicity":0.35,"noise_level":0.07,"pitch_drop_semitones":0},
+    {"name":"Percussion","morph":1.0,"attack_ms":1,"decay_ms":220,"sustain":0.0,"release_ms":130,"cutoff_hz":6500,"harmonicity":0.62,"noise_level":0.7,"pitch_drop_semitones":5}
+  ]
+}

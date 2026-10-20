@@ -1,0 +1,25 @@
+{
+  "schema_version":1,
+  "instrument":"omega-sonic-organism",
+  "name":"Analog Scar",
+  "author":"Omega House Studio LLC",
+  "description":"vintage saturated tone",
+  "tags":["lead","L04"],
+  "params":{
+    "morph":0.51000000000000001,
+    "energy":0.69999999999999996,
+    "motion":0.20000000000000001,
+    "material":0.17999999999999999,
+    "space":0.070000000000000007,
+    "output":0.55865710853360562,
+    "attack_scale":0.5,
+    "release_scale":0.5,
+    "glide_ms":0.012,
+    "polyphony":0,
+    "quality":0,
+    "bend_range":0,
+    "lfo_sync":1,
+    "lfo_rate":0.56525000000000003,
+    "mono_legato":1
+  }
+}

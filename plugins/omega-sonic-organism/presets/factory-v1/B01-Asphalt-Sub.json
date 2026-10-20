@@ -1,0 +1,25 @@
+{
+  "schema_version":1,
+  "instrument":"omega-sonic-organism",
+  "name":"Asphalt Sub",
+  "author":"Omega House Studio LLC",
+  "description":"pure stable low-end",
+  "tags":["bass","B01"],
+  "params":{
+    "morph":0,
+    "energy":0.34999999999999998,
+    "motion":0.050000000000000003,
+    "material":0.17999999999999999,
+    "space":0,
+    "output":0.44131084975922857,
+    "attack_scale":0.5,
+    "release_scale":0.38,
+    "glide_ms":0.025000000000000001,
+    "polyphony":0,
+    "quality":0,
+    "bend_range":0,
+    "lfo_sync":1,
+    "lfo_rate":0.56525000000000003,
+    "mono_legato":1
+  }
+}

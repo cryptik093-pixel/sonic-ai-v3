@@ -1,0 +1,25 @@
+{
+  "schema_version":1,
+  "instrument":"omega-sonic-organism",
+  "name":"Lunar Glide",
+  "author":"Omega House Studio LLC",
+  "description":"spacious lead w glide",
+  "tags":["lead","L05"],
+  "params":{
+    "morph":0.53000000000000003,
+    "energy":0.44,
+    "motion":0.28999999999999998,
+    "material":0.39000000000000001,
+    "space":0.38,
+    "output":0.62735098668612066,
+    "attack_scale":0.5,
+    "release_scale":0.5,
+    "glide_ms":0.044999999999999998,
+    "polyphony":0,
+    "quality":0,
+    "bend_range":0,
+    "lfo_sync":1,
+    "lfo_rate":0.56525000000000003,
+    "mono_legato":1
+  }
+}

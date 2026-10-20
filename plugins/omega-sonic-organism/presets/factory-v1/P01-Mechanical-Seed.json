@@ -1,0 +1,25 @@
+{
+  "schema_version":1,
+  "instrument":"omega-sonic-organism",
+  "name":"Mechanical Seed",
+  "author":"Omega House Studio LLC",
+  "description":"metallic tuned hit",
+  "tags":["percussion","P01"],
+  "params":{
+    "morph":1,
+    "energy":0.75,
+    "motion":0.080000000000000002,
+    "material":0.92000000000000004,
+    "space":0.059999999999999998,
+    "output":0.84519429159789983,
+    "attack_scale":0.25,
+    "release_scale":0.28000000000000003,
+    "glide_ms":0,
+    "polyphony":0.33333333333333331,
+    "quality":0,
+    "bend_range":0,
+    "lfo_sync":1,
+    "lfo_rate":0.56525000000000003,
+    "mono_legato":0
+  }
+}

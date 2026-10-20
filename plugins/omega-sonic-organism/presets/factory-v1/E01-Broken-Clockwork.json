@@ -1,0 +1,25 @@
+{
+  "schema_version":1,
+  "instrument":"omega-sonic-organism",
+  "name":"Broken Clockwork",
+  "author":"Omega House Studio LLC",
+  "description":"inharmonic struck bell",
+  "tags":["bells","E01"],
+  "params":{
+    "morph":0.25,
+    "energy":0.54000000000000004,
+    "motion":0.12,
+    "material":0.94999999999999996,
+    "space":0.26000000000000001,
+    "output":0.65414391196670896,
+    "attack_scale":0.5,
+    "release_scale":0.5,
+    "glide_ms":0,
+    "polyphony":0.66666666666666663,
+    "quality":0,
+    "bend_range":0,
+    "lfo_sync":1,
+    "lfo_rate":0.56525000000000003,
+    "mono_legato":0
+  }
+}

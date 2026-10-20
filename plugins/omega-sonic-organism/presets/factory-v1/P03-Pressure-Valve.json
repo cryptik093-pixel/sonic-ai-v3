@@ -1,0 +1,25 @@
+{
+  "schema_version":1,
+  "instrument":"omega-sonic-organism",
+  "name":"Pressure Valve",
+  "author":"Omega House Studio LLC",
+  "description":"pitched industrial percussion",
+  "tags":["percussion","P03"],
+  "params":{
+    "morph":0.97999999999999998,
+    "energy":0.88,
+    "motion":0.57999999999999996,
+    "material":0.90000000000000002,
+    "space":0.12,
+    "output":0.82037480159658194,
+    "attack_scale":0.25,
+    "release_scale":0.28000000000000003,
+    "glide_ms":0,
+    "polyphony":0.33333333333333331,
+    "quality":0,
+    "bend_range":0,
+    "lfo_sync":1,
+    "lfo_rate":0.56525000000000003,
+    "mono_legato":0
+  }
+}

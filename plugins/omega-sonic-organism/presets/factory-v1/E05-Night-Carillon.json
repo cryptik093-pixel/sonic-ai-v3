@@ -1,0 +1,25 @@
+{
+  "schema_version":1,
+  "instrument":"omega-sonic-organism",
+  "name":"Night Carillon",
+  "author":"Omega House Studio LLC",
+  "description":"animated bell phrase",
+  "tags":["bells","E05"],
+  "params":{
+    "morph":0.25,
+    "energy":0.66000000000000003,
+    "motion":0.47999999999999998,
+    "material":0.72999999999999998,
+    "space":0.54000000000000004,
+    "output":0.63322835055297499,
+    "attack_scale":0.5,
+    "release_scale":0.5,
+    "glide_ms":0,
+    "polyphony":0.66666666666666663,
+    "quality":0,
+    "bend_range":0,
+    "lfo_sync":1,
+    "lfo_rate":0.56525000000000003,
+    "mono_legato":0
+  }
+}

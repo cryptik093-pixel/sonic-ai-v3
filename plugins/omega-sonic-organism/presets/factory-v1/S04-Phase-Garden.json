@@ -1,0 +1,25 @@
+{
+  "schema_version":1,
+  "instrument":"omega-sonic-organism",
+  "name":"Phase Garden",
+  "author":"Omega House Studio LLC",
+  "description":"layered slow evolution",
+  "tags":["synth","S04"],
+  "params":{
+    "morph":0.77000000000000002,
+    "energy":0.5,
+    "motion":0.72999999999999998,
+    "material":0.42999999999999999,
+    "space":0.45000000000000001,
+    "output":0.52781636062592496,
+    "attack_scale":0.76000000000000001,
+    "release_scale":0.64000000000000001,
+    "glide_ms":0,
+    "polyphony":0.66666666666666663,
+    "quality":0,
+    "bend_range":0,
+    "lfo_sync":1,
+    "lfo_rate":0.56525000000000003,
+    "mono_legato":0
+  }
+}

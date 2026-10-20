@@ -1,0 +1,25 @@
+{
+  "schema_version":1,
+  "instrument":"omega-sonic-organism",
+  "name":"Neon Needle",
+  "author":"Omega House Studio LLC",
+  "description":"sharp monophonic line",
+  "tags":["lead","L01"],
+  "params":{
+    "morph":0.5,
+    "energy":0.73999999999999999,
+    "motion":0.12,
+    "material":0.28000000000000003,
+    "space":0.17000000000000001,
+    "output":0.54391315133098694,
+    "attack_scale":0.5,
+    "release_scale":0.5,
+    "glide_ms":0.012,
+    "polyphony":0,
+    "quality":0,
+    "bend_range":0,
+    "lfo_sync":1,
+    "lfo_rate":0.56525000000000003,
+    "mono_legato":1
+  }
+}

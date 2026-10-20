@@ -1,0 +1,25 @@
+{
+  "schema_version":1,
+  "instrument":"omega-sonic-organism",
+  "name":"Singing Alloy",
+  "author":"Omega House Studio LLC",
+  "description":"expressive sustained lead",
+  "tags":["lead","L02"],
+  "params":{
+    "morph":0.5,
+    "energy":0.55000000000000004,
+    "motion":0.41999999999999998,
+    "material":0.5,
+    "space":0.23999999999999999,
+    "output":0.58172501645478158,
+    "attack_scale":0.5,
+    "release_scale":0.5,
+    "glide_ms":0.012,
+    "polyphony":0,
+    "quality":0,
+    "bend_range":0,
+    "lfo_sync":1,
+    "lfo_rate":0.56525000000000003,
+    "mono_legato":1
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "schema_version":1,
+  "instrument":"omega-sonic-organism",
+  "name":"Rubber Floor",
+  "author":"Omega House Studio LLC",
+  "description":"elastic wobble",
+  "tags":["bass","B03"],
+  "params":{
+    "morph":0.029999999999999999,
+    "energy":0.62,
+    "motion":0.47999999999999998,
+    "material":0.20000000000000001,
+    "space":0.050000000000000003,
+    "output":0.4521338479618825,
+    "attack_scale":0.5,
+    "release_scale":0.38,
+    "glide_ms":0.025000000000000001,
+    "polyphony":0,
+    "quality":0,
+    "bend_range":0,
+    "lfo_sync":1,
+    "lfo_rate":0.56525000000000003,
+    "mono_legato":1
+  }
+}

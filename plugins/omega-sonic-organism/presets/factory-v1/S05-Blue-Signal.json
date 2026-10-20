@@ -1,0 +1,25 @@
+{
+  "schema_version":1,
+  "instrument":"omega-sonic-organism",
+  "name":"Blue Signal",
+  "author":"Omega House Studio LLC",
+  "description":"clean melodic synth",
+  "tags":["synth","S05"],
+  "params":{
+    "morph":0.75,
+    "energy":0.59999999999999998,
+    "motion":0.37,
+    "material":0.23000000000000001,
+    "space":0.33000000000000002,
+    "output":0.48821065594866592,
+    "attack_scale":0.5,
+    "release_scale":0.64000000000000001,
+    "glide_ms":0,
+    "polyphony":0.66666666666666663,
+    "quality":0,
+    "bend_range":0,
+    "lfo_sync":1,
+    "lfo_rate":0.56525000000000003,
+    "mono_legato":0
+  }
+}

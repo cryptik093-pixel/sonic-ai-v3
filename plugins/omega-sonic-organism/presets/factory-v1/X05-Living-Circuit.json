@@ -1,0 +1,25 @@
+{
+  "schema_version":1,
+  "instrument":"omega-sonic-organism",
+  "name":"Living Circuit",
+  "author":"Omega House Studio LLC",
+  "description":"high-motion hybrid centerpiece",
+  "tags":["transition","X05"],
+  "params":{
+    "morph":0.56999999999999995,
+    "energy":0.75,
+    "motion":0.81000000000000005,
+    "material":0.70999999999999996,
+    "space":0.34000000000000002,
+    "output":0.57028422922897926,
+    "attack_scale":0.5,
+    "release_scale":0.5,
+    "glide_ms":0,
+    "polyphony":0.66666666666666663,
+    "quality":0,
+    "bend_range":0,
+    "lfo_sync":1,
+    "lfo_rate":0.56525000000000003,
+    "mono_legato":0
+  }
+}

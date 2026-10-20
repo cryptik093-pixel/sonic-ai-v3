@@ -1,0 +1,25 @@
+{
+  "schema_version":1,
+  "instrument":"omega-sonic-organism",
+  "name":"Glass Voice",
+  "author":"Omega House Studio LLC",
+  "description":"between bell and lead",
+  "tags":["transition","X02"],
+  "params":{
+    "morph":0.38,
+    "energy":0.5,
+    "motion":0.28000000000000003,
+    "material":0.60999999999999999,
+    "space":0.44,
+    "output":0.77039748836926192,
+    "attack_scale":0.5,
+    "release_scale":0.5,
+    "glide_ms":0,
+    "polyphony":0.66666666666666663,
+    "quality":0,
+    "bend_range":0,
+    "lfo_sync":1,
+    "lfo_rate":0.56525000000000003,
+    "mono_legato":0
+  }
+}

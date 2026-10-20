@@ -1,0 +1,38 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://omega-house.online/schemas/sonic-organism-preset-v1.json",
+  "title":"OMEGA SONIC ORGANISM Preset v1",
+  "type":"object",
+  "additionalProperties":false,
+  "required":["schema_version","instrument","name","author","params"],
+  "properties":{
+    "schema_version":{"const":1},
+    "instrument":{"const":"omega-sonic-organism"},
+    "name":{"type":"string","minLength":1,"maxLength":80},
+    "author":{"type":"string","minLength":1,"maxLength":80},
+    "description":{"type":"string","maxLength":400},
+    "tags":{"type":"array","maxItems":12,"uniqueItems":true,"items":{"type":"string","maxLength":30}},
+    "params":{
+      "type":"object","additionalProperties":false,
+      "required":["morph","energy","motion","material","space","output"],
+      "properties":{
+        "morph":{"$ref":"#/$defs/norm"},
+        "energy":{"$ref":"#/$defs/norm"},
+        "motion":{"$ref":"#/$defs/norm"},
+        "material":{"$ref":"#/$defs/norm"},
+        "space":{"$ref":"#/$defs/norm"},
+        "output":{"$ref":"#/$defs/norm"},
+        "attack_scale":{"$ref":"#/$defs/norm"},
+        "release_scale":{"$ref":"#/$defs/norm"},
+        "glide_ms":{"$ref":"#/$defs/norm"},
+        "polyphony":{"enum":[0,0.3333333333333333,0.6666666666666666,1]},
+        "quality":{"enum":[0,1]},
+        "bend_range":{"enum":[0,0.5,1]},
+        "lfo_sync":{"enum":[0,1]},
+        "lfo_rate":{"$ref":"#/$defs/norm"},
+        "mono_legato":{"enum":[0,1]}
+      }
+    }
+  },
+  "$defs":{"norm":{"type":"number","minimum":0,"maximum":1}}
+}

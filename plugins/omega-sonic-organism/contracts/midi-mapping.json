@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "scope": "event bus 0, MIDI channel 0 (channel 1 in user interfaces)",
+  "notes": "Additional permanent hidden performance parameters. Never renumber or reuse. These are transient MIDI performance state, excluded from the native patch document. Original parameter IDs 100-114 remain unchanged.",
+  "parameters": [
+    {"id":1000,"key":"midi_pitch_bend","controller_number":129,"default_normalized":0.5,"automatable":true,"hidden":true,"behavior":"normalized 0-1 maps to bipolar -1..1; range from principal parameter 111"},
+    {"id":1001,"key":"midi_sustain","controller_number":64,"default_normalized":0,"automatable":true,"hidden":true,"behavior":"pedal down at normalized >=0.5"},
+    {"id":1002,"key":"midi_all_notes_off","controller_number":123,"default_normalized":0,"automatable":true,"hidden":true,"behavior":"every delivered point releases notes regardless of CC value"},
+    {"id":1003,"key":"midi_all_sounds_off","controller_number":120,"default_normalized":0,"automatable":true,"hidden":true,"behavior":"every delivered point clears voice and room state regardless of CC value"}
+  ]
+}

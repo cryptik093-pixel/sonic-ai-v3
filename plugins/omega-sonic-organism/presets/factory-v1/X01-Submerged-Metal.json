@@ -1,0 +1,25 @@
+{
+  "schema_version":1,
+  "instrument":"omega-sonic-organism",
+  "name":"Submerged Metal",
+  "author":"Omega House Studio LLC",
+  "description":"between bass and bell",
+  "tags":["transition","X01"],
+  "params":{
+    "morph":0.12,
+    "energy":0.57999999999999996,
+    "motion":0.29999999999999999,
+    "material":0.77000000000000002,
+    "space":0.25,
+    "output":0.59177339346111413,
+    "attack_scale":0.5,
+    "release_scale":0.5,
+    "glide_ms":0,
+    "polyphony":0.66666666666666663,
+    "quality":0,
+    "bend_range":0,
+    "lfo_sync":1,
+    "lfo_rate":0.56525000000000003,
+    "mono_legato":0
+  }
+}

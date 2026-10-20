@@ -1,0 +1,25 @@
+{
+  "schema_version":1,
+  "instrument":"omega-sonic-organism",
+  "name":"Iron Halo",
+  "author":"Omega House Studio LLC",
+  "description":"hard metallic ring",
+  "tags":["bells","E03"],
+  "params":{
+    "morph":0.27000000000000002,
+    "energy":0.84999999999999998,
+    "motion":0.26000000000000001,
+    "material":0.92000000000000004,
+    "space":0.41999999999999998,
+    "output":0.62726486977408735,
+    "attack_scale":0.5,
+    "release_scale":0.5,
+    "glide_ms":0,
+    "polyphony":0.66666666666666663,
+    "quality":0,
+    "bend_range":0,
+    "lfo_sync":1,
+    "lfo_rate":0.56525000000000003,
+    "mono_legato":0
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "schema_version":1,
+  "instrument":"omega-sonic-organism",
+  "name":"Kinetic Dust",
+  "author":"Omega House Studio LLC",
+  "description":"between synth and percussion",
+  "tags":["transition","X04"],
+  "params":{
+    "morph":0.87,
+    "energy":0.71999999999999997,
+    "motion":0.69999999999999996,
+    "material":0.76000000000000001,
+    "space":0.17000000000000001,
+    "output":0.64092620275246803,
+    "attack_scale":0.5,
+    "release_scale":0.5,
+    "glide_ms":0,
+    "polyphony":0.66666666666666663,
+    "quality":0,
+    "bend_range":0,
+    "lfo_sync":1,
+    "lfo_rate":0.56525000000000003,
+    "mono_legato":0
+  }
+}

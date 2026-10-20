@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "notes": "Permanent VST3 host automation IDs. Never renumber/reuse. Host values normalized 0-1. Defaults are normalized.",
+  "parameters": [
+    {"id":100,"key":"morph","label":"Morph","unit":"","kind":"continuous","scale":"linear","min":0,"max":1,"default_normalized":0,"automatable":true},
+    {"id":101,"key":"energy","label":"Energy","unit":"","kind":"continuous","scale":"linear","min":0,"max":1,"default_normalized":0.5,"automatable":true},
+    {"id":102,"key":"motion","label":"Motion","unit":"","kind":"continuous","scale":"linear","min":0,"max":1,"default_normalized":0.25,"automatable":true},
+    {"id":103,"key":"material","label":"Material","unit":"","kind":"continuous","scale":"linear","min":0,"max":1,"default_normalized":0.5,"automatable":true},
+    {"id":104,"key":"space","label":"Space","unit":"","kind":"continuous","scale":"linear","min":0,"max":1,"default_normalized":0,"automatable":true},
+    {"id":105,"key":"output","label":"Output","unit":"dB","kind":"continuous","scale":"linear","min":-24,"max":6,"default_normalized":0.6,"automatable":true},
+    {"id":106,"key":"attack_scale","label":"Attack Scale","unit":"×","kind":"continuous","scale":"log","min":0.25,"max":4,"default_normalized":0.5,"automatable":true},
+    {"id":107,"key":"release_scale","label":"Release Scale","unit":"×","kind":"continuous","scale":"log","min":0.25,"max":4,"default_normalized":0.5,"automatable":true},
+    {"id":108,"key":"glide_ms","label":"Glide","unit":"ms","kind":"continuous","scale":"linear","min":0,"max":2000,"default_normalized":0,"automatable":true},
+    {"id":109,"key":"polyphony","label":"Voices","kind":"enumeration","choices":["1","8","16","32"],"default_normalized":0.6666666666666666,"automatable":false},
+    {"id":110,"key":"quality","label":"Quality","kind":"enumeration","choices":["Eco","HQ"],"default_normalized":0,"automatable":false},
+    {"id":111,"key":"bend_range","label":"Pitch Bend Range","unit":"semitones","kind":"enumeration","choices":["2","12","24"],"default_normalized":0,"automatable":false},
+    {"id":112,"key":"lfo_sync","label":"Tempo Sync","kind":"enumeration","choices":["Off","On"],"default_normalized":1,"automatable":true},
+    {"id":113,"key":"lfo_rate","label":"Motion Rate","unit":"Hz","kind":"continuous","scale":"log","min":0.1,"max":20,"default_normalized":0.56525,"automatable":true},
+    {"id":114,"key":"mono_legato","label":"Mono Legato","kind":"enumeration","choices":["Off","On"],"default_normalized":0,"automatable":false}
+  ]
+}

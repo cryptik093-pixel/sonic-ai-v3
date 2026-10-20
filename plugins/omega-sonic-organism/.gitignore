@@ -1,0 +1,7 @@
+build*/
+dist/
+
+# Preserve evidence locally; package selected runs explicitly.
+test-results/
+__pycache__/
+*.pyc

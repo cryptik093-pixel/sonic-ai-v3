@@ -1,6 +1,6 @@
 # Omega House Commerce Engine V2 — Sonic Intelligence adapter
 
-**Date:** 2026-10-19 · **Status:** staged proposal + tested-in-repo source awaiting CI/runtime verification · **No live Shopify mutation**
+**Date:** 2026-10-19 · **Status:** staged; GitHub event-contract CI succeeded on prior PR commit; runtime/deployment unverified · **No live Shopify mutation**
 
 ## Governing reference
 Omega House OS (private repository) is the source of commerce policy:
@@ -17,8 +17,8 @@ The original document distinguishes current observed state from proposed pricing
 Specialized audio/offer/free-claim events are intentionally validated but not misrepresented as supported events by the existing canonical bus. A separate durable commerce-telemetry store with its own event vocabulary and idempotency is needed before collecting those events live; this change **does not** install tracking.
 
 ## Source-of-truth and identity
-- Verified connected Shopify merchant: `omega-house.online`; currency USD; Basic plan at time of review. This does not prove that historical ShopifyQL analytics originated from that exact account.
-- The blueprint records a conflicting analytics context `myvig8-wn.myshopify.com`. Block baseline conversion calculations until Shopify shop ID/merchant identity for the query output is reconciled.
+- Verified Shopify Admin identity: GID `gid://shopify/Shop/82636865772`, primary host `omega-house.online`, internal Shopify host `myvig8-wn.myshopify.com`. **Both domains belong to the same shop**, resolving the blueprint's domain-identity concern. Shopify webhooks may identify the shop using its internal myshopify domain; normalize against trusted shop ID and configured allowed host aliases rather than treating them as different merchants.
+- Historical ShopifyQL metrics still require a query date range, cohort and denominator review before being accepted as a conversion baseline. Do not mark prior sales figures verified merely because domain identity matches.
 - Revenue: Shopify paid order/refund records, deduplicated by stable order/refund IDs. A Shopify `orders/create` event does not automatically prove a paid order; inspect payment/financial status.
 - Audio previews, product navigation, search filters: consent-compliant storefront instrumentation, attributed only to non-financial funnel interactions.
 - Plugin release eligibility: separately verified installer hash, host compatibility, test report. Historical FL Studio .fst preset crashes remain blockers.

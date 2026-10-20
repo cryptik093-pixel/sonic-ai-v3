@@ -43,7 +43,7 @@ The local-token/loopback workbench security boundary protects:
 
 The report is a **diagnostic snapshot**, not Shopify's authoritative financial
 statement. It deduplicates paid order snapshots and tracks product/refund event
-counts, attribution identifier coverage, and unmatched refunds. Refund events
+counts, attribution identifier coverage, test/free-order exclusions, and unmatched refunds. Refund events
 do **not** automatically change reported order totals. The
 `settled_net_revenue` field intentionally stays null until independently
 reconciled with Shopify Admin records.
@@ -53,7 +53,7 @@ reconciled with Shopify Admin records.
 - Commerce evidence includes only source IDs, shop scope, event type, financial
   status, reported amount/currency, SKU quantities, and allowlisted campaign IDs.
 - Customer IDs, raw landing URLs, and private details are not promoted into the
-  intelligence evidence ledger.
+  intelligence evidence ledger. Normalized webhook events omit raw landing/referrer URLs.
 - A webhook-valid event proves authenticity of a reported event, **not**
   settlement, sustained conversion, margin, customer consent, or true attribution.
 - The current API has an older `/integrations/shopify/webhooks` product-event

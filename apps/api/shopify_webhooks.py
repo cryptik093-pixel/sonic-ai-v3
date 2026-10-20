@@ -100,11 +100,10 @@ def canonicalize_shopify_webhook(topic: str, headers: Any, payload: dict[str, An
             "properties": {
                 "name": payload.get("name"),
                 "financial_status": payload.get("financial_status"),
+                "test": payload.get("test") is True,
                 "reported_total_amount": str(total) if total is not None else None,
                 "fulfillment_status": payload.get("fulfillment_status"),
                 "source_name": payload.get("source_name"),
-                "landing_site": payload.get("landing_site"),
-                "referring_site": payload.get("referring_site"),
                 "line_items": [{"sku": x.get("sku"), "product_id": str(x.get("product_id")), "quantity": x.get("quantity")} for x in payload.get("line_items", []) if isinstance(x, dict)],
                 "acquisition": _acquisition(payload.get("landing_site")),
                 "updated_at": payload.get("updated_at"),

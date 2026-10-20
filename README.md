@@ -66,3 +66,10 @@ The local workbench is served at `/workbench`. Its API is under `/workbench/api`
 ## Documentation authority
 
 Runtime behavior, schemas and tests establish what works. The [current-state audit](docs/architecture/current-state-audit.md) records the verified boundary. Older Sprint, launch and recovery reports are preserved as historical evidence and are not current status. The [documentation index](docs/README.md) describes the authority order.
+
+## Omega House Beats Black Friday 2026
+
+- [Campaign integration contract](docs/commerce/BFCM_2026_INTEGRATION_CONTRACT.md) specifies proposed Shopify handoffs, consent-aware analytics, explicit authorization and validation against current V3 capabilities.
+- [Repo-local Codex BFCM skill](.agents/skills/omega-bfcm-2026/SKILL.md) includes the [approved producer/artist funnel playbook](.agents/skills/omega-bfcm-2026/references/campaign-playbook.md).
+
+These are planning and engineering instructions, not evidence that Sonic AI V3 has live Shopify publishing, promotion automation or customer-order attribution.

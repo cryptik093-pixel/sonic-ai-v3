@@ -9,6 +9,7 @@ from __future__ import annotations
 import json
 import sqlite3
 from pathlib import Path
+from datetime import UTC, datetime
 from typing import Any
 
 
@@ -48,6 +49,15 @@ class EventStore:
                 "CREATE INDEX IF NOT EXISTS idx_business_events_entity "
                 "ON business_events(entity_type, entity_id)"
             )
+            # Unauthenticated generic events must never become commerce evidence.
+            connection.execute("""
+                CREATE TABLE IF NOT EXISTS verified_shopify_receipts (
+                    event_id TEXT PRIMARY KEY,
+                    shop_domain TEXT NOT NULL,
+                    body_sha256 TEXT NOT NULL,
+                    verified_at TEXT NOT NULL
+                )
+            """)
 
     def append(self, event: dict[str, Any]) -> bool:
         """Persist an event.
@@ -77,6 +87,9 @@ class EventStore:
                 )
             return True
         except sqlite3.IntegrityError:
+            existing = self.get(event["event_id"])
+            if existing != event:
+                raise ValueError("event_id_payload_conflict") from None
             return False
 
     def get(self, event_id: str) -> dict[str, Any] | None:
@@ -91,3 +104,63 @@ class EventStore:
         with self._connect() as connection:
             row = connection.execute("SELECT COUNT(*) AS count FROM business_events").fetchone()
         return int(row["count"])
+
+    def append_verified_shopify(self, event: dict[str, Any], body_sha256: str) -> bool:
+        """Persist a signed webhook receipt and canonical event atomically.
+
+        Call only after raw-body HMAC and configured shop verification.
+        """
+        if event.get("source") != "shopify_webhook":
+            raise ValueError("verified receipt requires shopify_webhook source")
+        shop = (event.get("context") or {}).get("shop_domain")
+        if not shop or len(body_sha256) != 64:
+            raise ValueError("missing receipt provenance")
+        encoded = json.dumps(event, separators=(",", ":"), sort_keys=True)
+        with self._connect() as c:
+            c.execute("BEGIN IMMEDIATE")
+            row = c.execute(
+                "SELECT event_json FROM business_events WHERE event_id=?",
+                (event["event_id"],),
+            ).fetchone()
+            if row and row["event_json"] != encoded:
+                raise ValueError("event_id_payload_conflict")
+            existing = c.execute(
+                "SELECT shop_domain,body_sha256 FROM verified_shopify_receipts WHERE event_id=?",
+                (event["event_id"],),
+            ).fetchone()
+            if existing and (existing["shop_domain"] != shop or existing["body_sha256"] != body_sha256):
+                raise ValueError("verified_receipt_payload_conflict")
+            if not row:
+                c.execute(
+                    """INSERT INTO business_events
+                       (event_id,event_type,schema_version,occurred_at,source,entity_type,entity_id,event_json)
+                       VALUES (?,?,?,?,?,?,?,?)""",
+                    (event["event_id"], event["event_type"], event["schema_version"],
+                     event["occurred_at"], event["source"], event["entity"]["type"],
+                     event["entity"]["id"], encoded),
+                )
+            if not existing:
+                c.execute(
+                    """INSERT INTO verified_shopify_receipts
+                       (event_id,shop_domain,body_sha256,verified_at) VALUES (?,?,?,?)""",
+                    (event["event_id"], shop, body_sha256, datetime.now(UTC).isoformat()),
+                )
+            return row is None
+
+    def verified_shopify_events(self, shop_domain: str | None = None) -> list[dict[str, Any]]:
+        """Read signed receipts only, never generic business events."""
+        with self._connect() as c:
+            if shop_domain:
+                rows = c.execute(
+                    """SELECT b.event_json FROM business_events b
+                       JOIN verified_shopify_receipts r USING (event_id)
+                       WHERE r.shop_domain=? ORDER BY b.event_id""",
+                    (shop_domain,),
+                ).fetchall()
+            else:
+                rows = c.execute(
+                    """SELECT b.event_json FROM business_events b
+                       JOIN verified_shopify_receipts r USING (event_id)
+                       ORDER BY b.event_id"""
+                ).fetchall()
+        return [json.loads(row["event_json"]) for row in rows]

@@ -209,19 +209,23 @@ def canonicalize_shopify_webhook(topic: str, headers: Any, payload: dict[str, An
 
 @router.post("", status_code=status.HTTP_202_ACCEPTED)
 async def ingest_shopify_webhook(request: Request) -> dict[str, Any]:
-    secret = os.getenv("SHOPIFY_WEBHOOK_SECRET", "")
-    if not secret:
-        raise HTTPException(status_code=503, detail="SHOPIFY_WEBHOOK_SECRET is not configured")
+    from .integrations.config import ControlConfig
+    from .services.commerce_evidence import CommerceEvidenceService
+
+    config = ControlConfig.from_env()
+    secret = config.webhook_secret or os.getenv("SHOPIFY_WEBHOOK_SECRET", "")
+    if not secret or not config.valid_shop:
+        raise HTTPException(status_code=503, detail="Shopify webhook not configured")
 
     raw_body = await request.body()
-    provided_hmac = request.headers.get("x-shopify-hmac-sha256", "")
-    if not verify_shopify_hmac(raw_body, provided_hmac, secret):
+    if len(raw_body) > 1_048_576:
+        raise HTTPException(status_code=413, detail="Shopify webhook too large")
+    if not verify_shopify_hmac(raw_body, request.headers.get("x-shopify-hmac-sha256", ""), secret):
         raise HTTPException(status_code=401, detail="Invalid Shopify webhook signature")
+    if request.headers.get("x-shopify-shop-domain", "").strip().lower() != config.shop_domain:
+        raise HTTPException(status_code=403, detail="Unexpected Shopify shop")
 
     topic = request.headers.get("x-shopify-topic", "").lower().strip()
-    if not topic:
-        raise HTTPException(status_code=400, detail="Missing X-Shopify-Topic header")
-
     try:
         payload = json.loads(raw_body)
     except json.JSONDecodeError as exc:
@@ -230,13 +234,17 @@ async def ingest_shopify_webhook(request: Request) -> dict[str, Any]:
         raise HTTPException(status_code=400, detail="Shopify webhook payload must be an object")
 
     event = canonicalize_shopify_webhook(topic, request.headers, payload)
-    inserted = store.append(event)
-    return {
-        "accepted": True,
-        "duplicate": not inserted,
-        "event_id": event["event_id"],
-        "event_type": event["event_type"],
-    }
+    evidence = CommerceEvidenceService.from_env()
+    try:
+        inserted = evidence.events.append_verified_shopify(event, hashlib.sha256(raw_body).hexdigest())
+        evidence.project(event)
+    except ValueError as exc:
+        raise HTTPException(status_code=409, detail=str(exc)) from None
+    except Exception as exc:
+        # Durable receipt survives projection errors; a retry or replay repairs it.
+        raise HTTPException(status_code=503, detail="Commerce projection unavailable; retry delivery") from exc
+    return {"accepted": True, "duplicate": not inserted,
+            "event_id": event["event_id"], "event_type": event["event_type"]}
 
 
 @router.get("/health", include_in_schema=False)

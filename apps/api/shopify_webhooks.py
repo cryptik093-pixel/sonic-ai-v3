@@ -72,7 +72,6 @@ def canonicalize_shopify_webhook(topic: str, headers: Any, payload: dict[str, An
         "shop_domain": headers.get("x-shopify-shop-domain"),
         "shopify_topic": topic,
         "api_version": headers.get("x-shopify-api-version"),
-        "webhook_id": headers.get("x-shopify-webhook-id"),
         "shopify_event_id": headers.get("x-shopify-event-id"),
     }
 

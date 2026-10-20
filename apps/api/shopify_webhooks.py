@@ -100,6 +100,7 @@ def canonicalize_shopify_webhook(topic: str, headers: Any, payload: dict[str, An
             "properties": {
                 "name": payload.get("name"),
                 "financial_status": payload.get("financial_status"),
+                "reported_total_amount": str(total) if total is not None else None,
                 "fulfillment_status": payload.get("fulfillment_status"),
                 "source_name": payload.get("source_name"),
                 "landing_site": payload.get("landing_site"),

@@ -166,3 +166,20 @@ def test_replay_repairs_durable_receipt_after_projection_interruption(harness):
     assert repair.status_code == 200, repair.text
     assert repair.json()["projected"] == 1
     assert IntelligenceStore(root / "intelligence.sqlite3").counts()["evidence"] == 1
+
+
+def test_test_and_free_orders_do_not_count_as_paying_customers(harness):
+    client, _ = harness
+    test_order = _order(1001)
+    test_order["test"] = True
+    free_order = _order(1002, total="0.00")
+    legitimate_order = _order(1003, total="5.00")
+    assert _post(client, "orders/create", "test-1", test_order).status_code == 202
+    assert _post(client, "orders/create", "free-1", free_order).status_code == 202
+    assert _post(client, "orders/create", "real-1", legitimate_order).status_code == 202
+    report = _status(client)
+    assert report["unique_order_count"] == 3
+    assert report["test_order_count"] == 1
+    assert report["zero_value_paid_order_count"] == 1
+    assert report["reported_paid_order_count"] == 1
+    assert report["reported_paid_order_totals_by_currency"] == {"USD": "5.00"}

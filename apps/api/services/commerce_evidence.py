@@ -61,7 +61,7 @@ class CommerceEvidenceService:
                 "event_type": event["event_type"],
                 "entity": event["entity"],
                 "currency": event.get("currency"),
-                "reported_amount": event.get("revenue_impact"),
+                "reported_amount": props.get("reported_total_amount") if event["event_type"] in {"order_created", "order_updated"} else event.get("revenue_impact"),
                 "financial_status": props.get("financial_status"),
                 "acquisition": props.get("acquisition") or {},
                 "line_items": props.get("line_items") or [],
@@ -115,7 +115,8 @@ class CommerceEvidenceService:
                 continue
             paid_orders += 1
             currency = order.get("currency")
-            value = _amount(order.get("revenue_impact"))
+            value = _amount(props.get("reported_total_amount", order.get("revenue_impact")))
+
             if not currency or value is None:
                 invalid_amounts += 1
                 continue

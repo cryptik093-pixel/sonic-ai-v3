@@ -45,6 +45,9 @@ store = EventStore(os.getenv("SONIC_EVENT_DB", "apps/api/data/sonic_events.sqlit
 
 @router.post("", status_code=202)
 def ingest_event(event: BusinessEvent) -> dict[str, Any]:
+    # Public generic ingestion cannot impersonate signed Shopify evidence.
+    if event.source == "shopify_webhook" or event.event_id.startswith("shopify:"):
+        raise HTTPException(status_code=403, detail="Signed Shopify events require the webhook endpoint")
     if event.schema_version != "1.0":
         raise HTTPException(status_code=400, detail="Unsupported event schema version")
     inserted = store.append(event.model_dump(mode="json"))

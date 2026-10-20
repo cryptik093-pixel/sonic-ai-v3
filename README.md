@@ -73,3 +73,9 @@ Runtime behavior, schemas and tests establish what works. The [current-state aud
 - [Repo-local Codex BFCM skill](.agents/skills/omega-bfcm-2026/SKILL.md) includes the [approved producer/artist funnel playbook](.agents/skills/omega-bfcm-2026/references/campaign-playbook.md).
 
 These are planning and engineering instructions, not evidence that Sonic AI V3 has live Shopify publishing, promotion automation or customer-order attribution.
+
+## Founder onboarding
+
+Use the [founder onboarding integration guide](docs/operating-system/FOUNDER_ONBOARDING.md) for the canonical Omega House OS package, five-name taxonomy, Intelligence Loop and role handoffs. The [pinned contract reference](docs/operating-system/founder_contract_reference.json) records the adopted OS revision and hash.
+
+This documentation adoption does not implement automatic contract loading or enforcement in Sonic.

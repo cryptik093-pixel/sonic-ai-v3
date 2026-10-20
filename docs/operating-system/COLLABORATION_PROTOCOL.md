@@ -90,3 +90,7 @@ The goal is not to eliminate human judgment. The goal is to make the human-AI lo
 ## Non-Negotiable Principle
 
 **Never confuse “we generated something” with “we successfully advanced the system.”**
+
+## Founder onboarding and company learning
+
+The [founder onboarding integration](FOUNDER_ONBOARDING.md) connects this execution protocol to the canonical Omega House OS doctrine and Omega Intelligence Loop. The company learning sequence is WORK → CAPTURE → UNDERSTAND → FORMALIZE → VALIDATE → LEARN → ACT → WORK. It complements the default execution loop above. Its structured source is pinned by [founder_contract_reference.json](founder_contract_reference.json). No automatic runtime enforcement is asserted.

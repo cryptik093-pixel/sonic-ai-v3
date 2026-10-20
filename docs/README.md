@@ -44,3 +44,9 @@ A document cannot promote a proposed capability to implemented or validated by a
 Root-level migration aliases point to preserved historical reports under `status/archive/legacy-root/`. Read those files only as historical evidence. Current implementation truth comes from the source and tests on the canonical repository branch, not a title containing “final”, “complete” or “production ready”.
 
 - [Professional VST3 Plugin Engineering Standard (2026-10-16)](production/PROFESSIONAL_VST3_PLUGIN_STANDARD_2026-10-16.md) — adopted plugin DSP, host, realtime, QA and commercial release requirements; not proof of implementation.
+
+## Founder onboarding entry point
+
+Start with [Founder onboarding integration](operating-system/FOUNDER_ONBOARDING.md). Company definitions, the Omega Intelligence Loop, presentation and Operator Brief live in the canonical Omega House OS package. [The pinned reference](operating-system/founder_contract_reference.json) identifies the adopted version. Publication and runtime enforcement remain separate claims.
+
+The founder package keeps onboarding claim evidence and work statuses in distinct fields. Existing UNCERTIFIED, engineering lifecycle and Command OS observation vocabularies retain their own namespaces; the integration guide explains the boundary.

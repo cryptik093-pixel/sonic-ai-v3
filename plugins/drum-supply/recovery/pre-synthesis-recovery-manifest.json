@@ -1,0 +1,435 @@
+{
+  "created": "2026-10-20T03:17:10.105937+00:00",
+  "recovered_files": [
+    "Source/PluginEditor.cpp",
+    "scripts/run-sampler-checks.py"
+  ],
+  "invalid_originals": "evidence/write-recovery (all-NUL contents preserved)",
+  "files": [
+    {
+      "path": "plugins\\drum-supply\\Assets\\origin-manifest.json",
+      "size": 5871,
+      "sha256": "36bd6ad7fa7dd946757d4bee2ab0c4c2407be5833108f7b42803623cf1883b90"
+    },
+    {
+      "path": "plugins\\drum-supply\\Assets\\starter0.wav",
+      "size": 166766,
+      "sha256": "d97b758b215cdcf0a8f03ad21d9100e2968776a2657d73bedb6ad92f5c554683"
+    },
+    {
+      "path": "plugins\\drum-supply\\Assets\\starter1.wav",
+      "size": 98066,
+      "sha256": "148192725cf61001752ee019f408c378941da7aae1b9a7683885aec86aa1886d"
+    },
+    {
+      "path": "plugins\\drum-supply\\Assets\\starter2.wav",
+      "size": 30644,
+      "sha256": "6dea75f3bfd53e657573ec54b0a09919023c405ac89a248836e99df7a71a1a2d"
+    },
+    {
+      "path": "plugins\\drum-supply\\Assets\\starter3.wav",
+      "size": 171854,
+      "sha256": "51d0390955b24fa7e0001d19d960edd98a3fb857f70539a50884f4279f8f94f7"
+    },
+    {
+      "path": "plugins\\drum-supply\\Assets\\starter4.wav",
+      "size": 182030,
+      "sha256": "89c90baedd326067f029c3a39097cfb8915a5db15fd7e581523e50cbed9d127b"
+    },
+    {
+      "path": "plugins\\drum-supply\\Assets\\starter5.wav",
+      "size": 16652,
+      "sha256": "e7f834738522b6bbc8dde625879f3162d40e69391a57806d8eea12503b74e698"
+    },
+    {
+      "path": "plugins\\drum-supply\\Assets\\starter6.wav",
+      "size": 71354,
+      "sha256": "cc3fd4b254fe3543a37c4dcef53c829983afd7eb1fa16f60cfb073951070655d"
+    },
+    {
+      "path": "plugins\\drum-supply\\docs\\BASELINE_AND_REVISION.md",
+      "size": 2816,
+      "sha256": "821c1d502a1c1af97ea541df486eceabd9256ead4f55372c4790edb1c377d7fe"
+    },
+    {
+      "path": "plugins\\drum-supply\\docs\\FEATURE_ACCEPTANCE.csv",
+      "size": 2422,
+      "sha256": "3bd4a0509995bb15ed7ba6fe6923977b0f9776492084e3835d6969140f95131d"
+    },
+    {
+      "path": "plugins\\drum-supply\\docs\\FL_STUDIO_ACCEPTANCE.md",
+      "size": 2272,
+      "sha256": "8b1387b954e07e5457cf4a2a2a50b221444232ddd2897322f6bfb530c4ae5e28"
+    },
+    {
+      "path": "plugins\\drum-supply\\docs\\IMPLEMENTATION_CONTRACT.md",
+      "size": 7993,
+      "sha256": "5969f47f8accbe78dd291e6eae37af6b6597aade83d8e14b8d86ef9ca029e03f"
+    },
+    {
+      "path": "plugins\\drum-supply\\docs\\INSTALLATION.md",
+      "size": 3077,
+      "sha256": "60ba515bc148072d8c1e5c951ff1ecc92e3241765ce2a4bf910a4d7168759157"
+    },
+    {
+      "path": "plugins\\drum-supply\\docs\\MANUAL.md",
+      "size": 6271,
+      "sha256": "771c324244863fb12fcbad38eb0e9d21f1e629833fc11b358f358a1f3325a471"
+    },
+    {
+      "path": "plugins\\drum-supply\\docs\\PRODUCT_AND_DESIGN_BRIEF.md",
+      "size": 4009,
+      "sha256": "e415984a48cad07b080c242ce38a293852567823aefca9ec22465ace936a9878"
+    },
+    {
+      "path": "plugins\\drum-supply\\docs\\QUICK_START.md",
+      "size": 2332,
+      "sha256": "7e0bfa338fbaf13292f46e602c73269ee7278452fc4af087efd3c1d965c7c8b7"
+    },
+    {
+      "path": "plugins\\drum-supply\\notices\\LICENSE.md",
+      "size": 4971,
+      "sha256": "2633539bb26d244f0966fbc4df59400ea99bdf575fa96291851c1c3ff3456146"
+    },
+    {
+      "path": "plugins\\drum-supply\\scripts\\build-windows.ps1",
+      "size": 1706,
+      "sha256": "e4be95d0caae4c8d26db669e463e65560173325562a4de10f256d223c1720c08"
+    },
+    {
+      "path": "plugins\\drum-supply\\scripts\\manifest-renders.py",
+      "size": 2836,
+      "sha256": "5d6dad862da27611c41dab2016cd1ba221cf51ca4a05a4951bbeab85af38d75f"
+    },
+    {
+      "path": "plugins\\drum-supply\\scripts\\package-candidate.py",
+      "size": 6752,
+      "sha256": "c2f2a223d29e999984c14d68e0a63e4e25fa9056f61b118e1a0695cc4fdeaea1"
+    },
+    {
+      "path": "plugins\\drum-supply\\scripts\\run-sampler-checks.py",
+      "size": 3519,
+      "sha256": "4b8864da92d7e519ed22b255e2e596c4b03439f747dc3e74c6838c5efaa7714b"
+    },
+    {
+      "path": "plugins\\drum-supply\\scripts\\toolchain-windows.ps1",
+      "size": 2141,
+      "sha256": "b76f449b31935d1e01448c226f1993ff409641f95351b25ad203c8bbfdf4195d"
+    },
+    {
+      "path": "plugins\\drum-supply\\scripts\\validate-windows.ps1",
+      "size": 2671,
+      "sha256": "f76e66a07a7a03fbddfd3d414741e6dc49207418920e26161ec823bdbf852150"
+    },
+    {
+      "path": "plugins\\drum-supply\\Source\\DrumEngine.h",
+      "size": 10415,
+      "sha256": "740e63d9a5e7efa10b256d3e2b4d73112afa9d79477f70cd3e84a3611acc709e"
+    },
+    {
+      "path": "plugins\\drum-supply\\Source\\PluginEditor.cpp",
+      "size": 13866,
+      "sha256": "0d5be6852e0a3ea08a98a03e22ee63546797221ae4d133df94d6de57e4581c40"
+    },
+    {
+      "path": "plugins\\drum-supply\\Source\\PluginEditor.h",
+      "size": 1911,
+      "sha256": "beb72558725ca5cad47fce5125a013b05445850f41129c3e1a30966a306348d2"
+    },
+    {
+      "path": "plugins\\drum-supply\\Source\\PluginProcessor.cpp",
+      "size": 21148,
+      "sha256": "3c15ef9a6cc701646db4294c47947343eebac4d7982af477af44e9c5904f1ecf"
+    },
+    {
+      "path": "plugins\\drum-supply\\Source\\PluginProcessor.h",
+      "size": 3791,
+      "sha256": "fa3cab0351a4e4df9e2b51d8ee91e19404172ea6b1c1588fdd5ed433a8692b16"
+    },
+    {
+      "path": "plugins\\drum-supply\\Source\\SampleEngine.h",
+      "size": 9222,
+      "sha256": "02aad53213772248b9ad67d3021799e63b6456cc17b97c52bb9efc5a499b3f8a"
+    },
+    {
+      "path": "plugins\\drum-supply\\Source\\SampleLibrary.cpp",
+      "size": 7616,
+      "sha256": "084c02f79ea0bbb992965f0e07cc9a8113bbba9cd7ef4ad2131fddb8f05baea6"
+    },
+    {
+      "path": "plugins\\drum-supply\\Source\\SampleLibrary.h",
+      "size": 1188,
+      "sha256": "4400d87210f43c8279a93bf2de2f7d8ab5e1db0e357c4cbb80e5ca1597b5aee1"
+    },
+    {
+      "path": "plugins\\drum-supply\\Tests\\DspTests.cpp",
+      "size": 5828,
+      "sha256": "47f9daa517c1aa65edd3e8c8a0d3c8c6567f621c76f885be4a2ed175bcf7719c"
+    },
+    {
+      "path": "plugins\\drum-supply\\Tests\\ProcessorTests.cpp",
+      "size": 16955,
+      "sha256": "4d099f56998af87998e318b9a5d96d05183359b805a55d6a62f962f74d992647"
+    },
+    {
+      "path": "plugins\\drum-supply\\Tests\\SampleTests.cpp",
+      "size": 3613,
+      "sha256": "cd1fe6415e36754ad11c618a271614c62f38446c342cbe74acae9b0e8fdc4228"
+    },
+    {
+      "path": "plugins\\drum-supply\\notices\\modules\\juce_graphics\\unicode\\sheenbidi\\LICENSE",
+      "size": 11358,
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    },
+    {
+      "path": "plugins\\drum-supply\\notices\\modules\\juce_graphics\\image_formats\\pnglib\\LICENSE",
+      "size": 5345,
+      "sha256": "bf5e22b9dce8464064ae17a48ea1133c3369ac9e1d80ef9e320e5219aa14ea9b"
+    },
+    {
+      "path": "plugins\\drum-supply\\notices\\modules\\juce_graphics\\fonts\\harfbuzz\\COPYING",
+      "size": 1971,
+      "sha256": "ba8f810f2455c2f08e2d56bb49b72f37fcf68f1f4fade38977cfd7372050ad64"
+    },
+    {
+      "path": "plugins\\drum-supply\\notices\\modules\\juce_core\\zip\\zlib\\LICENSE",
+      "size": 1312,
+      "sha256": "8545e90fe8d2bc6b8b8e9f4caecd2d9215727dbd1c153c7adeedfbaaea51f38b"
+    },
+    {
+      "path": "plugins\\drum-supply\\notices\\modules\\juce_audio_processors_headless\\format_types\\VST3_SDK\\LICENSE.txt",
+      "size": 1257,
+      "sha256": "d6115b263faa1cdf8c7372d70889c833dde1cec95252e7ee93e4f7d599ec96ca"
+    },
+    {
+      "path": "plugins\\drum-supply\\notices\\modules\\juce_audio_processors_headless\\format_types\\VST3_SDK\\base\\LICENSE.txt",
+      "size": 1257,
+      "sha256": "d6115b263faa1cdf8c7372d70889c833dde1cec95252e7ee93e4f7d599ec96ca"
+    },
+    {
+      "path": "plugins\\drum-supply\\notices\\modules\\juce_audio_processors_headless\\format_types\\VST3_SDK\\pluginterfaces\\LICENSE.txt",
+      "size": 1257,
+      "sha256": "d6115b263faa1cdf8c7372d70889c833dde1cec95252e7ee93e4f7d599ec96ca"
+    },
+    {
+      "path": "plugins\\drum-supply\\notices\\modules\\juce_audio_processors_headless\\format_types\\VST3_SDK\\public.sdk\\LICENSE.txt",
+      "size": 1257,
+      "sha256": "d6115b263faa1cdf8c7372d70889c833dde1cec95252e7ee93e4f7d599ec96ca"
+    },
+    {
+      "path": "plugins\\drum-supply\\notices\\modules\\juce_audio_formats\\codecs\\oggvorbis\\libvorbis-1.3.7\\COPYING",
+      "size": 1470,
+      "sha256": "ec1815db59fcd302846df949d7424876cb2e2dc5ed1606c5fb0b36787b1cf43a"
+    },
+    {
+      "path": "plugins\\drum-supply\\legacy\\0.1.0\\CMakeLists.txt",
+      "size": 3359,
+      "sha256": "9e9be0b3fd63441390ed12375dd6b3d30a7d08961185e3cbcef8917b937e1b80"
+    },
+    {
+      "path": "plugins\\drum-supply\\legacy\\0.1.0\\README.md",
+      "size": 5152,
+      "sha256": "e1a535990660d1facefcb95f31a48027ca1b051c8046edba4f612d7038f71ce6"
+    },
+    {
+      "path": "plugins\\drum-supply\\legacy\\0.1.0\\THIRD_PARTY_LICENSES.md",
+      "size": 1049,
+      "sha256": "58a819af3a35306e5a0b4e9cdc5ecbbe43b10e317f99505f0c3cc37ca758d1de"
+    },
+    {
+      "path": "plugins\\drum-supply\\legacy\\0.2.0-sampler\\CMakeLists.txt",
+      "size": 3834,
+      "sha256": "18a2b5bdeb2b12aaa5cf06da49a348efdbfa25f58cbfc20a8c33ddd5743d971d"
+    },
+    {
+      "path": "plugins\\drum-supply\\legacy\\0.2.0-sampler\\README.md",
+      "size": 2877,
+      "sha256": "e8134a92f69cd7e3c2e91f8d337a7aa4a4b75b9dd93210402d07d34fceb6b8a2"
+    },
+    {
+      "path": "plugins\\drum-supply\\legacy\\0.2.0-sampler\\THIRD_PARTY_LICENSES.md",
+      "size": 3506,
+      "sha256": "77ea1496ec8540595c983b333e907d0fbfeca3950ac10d51f659272a9603a41a"
+    },
+    {
+      "path": "plugins\\drum-supply\\legacy\\0.2.0-sampler\\docs\\BASELINE_AND_REVISION.md",
+      "size": 2816,
+      "sha256": "821c1d502a1c1af97ea541df486eceabd9256ead4f55372c4790edb1c377d7fe"
+    },
+    {
+      "path": "plugins\\drum-supply\\legacy\\0.2.0-sampler\\docs\\FEATURE_ACCEPTANCE.csv",
+      "size": 2422,
+      "sha256": "3bd4a0509995bb15ed7ba6fe6923977b0f9776492084e3835d6969140f95131d"
+    },
+    {
+      "path": "plugins\\drum-supply\\legacy\\0.2.0-sampler\\docs\\FL_STUDIO_ACCEPTANCE.md",
+      "size": 2272,
+      "sha256": "8b1387b954e07e5457cf4a2a2a50b221444232ddd2897322f6bfb530c4ae5e28"
+    },
+    {
+      "path": "plugins\\drum-supply\\legacy\\0.2.0-sampler\\docs\\IMPLEMENTATION_CONTRACT.md",
+      "size": 7993,
+      "sha256": "5969f47f8accbe78dd291e6eae37af6b6597aade83d8e14b8d86ef9ca029e03f"
+    },
+    {
+      "path": "plugins\\drum-supply\\legacy\\0.2.0-sampler\\docs\\INSTALLATION.md",
+      "size": 3077,
+      "sha256": "60ba515bc148072d8c1e5c951ff1ecc92e3241765ce2a4bf910a4d7168759157"
+    },
+    {
+      "path": "plugins\\drum-supply\\legacy\\0.2.0-sampler\\docs\\MANUAL.md",
+      "size": 6271,
+      "sha256": "771c324244863fb12fcbad38eb0e9d21f1e629833fc11b358f358a1f3325a471"
+    },
+    {
+      "path": "plugins\\drum-supply\\legacy\\0.2.0-sampler\\docs\\PRODUCT_AND_DESIGN_BRIEF.md",
+      "size": 4009,
+      "sha256": "e415984a48cad07b080c242ce38a293852567823aefca9ec22465ace936a9878"
+    },
+    {
+      "path": "plugins\\drum-supply\\legacy\\0.2.0-sampler\\docs\\QUICK_START.md",
+      "size": 2332,
+      "sha256": "7e0bfa338fbaf13292f46e602c73269ee7278452fc4af087efd3c1d965c7c8b7"
+    },
+    {
+      "path": "plugins\\drum-supply\\legacy\\0.2.0-sampler\\scripts\\build-windows.ps1",
+      "size": 1706,
+      "sha256": "e4be95d0caae4c8d26db669e463e65560173325562a4de10f256d223c1720c08"
+    },
+    {
+      "path": "plugins\\drum-supply\\legacy\\0.2.0-sampler\\scripts\\manifest-renders.py",
+      "size": 2836,
+      "sha256": "5d6dad862da27611c41dab2016cd1ba221cf51ca4a05a4951bbeab85af38d75f"
+    },
+    {
+      "path": "plugins\\drum-supply\\legacy\\0.2.0-sampler\\scripts\\package-candidate.py",
+      "size": 6752,
+      "sha256": "c2f2a223d29e999984c14d68e0a63e4e25fa9056f61b118e1a0695cc4fdeaea1"
+    },
+    {
+      "path": "plugins\\drum-supply\\legacy\\0.2.0-sampler\\scripts\\run-sampler-checks.py",
+      "size": 3519,
+      "sha256": "4b8864da92d7e519ed22b255e2e596c4b03439f747dc3e74c6838c5efaa7714b"
+    },
+    {
+      "path": "plugins\\drum-supply\\legacy\\0.2.0-sampler\\scripts\\toolchain-windows.ps1",
+      "size": 2141,
+      "sha256": "b76f449b31935d1e01448c226f1993ff409641f95351b25ad203c8bbfdf4195d"
+    },
+    {
+      "path": "plugins\\drum-supply\\legacy\\0.2.0-sampler\\scripts\\validate-windows.ps1",
+      "size": 2671,
+      "sha256": "f76e66a07a7a03fbddfd3d414741e6dc49207418920e26161ec823bdbf852150"
+    },
+    {
+      "path": "plugins\\drum-supply\\legacy\\0.2.0-sampler\\Source\\DrumEngine.h",
+      "size": 10415,
+      "sha256": "740e63d9a5e7efa10b256d3e2b4d73112afa9d79477f70cd3e84a3611acc709e"
+    },
+    {
+      "path": "plugins\\drum-supply\\legacy\\0.2.0-sampler\\Source\\PluginEditor.cpp",
+      "size": 13866,
+      "sha256": "0d5be6852e0a3ea08a98a03e22ee63546797221ae4d133df94d6de57e4581c40"
+    },
+    {
+      "path": "plugins\\drum-supply\\legacy\\0.2.0-sampler\\Source\\PluginEditor.h",
+      "size": 1911,
+      "sha256": "beb72558725ca5cad47fce5125a013b05445850f41129c3e1a30966a306348d2"
+    },
+    {
+      "path": "plugins\\drum-supply\\legacy\\0.2.0-sampler\\Source\\PluginProcessor.cpp",
+      "size": 21148,
+      "sha256": "3c15ef9a6cc701646db4294c47947343eebac4d7982af477af44e9c5904f1ecf"
+    },
+    {
+      "path": "plugins\\drum-supply\\legacy\\0.2.0-sampler\\Source\\PluginProcessor.h",
+      "size": 3791,
+      "sha256": "fa3cab0351a4e4df9e2b51d8ee91e19404172ea6b1c1588fdd5ed433a8692b16"
+    },
+    {
+      "path": "plugins\\drum-supply\\legacy\\0.2.0-sampler\\Source\\SampleEngine.h",
+      "size": 9222,
+      "sha256": "02aad53213772248b9ad67d3021799e63b6456cc17b97c52bb9efc5a499b3f8a"
+    },
+    {
+      "path": "plugins\\drum-supply\\legacy\\0.2.0-sampler\\Source\\SampleLibrary.cpp",
+      "size": 7616,
+      "sha256": "084c02f79ea0bbb992965f0e07cc9a8113bbba9cd7ef4ad2131fddb8f05baea6"
+    },
+    {
+      "path": "plugins\\drum-supply\\legacy\\0.2.0-sampler\\Source\\SampleLibrary.h",
+      "size": 1188,
+      "sha256": "4400d87210f43c8279a93bf2de2f7d8ab5e1db0e357c4cbb80e5ca1597b5aee1"
+    },
+    {
+      "path": "plugins\\drum-supply\\legacy\\0.2.0-sampler\\Tests\\DspTests.cpp",
+      "size": 5828,
+      "sha256": "47f9daa517c1aa65edd3e8c8a0d3c8c6567f621c76f885be4a2ed175bcf7719c"
+    },
+    {
+      "path": "plugins\\drum-supply\\legacy\\0.2.0-sampler\\Tests\\ProcessorTests.cpp",
+      "size": 16955,
+      "sha256": "4d099f56998af87998e318b9a5d96d05183359b805a55d6a62f962f74d992647"
+    },
+    {
+      "path": "plugins\\drum-supply\\legacy\\0.2.0-sampler\\Tests\\SampleTests.cpp",
+      "size": 3613,
+      "sha256": "cd1fe6415e36754ad11c618a271614c62f38446c342cbe74acae9b0e8fdc4228"
+    },
+    {
+      "path": "plugins\\drum-supply\\legacy\\0.1.0\\Source\\DrumEngine.h",
+      "size": 10415,
+      "sha256": "740e63d9a5e7efa10b256d3e2b4d73112afa9d79477f70cd3e84a3611acc709e"
+    },
+    {
+      "path": "plugins\\drum-supply\\legacy\\0.1.0\\Source\\PluginEditor.cpp",
+      "size": 3473,
+      "sha256": "8d27c536457302a1a9ab13a3d5a4ff8c1503317dde75702767ca3eb10501020a"
+    },
+    {
+      "path": "plugins\\drum-supply\\legacy\\0.1.0\\Source\\PluginEditor.h",
+      "size": 765,
+      "sha256": "85bbc807d4a23ab5bfccf818b2de5fbe9e6d96fa3c2524e565b75176f67a4be1"
+    },
+    {
+      "path": "plugins\\drum-supply\\legacy\\0.1.0\\Source\\PluginProcessor.cpp",
+      "size": 5099,
+      "sha256": "10d5c4e0ea56391e4aefe4926adbecf047da7159625e2f055abb6e6a6ed75533"
+    },
+    {
+      "path": "plugins\\drum-supply\\legacy\\0.1.0\\Source\\PluginProcessor.h",
+      "size": 1734,
+      "sha256": "c7232492a38976b2dfb9fc315095bca4bafd9ee9ab24bbb5ab08700a26788e2f"
+    },
+    {
+      "path": "plugins\\drum-supply\\legacy\\0.1.0\\Tests\\DspTests.cpp",
+      "size": 5828,
+      "sha256": "47f9daa517c1aa65edd3e8c8a0d3c8c6567f621c76f885be4a2ed175bcf7719c"
+    },
+    {
+      "path": "plugins\\drum-supply\\legacy\\0.1.0\\Tests\\ProcessorTests.cpp",
+      "size": 6909,
+      "sha256": "1c13df2d3e09867a1362e3fc7611d4fb703eb941a23bd0f7de48e9e61f1fdcb9"
+    },
+    {
+      "path": "plugins\\drum-supply\\evidence\\write-recovery\\PluginEditor.cpp.invalid",
+      "size": 13726,
+      "sha256": "acc99a170e046b1afa483ef57a5bcfc5d3fcddb4cd0af2877949981f077fcb64"
+    },
+    {
+      "path": "plugins\\drum-supply\\evidence\\write-recovery\\run-sampler-checks.py.invalid",
+      "size": 4256,
+      "sha256": "43e70407c1c344cca6a721719ad2266bfccef08465927f02ff504b73779cd852"
+    },
+    {
+      "path": "plugins\\drum-supply\\evidence\\baseline-0.1.0\\Omega Drum Supply.vst3\\Contents\\Resources\\moduleinfo.json",
+      "size": 1152,
+      "sha256": "a0c0aeb371a4c1675c0b7d50e48caaeb5991202dadc694c1f3d24a2a18080a52"
+    },
+    {
+      "path": "plugins\\drum-supply\\evidence\\baseline-0.1.0\\Omega Drum Supply.vst3\\Contents\\x86_64-win\\Omega Drum Supply.vst3",
+      "size": 3268096,
+      "sha256": "ddc894df9c9521fe9a534a8f3e47444ae0914cd2df0ecece9a09e9b59fce33ba"
+    }
+  ]
+}

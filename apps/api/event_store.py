@@ -128,6 +128,8 @@ class EventStore:
                 "SELECT shop_domain,body_sha256 FROM verified_shopify_receipts WHERE event_id=?",
                 (event["event_id"],),
             ).fetchone()
+            if row and not existing:
+                raise ValueError("existing event lacks signed receipt; refusing to upgrade")
             if existing and (existing["shop_domain"] != shop or existing["body_sha256"] != body_sha256):
                 raise ValueError("verified_receipt_payload_conflict")
             if not row:
@@ -146,6 +148,15 @@ class EventStore:
                     (event["event_id"], shop, body_sha256, datetime.now(UTC).isoformat()),
                 )
             return row is None
+
+
+    def has_verified_shopify_receipt(self, event_id: str, shop_domain: str) -> bool:
+        with self._connect() as c:
+            row = c.execute(
+                "SELECT 1 FROM verified_shopify_receipts WHERE event_id=? AND shop_domain=?",
+                (event_id, shop_domain),
+            ).fetchone()
+        return row is not None
 
     def verified_shopify_events(self, shop_domain: str | None = None) -> list[dict[str, Any]]:
         """Read signed receipts only, never generic business events."""

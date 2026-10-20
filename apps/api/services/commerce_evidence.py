@@ -63,6 +63,7 @@ class CommerceEvidenceService:
                 "currency": event.get("currency"),
                 "reported_amount": props.get("reported_total_amount") if event["event_type"] in {"order_created", "order_updated"} else event.get("revenue_impact"),
                 "financial_status": props.get("financial_status"),
+                "test": props.get("test") is True,
                 "acquisition": props.get("acquisition") or {},
                 "line_items": props.get("line_items") or [],
                 "variants": props.get("variants") or [],
@@ -109,14 +110,21 @@ class CommerceEvidenceService:
         paid_orders = 0
         attributed = 0
         invalid_amounts = 0
+        test_orders = 0
+        zero_value_orders = 0
         for order in orders.values():
             props = order.get("properties") or {}
+            if props.get("test") is True:
+                test_orders += 1
+                continue
             if props.get("financial_status") != "paid":
                 continue
-            paid_orders += 1
             currency = order.get("currency")
             value = _amount(props.get("reported_total_amount", order.get("revenue_impact")))
-
+            if value == 0:
+                zero_value_orders += 1
+                continue
+            paid_orders += 1
             if not currency or value is None:
                 invalid_amounts += 1
                 continue
@@ -135,6 +143,8 @@ class CommerceEvidenceService:
             "signed_event_count": len(events),
             "unique_order_count": len(orders),
             "reported_paid_order_count": paid_orders,
+            "test_order_count": test_orders,
+            "zero_value_paid_order_count": zero_value_orders,
             "reported_paid_order_totals_by_currency": {k: str(v) for k, v in sorted(amounts.items())},
             "reported_paid_orders_with_campaign_parameters": attributed,
             "invalid_or_missing_paid_amount_count": invalid_amounts,

@@ -5,14 +5,17 @@ from zipfile import ZipFile, ZIP_DEFLATED
 from pathlib import Path
 from uuid import UUID
 
-from fastapi import APIRouter, File, HTTPException, UploadFile
+from fastapi import APIRouter, File, HTTPException, Request, UploadFile
 from fastapi.responses import FileResponse, StreamingResponse
 from starlette.datastructures import Headers
 from starlette.responses import JSONResponse
 
 from ..config import Settings
+from ..intelligence_store import IntelligenceStore
+from ..version import APP_VERSION
 from . import service
-from .schemas import AnalyzeCommand, CoachCommand, FocusCommand, MidiCommand, PackCommand, ReleaseCommand
+from .schemas import AnalyzeCommand, CoachCommand, FeedbackCommand, FocusCommand, MidiCommand, PackCommand, ReleaseCommand
+from .intelligence_schemas import CandidateCreate, CandidateDecisionCreate, CheckpointCreate, EvidenceCreate, IntentCreate, MaterializationEventCreate
 
 router = APIRouter(prefix="/workbench/api", tags=["Production Workbench"])
 
@@ -46,20 +49,20 @@ class WorkbenchAuth:
         await self.app(scope, receive, send)
 
 
-def call(fn, payload):
+def call(fn, *args, **kwargs):
     try:
-        return fn(payload)
+        return fn(*args, **kwargs)
     except ValueError as exc:
         raise HTTPException(422, str(exc)) from None
 
 
 @router.get("/status")
-def status():
+def status(request: Request):
     configured = bool(Settings.from_env().openai_api_key)
-    return {"version": "0.5.0", "owner_id": service.OWNER, "workspace_id": service.WORKSPACE,
+    return {"version": APP_VERSION, "owner_id": service.OWNER, "workspace_id": service.WORKSPACE,
             "local_engine": "ready", "cloud_ai": "configured_not_verified" if configured else "not_configured",
-            "capabilities": ["midi", "analysis", "pack", "release", "focus", "coach"],
-            "mcp_url": "http://127.0.0.1:8000/mcp", "runs": service.list_runs(), "assets": service.list_assets()}
+            "capabilities": ["prompt_to_midi", "analysis", "pack", "release", "focus", "coach", "feedback_memory", "intelligence_candidate_ledger"],
+            "mcp_url": str(request.base_url).rstrip("/") + "/mcp", "runs": service.list_runs(), "assets": service.list_assets()}
 
 
 @router.get("/runs/{run_id}")
@@ -120,6 +123,16 @@ def generate_midi(payload: MidiCommand):
     return call(service.generate_midi, payload)
 
 
+@router.post("/midi/preview")
+def preview_midi(payload: MidiCommand):
+    return call(service.preview_midi, payload)
+
+
+@router.post("/runs/{run_id}/feedback")
+def run_feedback(run_id: UUID, payload: FeedbackCommand):
+    return call(service.record_feedback, str(run_id), payload)
+
+
 @router.post("/analysis")
 def analyze(payload: AnalyzeCommand):
     return call(service.analyze_audio, payload)
@@ -143,3 +156,77 @@ def focus(payload: FocusCommand):
 @router.post("/coach")
 def coach(payload: CoachCommand):
     return call(service.coach, payload)
+
+
+def intelligence_store():
+    return IntelligenceStore()
+
+
+@router.get("/intelligence/status")
+def intelligence_status():
+    return {"status": "ready", "authority": "candidate-ledger-only", "counts": intelligence_store().counts()}
+
+
+@router.post("/intelligence/intents")
+def create_intelligence_intent(payload: IntentCreate):
+    return call(intelligence_store().put_intent, payload.model_dump(mode="json"))
+
+
+@router.get("/intelligence/intents/{intent_id}")
+def get_intelligence_intent(intent_id: str):
+    return call(intelligence_store().get_intent, intent_id)
+
+
+@router.post("/intelligence/evidence")
+def create_intelligence_evidence(payload: EvidenceCreate):
+    return call(intelligence_store().append_evidence, payload.model_dump(mode="json"))
+
+
+@router.post("/intelligence/checkpoints")
+def create_intelligence_checkpoint(payload: CheckpointCreate):
+    return call(intelligence_store().append_checkpoint, payload.model_dump(mode="json"))
+
+
+@router.post("/intelligence/candidates")
+def create_intelligence_candidate(payload: CandidateCreate):
+    return call(intelligence_store().append_candidate, payload.model_dump(mode="json"))
+
+
+@router.get("/intelligence/candidates")
+def list_intelligence_candidates(intent_id: str | None = None, candidate_type: str | None = None):
+    return call(intelligence_store().list_candidates, intent_id=intent_id, candidate_type=candidate_type)
+
+
+@router.get("/intelligence/candidates/{candidate_id}")
+def get_intelligence_candidate(candidate_id: str):
+    return call(intelligence_store().get_candidate, candidate_id)
+
+
+@router.post("/intelligence/candidates/{candidate_id}/decision")
+def decide_intelligence_candidate(candidate_id: str, payload: CandidateDecisionCreate):
+    return call(intelligence_store().decide_candidate, candidate_id, payload.model_dump(mode="json"))
+
+
+@router.get("/intelligence/materialized-memories")
+def list_materialized_intelligence_memories(intent_id: str | None = None):
+    return call(intelligence_store().list_materialized_memories, intent_id=intent_id)
+
+
+@router.get("/intelligence/candidates/{candidate_id}/materialization")
+def get_candidate_materialization(candidate_id: str):
+    return call(intelligence_store().materialization_state, candidate_id)
+
+
+@router.post("/intelligence/candidates/{candidate_id}/materialize")
+def materialize_intelligence_memory(candidate_id: str, payload: MaterializationEventCreate):
+    return call(intelligence_store().materialize_memory, candidate_id, payload.model_dump(mode="json"))
+
+
+@router.post("/intelligence/candidates/{candidate_id}/retire")
+def retire_intelligence_memory(candidate_id: str, payload: MaterializationEventCreate):
+    return call(intelligence_store().retire_materialized_memory, candidate_id, payload.model_dump(mode="json"))
+
+
+@router.get("/intelligence/retrieve")
+def retrieve_intelligence_memories(query: str, intent_id: str | None = None, limit: int = 8):
+    return call(intelligence_store().retrieve_materialized_memories, query, intent_id=intent_id, limit=limit)

@@ -1,0 +1,134 @@
+schema: sonic.studio_drop.asset_manifest/v1
+
+product:
+  product_id: OH-SD002
+  drop_id: SD-002
+  product_family: STUDIO_DROP
+  title: REBELLION VOL. ONE
+  descriptor: CINEMATIC MELODIES & STEMS
+  version: "1.0"
+  release_class: MVP_CERTIFIED
+  certification_status: MVP_CERTIFIED
+  source: Omega House Studio
+
+identity:
+  canonical_product_id: OH-SD002
+  canonical_version: "1.0"
+  identity_rule: "Product ID remains stable across compatible packaging revisions; version changes when release contents, metadata, rights, or certification state materially change."
+
+asset_roots:
+  production: PRODUCTION/
+  midi: PRODUCTION/MIDI/
+  melody: PRODUCTION/MELODY/
+  stems: PRODUCTION/STEMS/
+
+assets:
+  - asset_id: OH-SD002-MIDI-001
+    role: MIDI
+    path: PRODUCTION/MIDI/
+    filename: PENDING_ACTUAL_FILENAME
+    format: MIDI
+    technical_metadata:
+      key: null
+      bpm: null
+      duration_seconds: null
+      sample_rate_hz: null
+      channels: null
+    provenance:
+      source_product_id: OH-SD002
+      source_version: "1.0"
+      origin: Omega House Studio
+    checksum:
+      algorithm: SHA-256
+      value: PENDING
+
+  - asset_id: OH-SD002-MELODY-001
+    role: MELODY
+    path: PRODUCTION/MELODY/
+    filename: PENDING_ACTUAL_FILENAME
+    format: PENDING
+    technical_metadata:
+      key: null
+      bpm: null
+      duration_seconds: null
+      sample_rate_hz: null
+      channels: null
+    provenance:
+      source_product_id: OH-SD002
+      source_version: "1.0"
+      origin: Omega House Studio
+    checksum:
+      algorithm: SHA-256
+      value: PENDING
+
+  - asset_id: OH-SD002-STEMS-001
+    role: STEMS
+    path: PRODUCTION/STEMS/
+    filename: PENDING_ACTUAL_FILENAME_OR_STEM_INVENTORY
+    format: PENDING
+    technical_metadata:
+      key: null
+      bpm: null
+      duration_seconds: null
+      sample_rate_hz: null
+      channels: null
+    provenance:
+      source_product_id: OH-SD002
+      source_version: "1.0"
+      origin: Omega House Studio
+    checksum:
+      algorithm: SHA-256
+      value: PENDING
+
+supporting_package:
+  documentation:
+    - path: DOCUMENTATION/
+      status: REQUIRED
+  license:
+    - path: LICENSE/
+      status: REQUIRED
+      authority: GOVERNING_RIGHTS_DOCUMENT
+  certification:
+    - path: CERTIFICATION/
+      status: REQUIRED
+  artwork:
+    - path: ARTWORK/
+      status: REQUIRED
+
+validation:
+  manifest_status: SCHEMA_LOCKED_CONTENT_PENDING
+  required_checks:
+    - actual_filenames_resolved
+    - file_formats_resolved
+    - technical_metadata_verified
+    - sha256_checksums_generated
+    - manifest_matches_final_package
+    - product_id_consistency_verified
+    - version_consistency_verified
+    - license_present_and_readable
+    - certification_present_and_readable
+    - no_unintended_private_or_development_files
+
+sonic_ai_v3:
+  ingestable: true
+  registry_entity: PRODUCT_ASSET
+  product_id: OH-SD002
+  version: "1.0"
+  metadata_authority: ASSET_MANIFEST
+  provenance_required: true
+  checksum_required_for_release: true
+  package_validation_required: true
+  intended_links:
+    - asset_registry
+    - metadata_pipeline
+    - provenance_graph
+    - license_registry
+    - certification_registry
+    - vault
+    - creator_dna
+
+notes:
+  - "This manifest defines the machine-readable inventory contract for Studio Drop.002."
+  - "PENDING values are intentional placeholders until the actual customer-ready assets are present and verified."
+  - "Do not substitute guessed filenames, technical metadata, or checksums."
+  - "The final release manifest must contain exact asset-level values before customer distribution."

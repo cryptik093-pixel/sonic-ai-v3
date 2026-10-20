@@ -21,11 +21,12 @@ from sqlalchemy import select
 from ..database import DB_DIR, ProjectORM, SessionLocal
 from . import audio, midi
 from .models import Asset, OWNER, Run, WORKSPACE, WorkEvent
-from .schemas import AnalyzeCommand, CoachCommand, FocusCommand, MidiCommand, PackCommand, ReleaseCommand
+from .schemas import AnalyzeCommand, CoachCommand, FeedbackCommand, FeedbackEventPayload, FocusCommand, MidiCommand, PackCommand, ReleaseCommand
 
 MAX_UPLOAD = 100 * 1024 * 1024
 MAX_PACK = 500 * 1024 * 1024
 SUPPORTED = {".wav", ".flac", ".aiff", ".aif", ".mp3", ".ogg", ".mid", ".midi"}
+FEEDBACK_EVENT = "workbench.feedback_recorded"
 _lock = threading.RLock()
 
 
@@ -57,13 +58,96 @@ def get_run(run_id):
         row = s.scalar(select(Run).where(Run.id == run_id, Run.owner_id == OWNER, Run.workspace_id == WORKSPACE))
         if row is None:
             raise ValueError("Run not found in this workspace.")
-        return record(row)
+        result = record(row)
+        events = s.scalars(select(WorkEvent).where(
+            WorkEvent.run_id == run_id, WorkEvent.owner_id == OWNER, WorkEvent.workspace_id == WORKSPACE,
+            WorkEvent.type == FEEDBACK_EVENT,
+        ).order_by(WorkEvent.occurred_at.asc())).all()
+        result["feedback"] = []
+        for event in events:
+            payload = FeedbackEventPayload.model_validate_json(event.payload).model_dump(mode="json")
+            result["feedback"].append({"event_id": event.id, **payload})
+        return result
 
 
 def list_runs(limit=40):
     with SessionLocal() as s:
         return [record(r) for r in s.scalars(select(Run).where(Run.owner_id == OWNER, Run.workspace_id == WORKSPACE)
                 .order_by(Run.created_at.desc()).limit(min(max(limit, 1), 100))).all()]
+
+
+def latest_kept_midi():
+    """Return only the latest explicit feedback state for each saved MIDI run."""
+    with SessionLocal() as s:
+        events = s.scalars(select(WorkEvent).where(
+            WorkEvent.owner_id == OWNER, WorkEvent.workspace_id == WORKSPACE,
+            WorkEvent.type == FEEDBACK_EVENT,
+        ).order_by(WorkEvent.occurred_at.desc())).all()
+        seen_runs = set()
+        for event in events:
+            if event.run_id in seen_runs:
+                continue
+            seen_runs.add(event.run_id)
+            if FeedbackEventPayload.model_validate_json(event.payload).decision != "keep":
+                continue
+            row = s.scalar(select(Run).where(
+                Run.id == event.run_id, Run.owner_id == OWNER, Run.workspace_id == WORKSPACE,
+                Run.kind == "midi", Run.status == "succeeded",
+            ))
+            if row is not None:
+                return record(row)
+    return None
+
+
+def compile_production_brief(command: MidiCommand):
+    from . import intelligence
+
+    recent = next((run for run in list_runs(100) if run["kind"] == "midi" and run["status"] == "succeeded"), None)
+    kept = latest_kept_midi()
+    resolved, brief = intelligence.compile_brief(command, latest_run=recent, kept_run=kept)
+    return resolved, brief
+
+
+def preview_midi(command: MidiCommand):
+    resolved, brief = compile_production_brief(command)
+    return {
+        "status": "previewed",
+        "engine": brief["compiler"],
+        "title": resolved.title,
+        "summary": f"{resolved.bars} bars · {resolved.key} {resolved.scale.replace('_', ' ')} · {resolved.bpm} BPM · {resolved.style} · {resolved.mood}",
+        "brief": brief,
+    }
+
+
+def record_feedback(run_id: str, command: FeedbackCommand):
+    normalized_id = str(UUID(str(run_id)))
+    request_id = str(command.request_id)
+    feedback = FeedbackEventPayload(request_id=request_id, decision=command.decision,
+                                    note=command.note.strip()).model_dump(mode="json")
+    with _lock, SessionLocal() as s:
+        row = s.scalar(select(Run).where(
+            Run.id == normalized_id, Run.owner_id == OWNER, Run.workspace_id == WORKSPACE,
+            Run.kind == "midi", Run.status == "succeeded",
+        ))
+        if row is None:
+            raise ValueError("Choose a completed MIDI run in this workspace.")
+        events = s.scalars(select(WorkEvent).where(
+            WorkEvent.owner_id == OWNER, WorkEvent.workspace_id == WORKSPACE,
+            WorkEvent.type == FEEDBACK_EVENT,
+        )).all()
+        for event in events:
+            existing = json.loads(event.payload)
+            if existing.get("request_id") == request_id:
+                if event.run_id != normalized_id or any(existing.get(key) != value for key, value in feedback.items()):
+                    raise ValueError("This feedback request ID was already used with different inputs. Start a new request.")
+                return {"run_id": normalized_id, "feedback": existing, "recorded": False}
+        event = WorkEvent(
+            id=str(uuid4()), run_id=normalized_id, type=FEEDBACK_EVENT, occurred_at=now(),
+            payload=json.dumps(feedback, ensure_ascii=False),
+        )
+        s.add(event)
+        s.commit()
+        return {"run_id": normalized_id, "event_id": event.id, "feedback": feedback, "recorded": True}
 
 
 def artifact_path(run_id, filename):
@@ -224,7 +308,10 @@ def import_asset(filename, stream):
 
 
 def generate_midi(command: MidiCommand):
-    return execute("midi", command, lambda folder: midi.generate(command, folder))
+    def build(folder):
+        resolved, brief = compile_production_brief(command)
+        return midi.generate(resolved, folder, brief)
+    return execute("midi", command, build)
 
 
 def analyze_audio(command: AnalyzeCommand):

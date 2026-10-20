@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sonic-ai-v3.local/schemas/creator-dna.schema.json",
+  "title": "Sonic AI V3 Creator DNA",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["dna_id", "version", "traits"],
+  "properties": {
+    "dna_id": { "type": "string" },
+    "version": { "type": "integer", "minimum": 1 },
+    "traits": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/trait" }
+    }
+  },
+  "$defs": {
+    "trait": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["trait", "value", "confidence", "evidence_count", "first_seen", "last_seen"],
+      "properties": {
+        "trait": { "type": "string" },
+        "domain": { "enum": ["creative", "technical", "workflow", "decision", "problem_solving", "business", "human_ai_collaboration", "other"] },
+        "value": {},
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+        "evidence_count": { "type": "integer", "minimum": 0 },
+        "supporting_evidence_ids": { "type": "array", "items": { "type": "string" } },
+        "first_seen": { "type": "string", "format": "date-time" },
+        "last_seen": { "type": "string", "format": "date-time" },
+        "stability": { "type": "number", "minimum": 0, "maximum": 1 },
+        "contradiction_count": { "type": "integer", "minimum": 0 },
+        "status": { "enum": ["emerging", "stable", "experimental", "contradicted", "superseded"] }
+      }
+    }
+  }
+}

@@ -1,5 +1,7 @@
 # Sprint 1 Foundation - Completion Summary
 
+> Historical snapshot note: file paths and API routes in this June 2026 report describe the legacy Sprint 1 implementation. File paths are preserved as plain references, not links to current source. These are not the current API contract. For current routes and architecture, see the [current-state audit](../../../architecture/current-state-audit.md).
+
 **Date:** 2026-06-15  
 **Status:** Phase 1 & 2 Complete (25% Overall)  
 **Next:** Continue with remaining backend modules
@@ -11,16 +13,16 @@
 ### Phase 1: Database & Migrations (100% COMPLETE)
 
 **New Models Created:**
-1. [`Profile`](apps/api/models/profile.py) - User profiles with display information
-2. [`AssetMetadata`](apps/api/models/asset_metadata.py) - Audio metadata (bpm, key, genre, lufs, peak_db)
-3. [`MemoryEvent`](apps/api/models/memory_event.py) - Activity tracking with flexible JSON storage
+1. `Profile` (`apps/api/models/profile.py`) - User profiles with display information
+2. `AssetMetadata` (`apps/api/models/asset_metadata.py`) - Audio metadata (bpm, key, genre, lufs, peak_db)
+3. `MemoryEvent` (`apps/api/models/memory_event.py`) - Activity tracking with flexible JSON storage
 
 **Models Enhanced:**
-1. [`User`](apps/api/models/user.py) - Added supabase_user_id, relationships to profile, projects, assets, memory_events, producer_profile
-2. [`Project`](apps/api/models/project.py) - Added user relationship
-3. [`Asset`](apps/api/models/asset.py) - Added user_id, mime_type, file_size, asset_metadata relationship
-4. [`ProducerProfile`](apps/api/models/producer_profile.py) - Enhanced with detailed BPM, key, genre, loudness aggregation fields
-5. [`models/__init__.py`](apps/api/models/__init__.py) - Registered all new models
+1. `User` (`apps/api/models/user.py`) - Added supabase_user_id, relationships to profile, projects, assets, memory_events, producer_profile
+2. `Project` (`apps/api/models/project.py`) - Added user relationship
+3. `Asset` (`apps/api/models/asset.py`) - Added user_id, mime_type, file_size, asset_metadata relationship
+4. `ProducerProfile` (`apps/api/models/producer_profile.py`) - Enhanced with detailed BPM, key, genre, loudness aggregation fields
+5. `models/__init__.py` (`apps/api/models/__init__.py`) - Registered all new models
 
 **Database Infrastructure:**
 - ✅ All Sprint 1 tables created with proper foreign keys
@@ -33,12 +35,12 @@
 ### Phase 2: Authentication System (70% COMPLETE)
 
 **Core Infrastructure Created:**
-1. [`core/config.py`](apps/api/core/config.py) - Settings management with Supabase configuration
-2. [`core/database.py`](apps/api/core/database.py) - Database session dependency for FastAPI
-3. [`core/security.py`](apps/api/core/security.py) - JWT verification, AuthUser class, get_current_user dependency
-4. [`modules/auth/schemas.py`](apps/api/modules/auth/schemas.py) - Pydantic models for authentication
-5. [`modules/auth/router.py`](apps/api/modules/auth/router.py) - Auth endpoints
-6. [`main.py`](apps/api/main.py) - Updated with auth router, proper CORS, improved structure
+1. `core/config.py` (`apps/api/core/config.py`) - Settings management with Supabase configuration
+2. `core/database.py` (`apps/api/core/database.py`) - Database session dependency for FastAPI
+3. `core/security.py` (`apps/api/core/security.py`) - JWT verification, AuthUser class, get_current_user dependency
+4. `modules/auth/schemas.py` (`apps/api/modules/auth/schemas.py`) - Pydantic models for authentication
+5. `modules/auth/router.py` (`apps/api/modules/auth/router.py`) - Auth endpoints
+6. `main.py` (`apps/api/main.py`) - Updated with auth router, proper CORS, improved structure
 
 **Authentication Features:**
 - ✅ Supabase JWT token verification

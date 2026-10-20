@@ -61,10 +61,27 @@ def main():
                 screenshot.mkdir(parents=True,exist_ok=True)
                 page.screenshot(path=str(screenshot/"01-start.png"),full_page=True)
                 page.locator("nav button[data-view=midi]").click()
-                page.locator("#midi-form input[name=title]").fill("Browser Proof")
+                page.locator("#midi-form textarea[name=prompt]").fill("A dreamy C# minor trap idea at 142 BPM, 4 bars, sparse.")
+                before_preview = page.evaluate("""async () => {
+                  const token = sessionStorage.getItem('sonic-token');
+                  return (await fetch('/workbench/api/status', {headers:{Authorization:'Bearer '+token}})).json();
+                }""")
+                page.locator("#preview-brief").click()
+                page.locator("#midi-brief-preview").get_by_text("INTERPRETATION PREVIEW", exact=False).wait_for()
+                assert "C# minor" in page.locator("#midi-brief-preview").inner_text()
+                assert "dreamy" in page.locator("#midi-brief-preview").inner_text()
+                assert "trap" in page.locator("#midi-brief-preview").inner_text()
+                assert len(page.evaluate("""async () => {
+                  const token = sessionStorage.getItem('sonic-token');
+                  const response = await fetch('/workbench/api/status', {headers:{Authorization:'Bearer '+token}});
+                  return (await response.json()).runs;
+                }""")) == len(before_preview["runs"]), "Preview must not create a run"
+                page.locator("#midi-form details.advanced-controls summary").click()
                 page.locator("#midi-form select[name=bars]").select_option("4")
                 page.locator("#midi-form button[type=submit]").click()
                 page.locator("#midi-result [data-file='Melody.mid']").wait_for(timeout=30000)
+                assert "C# minor" in page.locator("#midi-result").inner_text()
+                assert "A dreamy C# minor trap" in page.locator("#midi-result").inner_text()
                 page.wait_for_function("document.querySelector('#midi-result audio')?.src.startsWith('blob:')")
                 page.locator("#midi-result audio").evaluate("a => a.play()")
                 page.wait_for_function("document.querySelector('#midi-result audio').currentTime > 0.1")
@@ -73,6 +90,15 @@ def main():
                     page.locator("#midi-result [data-file='Melody.mid']").click()
                 song=mido.MidiFile(download.value.path())
                 assert any(m.type=="note_on" for t in song.tracks for m in t)
+                page.locator("#midi-result [data-feedback=keep]").click()
+                page.get_by_text("Latest decision: Keep this direction").wait_for()
+                page.locator("#midi-form textarea[name=prompt]").fill("Make a variation of the kept direction, uplifting.")
+                page.locator("#preview-brief").click()
+                page.locator("#midi-brief-preview").get_by_text("Reused saved run", exact=False).wait_for()
+                assert "C# minor" in page.locator("#midi-brief-preview").inner_text()
+                assert "uplifting" in page.locator("#midi-brief-preview").inner_text()
+                page.locator("#midi-form button[type=submit]").click()
+                page.locator("#midi-result [data-file='Melody.mid']").wait_for(timeout=30000)
                 page.screenshot(path=str(screenshot/"02-midi.png"),full_page=True)
                 page.locator("#midi-result [data-pack-midi]").click()
                 page.locator("#pack-form input[name=title]").fill("Browser Pack")
@@ -104,8 +130,13 @@ def main():
                 assert page.locator("#focus-result [data-action=timer]").inner_text()=="Resume focus timer"
                 page.reload()
                 page.wait_for_function("document.getElementById('connection-status').textContent.includes('ready')")
+                page.locator("nav button[data-view=midi]").click()
+                page.locator("#preview-brief").click()
+                page.locator("#midi-brief-preview").get_by_text("Reused saved run", exact=False).wait_for()
+                assert "C# minor" in page.locator("#midi-brief-preview").inner_text(), "Saved form values must not become accidental prompt overrides after restart"
+                assert "uplifting" in page.locator("#midi-brief-preview").inner_text()
                 page.locator("nav button[data-view=history]").click()
-                assert page.locator("#history-list .history-row").count()==5
+                assert page.locator("#history-list .history-row").count()==6
                 page.locator("#history-list [data-run]").last.click()
                 page.locator("#history-result [data-file='Melody.mid']").wait_for()
                 page.set_viewport_size({"width":390,"height":844})
@@ -114,7 +145,7 @@ def main():
                 assert not errors,errors
                 assert page.locator("#error").is_hidden(), page.locator("#error").inner_text()
                 browser.close()
-                proof={"passed":True,"checks":["automatic_token_bootstrap","generate_button","piano_roll","audition_decoding_playback","midi_download_parse","pack_zip_manifest","release_csv","audio_upload_analysis","energy_bounded_focus_timer","persisted_history_after_reload","mobile_no_overflow","zero_browser_exceptions"],"screenshots":str(screenshot)}
+                proof={"passed":True,"checks":["automatic_token_bootstrap","prompt_interpretation_preview_read_only","prompt_to_midi","kept_output_feedback","explicit_continuity_preview","prompt_control_precedence_survives_restart","piano_roll","audition_decoding_playback","midi_download_parse","pack_zip_manifest","release_csv","audio_upload_analysis","energy_bounded_focus_timer","persisted_history_after_reload","mobile_no_overflow","zero_browser_exceptions"],"screenshots":str(screenshot)}
                 print(json.dumps(proof,indent=2))
         finally:
             process.terminate()

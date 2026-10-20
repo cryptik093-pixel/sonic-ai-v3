@@ -1,0 +1,35 @@
+name: Tier 2 persistent intelligence
+
+on:
+  push:
+    branches:
+      - "tier2/gate-2-2-persistent-intelligence-2026-10-05"
+  pull_request:
+    branches: ["main"]
+    paths:
+      - "apps/api/intelligence_store.py"
+      - "apps/api/workbench/intelligence_schemas.py"
+      - "apps/api/workbench/router.py"
+      - "apps/api/tests/test_intelligence_store.py"
+      - ".github/workflows/tier2-persistent-intelligence.yml"
+      - "docs/recovery/TIER2_GATE_2_2_2026-10-05.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  persistent-intelligence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install API dependencies
+        run: python -m pip install -r apps/api/requirements.txt
+      - name: Compile Tier 2 persistence surfaces
+        run: python -m py_compile apps/api/intelligence_store.py apps/api/workbench/intelligence_schemas.py apps/api/workbench/router.py
+      - name: Run persistence and authorization tests
+        run: python -m pytest apps/api/tests/test_intelligence_store.py -q

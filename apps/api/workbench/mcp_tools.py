@@ -5,8 +5,9 @@ from mcp.server.fastmcp.exceptions import ToolError
 from mcp.types import ToolAnnotations
 
 from ..integrations.config import ControlConfig
+from ..intelligence_store import IntelligenceStore
 from . import service
-from .schemas import AnalyzeCommand, FocusCommand, MidiCommand, PackCommand, ReleaseCommand
+from .schemas import AnalyzeCommand, FeedbackCommand, FocusCommand, MidiCommand, PackCommand, ReleaseCommand
 
 
 def register(server):
@@ -42,10 +43,50 @@ def register(server):
         except ValueError as exc:
             raise ToolError(str(exc)) from None
 
+    @server.tool(annotations=read)
+    async def sonic_intelligence_retrieve(query: str, intent_id: str | None = None, limit: int = 8) -> dict:
+        """Retrieve explicitly materialized local intelligence memories with evidence-backed scoring. Public/OAuth MCP mode is denied."""
+        if ControlConfig.from_env().oauth_requested:
+            raise ToolError("Intelligence memory retrieval is local-operator-only; OAuth/public MCP access is not authorized.")
+        try:
+            memories = await asyncio.to_thread(
+                IntelligenceStore().retrieve_materialized_memories,
+                query,
+                intent_id=intent_id,
+                limit=limit,
+            )
+            return {
+                "authority": "materialized_memory_read_only",
+                "method": "tier2_lexical_evidence_v1",
+                "query": query,
+                "intent_id": intent_id,
+                "memories": memories,
+            }
+        except ValueError as exc:
+            raise ToolError(str(exc)) from None
+
+    @server.tool(annotations=read)
+    async def sonic_compile_production_brief(command: MidiCommand) -> dict:
+        """Read-only preview of supported prompt signals, explicit controls, saved-run continuity, assumptions and warnings. Creates no files or events."""
+        try:
+            return await asyncio.to_thread(service.preview_midi, command)
+        except ValueError as exc:
+            raise ToolError(str(exc)) from None
+
     @server.tool(annotations=write)
     async def sonic_generate_midi(command: MidiCommand) -> dict:
-        """Create local melody, chord, bass and drum MIDI plus an audition WAV. Reuse request_id only to retry identical inputs. No external provider is called."""
+        """Compile the producer prompt, then create local melody, chord, bass and drum MIDI, an audition WAV, a provenance brief and Omega House asset lineage. Reuse request_id only to retry identical inputs. No external provider is called."""
         return await execute(service.generate_midi, command)
+
+    @server.tool(annotations=write)
+    async def sonic_record_workbench_feedback(run_id: str, command: FeedbackCommand) -> dict:
+        """Record the operator's explicit keep/not-for-me decision on a completed MIDI run. Supply a stable request_id to make retries idempotent. A kept output can inform later prompts that refer to it; this does not change MIDI files."""
+        if ControlConfig.from_env().oauth_requested:
+            raise ToolError("Local feedback recording requires the local operator bearer token. OAuth read scopes cannot write feedback.")
+        try:
+            return await asyncio.to_thread(service.record_feedback, run_id, command)
+        except ValueError as exc:
+            raise ToolError(str(exc)) from None
 
     @server.tool(annotations=write)
     async def sonic_analyze_audio(command: AnalyzeCommand) -> dict:

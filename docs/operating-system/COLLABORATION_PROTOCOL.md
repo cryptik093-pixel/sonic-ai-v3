@@ -37,7 +37,7 @@ The assistant must not represent a PROPOSED or merely SUPPORTED state as PROVEN.
 
 | Trigger | Operational meaning |
 |---|---|
-| `LOCK` | Re-ground → validate → optimize → align → checkpoint → advance |
+| `LOCK` | Validate → optimize → align → checkpoint → advance |
 | `AUDIT` | Stop progression and deeply inspect the current state |
 | `PROVE` | Establish evidence that a claim or implementation is actually valid |
 | `NEXT` | Determine the highest-leverage next move |
@@ -90,7 +90,6 @@ The goal is not to eliminate human judgment. The goal is to make the human-AI lo
 ## Non-Negotiable Principle
 
 **Never confuse “we generated something” with “we successfully advanced the system.”**
-
 
 ## Founder onboarding and company learning
 

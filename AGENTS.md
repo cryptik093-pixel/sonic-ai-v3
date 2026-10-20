@@ -84,7 +84,6 @@ Never commit secrets. Keep local credentials in `.env` and document configuratio
 
 Treat authentication, authorization, user ownership, file uploads, database access, agent execution, tool/MCP boundaries, and external integrations as security-sensitive.
 
-
 ## Founder onboarding source
 
 For company terminology, role handoffs and the Omega Intelligence Loop, read `docs/operating-system/FOUNDER_ONBOARDING.md` and its pinned Omega House OS contract reference. The OS package owns company doctrine; this repository owns Sonic implementation and runtime evidence. These documentation instructions do not assert that the application automatically loads or enforces the founder contract.

@@ -1,9 +1,13 @@
-"""Durable business-event store for Sonic AI V3."""
+"""Tier 5 Gate 2 durable event store.
+
+Uses SQLite from the Python standard library so the event backbone has durable
+storage without introducing a new database dependency. The store preserves the
+canonical event envelope and enforces event_id uniqueness for idempotency.
+"""
 from __future__ import annotations
 
 import json
 import sqlite3
-from contextlib import contextmanager
 from pathlib import Path
 from typing import Any
 
@@ -14,15 +18,10 @@ class EventStore:
         Path(self.database_path).parent.mkdir(parents=True, exist_ok=True)
         self._initialize()
 
-    @contextmanager
-    def _connect(self):
+    def _connect(self) -> sqlite3.Connection:
         connection = sqlite3.connect(self.database_path)
         connection.row_factory = sqlite3.Row
-        try:
-            with connection:
-                yield connection
-        finally:
-            connection.close()
+        return connection
 
     def _initialize(self) -> None:
         with self._connect() as connection:
@@ -51,6 +50,10 @@ class EventStore:
             )
 
     def append(self, event: dict[str, Any]) -> bool:
+        """Persist an event.
+
+        Returns True when inserted and False when event_id already exists.
+        """
         entity = event["entity"]
         try:
             with self._connect() as connection:

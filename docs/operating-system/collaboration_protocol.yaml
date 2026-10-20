@@ -97,7 +97,6 @@ authority:
     - evidence_gathering
     - next_action_selection
 
-
 # Documentation adoption only. Existing trigger identifiers and execution steps remain stable.
 founder_onboarding:
   reference_file: docs/operating-system/founder_contract_reference.json

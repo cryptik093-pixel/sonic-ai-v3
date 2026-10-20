@@ -46,7 +46,7 @@ class CommerceEvidenceService:
         """Create stable, redacted, immutable evidence after signed receipt persistence."""
         if event.get("source") != "shopify_webhook" or (event.get("context") or {}).get("shop_domain") != self.shop_domain:
             raise ValueError("Event is outside the configured Shopify evidence scope")
-        if not any(x["event_id"] == event["event_id"] for x in self.events.verified_shopify_events(self.shop_domain)):
+        if not self.events.has_verified_shopify_receipt(event["event_id"], self.shop_domain):
             raise ValueError("Missing verified Shopify receipt")
         props = event.get("properties") or {}
         evidence = {

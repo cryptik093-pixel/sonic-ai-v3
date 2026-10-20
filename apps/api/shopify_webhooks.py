@@ -6,6 +6,8 @@ import hashlib
 import hmac
 import json
 import os
+import re
+from urllib.parse import parse_qs, urlsplit
 from datetime import UTC, datetime
 from typing import Any
 
@@ -15,9 +17,8 @@ from .event_store import EventStore
 
 
 router = APIRouter(prefix="/api/v1/webhooks/shopify", tags=["shopify-webhooks"])
-store = EventStore(os.getenv("SONIC_EVENT_DB", "apps/api/data/sonic_events.sqlite3"))
 
-_SUPPORTED_TOPICS = {"orders/create", "refunds/create", "customers/update"}
+_SUPPORTED_TOPICS = {"orders/create", "orders/updated", "refunds/create", "customers/update", "products/create", "products/update"}
 
 
 def verify_shopify_hmac(raw_body: bytes, provided_hmac: str, secret: str) -> bool:
@@ -55,6 +56,14 @@ def _event_id(topic: str, headers: Any, payload: dict[str, Any]) -> str:
     return f"shopify:{topic}:{stable_id}"
 
 
+def _acquisition(landing_site: Any) -> dict[str, str]:
+    if not isinstance(landing_site, str):
+        return {}
+    params = parse_qs(urlsplit(landing_site).query)
+    allowed = {"utm_source", "utm_medium", "utm_campaign", "utm_content", "campaign_id", "creative_id", "placement"}
+    return {key: params[key][0] for key in allowed if key in params and re.fullmatch(r"[a-zA-Z0-9_.-]{1,120}", params[key][0])}
+
+
 def canonicalize_shopify_webhook(topic: str, headers: Any, payload: dict[str, Any]) -> dict[str, Any]:
     if topic not in _SUPPORTED_TOPICS:
         raise HTTPException(status_code=422, detail=f"Unsupported Shopify webhook topic: {topic}")
@@ -67,7 +76,7 @@ def canonicalize_shopify_webhook(topic: str, headers: Any, payload: dict[str, An
         "shopify_event_id": headers.get("x-shopify-event-id"),
     }
 
-    if topic == "orders/create":
+    if topic in {"orders/create", "orders/updated"}:
         order_id = _string_id(payload.get("admin_graphql_api_id") or payload.get("id"))
         if order_id is None:
             raise HTTPException(status_code=400, detail="Order webhook is missing order id")
@@ -82,7 +91,7 @@ def canonicalize_shopify_webhook(topic: str, headers: Any, payload: dict[str, An
             pass
         return {
             "event_id": _event_id(topic, headers, payload),
-            "event_type": "order_created",
+            "event_type": "order_created" if topic == "orders/create" else "order_updated",
             "schema_version": "1.0",
             "occurred_at": _occurred_at(headers, payload),
             "source": "shopify_webhook",
@@ -96,7 +105,9 @@ def canonicalize_shopify_webhook(topic: str, headers: Any, payload: dict[str, An
                 "source_name": payload.get("source_name"),
                 "landing_site": payload.get("landing_site"),
                 "referring_site": payload.get("referring_site"),
-                "line_items": payload.get("line_items", []),
+                "line_items": [{"sku": x.get("sku"), "product_id": str(x.get("product_id")), "quantity": x.get("quantity")} for x in payload.get("line_items", []) if isinstance(x, dict)],
+                "acquisition": _acquisition(payload.get("landing_site")),
+                "updated_at": payload.get("updated_at"),
             },
             "outcome": "order_created",
             "revenue_impact": revenue_impact,
@@ -136,7 +147,7 @@ def canonicalize_shopify_webhook(topic: str, headers: Any, payload: dict[str, An
             "properties": {
                 "note": payload.get("note"),
                 "refund_line_items": payload.get("refund_line_items", []),
-                "transactions": transactions,
+                "transactions": [{"amount": x.get("amount"), "currency": x.get("currency"), "status": x.get("status")} for x in transactions if isinstance(x, dict)],
             },
             "outcome": "refund_created",
             "revenue_impact": -refunded_amount if has_amount else None,

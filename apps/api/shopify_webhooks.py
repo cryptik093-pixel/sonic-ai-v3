@@ -154,6 +154,34 @@ def canonicalize_shopify_webhook(topic: str, headers: Any, payload: dict[str, An
             "currency": currency,
         }
 
+    if topic in {"products/create", "products/update"}:
+        product_id = _string_id(payload.get("admin_graphql_api_id") or payload.get("id"))
+        if product_id is None:
+            raise HTTPException(status_code=400, detail="Product webhook is missing product id")
+        return {
+            "event_id": _event_id(topic, headers, payload),
+            "event_type": "product_created" if topic == "products/create" else "product_updated",
+            "schema_version": "1.0",
+            "occurred_at": _occurred_at(headers, payload),
+            "source": "shopify_webhook",
+            "entity": {"type": "product", "id": product_id},
+            "actor": None,
+            "context": context,
+            "properties": {
+                "handle": payload.get("handle"),
+                "status": payload.get("status"),
+                "updated_at": payload.get("updated_at"),
+                "variants": [
+                    {"id": _string_id(x.get("admin_graphql_api_id") or x.get("id")),
+                     "sku": x.get("sku"), "price": x.get("price")}
+                    for x in payload.get("variants", []) if isinstance(x, dict)
+                ],
+            },
+            "outcome": "catalog_change",
+            "revenue_impact": None,
+            "currency": None,
+        }
+
     customer_id = _string_id(payload.get("admin_graphql_api_id") or payload.get("id"))
     if customer_id is None:
         raise HTTPException(status_code=400, detail="Customer webhook is missing customer id")

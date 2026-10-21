@@ -1,4 +1,4 @@
-# OMEGA SONIC ORGANISM — 1.0.0-rc.1 unqualified candidate
+# OMEGA SONIC ORGANISM — 1.0.0-rc.2 unqualified candidate
 
 Windows x64 VST3 instrument. Everything needed for sound generation is embedded.
 No login, samples, server, network or paid framework is required during playback.
@@ -6,7 +6,7 @@ This candidate does not carry a commercial release or FL Studio certification.
 
 ## Install and play
 
-Run `Omega-Sonic-Organism-1.0.0-rc.1-Windows-x64-Setup.exe`. Keep its default destination,
+Run `Omega-Sonic-Organism-1.0.0-rc.2-Windows-x64-Setup.exe`. Keep its default destination,
 `C:\Program Files\Common Files\VST3`. Windows will request administrator access
 for that system folder. It refuses to overwrite an existing installation.
 In FL Studio open **Options > Manage plugins**, enable **Verify plugins**, and

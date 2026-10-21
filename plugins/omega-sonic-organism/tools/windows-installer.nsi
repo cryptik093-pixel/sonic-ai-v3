@@ -8,7 +8,7 @@ Unicode True
 !ifndef OUTFILE
   !error "Set OUTFILE to the installer path"
 !endif
-Name "OMEGA SONIC ORGANISM 1.0 RC1 - Unqualified"
+Name "OMEGA SONIC ORGANISM 1.0 RC2 - Unqualified"
 OutFile "${OUTFILE}"
 !ifdef USERTEST
 RequestExecutionLevel user
@@ -17,11 +17,11 @@ RequestExecutionLevel admin
 !endif
 InstallDir "$COMMONFILES64\VST3"
 SetCompressor zlib
-VIProductVersion "1.0.0.1"
+VIProductVersion "1.0.0.2"
 VIAddVersionKey /LANG=1033 "ProductName" "OMEGA SONIC ORGANISM"
 VIAddVersionKey /LANG=1033 "CompanyName" "Omega House Studio LLC"
 VIAddVersionKey /LANG=1033 "FileDescription" "Windows x64 VST3 installer"
-VIAddVersionKey /LANG=1033 "FileVersion" "1.0.0-rc.1"
+VIAddVersionKey /LANG=1033 "FileVersion" "1.0.0-rc.2"
 VIAddVersionKey /LANG=1033 "LegalCopyright" "Omega House Studio LLC"
 !define MUI_ABORTWARNING
 !define MUI_WELCOMEPAGE_TEXT "Install the offline Windows x64 VST3 instrument and its 30 factory patches.$\r$\n$\r$\nThis is a preview build. Existing installations are preserved.$\r$\n$\r$\nAfter installation, open FL Studio > Options > Manage plugins. Enable Verify plugins and click Find installed plugins."
@@ -62,8 +62,8 @@ Section "Windows x64 VST3 instrument"
   ${EndIf}
 !ifndef USERTEST
   SetRegView 64
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\OmegaSonicOrganism" "DisplayName" "OMEGA SONIC ORGANISM 1.0 RC1 - Unqualified"
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\OmegaSonicOrganism" "DisplayVersion" "1.0.0-rc.1"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\OmegaSonicOrganism" "DisplayName" "OMEGA SONIC ORGANISM 1.0 RC2 - Unqualified"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\OmegaSonicOrganism" "DisplayVersion" "1.0.0-rc.2"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\OmegaSonicOrganism" "Publisher" "Omega House Studio LLC"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\OmegaSonicOrganism" "UninstallString" '$\"$INSTDIR\OmegaSonicOrganism.vst3\Uninstall.exe$\"'
   WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\OmegaSonicOrganism" "NoModify" 1

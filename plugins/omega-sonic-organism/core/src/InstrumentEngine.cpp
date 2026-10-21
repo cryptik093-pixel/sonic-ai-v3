@@ -5,7 +5,6 @@
 namespace omega {
 namespace {
 double mix(double a,double b,double t) noexcept {return a+(b-a)*t;}
-double logMix(double a,double b,double t) noexcept {return std::exp(mix(std::log(a),std::log(b),t));}
 double blep(double phase,double step) noexcept {
     if(step<=0)return 0;
     if(phase<step){phase/=step;return phase+phase-phase*phase-1;}
@@ -22,16 +21,28 @@ OrganismCore::Traits OrganismCore::traitsAt(double morph) noexcept {
         {.24,.32,.24,.6,.025,.22,.32, 30,600,.65,650,2900,.8,0,80,1.7,.65,.7,.09, {1,2.08,3.17,4.37},{1200,850,650,400},{1,.45,.23,.12}},
         {.05,.03,.02,.02,.72,.75,.7, 1,220,0,130,6600,.7,5,45,2.5,.1,.4,.01, {1,1.59,2.77,4.07},{210,150,95,60},{1,.7,.4,.2}}
     }};
+    // These logarithms depend only on the fixed anchors. First initialization
+    // happens in prepare/reset before audio processing, never on a new note.
+    static const auto logarithms=[]{
+        auto values=anchors;
+        for(auto& p:values){
+            p.attack=std::log(p.attack);p.decay=std::log(p.decay);p.release=std::log(p.release);
+            p.cutoff=std::log(p.cutoff);p.dropTime=std::log(p.dropTime);
+            for(auto& d:p.modeDecay)d=std::log(d);
+        }
+        return values;
+    }();
     const double u=normalized(morph)*4;const int i=std::min(3,int(u));const double t=u-i;
     const auto& a=anchors[size_t(i)];const auto& b=anchors[size_t(i+1)];Traits p=a;
+    const auto& la=logarithms[size_t(i)];const auto& lb=logarithms[size_t(i+1)];
 #define LINEAR(field) p.field=mix(a.field,b.field,t)
-#define LOGARITHMIC(field) p.field=logMix(a.field,b.field,t)
+#define LOGARITHMIC(field) p.field=std::exp(mix(la.field,lb.field,t))
     LINEAR(sine);LINEAR(saw);LINEAR(pulse);LINEAR(spectral);LINEAR(noise);LINEAR(modal);LINEAR(inharm);
     LOGARITHMIC(attack);LOGARITHMIC(decay);LINEAR(sustain);LOGARITHMIC(release);LOGARITHMIC(cutoff);
     LINEAR(q);LINEAR(drop);LOGARITHMIC(dropTime);LINEAR(drive);LINEAR(spread);LINEAR(wobble);LINEAR(vibrato);
 #undef LINEAR
 #undef LOGARITHMIC
-    for(size_t k=0;k<4;++k){p.ratios[k]=mix(a.ratios[k],b.ratios[k],t);p.modeDecay[k]=logMix(a.modeDecay[k],b.modeDecay[k],t);p.modeGain[k]=mix(a.modeGain[k],b.modeGain[k],t);}
+    for(size_t k=0;k<4;++k){p.ratios[k]=mix(a.ratios[k],b.ratios[k],t);p.modeDecay[k]=std::exp(mix(la.modeDecay[k],lb.modeDecay[k],t));p.modeGain[k]=mix(a.modeGain[k],b.modeGain[k],t);}
     return p;
 }
 
@@ -70,7 +81,7 @@ void OrganismCore::resetVoices() noexcept {
     for(auto& voice:voices_)voice=Voice{};
     counter_=1;heldCount_=0;sustain_=false;bend_=bendSmooth_=0;
     smooth_=targets_;hqMix_=targets_[10];lfoPhase_=lfo_=0;
-    dcL_=dcR_=prevL_=prevR_=0;controlCounter_=0;lastMorph_=-1;room_.reset();refreshCoefficients();
+    dcL_=dcR_=prevL_=prevR_=0;controlCounter_=0;lastMorph_=lastEnergy_=lastOutputLevel_=-1;room_.reset();refreshCoefficients();
 }
 void OrganismCore::refreshCoefficients() noexcept {
     if(std::abs(smooth_[0]-lastMorph_)>1e-10){traits_=traitsAt(smooth_[0]);lastMorph_=smooth_[0];}
@@ -83,27 +94,43 @@ void OrganismCore::refreshCoefficients() noexcept {
     decayRate_=1-std::exp(-std::log(100.)/(traits_.decay*.001*sr_));
     releaseRate_=std::exp(-std::log(1000.)/(release*.001*sr_));
     drive_=traits_.drive*(.65+1.8*smooth_[1]);driveComp_=1/std::max(.1,tables_.saturate(drive_));
-    outputGain_=std::pow(10.,physical(parameterDefinitions[5],smooth_[5])/20.);
+    if(smooth_[5]!=lastOutputLevel_){outputGain_=std::pow(10.,physical(parameterDefinitions[5],smooth_[5])/20.);lastOutputLevel_=smooth_[5];}
     lfoRate_=physical(parameterDefinitions[13],smooth_[13])*(targets_[12]>.5?tempo_/120:1);
-    double weightSum=0;
-    for(size_t k=0;k<8;++k){harmonicWeights_[k]=std::pow(1./double(k+1),1.1+1.4*(1-smooth_[1]));weightSum+=harmonicWeights_[k];}
-    for(auto& w:harmonicWeights_)w/=weightSum;
+    if(smooth_[1]!=lastEnergy_){
+        double weightSum=0;
+        for(size_t k=0;k<8;++k){harmonicWeights_[k]=std::pow(1./double(k+1),1.1+1.4*(1-smooth_[1]));weightSum+=harmonicWeights_[k];}
+        for(auto& w:harmonicWeights_)w/=weightSum;
+        lastEnergy_=smooth_[1];
+    }
+    waveWeight_=traits_.sine+traits_.saw+traits_.pulse+traits_.spectral+traits_.modal;
     for(size_t i=0;i<4;++i)modeDecays_[i]=std::exp(-std::log(1000.)/(traits_.modeDecay[i]*.001*sr_));
     for(auto& v:voices_)if(v.stage!=Stage::Off)refreshVoice(v);
 }
 void OrganismCore::refreshVoice(Voice& v) noexcept {
     constexpr int ranges[]={2,12,24};const double range=ranges[int(std::round(targets_[11]*2))];
-    const double drop=traits_.drop*std::exp(-v.elapsed/(traits_.dropTime*.001));
+    const double drop=traits_.drop==0?0:traits_.drop*std::exp(-v.elapsed/(traits_.dropTime*.001));
     const double vibrato=traits_.vibrato*smooth_[2]*lfo_;
     const double hz=440*std::exp2((v.pitch-69+bendSmooth_*range+drop+vibrato)/12);
     v.phaseStep=std::min(.49,hz/sr_);v.nyquistGain=std::clamp((sr_*.48-hz)/(sr_*.06),0.,1.);
+    for(size_t k=0;k<8;++k)v.harmonicFade[k]=std::clamp((.48-v.phaseStep*double(k+1))/.06,0.,1.);
+    // These modes are excited only by startVoice. After zap makes all four
+    // states exactly zero, homogeneous rotation cannot create new energy.
+    // Oscillators, envelopes, RNG, filters and morph controls keep advancing.
+    v.modesActive=false;
+    for(const auto& mode:v.modes)if(mode.re!=0||mode.im!=0){v.modesActive=true;break;}
+    if(!v.modesActive)return;
+    v.modeWeight=0;
     for(size_t i=0;i<4;++i){auto& mode=v.modes[i];
         const double harmonic=double(i+1);const double ratio=harmonic+(traits_.ratios[i]-harmonic)*(.6+.8*smooth_[3]);
         const double frequency=hz*ratio;const double phase=std::clamp(frequency/sr_,0.,.49);
         mode.cosine=tables_.sine(phase+.25);mode.sine=tables_.sine(phase);
-        const double magnitude=std::hypot(mode.cosine,mode.sine);mode.cosine/=magnitude;mode.sine/=magnitude;
+        // Sine-table values are bounded by one and this quadrature pair has
+        // magnitude near one. A direct norm cannot overflow or underflow here;
+        // hypot's arbitrary-magnitude scaling is unnecessary in this hot path.
+        const double magnitude=std::sqrt(mode.cosine*mode.cosine+mode.sine*mode.sine);mode.cosine/=magnitude;mode.sine/=magnitude;
         mode.decay=modeDecays_[i];
         mode.weight=traits_.modeGain[i]*std::clamp((sr_*.48-frequency)/(sr_*.06),0.,1.);
+        v.modeWeight+=mode.weight;
     }
 }
 void OrganismCore::startVoice(Voice& v,int note,float velocity,int32_t id,bool legato) noexcept {
@@ -114,6 +141,7 @@ void OrganismCore::startVoice(Voice& v,int note,float velocity,int32_t id,bool l
     const double previous=v.lastOutput;const bool stealing=v.stage!=Stage::Off||v.stealRemaining>0;
     v=Voice{};v.stage=Stage::Attack;v.note=note;v.noteId=id;v.keyDown=true;v.velocity=normalized(velocity);v.pitch=v.targetPitch=note;
     v.age=counter_++;v.rng=uint32_t(note+1)*747796405u^uint32_t(v.age)*2891336453u;if(v.rng==0)v.rng=1;
+    v.panOffset=double(v.age%17)/17.;
     for(auto& mode:v.modes)mode.re=.7+.6*v.velocity;
     if(stealing){v.stealValue=previous;v.stealRemaining=stealLength_;}
     refreshVoice(v);
@@ -158,28 +186,38 @@ double OrganismCore::voiceSample(Voice& v) noexcept {
             case Stage::Release:v.env*=releaseRate_;if(v.env<1e-7){v.env=0;v.stage=Stage::Off;}break;
             case Stage::Off:break;
         }
-        const double sine=tables_.sine(v.phase),saw=2*v.phase-1-blep(v.phase,v.phaseStep);
-        const double width=.5+.12*smooth_[2]*traits_.spread*lfo_;
+        // The bounded oscillator phase is initialized to zero and advances by
+        // at most .49. Power-of-two index wrapping preserves table interpolation
+        // including the original endpoint, without nine repeated phase wraps.
+        if(!dsp::finite(v.phase)||v.phase<0||v.phase>=1){++tables_.nonFiniteFaults;if(!tables_.firstFaultSource)tables_.firstFaultSource=1;return 0;}
+        const double baseIndex=v.phase*2048;
+        const auto harmonicSine=[&](int harmonic) noexcept {
+            const double x=baseIndex*harmonic;const int whole=int(x),index=whole&2047;
+            return tables_.sines[size_t(index)]+(tables_.sines[size_t(index+1)]-tables_.sines[size_t(index)])*(x-double(whole));
+        };
+        const double sine=harmonicSine(1),saw=2*v.phase-1-blep(v.phase,v.phaseStep);
+        const double width=pulseWidth_;
         double shifted=v.phase-width;if(shifted<0)shifted+=1;
-        const double pulse=(v.phase<width?1.:-1.)+blep(v.phase,v.phaseStep)-blep(shifted,v.phaseStep)-(2*width-1);
-        double spectral=0;
-        for(size_t k=0;k<8;++k){const double harmonic=double(k+1),fade=std::clamp((.48-v.phaseStep*harmonic)/.06,0.,1.);spectral+=harmonicWeights_[k]*tables_.sine(v.phase*harmonic)*fade;}
+        const double pulse=(v.phase<width?1.:-1.)+blep(v.phase,v.phaseStep)-blep(shifted,v.phaseStep)-pulseDc_;
+        double spectral=harmonicWeights_[0]*sine*v.harmonicFade[0];
+        for(size_t k=1;k<8;++k)spectral+=harmonicWeights_[k]*harmonicSine(int(k+1))*v.harmonicFade[k];
         v.rng^=v.rng<<13;v.rng^=v.rng>>17;v.rng^=v.rng<<5;
         const double noise=double(v.rng)/2147483647.5-1;
-        double modal=0,modeWeight=0;
-        for(auto& mode:v.modes){const double re=mode.re,im=mode.im;
-            mode.re=dsp::zap((re*mode.cosine-im*mode.sine)*mode.decay);
-            mode.im=dsp::zap((re*mode.sine+im*mode.cosine)*mode.decay);
-            modal+=mode.re*mode.weight;modeWeight+=mode.weight;}
-        if(modeWeight>0)modal/=modeWeight;
+        double modal=0;
+        if(v.modesActive){
+            for(auto& mode:v.modes){const double re=mode.re,im=mode.im;
+                mode.re=dsp::zap((re*mode.cosine-im*mode.sine)*mode.decay);
+                mode.im=dsp::zap((re*mode.sine+im*mode.cosine)*mode.decay);
+                modal+=mode.re*mode.weight;}
+            if(v.modeWeight>0)modal/=v.modeWeight;
+        }
         const double impact=v.impact*(.4+.8*v.velocity);v.impact=dsp::zap(v.impact*strikeDecay_);
-        const double noiseGain=traits_.noise*(.2+1.6*smooth_[3])*(.15+impact);
-        const double weight=std::max(1.,traits_.sine+traits_.saw+traits_.pulse+traits_.spectral+traits_.modal+noiseGain);
+        const double noiseGain=noiseBase_*(.15+impact);
+        const double weight=std::max(1.,waveWeight_+noiseGain);
         const double wave=(traits_.sine*sine+traits_.saw*saw+traits_.pulse*pulse+traits_.spectral*spectral+traits_.modal*modal+noiseGain*noise)/weight;
         const double filtered=v.filter.tick(wave,filter_);
         if(!dsp::finite(filtered)){++tables_.nonFiniteFaults;if(!tables_.firstFaultSource)tables_.firstFaultSource=3;}
-        const double tremolo=1-.25*traits_.wobble*smooth_[2]*(.5+.5*lfo_);
-        const double input=filtered*(.7+.3*v.velocity)*v.nyquistGain*tremolo;
+        const double input=filtered*(.7+.3*v.velocity)*v.nyquistGain*tremolo_;
         const double envelope=v.envelopeDelay[size_t(v.envelopePosition)];v.envelopeDelay[size_t(v.envelopePosition)]=v.env;
         if(++v.envelopePosition==latencySamples)v.envelopePosition=0;
         sample=v.drive.tick(input,drive_,driveComp_,hqMix_,tables_)*envelope*v.velocity*.18;
@@ -195,9 +233,12 @@ void OrganismCore::render(float* left,float* right,int frames) noexcept {
         bendSmooth_=dsp::zap(bendSmooth_+slew_*(bend_-bendSmooth_));
         const double hqStep=1/(sr_*.01);hqMix_+=std::clamp(targets_[10]-hqMix_,-hqStep,hqStep);
         if(controlCounter_--<=0){refreshCoefficients();controlCounter_=15;}
+        pulseWidth_=.5+.12*smooth_[2]*traits_.spread*lfo_;pulseDc_=2*pulseWidth_-1;
+        tremolo_=1-.25*traits_.wobble*smooth_[2]*(.5+.5*lfo_);
+        noiseBase_=traits_.noise*(.2+1.6*smooth_[3]);
         double accL=0,accR=0;
         for(auto& voice:voices_)if(voice.stage!=Stage::Off||voice.stealRemaining>0){const double sample=voiceSample(voice);
-            const double pan=traits_.spread*smooth_[2]*tables_.sine(lfoPhase_+double(voice.age%17)/17.);
+            const double pan=traits_.spread*smooth_[2]*tables_.sine(lfoPhase_+voice.panOffset);
             accL+=sample*(1-pan*.4);accR+=sample*(1+pan*.4);}
         auto wet=room_.tick(accL,accR,smooth_[4]);
         const double xL=wet[0]*outputGain_,xR=wet[1]*outputGain_;

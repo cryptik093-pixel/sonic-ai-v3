@@ -2,6 +2,8 @@
 
 The shipped target is a Windows x64 VST3 instrument using the official Steinberg SDK and VSTGUI. No JUCE or paid synthesis dependencies are required. The DSP layer is independent C++17. It has no SDK types or runtime network dependency.
 
+RC2 caches only invariant work: fixed anchor logarithms, unchanged Energy/output mappings, per-control voice harmonic fades and modal normalization, plus shared per-sample modulation. Bounded oscillator lookup reuses the fundamental and original table interpolation. Resonator rotation is skipped only after all four complex states are exactly zero; oscillator/RNG/envelope/filter progression continues so a held note can morph back into a sustaining identity. Voice count, table sizes, FIR oversampling and 15-sample latency are preserved. `omega_cpu_profile` is an offline function-level diagnostic; `omega_engine_metrics` supplies uninstrumented paced callback measurements. Numerical before/after checks and DAW/listening approval are separate.
+
 ## Signal path
 
 One shared voice combines sine, polyBLEP saw/pulse, an eight-partial Nyquist-tapered harmonic bank, four damped complex modes and deterministic noise. Morph interpolates oscillator weights, resonator ratios/decays, envelope, filter, pitch drop, drive and modulation traits between five anchors. Positive time/frequency traits interpolate logarithmically; appropriate weights interpolate linearly. This changes one voice structure rather than selecting five finished audio streams.

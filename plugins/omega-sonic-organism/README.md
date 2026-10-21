@@ -1,4 +1,4 @@
-# OMEGA SONIC ORGANISM 1.0.0-rc.1
+# OMEGA SONIC ORGANISM 1.0.0-rc.2
 
 Windows x64 VST3 instrument for evaluation in FL Studio Producer Edition. This is an **unqualified release candidate**. CPU, interactive editor, FL Studio and listening gates remain open; see documentation/RELEASE_STATUS.md in the delivery or docs/RELEASE_STATUS.md in source.
 

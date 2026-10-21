@@ -82,6 +82,12 @@ int main(){
     omega::OrganismCore longHeld;longHeld.setMorph(1);longHeld.prepare(8000);longHeld.noteOn(36,.8f,99);
     for(int block=0;block<1875;++block){finite(longHeld,256);CHECK(std::fpclassify(longHeld.currentEnvelope())!=FP_SUBNORMAL);}
     CHECK(longHeld.currentEnvelope()==0);
+    // A silent held identity must still become audible when morphed back to
+    // a sustaining structure, without allocating or restarting its voice.
+    const auto heldSerial=longHeld.voiceSerial();longHeld.setMorph(.75f);
+    std::array<float,256> revivedL{},revivedR{};double revivedPower=0;
+    for(int block=0;block<64;++block){measuring=true;longHeld.render(revivedL.data(),revivedR.data(),256);measuring=false;for(float x:revivedL){CHECK(std::isfinite(x));revivedPower+=double(x)*x;}}
+    CHECK(revivedPower>1e-5);CHECK(longHeld.voiceSerial()==heldSerial);CHECK(longHeld.activeVoices()==1);CHECK(longHeld.nonFiniteFaults()==0);
     CHECK(allocations==0);
     std::cout<<"PASS engine checks: "<<checks<<" finite sample pairs; fixed FIR latency/unity; macro response; five rates/both quality modes; mono glide/legato; sustain; duplicate notes; release; zero C++ allocations in measured realtime operations.\n";
 }

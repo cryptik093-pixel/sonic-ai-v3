@@ -2,7 +2,7 @@
 
 This is an unqualified engineering candidate, not an approved commercial release. Read RELEASE_STATUS.md before evaluating it.
 
-Run Omega-Sonic-Organism-1.0.0-rc.1-Windows-x64-Setup.exe and keep C:\Program Files\Common Files\VST3. The complete bundle is installed as OmegaSonicOrganism.vst3 with Contents/x86_64-win/OmegaSonicOrganism.vst3 and required resources. Administrator access is required for that system folder. Setup is unsigned. It refuses to replace an existing installation. Preserve the older version before removing it; do not discard user patches or original binaries.
+Run Omega-Sonic-Organism-1.0.0-rc.2-Windows-x64-Setup.exe and keep C:\Program Files\Common Files\VST3. The complete bundle is installed as OmegaSonicOrganism.vst3 with Contents/x86_64-win/OmegaSonicOrganism.vst3 and required resources. Administrator access is required for that system folder. Setup is unsigned. It refuses to replace an existing installation. Preserve the older version before removing it; do not discard user patches or original binaries.
 
 Open FL Studio > Options > Manage plugins. Enable Verify plugins, click Find installed plugins and add OMEGA SONIC ORGANISM as a Generator. Actual acceptance must follow DAW_ACCEPTANCE.md. A successful generic validator or installer fixture is not proof of this FL Studio workflow.
 

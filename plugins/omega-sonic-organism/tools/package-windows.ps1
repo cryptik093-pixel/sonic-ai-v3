@@ -6,18 +6,19 @@ $qualification=Get-Content -LiteralPath "$Evidence/result.json" -Raw | ConvertFr
 $bundle=Join-Path $qualification.buildDirectory 'VST3/Release/OmegaSonicOrganism.vst3'
 $binary=Join-Path $bundle 'Contents/x86_64-win/OmegaSonicOrganism.vst3'
 $sha=(Get-FileHash -LiteralPath $binary).Hash
-if($qualification.version -ne '1.0.0-rc.1' -or $qualification.binarySha256 -ne $sha -or $qualification.validators -ne 'PASSED' -or $qualification.binaryRenderCases -ne 174){throw 'Qualification does not match this binary'}
+if($qualification.version -ne '1.0.0-rc.2' -or $qualification.binarySha256 -ne $sha -or $qualification.validators -ne 'PASSED' -or $qualification.binaryRenderCases -ne 174){throw 'Qualification does not match this binary'}
 $validator=Get-Content -LiteralPath "$Evidence/validator/result.json" -Raw | ConvertFrom-Json
 if($validator.binarySha256 -ne $sha -or $validator.standardExit -ne 0 -or $validator.extensiveExit -ne 0 -or $validator.pluginvalExit -ne 0){throw 'Exact binary validator check failed'}
 [xml]$tests=Get-Content -LiteralPath "$Evidence/ctest-plugin.xml" -Raw
 if($tests.testsuite.failures -ne '0' -or $tests.testsuite.tests -ne '5'){throw 'Five passing plugin test suites are required'}
-$sdkProof=Get-Content -LiteralPath "$root/test-results/sdk-provenance.json" -Raw | ConvertFrom-Json
+$sdkProofPath=if(Test-Path -LiteralPath "$Evidence/sdk-provenance.json"){"$Evidence/sdk-provenance.json"}else{"$root/test-results/sdk-provenance.json"}
+$sdkProof=Get-Content -LiteralPath $sdkProofPath -Raw | ConvertFrom-Json
 if(-not $sdkProof.compiledSdkInputsMatchArchive -or $sdkProof.buildDirectory -ne $qualification.buildDirectory -or $sdkProof.ninjaIncludeCount -le 0){throw 'Compiler SDK dependency provenance is missing or stale'}
 & python "$PSScriptRoot/binary_dependencies.py" $Evidence
 if($LASTEXITCODE){throw 'Native binary dependency check failed'}
 & python "$PSScriptRoot/release_report.py" $Evidence
 if($LASTEXITCODE){throw 'Evidence-bound release report failed'}
-$stage=Join-Path $root "dist/windows-1.0.0-rc.1-$([DateTime]::UtcNow.ToString('yyyyMMdd-HHmmss'))"
+$stage=Join-Path $root "dist/windows-1.0.0-rc.2-$([DateTime]::UtcNow.ToString('yyyyMMdd-HHmmss'))"
 New-Item -ItemType Directory -Path "$stage/tools","$stage/presets","$stage/evidence" | Out-Null
 Copy-Item -LiteralPath $bundle -Destination $stage -Recurse
 Copy-Item -LiteralPath "$root/presets/factory-v1" -Destination "$stage/presets" -Recurse
@@ -34,7 +35,8 @@ Copy-Item -LiteralPath "$Evidence/metrics/benchmark.json","$Evidence/metrics/ana
 Copy-Item -LiteralPath "$Evidence/metrics" -Destination "$stage/evidence" -Recurse
 foreach($name in @('core-build.log','plugin-build.log','ctest-core.xml','auditions.log','validation.log','factory-calibration.log','legacy-v02.log','legacy-restoration.log','legacy-state-result.json','binary-dependencies.txt','binary-dependencies.json')){Copy-Item -LiteralPath "$Evidence/$name" -Destination "$stage/evidence"}
 foreach($name in @('renders-eco','renders-hq','renders-bank','editor','legacy-v02','legacy-restored-candidate')){Copy-Item -LiteralPath "$Evidence/$name" -Destination "$stage/evidence" -Recurse}
-Copy-Item -LiteralPath "$root/test-results/sdk-provenance.json" -Destination "$stage/evidence"
+Copy-Item -LiteralPath $sdkProofPath -Destination "$stage/evidence"
+if(Test-Path -LiteralPath "$Evidence/cpu-comparison"){Copy-Item -LiteralPath "$Evidence/cpu-comparison","$Evidence/cpu-held-before","$Evidence/cpu-held-after" -Destination "$stage/evidence" -Recurse;Copy-Item -Path "$Evidence/cpu-equivalence-*.json","$Evidence/cpu-held-*.log" -Destination "$stage/evidence"}
 Copy-Item -LiteralPath "$root/test-results/denormal-reproduction.log","$root/test-results/denormal-reproduction.xml" -Destination "$stage/evidence"
 Copy-Item -LiteralPath "$Evidence/audio-previews" -Destination "$stage/audio_previews" -Recurse
 Copy-Item -LiteralPath "$root/docs" -Destination "$stage/documentation" -Recurse
@@ -54,7 +56,7 @@ $payload=Join-Path $root ('build-tools/installer-payload-'+[Guid]::NewGuid().ToS
 New-Item -ItemType Directory -Path "$payload/tools" | Out-Null
 Copy-Item -LiteralPath "$stage/OmegaSonicOrganism.vst3" -Destination $payload -Recurse
 Copy-Item -LiteralPath "$stage/tools/install-user.ps1","$stage/tools/uninstall-user.ps1" -Destination "$payload/tools"
-$setup=Join-Path $root 'dist/Omega-Sonic-Organism-1.0.0-rc.1-Windows-x64-Setup.exe'
+$setup=Join-Path $root 'dist/Omega-Sonic-Organism-1.0.0-rc.2-Windows-x64-Setup.exe'
 $fixtureSetup=Join-Path $root 'build-tools/Omega-Organism-Installer-Fixture.exe'
 if(Test-Path -LiteralPath $setup){throw 'A setup artifact already exists; preserve it and select a new version before rebuilding.'}
 Push-Location $PSScriptRoot
@@ -103,13 +105,13 @@ Copy-Item -LiteralPath "$root/docs/COMPLETION_REPORT.md" -Destination "$stage/CO
 Copy-Item -LiteralPath $setup -Destination $stage
 $gateReport=Get-Content -LiteralPath "$root/docs/RELEASE_GATES.json" -Raw | ConvertFrom-Json
 $files=@(Get-ChildItem -LiteralPath $stage -File -Recurse -Force | Sort-Object FullName | ForEach-Object {[ordered]@{path=$_.FullName.Substring($stage.Length+1);sha256=(Get-FileHash -LiteralPath $_.FullName).Hash;bytes=$_.Length}})
-[ordered]@{product='OMEGA SONIC ORGANISM';version='1.0.0-rc.1';binarySha256=$sha;commercialReady=$false;gitBaseRevision=$gateReport.gitBaseRevision;sourceFingerprintSha256=$gateReport.sourceFingerprintSha256;manifestExcludesItself=$true;qualification=$qualification;gates=$gateReport.gates;files=$files} | ConvertTo-Json -Depth 10 | Set-Content "$stage/BUILD_MANIFEST.json"
+[ordered]@{product='OMEGA SONIC ORGANISM';version='1.0.0-rc.2';binarySha256=$sha;commercialReady=$false;gitBaseRevision=$gateReport.gitBaseRevision;sourceFingerprintSha256=$gateReport.sourceFingerprintSha256;manifestExcludesItself=$true;qualification=$qualification;gates=$gateReport.gates;files=$files} | ConvertTo-Json -Depth 10 | Set-Content "$stage/BUILD_MANIFEST.json"
 & python "$PSScriptRoot/archive_delivery.py" $stage *> "$Evidence/archive-verification.log"
 if($LASTEXITCODE){throw 'ZIP creation/readback/hash validation failed'}
 $setupHash=(Get-FileHash -LiteralPath $setup).Hash
 $zipHash=(Get-FileHash -LiteralPath "$stage.zip").Hash
 $downloads=Join-Path ([Environment]::GetFolderPath('UserProfile')) 'Downloads'
-$downloadFolder=Join-Path $downloads ('OMEGA_SONIC_ORGANISM_RC1-'+[DateTime]::UtcNow.ToString('yyyyMMdd-HHmmss'))
+$downloadFolder=Join-Path $downloads ('OMEGA_SONIC_ORGANISM_RC2-'+[DateTime]::UtcNow.ToString('yyyyMMdd-HHmmss'))
 if(Test-Path -LiteralPath $downloadFolder){throw 'Preserve the existing download directory and choose a new timestamp.'}
 New-Item -ItemType Directory -Path $downloadFolder | Out-Null
 Copy-Item -LiteralPath $setup,"$stage.zip" -Destination $downloadFolder

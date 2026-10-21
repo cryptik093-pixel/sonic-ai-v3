@@ -26,9 +26,9 @@ if($LASTEXITCODE){throw 'Generated parameter registry mismatch'}
 $build=if($CoreOnly){"$osoRoot/build-core"}else{"$osoRoot/build"}
 if($BuildDirectory){$build=[IO.Path]::GetFullPath($BuildDirectory)}
 $enabled=if($CoreOnly){'OFF'}else{'ON'}
-& cmake -S $osoRoot -B $build -G Ninja -DCMAKE_BUILD_TYPE=Release "-DOSO_BUILD_PLUGIN=$enabled" "-DOSO_SDK_ROOT=$SdkRoot"
+& cmake -S $osoRoot -B $build -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMANDS=ON "-DOSO_BUILD_PLUGIN=$enabled" "-DOSO_SDK_ROOT=$SdkRoot"
 if($LASTEXITCODE){throw 'Configure failed'}
-$targets=if($CoreOnly){@('omega_core_tests','omega_state_tests','omega_engine_tests','omega_engine_metrics','omega_preset_tests','omega_calibrate_bank')}else{@('OmegaSonicOrganism','omega_core_tests','omega_state_tests','omega_engine_tests','omega_engine_metrics','omega_preset_tests','omega_calibrate_bank','omega_adapter_tests','omega_binary_probe','omega_editor_probe','omega_audition_probe')}
+$targets=if($CoreOnly){@('omega_core_tests','omega_state_tests','omega_engine_tests','omega_engine_metrics','omega_cpu_profile','omega_preset_tests','omega_calibrate_bank')}else{@('OmegaSonicOrganism','omega_core_tests','omega_state_tests','omega_engine_tests','omega_engine_metrics','omega_cpu_profile','omega_preset_tests','omega_calibrate_bank','omega_adapter_tests','omega_binary_probe','omega_editor_probe','omega_audition_probe')}
 & cmake --build $build --target @targets --parallel $Jobs
 if($LASTEXITCODE){throw 'Build failed'}
 & ctest --test-dir $build --output-on-failure --output-junit "$osoRoot/test-results/ctest.xml"

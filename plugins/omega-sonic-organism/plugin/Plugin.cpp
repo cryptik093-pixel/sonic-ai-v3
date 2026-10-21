@@ -141,6 +141,6 @@ tresult PLUGIN_API Controller::getMidiControllerAssignment(int32 bus,int16 chann
 using namespace Steinberg;
 using namespace Steinberg::Vst;
 BEGIN_FACTORY_DEF("Omega House Studio LLC","https://omega-house.online","")
-DEF_CLASS2(INLINE_UID_FROM_FUID(oso::processorID),PClassInfo::kManyInstances,kVstAudioEffectClass,"OMEGA SONIC ORGANISM",Vst::kDistributable,"Instrument|Synth","1.0.0-rc.1",kVstVersionString,oso::Processor::create)
-DEF_CLASS2(INLINE_UID_FROM_FUID(oso::controllerID),PClassInfo::kManyInstances,kVstComponentControllerClass,"OMEGA SONIC ORGANISM Controller",0,"","1.0.0-rc.1",kVstVersionString,oso::Controller::create)
+DEF_CLASS2(INLINE_UID_FROM_FUID(oso::processorID),PClassInfo::kManyInstances,kVstAudioEffectClass,"OMEGA SONIC ORGANISM",Vst::kDistributable,"Instrument|Synth","1.0.0-rc.2",kVstVersionString,oso::Processor::create)
+DEF_CLASS2(INLINE_UID_FROM_FUID(oso::controllerID),PClassInfo::kManyInstances,kVstComponentControllerClass,"OMEGA SONIC ORGANISM Controller",0,"","1.0.0-rc.2",kVstVersionString,oso::Controller::create)
 END_FACTORY

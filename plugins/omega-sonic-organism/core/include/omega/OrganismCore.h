@@ -33,6 +33,7 @@ public:
     uint32_t firstFaultSource() const noexcept {return tables_.firstFaultSource;}
 
 private:
+    friend struct CoreProfiler; // Offline diagnostic only; no callback instrumentation.
     enum class Stage : uint8_t { Off, Attack, Decay, Sustain, Release };
     struct Voice {
         Stage stage = Stage::Off;
@@ -44,6 +45,9 @@ private:
         uint32_t rng=1;uint64_t age=0;
         struct Mode {double re=0,im=0,cosine=1,sine=0,decay=1,weight=0;};
         std::array<Mode,4> modes{};
+        std::array<double,8> harmonicFade{};
+        double modeWeight=0,panOffset=0;
+        bool modesActive=false;
         dsp::LowPass filter;
         dsp::DriveStage drive;
         std::array<double,latencySamples> envelopeDelay{};
@@ -72,6 +76,8 @@ private:
     double sr_=48000,tempo_=120,bend_=0,bendSmooth_=0,slew_=0,lfoPhase_=0,lfo_=0,lfoRate_=2.1;
     double attackStep_=0,decayRate_=0,releaseRate_=0,drive_=1,driveComp_=1,outputGain_=1,hqMix_=0;
     double dcL_=0,dcR_=0,prevL_=0,prevR_=0,dcPole_=0,strikeDecay_=1,lastMorph_=-1;
+    double lastEnergy_=-1,lastOutputLevel_=-1;
+    double pulseWidth_=.5,pulseDc_=0,tremolo_=1,noiseBase_=0,waveWeight_=1;
     std::array<double,8> harmonicWeights_{};
     std::array<double,4> modeDecays_{};
     int voiceLimit_=16,controlCounter_=0,stealLength_=240;

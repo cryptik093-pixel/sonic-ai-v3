@@ -17,7 +17,7 @@ def main():
     analysis=json.loads((evidence/'metrics/analysis.json').read_text(encoding='utf-8-sig'))
     auditions=json.loads((evidence/'audio-previews/audition-results.json').read_text(encoding='utf-8-sig'))
     assert result['cleanBuildStartedInEmptyDirectory'] is True
-    assert result['version']=='1.0.0-rc.1' and result['binaryRenderCases']==174
+    assert result['version']=='1.0.0-rc.2' and result['binaryRenderCases']==174
     assert len(auditions['renders'])==48 and all(x['finiteNonzeroBounded'] for x in auditions['renders'])
     pcm=json.loads((evidence/'audio-previews/pcm24-verification.json').read_text())
     assert pcm['status']=='PASS' and len(pcm['files'])==48
@@ -56,7 +56,12 @@ def main():
     (root/'docs/RELEASE_GATES.json').write_text(json.dumps(data,indent=2)+'\n')
     table='| Gate | State | Evidence / outstanding work |\n|---|---|---|\n'+''.join(f'| {a} | {b} | {c} |\n' for a,b,c in gates)
     costs='\n'.join(f"- {m['quality']}: median {m['medianMs']} ms, P95 {m['p95Ms']} ms, P99 {m['p99Ms']} ms, max {m['maximumMs']} ms; {m['overruns']}/{m['callbacks']} over 5.333 ms." for m in modes)
-    report=f'''# OMEGA SONIC ORGANISM 1.0.0-rc.1
+    cpu_comparison=''
+    comparison=evidence/'cpu-comparison/comparison.json'
+    if comparison.exists():
+        paired=json.loads(comparison.read_text())
+        cpu_comparison='Matched RC1/RC2 production-core comparison at 48 kHz, 256 frames, 16 voices, 30 seconds per quality mode. Full tails and deadline overruns remain recorded in evidence/cpu-comparison/comparison.json.\n\n'+ '\n'.join(f"- {m['quality']}: median {m['before']['medianMs']} -> {m['after']['medianMs']} ms ({m['reductionPercent']['medianMs']:.1f}% reduction); thread CPU {m['before']['threadCpuTotalMs']} -> {m['after']['threadCpuTotalMs']} ms ({m['reductionPercent']['threadCpuTotalMs']:.1f}% reduction); P95 {m['before']['p95Ms']} -> {m['after']['p95Ms']} ms; P99 {m['before']['p99Ms']} -> {m['after']['p99Ms']} ms; overruns {m['before']['overruns']} -> {m['after']['overruns']}." for m in paired['modes'])
+    report=f'''# OMEGA SONIC ORGANISM 1.0.0-rc.2
 
 UNQUALIFIED RELEASE CANDIDATE. Commercial release is blocked by the unresolved gates below.
 This candidate is supplied for engineering and host evaluation, with actual Windows x64 VST3 and installer.
@@ -77,6 +82,8 @@ HOST VERIFIED: Project-specific native Windows integration hosts and validators 
 Production portable core, 16 active voices, 48 kHz, 256 frames, 30 seconds of audio per mode, automated morph. Includes all scheduling outliers; not a DAW measurement. This shared Windows machine has an Intel i5-4310U (2 cores / 4 logical processors) and 8 GB RAM. Reference goal remains P95 <=1 ms, P99 <=2 ms. No threshold was relaxed.
 
 {costs}
+
+{cpu_comparison}
 
 The measured callback deadline is 5.333 ms. CPU failure is a real unresolved gate even where scheduling contention contributes. Use fewer voices/Eco/larger buffers for evaluation; these mitigations do not turn a failed gate into a pass.
 

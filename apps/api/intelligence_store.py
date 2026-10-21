@@ -6,6 +6,8 @@ not silently materialize into operational MemoryORM state.
 """
 from __future__ import annotations
 
+from contextlib import contextmanager
+
 import hashlib
 import json
 import os
@@ -50,11 +52,16 @@ class IntelligenceStore:
         Path(self.database_path).parent.mkdir(parents=True, exist_ok=True)
         self._initialize()
 
-    def _connect(self) -> sqlite3.Connection:
+    @contextmanager
+    def _connect(self):
         connection = sqlite3.connect(self.database_path)
-        connection.row_factory = sqlite3.Row
-        connection.execute("PRAGMA foreign_keys = ON")
-        return connection
+        try:
+            connection.row_factory = sqlite3.Row
+            connection.execute("PRAGMA foreign_keys = ON")
+            with connection:
+                yield connection
+        finally:
+            connection.close()
 
     def _initialize(self) -> None:
         with self._connect() as c:

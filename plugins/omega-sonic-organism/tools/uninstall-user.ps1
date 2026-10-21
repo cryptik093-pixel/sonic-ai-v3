@@ -1,5 +1,7 @@
 param([string]$Directory=(Join-Path $env:LOCALAPPDATA 'Programs/Common/VST3'))
 $ErrorActionPreference='Stop'
+Import-Module (Join-Path $PSHOME 'Modules/Microsoft.PowerShell.Utility/Microsoft.PowerShell.Utility.psd1') -ErrorAction Stop
+Import-Module (Join-Path $PSHOME 'Modules/Microsoft.PowerShell.Management/Microsoft.PowerShell.Management.psd1') -ErrorAction Stop
 $destination=[IO.Path]::GetFullPath((Join-Path $Directory 'OmegaSonicOrganism.vst3'))
 $receiptPath=Join-Path $destination '.oso-install-receipt.json'
 if(-not(Test-Path -LiteralPath $receiptPath)){throw 'No owned installation receipt. Nothing removed.'}

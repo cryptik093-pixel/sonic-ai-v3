@@ -1,5 +1,9 @@
 param([string]$PackageRoot=(Split-Path -Parent $PSScriptRoot),[string]$Directory=(Join-Path $env:LOCALAPPDATA 'Programs/Common/VST3'))
 $ErrorActionPreference='Stop'
+# NSIS is a 32-bit process; inherited module search paths may point at another
+# PowerShell edition. Resolve the built-in modules from the executing runtime.
+Import-Module (Join-Path $PSHOME 'Modules/Microsoft.PowerShell.Utility/Microsoft.PowerShell.Utility.psd1') -ErrorAction Stop
+Import-Module (Join-Path $PSHOME 'Modules/Microsoft.PowerShell.Management/Microsoft.PowerShell.Management.psd1') -ErrorAction Stop
 $source=Join-Path $PackageRoot 'OmegaSonicOrganism.vst3'
 if(-not(Test-Path -LiteralPath "$source/Contents/x86_64-win/OmegaSonicOrganism.vst3")){throw 'Run this from the extracted delivery package.'}
 $destination=Join-Path ([IO.Path]::GetFullPath($Directory)) 'OmegaSonicOrganism.vst3'

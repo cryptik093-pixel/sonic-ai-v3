@@ -53,6 +53,9 @@ Section "Windows x64 VST3 instrument"
   ${EnableX64FSRedirection}
   DetailPrint "$1"
   ${If} $0 != 0
+    FileOpen $2 "$INSTDIR\OmegaSonicOrganism-install-error.log" w
+    FileWrite $2 "PowerShell exit: $0$\r$\n$1"
+    FileClose $2
     MessageBox MB_ICONSTOP "Installation did not complete. Existing files were preserved.$\r$\n$\r$\n$1" /SD IDOK
     SetErrorLevel 1
     Abort
@@ -75,6 +78,13 @@ Section "Uninstall"
   Pop $2
   ${EnableX64FSRedirection}
   DetailPrint "$2"
+!ifdef USERTEST
+  ; The NSIS bootstrap exits before the copied uninstaller. Record the actual
+  ; child result in the owned fixture directory instead of trusting its parent.
+  FileOpen $3 "$0\fixture-uninstall-result.log" w
+  FileWrite $3 "$1$\r$\n$2"
+  FileClose $3
+!endif
   ${If} $1 != 0
     MessageBox MB_ICONSTOP "Modified or unfamiliar files were preserved. Nothing removed.$\r$\n$2" /SD IDOK
     SetErrorLevel 1

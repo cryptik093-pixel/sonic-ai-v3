@@ -75,10 +75,13 @@ $guide=Join-Path $installed 'README.md'
 $guideBytes=[IO.File]::ReadAllBytes($guide)
 [IO.File]::AppendAllText($guide,"`nInstaller preservation fixture.`n")
 $refused=Start-Process -FilePath "$installed/Uninstall.exe" -ArgumentList '/S' -WindowStyle Hidden -Wait -PassThru
-if($refused.ExitCode -eq 0 -or -not(Test-Path -LiteralPath $guide)){throw 'Uninstaller did not preserve a modified installation'}
+$childResult=Join-Path $fixture 'fixture-uninstall-result.log'
+if(-not(Test-Path -LiteralPath $childResult) -or (Get-Content -LiteralPath $childResult -First 1) -eq '0' -or -not(Test-Path -LiteralPath $guide)){throw 'Uninstaller did not preserve a modified installation'}
+Copy-Item -LiteralPath $childResult -Destination "$Evidence/installer-modified-refusal.log"
 [IO.File]::WriteAllBytes($guide,$guideBytes)
 $removed=Start-Process -FilePath "$installed/Uninstall.exe" -ArgumentList '/S' -WindowStyle Hidden -Wait -PassThru
-if($removed.ExitCode -ne 0 -or (Test-Path -LiteralPath $installed)){throw 'Verified fixture uninstall failed'}
+if(-not(Test-Path -LiteralPath $childResult) -or (Get-Content -LiteralPath $childResult -First 1) -ne '0' -or (Test-Path -LiteralPath $installed)){throw 'Verified fixture uninstall failed'}
+Copy-Item -LiteralPath $childResult -Destination "$Evidence/installer-clean-removal.log"
 [ordered]@{installerSha256=(Get-FileHash -LiteralPath $setup).Hash;binarySha256=$sha;payloadInstall='PASSED';existingInstallPreserved='PASSED';modifiedInstallPreserved='PASSED';fixtureUninstall='PASSED';adminUacInstall='NOT_TESTED';flStudio='NOT_TESTED';fixtureVariant='same NSIS source with USERTEST: user manifest and no registry writes';fixture=$fixture} | ConvertTo-Json | Set-Content "$Evidence/installer-result.json"
 Copy-Item -LiteralPath "$Evidence/installer-result.json" -Destination "$stage/evidence"
 & python "$PSScriptRoot/release_report.py" $Evidence --package-verified

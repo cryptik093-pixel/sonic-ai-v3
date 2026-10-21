@@ -62,6 +62,21 @@ int main(){
             for(int32 i=0;i<15;++i){ParameterInfo info{};CHECK(controller.getParameterInfo(i,info)==kResultOk);const auto& def=omega::parameterDefinitions[size_t(i)];CHECK(info.id==def.id&&info.stepCount==def.steps);CHECK(bool(info.flags&ParameterInfo::kCanAutomate)==def.automatable);CHECK(!(info.flags&ParameterInfo::kIsReadOnly));}
             CHECK(controller.terminate()==kResultOk);
         }
+        // Exercise real processor meter output with host-owned queues primed
+        // outside the callback. UI probe values alone do not prove telemetry.
+        {
+            CHECK(p.setProcessing(false)==kResultOk);auto patch=omega::defaults();auto bytes=omega::encodeState(patch);
+            MemoryStream state(bytes.data(),bytes.size());CHECK(p.setState(&state)==kResultOk);CHECK(p.setProcessing(true)==kResultOk);
+            ParameterChanges meters(4);int32 index=0;
+            for(ParamID id=1010;id<=1013;++id){auto* q=meters.addParameterData(id,index);CHECK(q);CHECK(q->addPoint(0,0,index)==kResultOk);}
+            std::array<float,256> l{},r{};float* channels[]={l.data(),r.data()};AudioBusBuffers bus{};bus.numChannels=2;bus.channelBuffers32=channels;EventList events;
+            Event on{};on.type=Event::kNoteOnEvent;on.noteOn.pitch=72;on.noteOn.velocity=.7f;on.noteOn.noteId=55;CHECK(events.addEvent(on)==kResultOk);
+            ProcessData data{};data.numSamples=256;data.symbolicSampleSize=kSample32;data.numOutputs=1;data.outputs=&bus;data.inputEvents=&events;data.outputParameterChanges=&meters;
+            for(int block=0;block<4;++block){meters.clearQueue();measuring=true;CHECK(p.process(data)==kResultOk);measuring=false;events.clear();CHECK(meters.getParameterCount()==4);
+                for(int32 i=0;i<4;++i){auto* q=meters.getParameterData(i);CHECK(q&&q->getParameterId()==ParamID(1010+i)&&q->getPointCount()==1);int32 offset=-1;double value=-1;CHECK(q->getPoint(0,offset,value)==kResultOk);CHECK(offset==255&&std::isfinite(value)&&value>=0&&value<=1);
+                    if(i==0)CHECK(value>0);if(i==1)CHECK(value==1./32);if(i==2)CHECK(value==73./128);if(i==3)CHECK(std::abs(value-.7)<1e-6);}
+            }
+        }
         finish(p);
     }
     CHECK(allocations==0);

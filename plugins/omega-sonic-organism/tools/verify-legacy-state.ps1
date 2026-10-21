@@ -2,6 +2,7 @@ param([Parameter(Mandatory=$true)][string]$Evidence,[string]$LegacyBinary)
 $ErrorActionPreference='Stop'
 $root=Split-Path -Parent $PSScriptRoot
 if(-not $LegacyBinary){$LegacyBinary=Join-Path $root 'test-results/m2-before-lookup-optimization.vst3'}
+if(Test-Path -LiteralPath $LegacyBinary -PathType Container){$LegacyBinary=Join-Path $LegacyBinary 'Contents/x86_64-win/OmegaSonicOrganism.vst3'}
 $legacyHash=(Get-FileHash -LiteralPath $LegacyBinary).Hash
 if($legacyHash -ne '7EE74E6F4B95168D42ED31BBB5AD264470D0AAC761910A33387CFBEC0EFF1454'){throw 'The preserved v0.2 baseline is not the documented binary'}
 $expected=Get-Content -LiteralPath "$Evidence/result.json" -Raw | ConvertFrom-Json

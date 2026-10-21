@@ -38,4 +38,4 @@ build/omega_engine_metrics.exe <output-folder> 30
 python tools/analyze_engine_metrics.py <output-folder>
 ```
 
-The probes load the DLL with InitDll/GetPluginFactory; they are not named-DAW acceptance. Validator paths can be passed to `tools/validate-windows.ps1`. GUI interaction, host automation behavior and project recall must also be exercised in FL Studio.
+The probes load the DLL with InitDll/GetPluginFactory; they are not named-DAW acceptance. The editor-only probe supplies synthetic controller/meter values to test drawing and synchronization; its captures are not evidence of audio-meter relay in a DAW. Separate adapter tests exercise actual processor telemetry through preallocated host output queues. Validator paths can be passed to `tools/validate-windows.ps1`. GUI interaction, host automation behavior and project recall must also be exercised in FL Studio.

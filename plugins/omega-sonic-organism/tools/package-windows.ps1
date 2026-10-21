@@ -11,6 +11,8 @@ $validator=Get-Content -LiteralPath "$Evidence/validator/result.json" -Raw | Con
 if($validator.binarySha256 -ne $sha -or $validator.standardExit -ne 0 -or $validator.extensiveExit -ne 0 -or $validator.pluginvalExit -ne 0){throw 'Exact binary validator check failed'}
 [xml]$tests=Get-Content -LiteralPath "$Evidence/ctest-plugin.xml" -Raw
 if($tests.testsuite.failures -ne '0' -or $tests.testsuite.tests -ne '5'){throw 'Five passing plugin test suites are required'}
+$sdkProof=Get-Content -LiteralPath "$root/test-results/sdk-provenance.json" -Raw | ConvertFrom-Json
+if(-not $sdkProof.compiledSdkInputsMatchArchive -or $sdkProof.buildDirectory -ne $qualification.buildDirectory -or $sdkProof.ninjaIncludeCount -le 0){throw 'Compiler SDK dependency provenance is missing or stale'}
 & python "$PSScriptRoot/binary_dependencies.py" $Evidence
 if($LASTEXITCODE){throw 'Native binary dependency check failed'}
 & python "$PSScriptRoot/release_report.py" $Evidence
@@ -45,7 +47,7 @@ if((Get-FileHash -LiteralPath $sdkArchive).Hash -ne '64965F1B74E08A6D4087A35AF7A
 Copy-Item -LiteralPath $sdkArchive -Destination "$stage/source/dependencies/steinberg-sdk.zip"
 New-Item -ItemType Directory -Path "$stage/source/history" | Out-Null
 Copy-Item -LiteralPath "$root/test-results/source-before-completion-20261019.zip" -Destination "$stage/source/history/pre-completion-workspace-source.zip"
-Copy-Item -LiteralPath "$root/test-results/m2-before-lookup-optimization.vst3" -Destination "$stage/source/history/v0.2-alpha-reference.vst3"
+Copy-Item -LiteralPath "$root/test-results/m2-before-lookup-optimization.vst3/Contents/x86_64-win/OmegaSonicOrganism.vst3" -Destination "$stage/source/history/v0.2-alpha-reference.vst3"
 [ordered]@{sourceSnapshot='pre-completion workspace backup, not a Git revision';sourceSha256=(Get-FileHash -LiteralPath "$stage/source/history/pre-completion-workspace-source.zip").Hash;legacyVersion='0.2.0-alpha';legacySha256=(Get-FileHash -LiteralPath "$stage/source/history/v0.2-alpha-reference.vst3").Hash;note='Historical artifacts are not installed. Original historical render evidence remains preserved in the originating workspace.'} | ConvertTo-Json | Set-Content "$stage/source/history/HISTORY.json"
 # Setup contains the installable product only, not the much larger source/test kit.
 $payload=Join-Path $root ('build-tools/installer-payload-'+[Guid]::NewGuid().ToString('N'))

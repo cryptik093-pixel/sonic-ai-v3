@@ -1,0 +1,39 @@
+name: OMEGA SIGNAL Stage 1 evidence
+
+on:
+  pull_request:
+    branches: ["main"]
+    paths:
+      - "apps/api/event_store.py"
+      - "apps/api/shopify_webhooks.py"
+      - "apps/api/events_router.py"
+      - "apps/api/commerce_router.py"
+      - "apps/api/main.py"
+      - "apps/api/services/commerce_evidence.py"
+      - "apps/api/tests/test_commerce_evidence.py"
+      - ".github/workflows/omega-signal-stage1.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  signed-commerce-evidence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install API dependencies
+        run: python -m pip install -r apps/api/requirements.txt
+      - name: Compile modified API
+        run: python -m compileall -q apps/api
+      - name: Verify signed evidence and existing ledgers
+        run: |
+          python -m pytest -q \
+            apps/api/test_event_store.py \
+            apps/api/tests/test_shopify_webhooks.py \
+            apps/api/tests/test_commerce_evidence.py \
+            apps/api/tests/test_intelligence_store.py

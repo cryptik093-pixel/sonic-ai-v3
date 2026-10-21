@@ -4,6 +4,7 @@ import json
 import os
 import sqlite3
 import threading
+from contextlib import contextmanager
 import uuid
 from datetime import datetime, timezone
 from pathlib import Path
@@ -52,11 +53,16 @@ class IntegrityLedger:
             );
             """)
 
+    @contextmanager
     def _connect(self):
         conn = sqlite3.connect(self.path, timeout=15)
-        conn.row_factory = sqlite3.Row
-        conn.execute("PRAGMA busy_timeout=15000")
-        return conn
+        try:
+            conn.row_factory = sqlite3.Row
+            conn.execute("PRAGMA busy_timeout=15000")
+            with conn:
+                yield conn
+        finally:
+            conn.close()
 
     @staticmethod
     def _validate(state):

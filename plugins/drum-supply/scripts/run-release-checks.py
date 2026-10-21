@@ -45,6 +45,9 @@ def main():
     result['validators']='NOT_RUN'
     if validation:
         file,v=validation[-1];result['validators']=v['state'];result['validation_directories']=[str(file.parent)];result['validator_tools']=v['tools']
+    asan_file=ROOT/'evidence/asan-verification.json'
+    asan=json.loads(asan_file.read_text()) if asan_file.exists() else {}
+    result['address_sanitizer']='PASS' if asan.get('state')=='PASS' and asan.get('engine_sha256')==sha(ROOT/'Source/DrumEngine.h') and asan.get('test_sha256')==sha(ROOT/'Tests/SynthesisTests.cpp') else 'NOT_TESTED'
     originals=[]
     for row in json.loads((ROOT/'recovery/input-assets-manifest.json').read_text())['files']:
         path=original_path(row['path']);originals.append(path.exists() and path.stat().st_size==row['size'] and sha(path)==row['sha256'])

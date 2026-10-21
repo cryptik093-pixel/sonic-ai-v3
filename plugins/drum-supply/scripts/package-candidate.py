@@ -76,7 +76,7 @@ def archive(folder: Path, target: Path):
 def main():
     report = ROOT / 'evidence/release-verification.json'
     results = json.loads(report.read_text())
-    for gate in ('build', 'synthesis_dsp', 'legacy_dsp', 'sample_dsp', 'processor', 'validators', 'original_assets', 'text_integrity', 'windows_x64_pe', 'vst3_class_ids', 'offline_renders','wav_exports'):
+    for gate in ('build', 'synthesis_dsp', 'legacy_dsp', 'sample_dsp', 'processor', 'validators', 'original_assets', 'text_integrity', 'windows_x64_pe', 'vst3_class_ids', 'offline_renders','wav_exports','address_sanitizer'):
         if results[gate] != 'PASS':
             raise RuntimeError(f'Refusing to package without a passing {gate} gate')
     destination = ROOT / 'dist' / NAME
@@ -113,8 +113,11 @@ def main():
     fixtures = ROOT / 'evidence/release-fixtures'
     for file in fixtures.iterdir():
         if file.is_file() and file.suffix in {'.wav','.png','.json'}: copy_file(file, release/'Validation/Fixtures'/file.name)
-    for name in ('synthesis-build-final.log','asan-run.log','release-processor.stdout.log','release-synthesis_dsp.stdout.log','release-legacy_dsp.stdout.log','release-sample_dsp.stdout.log'):
+    for name in ('synthesis-build-final.log','synthesis-build-onset-wiring.log','asan-run.log','asan-verification.json','release-processor.stdout.log','release-synthesis_dsp.stdout.log','release-legacy_dsp.stdout.log','release-sample_dsp.stdout.log'):
         copy_file(ROOT/'evidence'/name,release/'Validation'/name)
+    tree(ROOT/'evidence/pre-onset-wiring',release/'Validation/HistoricalFailures/pre-onset-wiring')
+    for name in ('synthesis-build-first.log','performance-before-map-cache.log','performance-after-coefficient-cache.log'):
+        if (ROOT/'evidence'/name).is_file(): copy_file(ROOT/'evidence'/name,release/'Validation/HistoricalFailures'/name)
     for original,alias in [('MANUAL.md','UserManual.md'),('INSTALLATION.md','Installation.md'),('CHANGELOG.md','ReleaseNotes.md')]:
         copy_file(ROOT/'docs'/original,release/'Documentation'/alias)
     for name in ('BuildReport.md','DSPTests.md','VST3Validation.md','FLStudioAcceptance.md'):

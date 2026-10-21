@@ -188,7 +188,13 @@ private:
         v.active=true;v.type=std::clamp(category,0,6);ambienceDepartment=v.type;v.velocity=unit(velocity);v.note=std::clamp(note,0,127);
         v.seed=0x93a17u+static_cast<uint32_t>(v.type)*7919u; // Repeatable excitation, independent of process partition.
         for(size_t i=0;i<8;++i) v.envelope[i]=1.0f/(1+static_cast<float>(i)*1.8f);
-        map(v);
+        if(slot>=0){
+            auto& cached=onsetCoefficients[static_cast<size_t>(slot)];const auto& sc=smoothSlots[static_cast<size_t>(slot)];
+            const float b=unit(sc.tone+current.body-.5f+sc.velocityTone*(v.velocity-.5f)*.4f),c=unit(sc.texture+current.character-.5f);
+            if(!cached.mappedValid||cached.note!=v.note||cached.mappedBody!=b||cached.mappedCharacter!=c||std::memcmp(&cached.mapped,&sc,sizeof(sc))!=0){
+                cached=Voice{};cached.slot=slot;cached.type=v.type;cached.note=v.note;cached.velocity=v.velocity;map(cached);
+            }copyCoefficients(v,cached);
+        }else map(v);
     }
     public:
     std::array<float,2> tick() noexcept {
@@ -204,7 +210,7 @@ private:
         current.space+=smoothing*(target.space-current.space);
         float dry=0;std::array<float,2> stereo{};const int dominant=ambienceDepartment;
         for(auto& v:voices) if(v.active) {
-            if(frame%32==0) map(v);
+            if(frame%32==0&&v.age>0) map(v);
             v.seed^=v.seed<<13;v.seed^=v.seed>>17;v.seed^=v.seed<<5;
             const float noise=static_cast<float>(v.seed>>8)*(2.0f/16777215.0f)-1;
             v.noiseLow+=v.lowCoefficient*(noise-v.noiseLow);

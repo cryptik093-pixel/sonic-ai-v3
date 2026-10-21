@@ -28,7 +28,9 @@ foreach($entry in $receipt.files){
     while($parent -and $parent -ne $destination){$null=$ownedDirectories.Add($parent);$parent=[IO.Path]::GetDirectoryName($parent)}
 }
 foreach($file in $files){if(-not $ownedFiles.Contains($file.FullName)){throw 'Unfamiliar file preserved. Nothing removed.'}}
-foreach($directory in ($items | Where-Object PSIsContainer)){if(-not $ownedDirectories.Contains($directory.FullName)){throw 'Unfamiliar directory preserved. Nothing removed.'}}
+# PowerShell variable names are case-insensitive: do not reuse the typed string
+# parameter $Directory for DirectoryInfo loop values.
+foreach($ownedDirectory in ($items | Where-Object PSIsContainer)){if(-not $ownedDirectories.Contains($ownedDirectory.FullName)){throw 'Unfamiliar directory preserved. Nothing removed.'}}
 # The exact absolute directory and all owned file hashes have been checked.
 Remove-Item -LiteralPath $destination -Recurse -Force
 Write-Output "Removed verified owned installation: $destination. User patches and projects are outside this bundle."

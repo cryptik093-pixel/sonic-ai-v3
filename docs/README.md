@@ -50,3 +50,7 @@ Root-level migration aliases point to preserved historical reports under `status
 Start with [Founder onboarding integration](operating-system/FOUNDER_ONBOARDING.md). Company definitions, the Omega Intelligence Loop, presentation and Operator Brief live in the canonical Omega House OS package. [The pinned reference](operating-system/founder_contract_reference.json) identifies the adopted version. Publication and runtime enforcement remain separate claims.
 
 The founder package keeps onboarding claim evidence and work statuses in distinct fields. Existing UNCERTIFIED, engineering lifecycle and Command OS observation vocabularies retain their own namespaces; the integration guide explains the boundary.
+
+## Approved commerce planning
+
+- [Omega House Beats predictable outcomes — October 21, 2026](knowledge/commerce/OMEGA_HOUSE_PREDICTABLE_OUTCOMES_2026-10-21.md) — founder-approved driver-based scenarios and LLC business role; base case is the management target. Gross revenue assumptions are not earned receipts or runtime implementation. The supplied research ends during the sensitivity table, and its original citation URLs were not supplied.

@@ -24,3 +24,20 @@ Endpoints:
 4. Add native VST3 `getState`/`setState` round-trip and FL Studio save/reopen tests. Never treat a manifest-only restore as a completed host rollback.
 
 To run unit tests from repo root: `python -m unittest apps.api.test_session_integrity -v`.
+
+## FL Studio local file evidence adapter (implemented)
+
+The read-only filesystem adapter connects saved `.flp` evidence and explicitly specified asset checksums to the integrity ledger. It does **not** parse the FLP binary or report mixer, VST, or automation state. The adapter records these fields as `unavailable`; it never simulates FL Studio control.
+
+From the Sonic V3 repository root on Windows:
+
+```powershell
+python -m apps.api.fl_studio_integrity_cli capture --root "C:\\OmegaHouse\\Studio" --project "My Track.flp" --asset "Stems\\Kick.wav"
+python -m apps.api.fl_studio_integrity_cli verify --root "C:\\OmegaHouse\\Studio" --session-id "<capture-session-id>"
+```
+
+The approved root must exist. Captures only read explicitly named saved project/audio/MIDI files under that root. Symlink traversal outside the root, duplicate paths, and unsupported file types are rejected. The project and asset file hashes are recorded in the same SQLite ledger as checkpoint history. A modified file is detected during later verification. A file changing while being hashed causes capture to abort when its metadata changes.
+
+**Limitations:** This is not live FL Studio/VST telemetry. Successful SHA-256 verification means the selected file bytes match; it does not prove plugin state is restored, nor the completeness of a project backup. Source files stay in place; no copies/backups are generated. Host save/reopen acceptance remains a hard release gate.
+
+CI exercises unit tests on Windows and Linux; no live FL Studio integration test is claimed.

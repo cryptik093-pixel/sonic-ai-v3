@@ -71,9 +71,11 @@ Section "Windows x64 VST3 instrument"
 !endif
 SectionEnd
 Section "Uninstall"
-  ${GetParent} "$EXEDIR" $0
+  ; $EXEDIR is the temporary self-copy location during normal uninstallation.
+  ; NSIS retains the original uninstaller directory in $INSTDIR.
+  ${GetParent} "$INSTDIR" $0
   ${DisableX64FSRedirection}
-  nsExec::ExecToStack '"$SYSDIR\WindowsPowerShell\v1.0\powershell.exe" -NoProfile -ExecutionPolicy Bypass -File "$EXEDIR\uninstall-user.ps1" -Directory "$0"'
+  nsExec::ExecToStack '"$SYSDIR\WindowsPowerShell\v1.0\powershell.exe" -NoProfile -ExecutionPolicy Bypass -File "$INSTDIR\uninstall-user.ps1" -Directory "$0"'
   Pop $1
   Pop $2
   ${EnableX64FSRedirection}

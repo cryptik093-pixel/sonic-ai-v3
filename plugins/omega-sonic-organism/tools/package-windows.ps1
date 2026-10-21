@@ -77,6 +77,7 @@ $guideBytes=[IO.File]::ReadAllBytes($guide)
 $refused=Start-Process -FilePath "$installed/Uninstall.exe" -ArgumentList '/S' -WindowStyle Hidden -Wait -PassThru
 $childResult=Join-Path $fixture 'fixture-uninstall-result.log'
 if(-not(Test-Path -LiteralPath $childResult) -or (Get-Content -LiteralPath $childResult -First 1) -eq '0' -or -not(Test-Path -LiteralPath $guide)){throw 'Uninstaller did not preserve a modified installation'}
+if((Get-Content -LiteralPath $childResult -Raw) -notmatch 'Modified installation preserved'){throw 'Uninstall refusal did not reach the content-preservation guard'}
 Copy-Item -LiteralPath $childResult -Destination "$Evidence/installer-modified-refusal.log"
 [IO.File]::WriteAllBytes($guide,$guideBytes)
 $removed=Start-Process -FilePath "$installed/Uninstall.exe" -ArgumentList '/S' -WindowStyle Hidden -Wait -PassThru

@@ -250,6 +250,28 @@ class IntelligenceStore:
             )
         return payload | {"created_at": created, "recorded": True}
 
+    def get_evidence_records(self, evidence_ids: list[str], *, intent_id: str | None = None) -> list[dict[str, Any]]:
+        ids = sorted(set(evidence_ids))
+        if not ids:
+            return []
+        placeholders = ",".join("?" for _ in ids)
+        with self._connect() as c:
+            rows = c.execute(
+                f"""SELECT evidence_id,intent_id,payload_json,created_at
+                    FROM intelligence_evidence
+                    WHERE owner_id=? AND workspace_id=? AND evidence_id IN ({placeholders})""",
+                [*self.scope, *ids],
+            ).fetchall()
+        records: dict[str, dict[str, Any]] = {}
+        for row in rows:
+            if intent_id is not None and row["intent_id"] not in {None, intent_id}:
+                continue
+            records[row["evidence_id"]] = json.loads(row["payload_json"]) | {"created_at": row["created_at"]}
+        missing = [evidence_id for evidence_id in ids if evidence_id not in records]
+        if missing:
+            raise ValueError("Evidence not found for this intent/workspace: " + ", ".join(missing))
+        return [records[evidence_id] for evidence_id in ids]
+
     def append_checkpoint(self, record: dict[str, Any]) -> dict[str, Any]:
         self.get_intent(record["intent_id"])
         payload = {

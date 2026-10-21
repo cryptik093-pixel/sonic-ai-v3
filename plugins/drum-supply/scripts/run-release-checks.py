@@ -66,6 +66,8 @@ def main():
             result['performance_line']=line;result['performance']='PASS' if line and 'budget=PASS' in line else 'FAIL'
     if result.get('processor')=='PASS':
         detail,_=run('render_manifest',[sys.executable,str(ROOT/'scripts/manifest-renders.py')]);result['offline_renders']=detail['status'];result['render_manifest_run']=detail
+    if result.get('processor')=='PASS':
+        detail,_=run('export_manifest',[sys.executable,str(ROOT/'scripts/manifest-exports.py')]);result['wav_exports']=detail['status'];result['export_manifest_run']=detail
     (ROOT/'evidence/release-verification.json').write_text(json.dumps(result,indent=2))
     print(json.dumps({k:result.get(k) for k in ['build','synthesis_dsp','legacy_dsp','sample_dsp','processor','performance','validators','original_assets','text_integrity','binary','performance_line']},indent=2))
     return 0 if all(result.get(k)=='PASS' for k in ['build','synthesis_dsp','legacy_dsp','sample_dsp','processor']) else 1

@@ -2,6 +2,8 @@
 #include <juce_audio_processors/juce_audio_processors.h>
 #include "SampleLibrary.h"
 #include "DrumEngine.h"
+#include "FactoryManifest.h"
+#include "RenderService.h"
 #include <atomic>
 #include <thread>
 #include <mutex>
@@ -43,7 +45,10 @@ public:
     bool saveKit(const juce::File&,bool portable,bool rightsConfirmed=false);
     bool loadKit(const juce::File&);
     bool switchAB();
-    bool resetKit();
+    bool resetKit(const juce::String& name="Factory Synthesis");
+    bool loadFactoryKit(int profile);
+    bool exportShot(int slot,const juce::File&,double rate=48000,bool overwrite=false);
+    bool exportKitAudio(const juce::File&,double rate=48000);
     void renameKit(const juce::String&);
     View view() const;
     bool waitIdle(int milliseconds=10000);
@@ -51,7 +56,7 @@ public:
     juce::AudioProcessorValueTreeState parameters;
     std::array<std::atomic<uint32_t>,8> activity{};
     std::atomic<int> preview{-1}; // One bounded UI -> audio trigger mailbox.
-    std::atomic<bool> panic{false};
+    std::atomic<bool> panic{false},rawComparison{false};
     std::atomic<float> peak{0};
     std::atomic<bool> clipped{false};
     std::atomic<uint32_t> meterFrame{0};
@@ -60,6 +65,8 @@ private:
     std::vector<float> capture() const;
     void apply(const std::vector<float>&);
     void syncControls() noexcept;
+    static std::vector<float> factoryValues(int);
+    static RenderService::Settings renderSettings(const std::vector<float>&,double);
     void publish(std::shared_ptr<Snapshot>);
     void collect();
     bool submit(std::function<void()>,bool stateRequest=false);
@@ -73,7 +80,8 @@ private:
     mutable std::mutex control;
     std::condition_variable wake,idle;
     std::deque<std::function<void()>> jobs;
-    bool stopping=false,running=false;
+    bool stopping=false,running=false,lastRaw=false;
+    std::atomic<bool> cancelRender{false};
     std::thread worker;
     std::array<Bank,2> banks;
     int active=0;

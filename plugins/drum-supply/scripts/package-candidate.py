@@ -76,42 +76,56 @@ def archive(folder: Path, target: Path):
 def main():
     report = ROOT / 'evidence/release-verification.json'
     results = json.loads(report.read_text())
-    for gate in ('build', 'synthesis_dsp', 'legacy_dsp', 'sample_dsp', 'processor', 'validators', 'original_assets', 'text_integrity', 'windows_x64_pe', 'vst3_class_ids', 'offline_renders'):
+    for gate in ('build', 'synthesis_dsp', 'legacy_dsp', 'sample_dsp', 'processor', 'validators', 'original_assets', 'text_integrity', 'windows_x64_pe', 'vst3_class_ids', 'offline_renders','wav_exports'):
         if results[gate] != 'PASS':
             raise RuntimeError(f'Refusing to package without a passing {gate} gate')
     destination = ROOT / 'dist' / NAME
     destination.mkdir(parents=True, exist_ok=False)
-    binary = ROOT / 'build/OmegaDrumSupply_artefacts/Release/VST3/Drum Shot Supply Co..vst3'
-    executable = binary / 'Contents/x86_64-win/Drum Shot Supply Co..vst3'
+    validation=json.loads((Path(results['validation_directories'][-1])/'validation.json').read_text())
+    binary=Path(validation.get('bundle',validation.get('bundlePath','')))
+    if not binary.is_dir(): raise ValueError('Validated bundle directory missing')
+    executable = binary / 'Contents/x86_64-win/DrumShotSupplyCo.vst3'
+    if {p.relative_to(binary).as_posix():digest(p) for p in binary.rglob('*') if p.is_file()} != validation['bundleFilesAfter']:
+        raise ValueError('Validated bundle contents changed')
     if digest(executable) != results['binary']['sha256']:
         raise ValueError('Binary changed after verification')
     for relative, expected in results['source_hashes'].items():
         if digest(ROOT / relative) != expected:
             raise ValueError(f'Source changed after verification: {relative}')
-    release = destination / 'evaluation'
+    release = destination / 'DrumShotSupplyCo'
     release.mkdir()
-    tree(binary, release / binary.name)
-    tree(ROOT / 'Assets', release / 'Factory Samples')
+    tree(binary, release / 'Plugin' / binary.name)
+    tree(ROOT / 'Assets', release / 'Samples')
     for document in (ROOT / 'docs').rglob('*'):
         if document.is_file() and document.name not in {'BASELINE_AND_REVISION.md','PRODUCT_AND_DESIGN_BRIEF.md','FEATURE_ACCEPTANCE.csv'}:
             copy_file(document, release / 'Documentation' / document.relative_to(ROOT / 'docs'))
     presets=list((ROOT / 'evidence/release-fixtures').glob('*.dhpreset'))
-    if len(presets)!=2: raise ValueError('Expected the two verified factory synthesis kits')
+    if len(presets)<6: raise ValueError('Expected verified factory synthesis kits')
     for preset in presets:
-        copy_file(preset, release / 'Factory Kits' / preset.name)
-    tree(ROOT / 'recovery', release / 'Verification/Recovery')
+        copy_file(preset, release / 'FactoryPresets' / preset.name)
+    tree(ROOT / 'evidence/release-fixtures/FactoryAudio', release / 'FactoryKits')
+    tree(ROOT / 'recovery', release / 'Validation/Recovery')
     for name in ('README.md', 'THIRD_PARTY_LICENSES.md'):
         copy_file(ROOT / name, release / name)
     tree(ROOT / 'notices', release / 'Third Party Notices')
-    copy_file(report, release / 'Verification/release-verification.json')
-    copy_file(ROOT / 'evidence/RELEASE_VERIFICATION.md', release / 'Verification/REPORT.md')
+    copy_file(report, release / 'Validation/release-verification.json')
+    copy_file(ROOT / 'evidence/RELEASE_VERIFICATION.md', release / 'Validation/REPORT.md')
     fixtures = ROOT / 'evidence/release-fixtures'
-    tree(fixtures, release / 'Evaluation Fixtures')
+    for file in fixtures.iterdir():
+        if file.is_file() and file.suffix in {'.wav','.png','.json'}: copy_file(file, release/'Validation/Fixtures'/file.name)
+    for name in ('synthesis-build-final.log','asan-run.log','release-processor.stdout.log','release-synthesis_dsp.stdout.log','release-legacy_dsp.stdout.log','release-sample_dsp.stdout.log'):
+        copy_file(ROOT/'evidence'/name,release/'Validation'/name)
+    for original,alias in [('MANUAL.md','UserManual.md'),('INSTALLATION.md','Installation.md'),('CHANGELOG.md','ReleaseNotes.md')]:
+        copy_file(ROOT/'docs'/original,release/'Documentation'/alias)
+    for name in ('BuildReport.md','DSPTests.md','VST3Validation.md','FLStudioAcceptance.md'):
+        copy_file(ROOT/'evidence'/name,release/'Validation'/name)
     for validation in results.get('validation_directories', []):
         source = Path(validation).resolve()
         if not source.is_relative_to((ROOT / 'evidence').resolve()):
             raise ValueError('Validator evidence must stay within this plugin')
-        tree(source, release / 'Verification' / source.name)
+        tree(source, release / 'Validation' / source.name)
+    manifest(release)
+    copy_file(release/'SHA256SUMS.txt',release/'Checksums.sha256')
     manifest(release)
     release_zip = destination / 'Drum_Shot_Supply_Co_Windows_x64.zip'
     archives = [archive(release, release_zip)]

@@ -19,7 +19,8 @@ private:
     Style style;
     juce::TooltipWindow tooltips{this,500};
     std::array<juce::TextButton,8> pads;
-    juce::TextButton load{"LOAD / RELINK SAMPLE"},hit{"AUDITION"},save{"SAVE KIT"},open{"LOAD KIT"},ab{"A / B"},resetButton{"STARTER"},exportButton{"EXPORT PORTABLE"},panicButton{"PANIC"};
+    juce::TextButton load{"LOAD / RELINK SAMPLE"},hit{"AUDITION"},save{"SAVE KIT"},open{"LOAD KIT"},ab{"A / B"},resetButton{"FACTORY RESET"},exportButton{"EXPORT PORTABLE"},panicButton{"PANIC"},newButton{"NEW KIT"},rawButton{"RAW / EDITED"},shotButton{"SHOT WAV"},kitWavButton{"KIT WAV"};
+    juce::ComboBox factoryChoice,rateChoice;
     juce::Label kit,source,status,meter,outputName,spaceName;
     std::array<juce::Slider,16> detail;
     std::array<juce::Label,16> detailNames;

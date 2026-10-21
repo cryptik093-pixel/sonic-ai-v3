@@ -33,7 +33,7 @@ const std::vector<DrumProcessor::Spec>& DrumProcessor::specs(){
 }
 juce::AudioProcessorValueTreeState::ParameterLayout DrumProcessor::layout(){
     juce::AudioProcessorValueTreeState::ParameterLayout r;
-    r.add(std::make_unique<juce::AudioParameterChoice>(juce::ParameterID{"department",1},"Department",juce::StringArray{"Kick","Snare","Closed Hat","FX / Custom","Tom","Percussion","Clap","Open Hat"},0));
+    r.add(std::make_unique<juce::AudioParameterChoice>(juce::ParameterID{"department",1},"Department",juce::StringArray{"Kick","Snare","Closed Hat","Cymbal","Tom","Percussion","Clap","Open Hat"},0));
     const auto& definitions=specs();for(size_t i=1;i<definitions.size();++i){const auto& s=definitions[i];juce::NormalisableRange<float> range(s.min,s.max,s.discrete?1.0f:0.0f);
         if(s.id.endsWith("filter"))range.setSkewForCentre(2500);
         r.add(std::make_unique<juce::AudioParameterFloat>(juce::ParameterID{s.id,1},s.name,range,s.value));}return r;
@@ -44,7 +44,7 @@ DrumProcessor::DrumProcessor(const juce::File& storageOverride):AudioProcessor(B
     for(int slot=0;slot<8;++slot)for(size_t i=0;i<fields.size();++i)slotRaw[static_cast<size_t>(slot)][i]=parameters.getRawParameterValue(slotId(slot,fields[i]));
     savedValues=capture();worker=std::thread([this]{work();});resetKit();waitIdle();setLatencySamples(0);
 }
-DrumProcessor::~DrumProcessor(){ {std::lock_guard lock(control);stopping=true;jobs.clear();}wake.notify_one();if(worker.joinable())worker.join();}
+DrumProcessor::~DrumProcessor(){cancelRender.store(true); {std::lock_guard lock(control);stopping=true;jobs.clear();}wake.notify_one();if(worker.joinable())worker.join();}
 bool DrumProcessor::submit(std::function<void()> job,bool stateRequest){
     {std::lock_guard lock(control);if(stopping||(!stateRequest&&running)||!jobs.empty()){status="Busy: wait for the current operation";return false;}jobs.push_back(std::move(job));status="Working...";}
     wake.notify_one();return true;
@@ -60,13 +60,13 @@ void DrumProcessor::apply(const std::vector<float>& values){for(size_t i=0;i<raw
 void DrumProcessor::collect(){std::lock_guard lock(control);const auto* protectedPointer=hazard.load();const auto* currentPointer=published.load();
     retained.erase(std::remove_if(retained.begin(),retained.end(),[&](const auto& p){return p.get()!=protectedPointer&&p.get()!=currentPointer;}),retained.end());}
 void DrumProcessor::publish(std::shared_ptr<Snapshot> snapshot){retained.push_back(snapshot);published.store(snapshot.get());}
-bool DrumProcessor::resetKit(){return submit([this]{auto snapshot=std::make_shared<Snapshot>();for(int s=0;s<8;++s)snapshot->assets[static_cast<size_t>(s)]=library.factory(s==7?2:s);
+bool DrumProcessor::resetKit(const juce::String& name){return submit([this,name]{rawComparison.store(false);auto snapshot=std::make_shared<Snapshot>();for(int s=0;s<8;++s)snapshot->assets[static_cast<size_t>(s)]=library.factory(s==7?2:s);
     std::vector<float> values;for(const auto& s:specs())values.push_back(s.value);apply(values);
-    std::lock_guard lock(control);banks={Bank{snapshot,values,"Factory Synthesis"},Bank{snapshot,values,"Factory Synthesis"}};active=0;savedValues=values;edited=false;status="Starter kit loaded | Synthesis kit | optional samples muted";publish(snapshot);});}
+    std::lock_guard lock(control);banks={Bank{snapshot,values,name},Bank{snapshot,values,name}};active=0;savedValues=values;edited=false;status="Starter kit loaded | Synthesis kit | optional samples muted";publish(snapshot);});}
 bool DrumProcessor::loadSample(int slot,const juce::File& file){if(slot<0||slot>7)return false;return submit([this,slot,file]{const auto started=std::chrono::steady_clock::now();{std::lock_guard lock(control);status="Loading "+juce::String(ohdrum::slotNames[static_cast<size_t>(slot)])+"...";}auto asset=library.load(file);
     std::lock_guard lock(control);auto snapshot=std::make_shared<Snapshot>(*banks[static_cast<size_t>(active)].snapshot);snapshot->assets[static_cast<size_t>(slot)]=std::move(asset);
     banks[static_cast<size_t>(active)].snapshot=snapshot;edited=true;++editRevision;status="Loaded "+file.getFileName()+" / "+juce::String(std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-started).count(),1)+" ms";publish(snapshot);});}
-bool DrumProcessor::switchAB(){return submit([this]{Bank next;{std::lock_guard lock(control);banks[static_cast<size_t>(active)].values=capture();active=1-active;next=banks[static_cast<size_t>(active)];}
+bool DrumProcessor::switchAB(){return submit([this]{rawComparison.store(false);Bank next;{std::lock_guard lock(control);banks[static_cast<size_t>(active)].values=capture();active=1-active;next=banks[static_cast<size_t>(active)];}
     apply(next.values);std::lock_guard lock(control);edited=true;++editRevision;status=active==0?"Comparison A":"Comparison B";publish(next.snapshot);});}
 void DrumProcessor::renameKit(const juce::String& text){std::lock_guard lock(control);const auto name=text.trim().substring(0,80);if(name.isEmpty()){status="Kit name cannot be empty";return;}banks[static_cast<size_t>(active)].name=name;edited=true;++editRevision;}
 DrumProcessor::View DrumProcessor::view() const {std::lock_guard lock(control);const auto& bank=banks[static_cast<size_t>(active)];return {bank.snapshot,bank.name,status,running||!jobs.empty(),edited||capture()!=savedValues,active,library.memoryUsed()};}
@@ -74,9 +74,11 @@ bool DrumProcessor::isBusesLayoutSupported(const BusesLayout& b) const {return b
 void DrumProcessor::syncControls() noexcept {
     std::array<ohdrum::SlotControls,8> controls{};
     for(size_t s=0;s<8;++s){const auto& p=slotRaw[s];controls[s]={p[0]->load(),p[1]->load(),p[2]->load(),p[3]->load(),p[4]->load(),p[5]->load(),p[6]->load(),p[7]->load(),p[8]->load(),p[9]->load(),p[10]->load(),p[11]->load(),p[12]->load(),p[13]->load(),p[14]->load(),p[15]->load(),p[16]->load(),p[17]->load(),p[18]->load(),p[19]->load(),p[20]->load(),p[21]->load()};}
-    engine.setSlotControls(controls,raw[81]->load());engine.setMacros({raw[1]->load(),raw[2]->load(),raw[3]->load()});
+    const bool rawMode=rawComparison.load();if(rawMode)controls=ohdrum::factoryControls(0);
+    engine.setSlotControls(controls,raw[81]->load());engine.setMacros(rawMode?ohdrum::Macros{.5f,.5f,.25f}:ohdrum::Macros{raw[1]->load(),raw[2]->load(),raw[3]->load()});
+    if(rawMode!=lastRaw){engine.snapControls();lastRaw=rawMode;}
 }
-void DrumProcessor::prepareToPlay(double rate,int){syncControls();engine.prepare(rate,{raw[1]->load(),raw[2]->load(),raw[3]->load()});reset();}
+void DrumProcessor::prepareToPlay(double rate,int){lastRaw=rawComparison.load();syncControls();engine.prepare(rate,lastRaw?ohdrum::Macros{.5f,.5f,.25f}:ohdrum::Macros{raw[1]->load(),raw[2]->load(),raw[3]->load()});reset();}
 void DrumProcessor::reset(){engine.reset();preview.store(-1);panic.store(false);peak.store(0);clipped.store(false);meterFrame.fetch_add(1);}
 void DrumProcessor::processBlock(juce::AudioBuffer<float>& audio,juce::MidiBuffer& midi){
     juce::ScopedNoDenormals noDenormals;audio.clear();
@@ -130,8 +132,9 @@ bool DrumProcessor::restoreState(const void* data,int size){
     if(!data||size<=0||size>65536)return false;
     juce::var state;try{state=document(data,static_cast<size_t>(size));}catch(const std::exception& e){std::lock_guard lock(control);status=juce::String("Failed: ")+e.what();return false;}
     auto success=std::make_shared<std::atomic<bool>>(false);
+    cancelRender.store(true);
     if(!submit([this,state,success]{std::array<Bank,2> next;int selected=0;juce::String message;decodeState(state,next,selected,message);apply(next[static_cast<size_t>(selected)].values);
-        std::lock_guard lock(control);banks=std::move(next);active=selected;savedValues=capture();edited=false;status=message;publish(banks[static_cast<size_t>(active)].snapshot);success->store(true);},true))return false;
+        rawComparison.store(false);std::lock_guard lock(control);banks=std::move(next);active=selected;savedValues=capture();edited=false;status=message;publish(banks[static_cast<size_t>(active)].snapshot);success->store(true);},true))return false;
     // JUCE host state callbacks are non-realtime control operations. All file/decode work stays on our worker.
     return waitIdle(30000)&&success->load();
 }
@@ -140,7 +143,7 @@ bool DrumProcessor::saveKit(const juce::File& file,bool portable,bool rightsConf
     if(portable&&!rightsConfirmed){std::lock_guard lock(control);status="Confirm permission to redistribute every referenced sample before portable export";return false;}
     return submit([this,file,portable]{uint64_t revision=0;{std::lock_guard lock(control);revision=editRevision;}auto state=stateObject();const auto text=juce::JSON::toString(state,true);juce::MemoryOutputStream output;
         if(!portable)output.write(text.toRawUTF8(),static_cast<size_t>(text.getNumBytesAsUTF8()));
-        else {output.write("DHKIT2\r\n",8);output.writeInt(text.getNumBytesAsUTF8());output.write(text.toRawUTF8(),static_cast<size_t>(text.getNumBytesAsUTF8()));std::map<juce::String,SampleLibrary::Asset> assets;
+        else {output.write("DHKIT2\r\n",8);output.writeInt(static_cast<int>(text.getNumBytesAsUTF8()));output.write(text.toRawUTF8(),static_cast<size_t>(text.getNumBytesAsUTF8()));std::map<juce::String,SampleLibrary::Asset> assets;
             {std::lock_guard lock(control);for(const auto& bank:banks)for(const auto& a:bank.snapshot->assets)if(a.reference.length()==64)assets[a.reference]=a;}
             output.writeInt(static_cast<int>(assets.size()));for(const auto& [ref,asset]:assets){auto data=library.bytes(asset);require(output.getDataSize()+data.getSize()<256ull*1024*1024,"Portable kit exceeds 256 MiB.");output.write(ref.toRawUTF8(),64);output.writeInt64(static_cast<int64_t>(data.getSize()));output.write(data.getData(),data.getSize());}}
         juce::TemporaryFile temporary(file);require(temporary.getFile().replaceWithData(output.getData(),output.getDataSize())&&temporary.overwriteTargetFileWithTemporary(),"Could not save kit.");
@@ -161,6 +164,43 @@ bool DrumProcessor::loadKit(const juce::File& file){return submit([this,file]{
         for(const auto& [ref,blob]:blobs){juce::TemporaryFile temp(".wav");require(temp.getFile().replaceWithData(blob.getData(),blob.getSize()),"Cannot stage imported sample.");auto asset=library.load(temp.getFile());require(asset.reference==ref,"Imported sample changed.");}
     }else {require(block.getSize()<=65536,"Invalid kit format; ZIP imports are not supported.");state=document(block.getData(),block.getSize());}
     std::array<Bank,2> next;int selected=0;juce::String message;decodeState(state,next,selected,message);apply(next[static_cast<size_t>(selected)].values);
-    std::lock_guard lock(control);banks=std::move(next);active=selected;savedValues=capture();edited=false;status=message;publish(banks[static_cast<size_t>(active)].snapshot);});}
+    rawComparison.store(false);std::lock_guard lock(control);banks=std::move(next);active=selected;savedValues=capture();edited=false;status=message;publish(banks[static_cast<size_t>(active)].snapshot);});}
+
+namespace {
+constexpr std::array<const char*,22> designFields{"tune","gain","pan","start","end","attack","release","filter","reverse","mute","solo","punch","tone","texture","decay","pitchdepth","pitchtime","blend","samplelevel","note","choke","veltone"};
+std::array<float,22> designNumbers(const ohdrum::SlotControls& c){return {c.tune,c.gain,c.pan,c.start,c.end,c.attack,c.release,c.filter,c.reverse,c.mute,c.solo,c.punch,c.tone,c.texture,c.decay,c.pitchDepth,c.pitchTime,c.blend,c.sampleLevel,c.note,c.choke,c.velocityTone};}
+size_t parameterIndex(const juce::String& id){const auto& specs=DrumProcessor::specs();const auto found=std::find_if(specs.begin(),specs.end(),[&](const auto& spec){return spec.id==id;});require(found!=specs.end(),"Unknown synthesis parameter.");return static_cast<size_t>(found-specs.begin());}
+juce::var renderRecord(const RenderService::Result& rendered){auto item=object();put(item,"file",rendered.file.getFileName());put(item,"frames",static_cast<juce::int64>(rendered.frames));put(item,"sample_rate",rendered.rate);put(item,"channels",2);put(item,"bit_depth",24);put(item,"format","PCM");put(item,"peak",rendered.peak);put(item,"rms",rendered.rms);put(item,"tail_capped",rendered.truncated);put(item,"sha256",rendered.sha256);return item;}
+}
+std::vector<float> DrumProcessor::factoryValues(int profile){
+ require(profile>=0&&profile<static_cast<int>(ohdrum::factoryNames.size()),"Unknown factory profile.");std::vector<float> values;for(const auto& spec:specs())values.push_back(spec.value);const auto controls=ohdrum::factoryControls(profile);
+ for(int slot=0;slot<8;++slot){const auto numbers=designNumbers(controls[static_cast<size_t>(slot)]);for(size_t i=0;i<designFields.size();++i)values[parameterIndex(slotId(slot,designFields[i]))]=numbers[i];}
+ values[parameterIndex("space")]=ohdrum::factorySpace(profile);values[parameterIndex("output")]=profile==5?-8.0f:-6.0f;return values;
+}
+bool DrumProcessor::loadFactoryKit(int profile){if(profile<0||profile>=static_cast<int>(ohdrum::factoryNames.size()))return false;return submit([this,profile]{auto snapshot=std::make_shared<Snapshot>();for(int slot=0;slot<8;++slot)snapshot->assets[static_cast<size_t>(slot)]=library.factory(slot==7?2:slot);auto values=factoryValues(profile);rawComparison.store(false);apply(values);const juce::String name(ohdrum::factoryNames[static_cast<size_t>(profile)]);
+ std::lock_guard lock(control);banks={Bank{snapshot,values,name},Bank{snapshot,values,name}};active=0;savedValues=capture();edited=false;status="Factory kit loaded: "+name;publish(snapshot);});}
+RenderService::Settings DrumProcessor::renderSettings(const std::vector<float>& values,double rate){
+ require(values.size()==specs().size(),"Invalid export parameter snapshot.");for(size_t i=0;i<values.size();++i)require(std::isfinite(values[i])&&values[i]>=specs()[i].min-.00001f&&values[i]<=specs()[i].max+.00001f,"Invalid export parameter value.");RenderService::Settings settings;settings.rate=rate;
+ for(int slot=0;slot<8;++slot){std::array<float,22> f{};for(size_t i=0;i<f.size();++i)f[i]=values[parameterIndex(slotId(slot,designFields[i]))];settings.controls[static_cast<size_t>(slot)]={f[0],f[1],f[2],f[3],f[4],f[5],f[6],f[7],f[8],f[9],f[10],f[11],f[12],f[13],f[14],f[15],f[16],f[17],f[18],f[19],f[20],f[21]};}
+ settings.macros={values[1],values[2],values[3]};settings.output=values[parameterIndex("output")];return settings;
+}
+bool DrumProcessor::exportShot(int slot,const juce::File& file,double rate,bool overwrite){
+ if(slot<0||slot>7)return false;if(rawComparison.load()){std::lock_guard lock(control);status="Return to EDITED mode before exporting";return false;}const auto values=capture();const auto current=view();cancelRender.store(false);
+ return submit([this,slot,file,rate,overwrite,values,snapshot=current.snapshot]{require(snapshot!=nullptr,"No kit loaded.");std::array<const ohsample::Sample*,8> samples{};for(size_t i=0;i<8;++i)samples[i]=snapshot->assets[i].sample.get();const auto rendered=RenderService::oneShot(renderSettings(values,rate),samples,slot,file,cancelRender,overwrite);std::lock_guard lock(control);status="Exported PCM24 WAV: "+rendered.file.getFileName()+" / "+juce::String(static_cast<double>(rendered.frames)/rendered.rate,2)+" s";});
+}
+bool DrumProcessor::exportKitAudio(const juce::File& directory,double rate){
+ if(rawComparison.load()){std::lock_guard lock(control);status="Return to EDITED mode before exporting";return false;}const auto values=capture();const auto current=view();const auto kitState=stateObject();cancelRender.store(false);
+ return submit([this,directory,rate,values,current,kitState]{require(directory.isDirectory(),"Select an existing export directory.");require(current.snapshot!=nullptr,"No kit loaded.");const auto settings=renderSettings(values,rate);std::array<const ohsample::Sample*,8> samples{};for(size_t i=0;i<8;++i)samples[i]=current.snapshot->assets[i].sample.get();
+  const auto prefix="DrumShotSupplyCo_"+RenderService::safeName(current.name);juce::File destination,staging;int index=1;
+  for(;index<10000;++index){const auto suffix=juce::String(index).paddedLeft('0',2);destination=directory.getChildFile(prefix+"_"+suffix);staging=directory.getChildFile(prefix+"_"+suffix+".rendering");if(!destination.exists()&&!staging.exists())break;}
+  require(index<10000&&staging.createDirectory().wasOk(),"Cannot create export staging directory.");auto manifest=object();put(manifest,"schema",1);put(manifest,"product","Drum Shot Supply Co.");put(manifest,"version","0.3.0");put(manifest,"kit",current.name);put(manifest,"state","RENDERING");put(manifest,"kit_state",kitState);put(manifest,"velocity",127);put(manifest,"dither","Deterministic TPDF, 24-bit quantization");juce::Array<juce::var> files;
+  const auto statusFile=staging.getChildFile("ExportManifest.json");require(statusFile.replaceWithText(juce::JSON::toString(manifest,true)),"Cannot write export status.");
+  try{for(int slot=0;slot<8;++slot){{std::lock_guard lock(control);status="Rendering "+juce::String(ohdrum::slotNames[static_cast<size_t>(slot)])+" / "+juce::String(slot+1)+" of 8";}
+    const auto filename=prefix+"_"+RenderService::safeName(ohdrum::slotNames[static_cast<size_t>(slot)])+"_"+juce::String(index).paddedLeft('0',2)+".wav";files.add(renderRecord(RenderService::oneShot(settings,samples,slot,staging.getChildFile(filename),cancelRender)));}
+   put(manifest,"state","COMPLETE");put(manifest,"files",files);require(statusFile.replaceWithText(juce::JSON::toString(manifest,true)),"Cannot finalize export manifest.");require(!destination.exists()&&staging.moveFileTo(destination),"Cannot commit complete kit export.");
+  }catch(...){put(manifest,"state","FAILED");put(manifest,"files",files);statusFile.replaceWithText(juce::JSON::toString(manifest,true));throw;}
+  std::lock_guard lock(control);status="Exported eight PCM24 sounds: "+destination.getFileName();
+ });
+}
 juce::AudioProcessorEditor* DrumProcessor::createEditor(){return new DrumEditor(*this);}
 juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter(){return new DrumProcessor();}

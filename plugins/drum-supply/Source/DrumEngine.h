@@ -10,8 +10,8 @@
 namespace ohdrum {
 enum class Department { kick, snare, hat, cymbal, tom, percussion, clap };
 inline constexpr std::array<const char*,7> names{"Kick","Snare","Hi-Hat","Cymbal","Tom","Percussion","Clap"};
-inline constexpr std::array<const char*,8> slotNames{"Kick","Snare","Closed Hat","FX / Custom","Tom","Percussion","Clap","Open Hat"};
-inline constexpr std::array<int,8> defaultNotes{36,38,42,49,45,37,39,46};
+inline constexpr std::array<const char*,8> slotNames{"Kick","Snare","Closed Hat","Cymbal","Tom","Percussion","Clap","Open Hat"};
+inline constexpr std::array<int,8> defaultNotes{36,38,42,49,45,56,39,46};
 struct SlotControls {
     float tune=0,gain=-6,pan=0,start=0,end=1,attack=0,release=30,filter=20000,reverse=0,mute=0,solo=0;
     float punch=.5f,tone=.5f,texture=.5f,decay=1,pitchDepth=1,pitchTime=28.5f,blend=0,sampleLevel=0,note=36,choke=0,velocityTone=0;
@@ -52,6 +52,7 @@ class Engine {
     std::array<const ohsample::Sample*,8> samples{};
     float outputDb=-6,smoothedOutput=-6;
     bool clipFlag=false;
+    std::array<float,2> lastOutput{},transitionOutput{};int transitionFrames=0,transitionLength=1;
     float finalGain=.5f;
     std::array<Voice,16> voices{};
     // Never rendered: fixed onset coefficient templates, with no sample ownership.
@@ -141,7 +142,9 @@ class Engine {
         v.stepSine=cached.stepSine;v.stepCosine=cached.stepCosine;v.decay=cached.decay;v.frequency=cached.frequency;
         v.mapped=cached.mapped;v.mappedBody=cached.mappedBody;v.mappedCharacter=cached.mappedCharacter;v.mappedValid=true;
     }
+    void beginTransition() noexcept {const auto previous=std::max(std::abs(lastOutput[0]),std::abs(lastOutput[1]))>1.e-8f?lastOutput:(transitionFrames>0?transitionOutput:lastOutput);reset();transitionOutput=previous;transitionLength=std::max(1,static_cast<int>(rate*.002));transitionFrames=std::max(std::abs(previous[0]),std::abs(previous[1]))>1.e-8f?transitionLength:0;}
 public:
+    void snapControls() noexcept {smoothSlots=slots;current=target;smoothedOutput=outputDb;finalGain=std::pow(10.0f,smoothedOutput*.05f);beginTransition();}
     bool clipped() const noexcept {return clipFlag;}
     void setSlotControls(const std::array<SlotControls,8>& values,float db) noexcept {
         slotMode=true;
@@ -152,14 +155,14 @@ public:
             c.mute=(c.mute>.5f||(solo&&c.solo<.5f))?1.0f:0.0f;
         }outputDb=clean(db,-36,6,-6);
     }
-    void replace(const std::array<const ohsample::Sample*,8>& data) noexcept {reset();samples=data;}
+    void replace(const std::array<const ohsample::Sample*,8>& data) noexcept {beginTransition();samples=data;}
     void panic(bool immediate=false) noexcept {if(immediate)reset();else for(auto& v:voices)if(v.active)v.releasing=true;}
     void triggerSlot(int slot,float velocity,int note=60) noexcept {
         if(slot<0||slot>7||!std::isfinite(velocity)||velocity<=0)return;
         const auto& c=slots[static_cast<size_t>(slot)];
         if(c.choke>=1)for(auto& v:voices)if(v.active&&v.slot>=0&&slots[static_cast<size_t>(v.slot)].choke==c.choke)v.releasing=true;
         static constexpr std::array<int,8> types{0,1,2,3,4,5,6,2};
-        triggerInternal(types[static_cast<size_t>(slot)],velocity,note,slot);
+        (void)note;triggerInternal(types[static_cast<size_t>(slot)],velocity,defaultNotes[static_cast<size_t>(slot)],slot);
     }
     void prepare(double sampleRate, Macros macros={}) {
         rate=std::isfinite(sampleRate)?std::clamp(sampleRate,8000.0,192000.0):48000;
@@ -168,7 +171,7 @@ public:
         reset();
     }
     void reset() noexcept {
-        voices={}; frame=0;write=0;dampL=dampR=0;ambienceDepartment=0;
+        voices={};lastOutput={};transitionOutput={};transitionFrames=0; frame=0;write=0;dampL=dampR=0;ambienceDepartment=0;
         for(auto& channel:delay) std::fill(channel.begin(),channel.end(),0.0f);
     }
     void setMacros(Macros m) noexcept { target={unit(m.body),unit(m.character),unit(m.space)}; }
@@ -271,7 +274,7 @@ private:
         if(!slotMode)return {safe(dry*.65f+dampL*wet),safe(dry*.65f+dampR*wet)};
         const float gain=finalGain;
         std::array<float,2> result{(stereo[0]*.65f+dampL*wet)*gain,(stereo[1]*.65f+dampR*wet)*gain};
-        for(auto& x:result){clipFlag=clipFlag||std::abs(x)>.98f;x=safe(x);}return result;
+        if(transitionFrames>0){const float mix=static_cast<float>(transitionFrames)/static_cast<float>(transitionLength);for(size_t ch=0;ch<2;++ch)result[ch]=transitionOutput[ch]*mix+result[ch]*(1-mix);--transitionFrames;}for(auto& x:result){clipFlag=clipFlag||std::abs(x)>.98f;x=safe(x);}lastOutput=result;return result;
     }
     static float safe(float x) noexcept { return std::isfinite(x)?std::clamp(x,-.98f,.98f):0; }
 };

@@ -44,7 +44,7 @@ if(DRUM_BUILD_PLUGIN)
     VST3_CATEGORIES Instrument Synth IS_SYNTH TRUE NEEDS_MIDI_INPUT TRUE NEEDS_MIDI_OUTPUT FALSE
     IS_MIDI_EFFECT FALSE EDITOR_WANTS_KEYBOARD_FOCUS TRUE COPY_PLUGIN_AFTER_BUILD FALSE)
   juce_add_binary_data(DrumFactory SOURCES Assets/starter0.wav Assets/starter1.wav Assets/starter2.wav Assets/starter3.wav Assets/starter4.wav Assets/starter5.wav Assets/starter6.wav)
-  target_sources(OmegaDrumSupply PRIVATE Source/PluginProcessor.cpp Source/PluginEditor.cpp Source/SampleLibrary.cpp)
+  target_sources(OmegaDrumSupply PRIVATE Source/PluginProcessor.cpp Source/PluginEditor.cpp Source/SampleLibrary.cpp Source/RenderService.cpp)
   target_include_directories(OmegaDrumSupply PUBLIC Source)
   target_compile_definitions(OmegaDrumSupply PUBLIC JUCE_WEB_BROWSER=0 JUCE_USE_CURL=0 JUCE_VST3_CAN_REPLACE_VST2=0)
   target_link_libraries(OmegaDrumSupply PRIVATE DrumFactory juce::juce_audio_processors juce::juce_audio_formats juce::juce_cryptography

@@ -6,7 +6,7 @@ root=Path(__file__).resolve().parents[1]
 def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
 def main():
  directory=root/'evidence/release-fixtures';records=[]
- names=['Kick','Snare','Closed Hat','FX / Custom','Tom','Percussion','Clap','Open Hat']
+ names=['Kick','Snare','Closed Hat','Cymbal','Tom','Percussion','Clap','Open Hat']
  for slot,name in enumerate(names):
   for processed in (False,True):
    path=directory/f"{slot}-{'processed' if processed else 'dry'}.wav"

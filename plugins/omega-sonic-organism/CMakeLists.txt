@@ -89,3 +89,11 @@ if(OSO_BUILD_PLUGIN)
     target_compile_options(omega_editor_probe PRIVATE $<$<CXX_COMPILER_ID:MSVC>:/utf-8>)
   endif()
 endif()
+
+# V4 R&D sandbox: isolated portable primitives; never alter legacy RC2 audio or OSO1 state.
+if(BUILD_TESTING)
+  add_executable(omega_v4_experiment_tests tests/v4_experimental_tests.cpp)
+  target_compile_features(omega_v4_experiment_tests PRIVATE cxx_std_17)
+  target_include_directories(omega_v4_experiment_tests PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/core/include)
+  add_test(NAME OmegaV4ExperimentalPrimitives COMMAND omega_v4_experiment_tests)
+endif()

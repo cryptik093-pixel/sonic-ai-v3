@@ -1,0 +1,148 @@
+{
+  "record_id": "SI-GIZA-COUPLED-2026-10-21",
+  "record_date": "2026-10-21",
+  "owner": "Omega House Studio LLC",
+  "classification": "research_not_field_measurement",
+  "research_question": "Does measured inter-chamber coupling exceed conventional prediction for known geometry?",
+  "conclusion": {
+    "status": "unproven",
+    "reason": "No public calibrated simultaneous cross-chamber transfer matrix verified",
+    "not_supported": [
+      "exotic energy generation",
+      "deliberate tuned machine",
+      "void-to-gallery acoustic opening"
+    ]
+  },
+  "model": {
+    "sound_speed_m_s": 343,
+    "ambient_celsius": 20,
+    "source_geometry": "approximate secondary compiled survey",
+    "uncertainty_note": "Geometry/temperature tolerances likely exceed apparent ~0.06 Hz ideal near-degeneracy"
+  },
+  "observations": [
+    {
+      "kind": "published_structural_measurement",
+      "quantity": "mean structural frequency",
+      "value": 2.3,
+      "unit": "Hz",
+      "source": "https://doi.org/10.1038/s41598-026-49962-6",
+      "do_not_conflate_with": "airborne room mode"
+    },
+    {
+      "kind": "field_account_not_complete_dataset",
+      "quantity": "King chamber observed strong frequencies",
+      "values": [
+        30,
+        90
+      ],
+      "unit": "Hz",
+      "source": "https://www.prosoundweb.com/the-great-pyramid-early-reflections-ancient-echoes/2/"
+    },
+    {
+      "kind": "idealized_calculation",
+      "quantity": "King first long-axis mode",
+      "value": 16.38,
+      "unit": "Hz",
+      "assumption": "10.47m rigid rectangle"
+    },
+    {
+      "kind": "idealized_calculation",
+      "quantity": "King height mode",
+      "value": 29.32,
+      "unit": "Hz",
+      "assumption": "5.85m rigid rectangle"
+    },
+    {
+      "kind": "idealized_calculation",
+      "quantity": "King width mode",
+      "value": 32.73,
+      "unit": "Hz",
+      "assumption": "5.24m rigid rectangle"
+    },
+    {
+      "kind": "idealized_calculation",
+      "quantity": "King long second",
+      "value": 32.76,
+      "unit": "Hz",
+      "assumption": "10.47m rigid rectangle"
+    },
+    {
+      "kind": "idealized_calculation",
+      "quantity": "Queen width mode",
+      "value": 32.79,
+      "unit": "Hz",
+      "assumption": "5.23m, roof is gabled"
+    },
+    {
+      "kind": "idealized_calculation",
+      "quantity": "Grand Gallery one way",
+      "value": 136.1,
+      "unit": "ms",
+      "assumption": "46.68m/343, simplified"
+    },
+    {
+      "kind": "idealized_calculation",
+      "quantity": "Queen passage one way",
+      "value": 112.9,
+      "unit": "ms",
+      "assumption": "38.73m/343, simplified"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "H1",
+      "name": "near-degenerate axial modes",
+      "status": "idealized_calculation_not_transfer_evidence",
+      "band_hz": [
+        29,
+        34
+      ]
+    },
+    {
+      "id": "H2",
+      "name": "mode splitting from connected cavity network",
+      "status": "unverified_onsite"
+    },
+    {
+      "id": "H3",
+      "name": "double-slope cross-room energy decay",
+      "status": "unverified_onsite"
+    },
+    {
+      "id": "H4",
+      "name": "stone-borne coupling via relieving slabs",
+      "status": "unverified_onsite"
+    }
+  ],
+  "studies": [
+    "https://doi.org/10.14236/ewic/EVA2026.35",
+    "https://doi.org/10.14236/ewic/EVA2026.40",
+    "https://doi.org/10.1260/1351010053499252",
+    "https://doi.org/10.1016/j.jsv.2004.07.030",
+    "https://doi.org/10.1038/nature24647",
+    "https://doi.org/10.1038/s41467-023-36351-0",
+    "https://doi.org/10.1063/1.5026556"
+  ],
+  "engineering_policy": {
+    "oso_architecture": "V4",
+    "instrument_target": "V2",
+    "sector": "BODY",
+    "max_modal_resonators_per_voice": 4,
+    "mechanism": "optional two-mode weak coupling, not physical reconstruction",
+    "realtime_disabled_by_default": true,
+    "preserve_host_parameter_ids": [
+      100,
+      101,
+      102,
+      103,
+      104,
+      105
+    ],
+    "retains_parameter_ids_through": 114,
+    "legacy_binary_state": "OSO1 15 values immutable",
+    "requires_cpu_test": true,
+    "requires_host_acceptance": true
+  },
+  "next_experiment": "Calibrated source and mic swaps in both known rooms; compare H_KQ and H_QK, phase/coherence and EDC against isolated and connected geometry baselines",
+  "document": "docs/research/GIZA_COUPLED_CHAMBERS_2026-10-21.md"
+}

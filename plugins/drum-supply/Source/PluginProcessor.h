@@ -1,6 +1,7 @@
 #pragma once
 #include <juce_audio_processors/juce_audio_processors.h>
 #include "SampleLibrary.h"
+#include "DrumEngine.h"
 #include <atomic>
 #include <thread>
 #include <mutex>
@@ -11,14 +12,14 @@
 class DrumProcessor final : public juce::AudioProcessor {
 public:
     struct Spec {juce::String id,name;float min,max,value;bool discrete=false;};
-    struct Snapshot {std::array<SampleLibrary::Asset,7> assets;};
+    struct Snapshot {std::array<SampleLibrary::Asset,8> assets;};
     struct Bank {std::shared_ptr<Snapshot> snapshot;std::vector<float> values;juce::String name="Starter Kit";};
     struct View {std::shared_ptr<const Snapshot> snapshot;juce::String name,status;bool busy=false,dirty=false;int ab=0;uint64_t memory=0;};
     static const std::vector<Spec>& specs();
     static juce::String slotId(int,const char*);
     explicit DrumProcessor(const juce::File& storageOverride={});
     ~DrumProcessor() override;
-    const juce::String getName() const override { return "Omega Drum Supply"; }
+    const juce::String getName() const override { return "Drum Shot Supply Co."; }
     void prepareToPlay(double,int) override;
     void reset() override;
     void releaseResources() override {}
@@ -48,6 +49,7 @@ public:
     bool waitIdle(int milliseconds=10000);
     juce::File sampleStorage() const {return library.storage();}
     juce::AudioProcessorValueTreeState parameters;
+    std::array<std::atomic<uint32_t>,8> activity{};
     std::atomic<int> preview{-1}; // One bounded UI -> audio trigger mailbox.
     std::atomic<bool> panic{false};
     std::atomic<float> peak{0};
@@ -64,8 +66,9 @@ private:
     void work();
     juce::var stateObject() const;
     bool decodeState(const juce::var&,std::array<Bank,2>&,int&,juce::String&);
-    std::array<std::atomic<float>*,82> raw{};
-    ohsample::Engine engine;
+    std::vector<std::atomic<float>*> raw;
+    std::array<std::array<std::atomic<float>*,22>,8> slotRaw{};
+    ohdrum::Engine engine;
     SampleLibrary library;
     mutable std::mutex control;
     std::condition_variable wake,idle;

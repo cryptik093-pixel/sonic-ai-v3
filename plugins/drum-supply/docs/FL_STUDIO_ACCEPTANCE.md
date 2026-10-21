@@ -1,23 +1,13 @@
-# FL Studio acceptance — PENDING
+# FL Studio acceptance — NOT TESTED
+Installed host detected: FL Studio 2025, 25.1.6.4997, Windows x64. Native host control was unavailable in this Codex session. Detection, JUCE component snapshots and VST3 validators are not proof of FL Studio compatibility.
 
-Installed executable metadata observed: FL Studio 2025, file/product version 25.1.6.4997. This proves the executable is present, not that this plugin scanned or worked in it. No native desktop-control surface is available to this chat; browser automation cannot exercise FL Studio's plugin wrapper. Do not infer acceptance from the native editor snapshots or pluginval.
+Required named acceptance evidence, on the exact module SHA-256 in Verification/report:
+- Close host, install complete bundle, perform verified plugin scan; save scan result and reported name/vendor/version.
+- Load instrument, open/close/reopen editor at least 20 times; record no crashes and usable 100/125/150/200 percent Windows scaling.
+- Play all eight numeric MIDI notes (36,38,42,49,45,37,39,46) at velocities 1/64/127; test piano roll and pad audition, hat choking and dense overlaps.
+- Automate per-drum Punch/Tone/Character and output; record audible changes and responsive editor feedback.
+- Remap notes, name/edit both A/B kits, import an optional sample. Save .flp, close FL, reopen project; verify all mappings/parameters/sample assignments and comparable playback.
+- Render a short song offline, compare to live playback and retain rendered WAV plus .flp and audio device/sample-rate/buffer settings.
+- Confirm silence after PANIC/CC120 and tails after CC123; document audio dropouts and CPU at 44.1/48/96 kHz and buffers 64/128/512.
 
-Use a new disposable project, retain exact plugin binary hash/version, record Windows build, FL edition/version actually displayed, driver, sample rate and block size. Keep monitoring levels low while testing gain extremes.
-
-| Check | Expected evidence | Result |
-|---|---|---|
-| Scan/load | Complete staged bundle discovered; loaded version/hash matches | PENDING |
-| Starter MIDI | Seven GM departments and selected-slot MIDI 60 produce intended output | PENDING |
-| Import/drop/relink | WAV and AIFF, every slot, missing-file status, failed replacement preserves sound | PENDING |
-| Automation | Detailed control and macro automation visibly and audibly change output | PENDING |
-| MIDI lifecycle | Hat choke, note-off behavior, panic, CC120/123, retriggers | PENDING |
-| A/B and kits | Two distinct sample kits survive switching, save, close and reopen | PENDING |
-| Session recall | DAW project recalls all shaping, assignment, selected bank and routing | PENDING |
-| Multiple instances | Different kits and automation do not cross-contaminate | PENDING |
-| Offline render | Finite output, measured peak/RMS and repeatable intended timing | PENDING |
-| UI | Repeated editor open/close, keyboard, value entry, resizing; Windows 100/125/150/200% scaling | PENDING |
-| Offline operation | Play and reopen with network disabled; no runtime service required | PENDING |
-| Stress | Named audio device at 44.1/48/96/192 kHz where supported, buffers 64–1024; recorded dropout observations | PENDING |
-| Listening | Creator approval of factory categories, transients, tails, pan/mono, macro extremes and headroom | PENDING |
-
-Retain project fixtures, screenshots and before/after rendered audio. Do not edit existing production projects or installed releases to perform these checks. A failed or unavailable check stays failed/pending until new evidence resolves it.
+Gate remains NOT TESTED until actual host evidence exists. Human listening and clean-machine install are also pending. Official host installation guidance: https://www.image-line.com/fl-studio-learning/fl-studio-online-manual/html/basics_externalplugins.htm

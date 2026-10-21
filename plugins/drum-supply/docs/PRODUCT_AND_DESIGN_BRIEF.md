@@ -1,4 +1,6 @@
-# Drum Supply Headquarters — sample instrument completion brief
+> HISTORICAL HANDOFF REFERENCE: superseded by the 0.3.0 synthesis specification. See MANUAL.md and RECOVERY_AND_COMPATIBILITY.md.
+
+# Drum Supply Headquarters â€” sample instrument completion brief
 
 ## Product promise
 

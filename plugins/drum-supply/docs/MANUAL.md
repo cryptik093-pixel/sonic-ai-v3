@@ -1,53 +1,34 @@
-# Drum Supply Headquarters
+# Control and synthesis reference
+Version 0.3.0 / Drum Shot Supply Co. / Omega House Studio LLC.
 
-Windows x64 VST3 sample drum instrument, version 0.2.0 engineering candidate.
+## Synthesis and slot identities
+The existing single fixed 16-voice modal oscillator/noise engine is extended; there are no eight duplicate engines. Indices remain Kick 0, Snare 1, Closed Hat 2, FX 3, Tom 4, Percussion 5, Clap 6; Open Hat is appended at 7. Eight modes per voice are updated with bounded oscillator recurrences, periodic normalization and decaying excitation. Factory kits set sample blend to zero.
 
-The seven pads select and audition Kick, Snare, Hi-Hat, Cymbal, Tom, Percussion and Clap. The starter sounds are embedded. Their musical approval and provisional categories still require the creator's listening review. Replace any slot with an appropriate personal WAV or AIFF; its original filename and duration appear above the waveform. Loading preserves the current sound until the new sample has decoded successfully.
+| Voice | PUNCH (0-1) | TONE (0-1) | CHARACTER (0-1) |
+|---|---|---|---|
+| Kick | Shorter attack, more sweep depth/impact | 38-80 Hz base before tuning; body tail | Pitch sweep 1-6x before depth/impact multipliers; upper body, click/noise, gentle drive |
+| Snare | Sharper onset and stronger pitch/body impact | 130-280 Hz body and 45-285 ms modal tail before decay scale | Tonal/noise balance, wire spectrum, transient, sweep |
+| Closed Hat | Sharper metallic onset | 650-1550 Hz metallic base; 18-198 ms tail before scale | Metallic/noise balance and spectral damping |
+| Open Hat | Sharper metallic onset | Same material family, three times longer modal/noise tails | Metallic/noise balance and spectral damping |
+| Tom | Attack and pitch impact | 65-175 Hz times note-dependent tuning; body duration | Membrane partial damping, noise transient, pitch depth |
+| Percussion | Sharper impulse and impact | 180-830 Hz base, body duration | Wood/membrane/metal partial-ratio morph, noise and drive |
+| Clap | Faster onset and burst impact | Filter/body and burst decay | Three noise bursts with 8-22 ms spacing, tonal/noise balance |
+| FX / Custom | Stronger resonant impact | 270-750 Hz base, 350-1950 ms modal decay | Inharmonic cymbal-like modes, noise/metal balance and texture |
 
-## Sound controls
+PUNCH scales the generated impact by 0.6-1.4 and changes minimum attack from 1.2 to 0.2 ms; explicit AMP ATTACK adds to that. On voices with a pitch envelope it also multiplies depth by 0.5-1.5. Above its neutral midpoint CHARACTER gently saturates the voice and affects the original voice-specific noise and damping maps. These controls interact by design; extreme pitch/tuning is Nyquist-bounded.
 
-| Control | Range / behavior |
-|---|---|
-| Tune | -24 to +24 semitones; captured when a hit starts |
-| Gain | -60 to +12 dB for this slot; default -6 dB |
-| Pan | Stereo balance from -1 left to +1 right |
-| Start / End | Fractions of the source file; vertical waveform markers; a crossed region becomes one source frame |
-| Attack | 0–500 ms; applies to a new hit |
-| Release | 0–3000 ms fade approaching the sample's region end; BODY multiplies its length |
-| Low-pass | 40–20000 Hz; CHARACTER multiplies the cutoff; bounded by the host Nyquist limit |
-| Reverse | Plays from the region end toward its start; applies to new hits |
-| Mute / Solo | Smoothly suppresses this slot, or suppresses slots that are not soloed; existing ambience can decay |
-| BODY | Global low-frequency weight and end-release length; midpoint is the reference setting |
-| CHARACTER | Global filter colour and soft drive above midpoint; it does not overwrite the detailed filter knob |
-| SPACE | Global send into a real stereo ambience; zero stops the send, while the existing tail decays |
-| Output | -36 to +6 dB after the mix; default -6 dB |
+## Advanced controls
+TUNE -24..24 semitones affects synthesis and optional sample. GAIN -60..12 dB and PAN -1..1 apply per slot; hard pan clears the opposite dry channel. AMP ATTACK 0..500 ms shapes new hits. DECAY scale 0.1..3 multiplies original voice-specific modal/noise decay; open-hat factor is applied additionally. PITCH DEPTH 0..2 multiplies the voice's own sweep; hat/clap generators have no pitched sweep, so those two GUI controls are disabled there. PITCH DECAY 2..200 ms controls sweep decay. LOW-PASS 40..20000 Hz filters synthesis (20000 bypasses this extra stage); CHARACTER also changes excitation filters. VELOCITY TO TONE 0..1 adds a bounded velocity-dependent material/pitch offset. Velocity 1..127 always scales amplitude.
 
-Double-click sliders to reset their defaults. Values can be typed into their boxes, controls have keyboard focus and tooltips, and attachments send host parameter gestures. These are implemented native controls; actual host keyboard, accessibility and Windows scaling acceptance remains in the verification matrix.
+SAMPLE BLEND 0..1 crossfades synthesis and the optional layer. SAMPLE LEVEL -60..12 dB, START 0..0.999, END 0.001..1, RELEASE 0..3000 ms and REVERSE shape that layer; sample boundaries/tune/attack/release/reverse are captured on a new hit. Reversed/crossed regions are bounded to at least one source frame. Optional sample interpolation is linear; high-rate/pitched samples can alias and require listening. Supplied samples are source-preserved; category labels are provisional optional suggestions, not human listening approval.
 
-The output meter displays sample peak dBFS. CLIP latches when the output reaches 0 dBFS; PANIC clears the latch and releases active voices over 2 ms. There is no transparent limiter or hard clamp. Multiple overlapping hits or positive gain can exceed full scale; lower slot/output gain when necessary. A mono host output averages the stereo channels.
+MUTE/SOLO, GAIN, PAN, synthesis macros, filter, tuning, decay and pitch controls update held tails with approximately 20 ms smoothing and 32-frame coefficient refresh. A sample load commits an immutable snapshot on the control worker and clears old voices/tails at the next block. This is intended for kit editing rather than gapless live sample replacement.
 
-## MIDI
+CHOKE GROUP 0 disables choking; 1..8 excludes all active voices in that group with a 2 ms fade. Closed and Open Hat default to group 1. Oldest active voice is stolen at the 16-voice limit with a 2 ms residual crossfade. One-shots ignore note-off. PANIC clears voices/ambience and resets the latched clip indicator. Global SPACE is the original fixed-tap stereo diffusion, 0 dry / 1 maximum. OUTPUT is -36..6 dB. Final +/-0.98 hard safety clamp prevents invalid/excessive output; CLIP indicates safety clamp activity. It can distort when overdriven: lower gain/output. It is not a transparent mastering limiter. No host tempo is needed.
 
-GM notes route to the seven slots; MIDI 60 always auditions the selected slot. Velocity scales amplitude. This is a one-shot instrument: note-off does not cut a hit short. A new hi-hat hit chokes older hat voices over 2 ms, including open-hat notes. CC123 releases voices and leaves the ambience tail; CC120 immediately clears voices and ambience. Sixteen voices are available, with oldest-voice stealing and a short residual fade.
+## State and interchange
+State v3 contains all 181 parameters, editable MIDI/choke maps, kit names, sample references and both A/B banks. .dhpreset uses the same strict bounded JSON. .dhkit contains that JSON plus content-addressed optional user samples; it has no file paths or archive extraction targets. WAV/AIFF input is bounded to 64 MiB, stereo/mono 8-384 kHz, 2 frames..30 seconds; total decoded storage is bounded to 256 MiB per instance. Runtime processing accepts 8-192 kHz and zero-size buffers. GUI/loader work runs outside processBlock; the callback uses fixed voices, atomic parameters/mailboxes and bounded hazard-pointer acquisition.
 
-Playback compensates for source and host sample rates. Four-point cubic interpolation supports pitching and the declared host-rate tests, but is not a bandlimited resampler. Extreme upward tuning needs listening review. Reported algorithmic lookahead latency is zero; driver/interface latency remains separate. The conservative 128-second tail report allows for a 30-second source slowed by two octaves and its ambience.
+The legacy first four automation IDs are department/body/character/space. BODY is retained as a global TONE offset and CHARACTER as a global per-slot CHARACTER offset; default .5 is neutral. They remain host-automatable for compatibility. SPACE is visible; the selected drum's PUNCH/TONE/CHARACTER are the three visible macros. See RECOVERY_AND_COMPATIBILITY for migration limits.
 
-## Loading and recall
-
-Use LOAD / RELINK SAMPLE or drop a single WAV/AIFF on a pad. Sources must be mono/stereo, 8–384 kHz, between 2 frames and 30 seconds, and at most 64 MiB encoded. The per-instance decoded stereo sample pool is limited to 256 MiB, including factory, A/B and safely retained replacement buffers. File-reading and codec scratch memory are additional. If the memory limit prevents loading, reset the kit or use shorter files; allow a processing block to retire an old sounding snapshot. Files are decoded on the plugin's worker, and a failed replacement preserves the previous playable sample.
-
-Imported files are copied to managed local storage, so moving the original personal source does not break local recall. Keep `%APPDATA%/OmegaHouse/DrumSupply/Samples` with your backups. DAW state stores hashes rather than audio data. Missing cached files are shown as MISSING and remain silent until you select the slot and relink it. A sample/kit replacement stops the previous voices and ambience with a 2 ms residual fade; it is not a seamless full-tail crossfade.
-
-## Kits and comparison
-
-Double-click the kit name to rename. EDITED indicates unsaved changes. SAVE KIT stores a local `.dhpreset`; LOAD KIT accepts local presets and portable `.dhkit` files. The file chooser writes the exact selected filename; use these suffixes to make kit files easy to identify. STARTER resets both comparison banks.
-
-A/B retains two full sample assignments and shaping states, including the selected slot. Switching banks preserves the edits in the bank you leave. Both banks are saved with a DAW project or preset. Host state loads are control operations and may wait for worker decoding; they are not real-time audio operations.
-
-EXPORT PORTABLE packages the original referenced sample files from both banks with the preset manifest. You must confirm permission to redistribute every included sample. Loading a personal file does not itself grant that permission. The container uses validated hash keys and uncompressed blobs; it does not extract user-controlled filenames or directories. ZIP files are not kit-import files. Failed imports do not partially replace the kit, though verified hash-addressed cache files may have been added safely before a later failure.
-
-Version-1 sessions migrate their four controls to the sample starter kit. The old synthesized timbres require the preserved 0.1.0 recovery build. See INSTALLATION.md before upgrading an old project.
-
-## Evidence and support handoff
-
-See the verification report for the exact artifact hash and executed checks. Native FL Studio scan, routing, automation, save/reopen, offline bounce and Windows scaling require the host checklist. Listening approval, clean-machine installation, commercial licensing eligibility and final customer terms are separate release gates. No purchase, activation service, telemetry or online dependency is added by this candidate. A public support channel, refund terms and binding end-user terms must be set by the product owner before a commercial launch.
+Numeric displays use compact category-appropriate precision. Entered values remain full floating-point parameters; display formatting does not quantize host automation. The editor resizes from 960x700 to 1800x1200, hiding the optional waveform in compact mode while keeping synthesis controls accessible.

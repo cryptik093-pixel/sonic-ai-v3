@@ -1,2 +1,6 @@
 build/
 build-core/
+dist/
+evidence/
+__pycache__/
+*.tmp

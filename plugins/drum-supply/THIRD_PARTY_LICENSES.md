@@ -14,11 +14,11 @@ Primary sources inspected 2026-10-16:
 No licence purchase, fee, commercial-tier eligibility determination, distribution,
 contract acceptance, signing or publishing is authorized by this development
 milestone. Reuse of the existing local toolchain is not commercial clearance.
-Before distribution Danny must settle the applicable JUCE licence, eligibility,
+Before commercial publication the product owner must settle the applicable JUCE licence, eligibility,
 third-party notices and any source-disclosure obligations. Needs legal review.
 The preserved standalone synthesis core does not use JUCE or external samples.
 
-## 0.2.0 sample instrument review — October 19, 2026
+## 0.3.0 Drum Shot Supply Co. synthesis instrument review — October 19, 2026
 
 The existing JUCE stack and pinned archive are retained. Current official sources
 were checked again: [JUCE 8 EULA](https://juce.com/legal/juce-8-licence/),
@@ -36,8 +36,10 @@ historical VST SDK versions, is the basis for the SDK notice.
 | SheenBidi | notices/modules/juce_graphics/unicode/sheenbidi/LICENSE | Retain included notice |
 | PNG/zlib | notices/modules/juce_graphics/image_formats/pnglib/LICENSE and notices/modules/juce_core/zip/zlib/LICENSE | Retain notices; no origin misrepresentation |
 | Vorbis codec source compiled with JUCE defaults | notices/modules/juce_audio_formats/codecs/oggvorbis/libvorbis-1.3.7/COPYING | Retain included notice; format is not registered for user import |
+| FLAC codec compiled with JUCE defaults | notices/modules/juce_audio_formats/codecs/flac/Flac Licence.txt | Retain included BSD-style notice; not registered for sample import |
+| Ogg codec distribution | notices/modules/juce_audio_formats/codecs/oggvorbis/Ogg Vorbis Licence.txt | Retain included notice |
 | Other embedded JUCE codec/graphics code | Source copyright blocks in the pinned JUCE modules | Final full distribution obligation review PENDING; copied notices are not a legal clearance certificate |
-| Seven factory WAVs | Assets/origin-manifest.json | User affirmed ownership and commercial-plugin redistribution authorization in this chat; original bytes retained; listening/category approval PENDING |
+| Twelve supplied original WAVs; seven embedded optional layers (one reused for Open Hat) | Assets/origin-manifest.json | User affirmed ownership and commercial-plugin redistribution authorization in this chat; original bytes retained; listening/category approval PENDING |
 | System fonts | Native platform font use; no font files bundled | No downloaded font assets included |
 
 The JUCE EULA's product-owner/tier/seat requirements and products-that-create-products

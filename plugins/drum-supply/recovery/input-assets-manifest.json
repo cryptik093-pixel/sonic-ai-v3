@@ -1,0 +1,93 @@
+{
+  "created_utc": "2026-10-20T03:21:49.661035+00:00",
+  "rights": "User explicitly affirmed ownership and authorized redistribution",
+  "files": [
+    {
+      "path": "C:\\Users\\david someone\\Documents\\drum supply drum shots pre sample.zip",
+      "size": 637572,
+      "sha256": "5e889d783e3629d33c5583272a5a9863417ecfa0508c3c8107a3d58447c1bd37"
+    },
+    {
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\output\\Drum-Headquarters-Codex-Handoff-20261019.zip",
+      "size": 39852,
+      "sha256": "1012b46d6b3b1a7492285c2a9500c1b48afc896b3b580ddb7bb3d3861d2ebe56"
+    },
+    {
+      "path": "C:\\Users\\david someone\\.codex\\attachments\\0c413afa-17a2-4198-a094-4691ee06db83\\Pasted text.txt",
+      "size": 13808,
+      "sha256": "80869c56fba2c1179f2c106568c3189cf3641d0d40573821acfe4e818d72e760"
+    },
+    {
+      "source_entry": "drum supply drum shots pre sample/drum shots kick-snare-hihat-open-percusive (1).wav",
+      "path": "plugins\\drum-supply\\Assets\\SuppliedOriginals\\original-01.wav",
+      "size": 166766,
+      "sha256": "d97b758b215cdcf0a8f03ad21d9100e2968776a2657d73bedb6ad92f5c554683"
+    },
+    {
+      "source_entry": "drum supply drum shots pre sample/drum shots kick-snare-hihat-open-percusive (10).wav",
+      "path": "plugins\\drum-supply\\Assets\\SuppliedOriginals\\original-02.wav",
+      "size": 171854,
+      "sha256": "51d0390955b24fa7e0001d19d960edd98a3fb857f70539a50884f4279f8f94f7"
+    },
+    {
+      "source_entry": "drum supply drum shots pre sample/drum shots kick-snare-hihat-open-percusive (11).wav",
+      "path": "plugins\\drum-supply\\Assets\\SuppliedOriginals\\original-03.wav",
+      "size": 37010,
+      "sha256": "1a4b423b06110e2135da7d7e27b7ac60e98fb145f8b06ef65dc4b571ae71c519"
+    },
+    {
+      "source_entry": "drum supply drum shots pre sample/drum shots kick-snare-hihat-open-percusive (12).wav",
+      "path": "plugins\\drum-supply\\Assets\\SuppliedOriginals\\original-04.wav",
+      "size": 38282,
+      "sha256": "cfbae035b2d0fc6dd05bd13128ba020be9533f8d7810524b1cac58d741caaf7b"
+    },
+    {
+      "source_entry": "drum supply drum shots pre sample/drum shots kick-snare-hihat-open-percusive (2).wav",
+      "path": "plugins\\drum-supply\\Assets\\SuppliedOriginals\\original-05.wav",
+      "size": 91706,
+      "sha256": "4e69fe413ab6b2d58b628d283c4c9c1cddf74f91159c8d8fe0b2185a5fe73e78"
+    },
+    {
+      "source_entry": "drum supply drum shots pre sample/drum shots kick-snare-hihat-open-percusive (3).wav",
+      "path": "plugins\\drum-supply\\Assets\\SuppliedOriginals\\original-06.wav",
+      "size": 182030,
+      "sha256": "89c90baedd326067f029c3a39097cfb8915a5db15fd7e581523e50cbed9d127b"
+    },
+    {
+      "source_entry": "drum supply drum shots pre sample/drum shots kick-snare-hihat-open-percusive (4).wav",
+      "path": "plugins\\drum-supply\\Assets\\SuppliedOriginals\\original-07.wav",
+      "size": 16652,
+      "sha256": "e7f834738522b6bbc8dde625879f3162d40e69391a57806d8eea12503b74e698"
+    },
+    {
+      "source_entry": "drum supply drum shots pre sample/drum shots kick-snare-hihat-open-percusive (5).wav",
+      "path": "plugins\\drum-supply\\Assets\\SuppliedOriginals\\original-08.wav",
+      "size": 71354,
+      "sha256": "cc3fd4b254fe3543a37c4dcef53c829983afd7eb1fa16f60cfb073951070655d"
+    },
+    {
+      "source_entry": "drum supply drum shots pre sample/drum shots kick-snare-hihat-open-percusive (6).wav",
+      "path": "plugins\\drum-supply\\Assets\\SuppliedOriginals\\original-09.wav",
+      "size": 98066,
+      "sha256": "148192725cf61001752ee019f408c378941da7aae1b9a7683885aec86aa1886d"
+    },
+    {
+      "source_entry": "drum supply drum shots pre sample/drum shots kick-snare-hihat-open-percusive (7).wav",
+      "path": "plugins\\drum-supply\\Assets\\SuppliedOriginals\\original-10.wav",
+      "size": 30644,
+      "sha256": "6dea75f3bfd53e657573ec54b0a09919023c405ac89a248836e99df7a71a1a2d"
+    },
+    {
+      "source_entry": "drum supply drum shots pre sample/drum shots kick-snare-hihat-open-percusive (8).wav",
+      "path": "plugins\\drum-supply\\Assets\\SuppliedOriginals\\original-11.wav",
+      "size": 39554,
+      "sha256": "aeecb8acdaa965412a070bd757fbfb6892dc0afd78c3ef06bc9ed586d7c883a9"
+    },
+    {
+      "source_entry": "drum supply drum shots pre sample/drum shots kick-snare-hihat-open-percusive (9).wav",
+      "path": "plugins\\drum-supply\\Assets\\SuppliedOriginals\\original-12.wav",
+      "size": 164216,
+      "sha256": "b863015fbef78ed073bbebc3413b972e3fdcbe60a1c4d0cc3341517bad8d7a43"
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 #pragma once
-#include "SampleEngine.h"
+#include "SampleData.h"
 #include <juce_audio_formats/juce_audio_formats.h>
 #include <juce_cryptography/juce_cryptography.h>
 #include <memory>

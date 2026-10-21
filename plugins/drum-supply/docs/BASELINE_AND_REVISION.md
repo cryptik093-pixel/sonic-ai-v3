@@ -1,3 +1,5 @@
+> HISTORICAL HANDOFF REFERENCE: superseded by the 0.3.0 synthesis specification. See MANUAL.md and RECOVERY_AND_COMPATIBILITY.md.
+
 # Baseline and authoritative revision
 
 Prepared October 19, 2026 from local static inspection. No build, validator, host, or listening checks were rerun for this prompt package.

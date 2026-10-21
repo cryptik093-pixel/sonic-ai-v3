@@ -1,0 +1,48 @@
+{
+  "Name": "Omega Drum Supply",
+  "Version": "0.1.0",
+  "Factory Info": {
+    "Vendor": "Omega House Studio LLC",
+    "URL": "",
+    "E-Mail": "",
+    "Flags": {
+      "Unicode": true,
+      "Classes Discardable": false,
+      "Component Non Discardable": false,
+    },
+  },
+  "Classes": [
+    {
+      "CID": "ABCDEF019182FAEB4F6D48734F684473",
+      "Category": "Audio Module Class",
+      "Name": "Omega Drum Supply",
+      "Vendor": "Omega House Studio LLC",
+      "Version": "0.1.0",
+      "SDKVersion": "VST 3.8.0",
+      "Sub Categories": [
+        "Instrument",
+        "Synth",
+      ],
+      "Class Flags": 2,
+      "Cardinality": 2147483647,
+      "Snapshots": [
+      ],
+    },
+    {
+      "CID": "ABCDEF011234ABCD4F6D48734F684473",
+      "Category": "Component Controller Class",
+      "Name": "Omega Drum Supply",
+      "Vendor": "Omega House Studio LLC",
+      "Version": "0.1.0",
+      "SDKVersion": "VST 3.8.0",
+      "Sub Categories": [
+        "Instrument",
+        "Synth",
+      ],
+      "Class Flags": 2,
+      "Cardinality": 2147483647,
+      "Snapshots": [
+      ],
+    },
+  ],
+}

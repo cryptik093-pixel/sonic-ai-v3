@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.24)
-project(OmegaDrumSupply VERSION 0.2.0 LANGUAGES C CXX)
+project(OmegaDrumSupply VERSION 0.3.0 LANGUAGES C CXX)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
@@ -8,6 +8,9 @@ option(DRUM_BUILD_PLUGIN "Build native JUCE VST3" ON)
 add_executable(DrumDspTests Tests/DspTests.cpp)
 target_include_directories(DrumDspTests PRIVATE Source)
 add_test(NAME DrumDsp COMMAND DrumDspTests)
+add_executable(DrumSynthesisTests Tests/SynthesisTests.cpp)
+target_include_directories(DrumSynthesisTests PRIVATE Source)
+add_test(NAME DrumSynthesis COMMAND DrumSynthesisTests)
 add_executable(DrumSampleTests Tests/SampleTests.cpp)
 target_include_directories(DrumSampleTests PRIVATE Source)
 add_test(NAME DrumSample COMMAND DrumSampleTests)
@@ -37,7 +40,7 @@ if(DRUM_BUILD_PLUGIN)
   endif()
   juce_add_plugin(OmegaDrumSupply COMPANY_NAME "Omega House Studio LLC" BUNDLE_ID "com.omegahousestudio.drumsupply"
     PLUGIN_MANUFACTURER_CODE OmHs PLUGIN_CODE OhDs FORMATS VST3
-    PRODUCT_NAME "Omega Drum Supply" DESCRIPTION "Seven-slot sample drum instrument"
+    PRODUCT_NAME "Drum Shot Supply Co." DESCRIPTION "Eight-slot drum synthesis instrument"
     VST3_CATEGORIES Instrument Synth IS_SYNTH TRUE NEEDS_MIDI_INPUT TRUE NEEDS_MIDI_OUTPUT FALSE
     IS_MIDI_EFFECT FALSE EDITOR_WANTS_KEYBOARD_FOCUS TRUE COPY_PLUGIN_AFTER_BUILD FALSE)
   juce_add_binary_data(DrumFactory SOURCES Assets/starter0.wav Assets/starter1.wav Assets/starter2.wav Assets/starter3.wav Assets/starter4.wav Assets/starter5.wav Assets/starter6.wav)

@@ -13,7 +13,7 @@ import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
 STAMP = dt.datetime.now(dt.timezone.utc).strftime('%Y%m%d-%H%M%S')
-NAME = f'Drum-Supply-Headquarters-0.2.0-evaluation-{STAMP}'
+NAME = f'Drum-Shot-Supply-Co-0.3.0-{STAMP}'
 
 
 def digest(path: Path) -> str:
@@ -36,8 +36,9 @@ def tree(source: Path, destination: Path):
 
 def manifest(folder: Path):
     rows = [{'path': p.relative_to(folder).as_posix(), 'bytes': p.stat().st_size, 'sha256': digest(p)}
-            for p in sorted(folder.rglob('*')) if p.is_file() and p.name != 'SHA256SUMS.json']
+            for p in sorted(folder.rglob('*')) if p.is_file() and p.name not in {'SHA256SUMS.json','SHA256SUMS.txt'}]
     (folder / 'SHA256SUMS.json').write_text(json.dumps(rows, indent=2), encoding='utf-8')
+    (folder / 'SHA256SUMS.txt').write_text(''.join(f"{row['sha256']}  {row['path']}\n" for row in rows), encoding='utf-8')
 
 
 def archive(folder: Path, target: Path):
@@ -73,15 +74,15 @@ def archive(folder: Path, target: Path):
 
 
 def main():
-    report = ROOT / 'evidence/sampler-verification.json'
+    report = ROOT / 'evidence/release-verification.json'
     results = json.loads(report.read_text())
-    for gate in ('build', 'sample_dsp', 'processor'):
+    for gate in ('build', 'synthesis_dsp', 'legacy_dsp', 'sample_dsp', 'processor', 'validators', 'original_assets', 'text_integrity', 'windows_x64_pe', 'vst3_class_ids', 'offline_renders'):
         if results[gate] != 'PASS':
             raise RuntimeError(f'Refusing to package without a passing {gate} gate')
     destination = ROOT / 'dist' / NAME
     destination.mkdir(parents=True, exist_ok=False)
-    binary = ROOT / 'build/OmegaDrumSupply_artefacts/Release/VST3/Omega Drum Supply.vst3'
-    executable = binary / 'Contents/x86_64-win/Omega Drum Supply.vst3'
+    binary = ROOT / 'build/OmegaDrumSupply_artefacts/Release/VST3/Drum Shot Supply Co..vst3'
+    executable = binary / 'Contents/x86_64-win/Drum Shot Supply Co..vst3'
     if digest(executable) != results['binary']['sha256']:
         raise ValueError('Binary changed after verification')
     for relative, expected in results['source_hashes'].items():
@@ -91,13 +92,20 @@ def main():
     release.mkdir()
     tree(binary, release / binary.name)
     tree(ROOT / 'Assets', release / 'Factory Samples')
-    tree(ROOT / 'docs', release / 'Documentation')
+    for document in (ROOT / 'docs').rglob('*'):
+        if document.is_file() and document.name not in {'BASELINE_AND_REVISION.md','PRODUCT_AND_DESIGN_BRIEF.md','FEATURE_ACCEPTANCE.csv'}:
+            copy_file(document, release / 'Documentation' / document.relative_to(ROOT / 'docs'))
+    presets=list((ROOT / 'evidence/release-fixtures').glob('*.dhpreset'))
+    if len(presets)!=2: raise ValueError('Expected the two verified factory synthesis kits')
+    for preset in presets:
+        copy_file(preset, release / 'Factory Kits' / preset.name)
+    tree(ROOT / 'recovery', release / 'Verification/Recovery')
     for name in ('README.md', 'THIRD_PARTY_LICENSES.md'):
         copy_file(ROOT / name, release / name)
     tree(ROOT / 'notices', release / 'Third Party Notices')
-    copy_file(report, release / 'Verification/sampler-verification.json')
-    copy_file(ROOT / 'evidence/SAMPLER_VERIFICATION.md', release / 'Verification/REPORT.md')
-    fixtures = ROOT / 'evidence/sampler-fixtures'
+    copy_file(report, release / 'Verification/release-verification.json')
+    copy_file(ROOT / 'evidence/RELEASE_VERIFICATION.md', release / 'Verification/REPORT.md')
+    fixtures = ROOT / 'evidence/release-fixtures'
     tree(fixtures, release / 'Evaluation Fixtures')
     for validation in results.get('validation_directories', []):
         source = Path(validation).resolve()
@@ -105,7 +113,7 @@ def main():
             raise ValueError('Validator evidence must stay within this plugin')
         tree(source, release / 'Verification' / source.name)
     manifest(release)
-    release_zip = destination / f'{NAME}.zip'
+    release_zip = destination / 'Drum_Shot_Supply_Co_Windows_x64.zip'
     archives = [archive(release, release_zip)]
 
     # Clean staging read-back; this does not modify any installed VST3 or scan cache.
@@ -118,20 +126,29 @@ def main():
 
     source = destination / 'source'
     source.mkdir()
-    for directory in ('Source', 'Tests', 'Assets', 'docs', 'scripts', 'legacy', 'notices'):
+    for directory in ('Source', 'Tests', 'Assets', 'docs', 'scripts', 'legacy', 'notices', 'recovery'):
         for path in (ROOT / directory).rglob('*'):
             if path.is_file() and '__pycache__' not in path.parts and path.suffix.lower() not in {'.pyc','.obj','.pdb','.exe','.dll'}:
                 copy_file(path, source / directory / path.relative_to(ROOT / directory))
     for name in ('CMakeLists.txt', 'README.md', 'THIRD_PARTY_LICENSES.md', '.gitignore'):
         copy_file(ROOT / name, source / name)
-    for name in ('sampler-verification.json', 'SAMPLER_VERIFICATION.md', 'supplied-samples.json'):
+    for name in ('release-verification.json', 'RELEASE_VERIFICATION.md', 'supplied-samples.json'):
         copy_file(ROOT / 'evidence' / name, source / 'evidence' / name)
     manifest(source)
-    archives.append(archive(source, destination / f'{NAME}-source.zip'))
+    source_zip = destination / 'Drum_Shot_Supply_Co_Source.zip'
+    archives.append(archive(source, source_zip))
+    source_staging = destination / 'source-extraction-verification'
+    source_staging.mkdir()
+    with zipfile.ZipFile(source_zip) as check:
+        check.extractall(source_staging)
+    for entry in json.loads((source_staging / 'SHA256SUMS.json').read_text()):
+        assert digest(source_staging / entry['path']) == entry['sha256']
+    assert (source_staging / 'Source/PluginEditor.cpp').stat().st_size > 10000
+    assert (source_staging / 'Source/DrumEngine.h').stat().st_size > 10000
     result = {'created_utc': dt.datetime.now(dt.timezone.utc).isoformat(), 'archives': archives,
               'archive_crc_and_manifest_readback': 'PASS', 'factory_wav_decode': 'PASS',
-              'installation_staging_readback': 'PASS', 'clean_machine_install': 'NOT_TESTED',
-              'installed_release_modified': False, 'public_distribution': 'NOT_AUTHORIZED'}
+              'installation_staging_readback': 'PASS', 'source_extraction_readback': 'PASS', 'clean_machine_install': 'NOT_TESTED',
+              'installed_release_modified': False, 'public_distribution': 'NOT_PERFORMED', 'sample_redistribution': 'USER_AUTHORIZED'}
     (destination / 'artifacts.json').write_text(json.dumps(result, indent=2))
     print(json.dumps(result, indent=2))
 

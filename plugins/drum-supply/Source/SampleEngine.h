@@ -4,20 +4,14 @@
 #include <cmath>
 #include <cstdint>
 #include <vector>
+#include "SampleData.h"
 
 namespace ohsample {
-inline constexpr std::array<const char*,7> names{"Kick","Snare","Hi-Hat","Cymbal","Tom","Percussion","Clap"};
+
 inline int slotForNote(int n) noexcept {
     switch(n) {case 35:case 36:return 0;case 38:case 40:return 1;case 42:case 44:case 46:return 2;
     case 49:case 51:case 57:return 3;case 41:case 43:case 45:case 47:case 48:case 50:return 4;case 39:return 6;default:return 5;}
 }
-// Immutable after publication. The control worker owns/reclaims these buffers.
-struct Sample {
-    double rate=48000;
-    std::array<std::vector<float>,2> audio;
-    std::array<float,256> waveform{};
-    size_t frames() const noexcept {return audio[0].size();}
-};
 struct Controls {float tune=0,gain=-6,pan=0,start=0,end=1,attack=0,release=30,filter=20000,reverse=0,mute=0,solo=0;};
 struct Mix {float body=.5f,character=.5f,space=.25f,output=-6;};
 

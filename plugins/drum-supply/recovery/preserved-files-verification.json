@@ -1,0 +1,332 @@
+{
+  "created_utc": "2026-10-20T03:48:42.574573+00:00",
+  "files_checked": 65,
+  "state": "PASS",
+  "files": [
+    {
+      "path": "C:\\Users\\david someone\\Documents\\drum supply drum shots pre sample.zip",
+      "sha256": "5e889d783e3629d33c5583272a5a9863417ecfa0508c3c8107a3d58447c1bd37",
+      "pass": true
+    },
+    {
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\output\\Drum-Headquarters-Codex-Handoff-20261019.zip",
+      "sha256": "1012b46d6b3b1a7492285c2a9500c1b48afc896b3b580ddb7bb3d3861d2ebe56",
+      "pass": true
+    },
+    {
+      "path": "C:\\Users\\david someone\\.codex\\attachments\\0c413afa-17a2-4198-a094-4691ee06db83\\Pasted text.txt",
+      "sha256": "80869c56fba2c1179f2c106568c3189cf3641d0d40573821acfe4e818d72e760",
+      "pass": true
+    },
+    {
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\drum-supply\\Assets\\SuppliedOriginals\\original-01.wav",
+      "sha256": "d97b758b215cdcf0a8f03ad21d9100e2968776a2657d73bedb6ad92f5c554683",
+      "pass": true
+    },
+    {
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\drum-supply\\Assets\\SuppliedOriginals\\original-02.wav",
+      "sha256": "51d0390955b24fa7e0001d19d960edd98a3fb857f70539a50884f4279f8f94f7",
+      "pass": true
+    },
+    {
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\drum-supply\\Assets\\SuppliedOriginals\\original-03.wav",
+      "sha256": "1a4b423b06110e2135da7d7e27b7ac60e98fb145f8b06ef65dc4b571ae71c519",
+      "pass": true
+    },
+    {
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\drum-supply\\Assets\\SuppliedOriginals\\original-04.wav",
+      "sha256": "cfbae035b2d0fc6dd05bd13128ba020be9533f8d7810524b1cac58d741caaf7b",
+      "pass": true
+    },
+    {
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\drum-supply\\Assets\\SuppliedOriginals\\original-05.wav",
+      "sha256": "4e69fe413ab6b2d58b628d283c4c9c1cddf74f91159c8d8fe0b2185a5fe73e78",
+      "pass": true
+    },
+    {
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\drum-supply\\Assets\\SuppliedOriginals\\original-06.wav",
+      "sha256": "89c90baedd326067f029c3a39097cfb8915a5db15fd7e581523e50cbed9d127b",
+      "pass": true
+    },
+    {
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\drum-supply\\Assets\\SuppliedOriginals\\original-07.wav",
+      "sha256": "e7f834738522b6bbc8dde625879f3162d40e69391a57806d8eea12503b74e698",
+      "pass": true
+    },
+    {
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\drum-supply\\Assets\\SuppliedOriginals\\original-08.wav",
+      "sha256": "cc3fd4b254fe3543a37c4dcef53c829983afd7eb1fa16f60cfb073951070655d",
+      "pass": true
+    },
+    {
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\drum-supply\\Assets\\SuppliedOriginals\\original-09.wav",
+      "sha256": "148192725cf61001752ee019f408c378941da7aae1b9a7683885aec86aa1886d",
+      "pass": true
+    },
+    {
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\drum-supply\\Assets\\SuppliedOriginals\\original-10.wav",
+      "sha256": "6dea75f3bfd53e657573ec54b0a09919023c405ac89a248836e99df7a71a1a2d",
+      "pass": true
+    },
+    {
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\drum-supply\\Assets\\SuppliedOriginals\\original-11.wav",
+      "sha256": "aeecb8acdaa965412a070bd757fbfb6892dc0afd78c3ef06bc9ed586d7c883a9",
+      "pass": true
+    },
+    {
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\drum-supply\\Assets\\SuppliedOriginals\\original-12.wav",
+      "sha256": "b863015fbef78ed073bbebc3413b972e3fdcbe60a1c4d0cc3341517bad8d7a43",
+      "pass": true
+    },
+    {
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\drum-supply\\Assets\\origin-manifest.json",
+      "sha256": "36bd6ad7fa7dd946757d4bee2ab0c4c2407be5833108f7b42803623cf1883b90",
+      "pass": true
+    },
+    {
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\drum-supply\\Assets\\starter0.wav",
+      "sha256": "d97b758b215cdcf0a8f03ad21d9100e2968776a2657d73bedb6ad92f5c554683",
+      "pass": true
+    },
+    {
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\drum-supply\\Assets\\starter1.wav",
+      "sha256": "148192725cf61001752ee019f408c378941da7aae1b9a7683885aec86aa1886d",
+      "pass": true
+    },
+    {
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\drum-supply\\Assets\\starter2.wav",
+      "sha256": "6dea75f3bfd53e657573ec54b0a09919023c405ac89a248836e99df7a71a1a2d",
+      "pass": true
+    },
+    {
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\drum-supply\\Assets\\starter3.wav",
+      "sha256": "51d0390955b24fa7e0001d19d960edd98a3fb857f70539a50884f4279f8f94f7",
+      "pass": true
+    },
+    {
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\drum-supply\\Assets\\starter4.wav",
+      "sha256": "89c90baedd326067f029c3a39097cfb8915a5db15fd7e581523e50cbed9d127b",
+      "pass": true
+    },
+    {
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\drum-supply\\Assets\\starter5.wav",
+      "sha256": "e7f834738522b6bbc8dde625879f3162d40e69391a57806d8eea12503b74e698",
+      "pass": true
+    },
+    {
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\drum-supply\\Assets\\starter6.wav",
+      "sha256": "cc3fd4b254fe3543a37c4dcef53c829983afd7eb1fa16f60cfb073951070655d",
+      "pass": true
+    },
+    {
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\drum-supply\\legacy\\0.1.0\\CMakeLists.txt",
+      "sha256": "9e9be0b3fd63441390ed12375dd6b3d30a7d08961185e3cbcef8917b937e1b80",
+      "pass": true
+    },
+    {
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\drum-supply\\legacy\\0.1.0\\README.md",
+      "sha256": "e1a535990660d1facefcb95f31a48027ca1b051c8046edba4f612d7038f71ce6",
+      "pass": true
+    },
+    {
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\drum-supply\\legacy\\0.1.0\\THIRD_PARTY_LICENSES.md",
+      "sha256": "58a819af3a35306e5a0b4e9cdc5ecbbe43b10e317f99505f0c3cc37ca758d1de",
+      "pass": true
+    },
+    {
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\drum-supply\\legacy\\0.2.0-sampler\\CMakeLists.txt",
+      "sha256": "18a2b5bdeb2b12aaa5cf06da49a348efdbfa25f58cbfc20a8c33ddd5743d971d",
+      "pass": true
+    },
+    {
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\drum-supply\\legacy\\0.2.0-sampler\\README.md",
+      "sha256": "e8134a92f69cd7e3c2e91f8d337a7aa4a4b75b9dd93210402d07d34fceb6b8a2",
+      "pass": true
+    },
+    {
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\drum-supply\\legacy\\0.2.0-sampler\\THIRD_PARTY_LICENSES.md",
+      "sha256": "77ea1496ec8540595c983b333e907d0fbfeca3950ac10d51f659272a9603a41a",
+      "pass": true
+    },
+    {
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\drum-supply\\legacy\\0.2.0-sampler\\docs\\BASELINE_AND_REVISION.md",
+      "sha256": "821c1d502a1c1af97ea541df486eceabd9256ead4f55372c4790edb1c377d7fe",
+      "pass": true
+    },
+    {
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\drum-supply\\legacy\\0.2.0-sampler\\docs\\FEATURE_ACCEPTANCE.csv",
+      "sha256": "3bd4a0509995bb15ed7ba6fe6923977b0f9776492084e3835d6969140f95131d",
+      "pass": true
+    },
+    {
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\drum-supply\\legacy\\0.2.0-sampler\\docs\\FL_STUDIO_ACCEPTANCE.md",
+      "sha256": "8b1387b954e07e5457cf4a2a2a50b221444232ddd2897322f6bfb530c4ae5e28",
+      "pass": true
+    },
+    {
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\drum-supply\\legacy\\0.2.0-sampler\\docs\\IMPLEMENTATION_CONTRACT.md",
+      "sha256": "5969f47f8accbe78dd291e6eae37af6b6597aade83d8e14b8d86ef9ca029e03f",
+      "pass": true
+    },
+    {
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\drum-supply\\legacy\\0.2.0-sampler\\docs\\INSTALLATION.md",
+      "sha256": "60ba515bc148072d8c1e5c951ff1ecc92e3241765ce2a4bf910a4d7168759157",
+      "pass": true
+    },
+    {
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\drum-supply\\legacy\\0.2.0-sampler\\docs\\MANUAL.md",
+      "sha256": "771c324244863fb12fcbad38eb0e9d21f1e629833fc11b358f358a1f3325a471",
+      "pass": true
+    },
+    {
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\drum-supply\\legacy\\0.2.0-sampler\\docs\\PRODUCT_AND_DESIGN_BRIEF.md",
+      "sha256": "e415984a48cad07b080c242ce38a293852567823aefca9ec22465ace936a9878",
+      "pass": true
+    },
+    {
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\drum-supply\\legacy\\0.2.0-sampler\\docs\\QUICK_START.md",
+      "sha256": "7e0bfa338fbaf13292f46e602c73269ee7278452fc4af087efd3c1d965c7c8b7",
+      "pass": true
+    },
+    {
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\drum-supply\\legacy\\0.2.0-sampler\\scripts\\build-windows.ps1",
+      "sha256": "e4be95d0caae4c8d26db669e463e65560173325562a4de10f256d223c1720c08",
+      "pass": true
+    },
+    {
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\drum-supply\\legacy\\0.2.0-sampler\\scripts\\manifest-renders.py",
+      "sha256": "5d6dad862da27611c41dab2016cd1ba221cf51ca4a05a4951bbeab85af38d75f",
+      "pass": true
+    },
+    {
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\drum-supply\\legacy\\0.2.0-sampler\\scripts\\package-candidate.py",
+      "sha256": "c2f2a223d29e999984c14d68e0a63e4e25fa9056f61b118e1a0695cc4fdeaea1",
+      "pass": true
+    },
+    {
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\drum-supply\\legacy\\0.2.0-sampler\\scripts\\run-sampler-checks.py",
+      "sha256": "4b8864da92d7e519ed22b255e2e596c4b03439f747dc3e74c6838c5efaa7714b",
+      "pass": true
+    },
+    {
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\drum-supply\\legacy\\0.2.0-sampler\\scripts\\toolchain-windows.ps1",
+      "sha256": "b76f449b31935d1e01448c226f1993ff409641f95351b25ad203c8bbfdf4195d",
+      "pass": true
+    },
+    {
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\drum-supply\\legacy\\0.2.0-sampler\\scripts\\validate-windows.ps1",
+      "sha256": "f76e66a07a7a03fbddfd3d414741e6dc49207418920e26161ec823bdbf852150",
+      "pass": true
+    },
+    {
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\drum-supply\\legacy\\0.2.0-sampler\\Source\\DrumEngine.h",
+      "sha256": "740e63d9a5e7efa10b256d3e2b4d73112afa9d79477f70cd3e84a3611acc709e",
+      "pass": true
+    },
+    {
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\drum-supply\\legacy\\0.2.0-sampler\\Source\\PluginEditor.cpp",
+      "sha256": "0d5be6852e0a3ea08a98a03e22ee63546797221ae4d133df94d6de57e4581c40",
+      "pass": true
+    },
+    {
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\drum-supply\\legacy\\0.2.0-sampler\\Source\\PluginEditor.h",
+      "sha256": "beb72558725ca5cad47fce5125a013b05445850f41129c3e1a30966a306348d2",
+      "pass": true
+    },
+    {
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\drum-supply\\legacy\\0.2.0-sampler\\Source\\PluginProcessor.cpp",
+      "sha256": "3c15ef9a6cc701646db4294c47947343eebac4d7982af477af44e9c5904f1ecf",
+      "pass": true
+    },
+    {
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\drum-supply\\legacy\\0.2.0-sampler\\Source\\PluginProcessor.h",
+      "sha256": "fa3cab0351a4e4df9e2b51d8ee91e19404172ea6b1c1588fdd5ed433a8692b16",
+      "pass": true
+    },
+    {
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\drum-supply\\legacy\\0.2.0-sampler\\Source\\SampleEngine.h",
+      "sha256": "02aad53213772248b9ad67d3021799e63b6456cc17b97c52bb9efc5a499b3f8a",
+      "pass": true
+    },
+    {
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\drum-supply\\legacy\\0.2.0-sampler\\Source\\SampleLibrary.cpp",
+      "sha256": "084c02f79ea0bbb992965f0e07cc9a8113bbba9cd7ef4ad2131fddb8f05baea6",
+      "pass": true
+    },
+    {
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\drum-supply\\legacy\\0.2.0-sampler\\Source\\SampleLibrary.h",
+      "sha256": "4400d87210f43c8279a93bf2de2f7d8ab5e1db0e357c4cbb80e5ca1597b5aee1",
+      "pass": true
+    },
+    {
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\drum-supply\\legacy\\0.2.0-sampler\\Tests\\DspTests.cpp",
+      "sha256": "47f9daa517c1aa65edd3e8c8a0d3c8c6567f621c76f885be4a2ed175bcf7719c",
+      "pass": true
+    },
+    {
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\drum-supply\\legacy\\0.2.0-sampler\\Tests\\ProcessorTests.cpp",
+      "sha256": "4d099f56998af87998e318b9a5d96d05183359b805a55d6a62f962f74d992647",
+      "pass": true
+    },
+    {
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\drum-supply\\legacy\\0.2.0-sampler\\Tests\\SampleTests.cpp",
+      "sha256": "cd1fe6415e36754ad11c618a271614c62f38446c342cbe74acae9b0e8fdc4228",
+      "pass": true
+    },
+    {
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\drum-supply\\legacy\\0.1.0\\Source\\DrumEngine.h",
+      "sha256": "740e63d9a5e7efa10b256d3e2b4d73112afa9d79477f70cd3e84a3611acc709e",
+      "pass": true
+    },
+    {
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\drum-supply\\legacy\\0.1.0\\Source\\PluginEditor.cpp",
+      "sha256": "8d27c536457302a1a9ab13a3d5a4ff8c1503317dde75702767ca3eb10501020a",
+      "pass": true
+    },
+    {
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\drum-supply\\legacy\\0.1.0\\Source\\PluginEditor.h",
+      "sha256": "85bbc807d4a23ab5bfccf818b2de5fbe9e6d96fa3c2524e565b75176f67a4be1",
+      "pass": true
+    },
+    {
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\drum-supply\\legacy\\0.1.0\\Source\\PluginProcessor.cpp",
+      "sha256": "10d5c4e0ea56391e4aefe4926adbecf047da7159625e2f055abb6e6a6ed75533",
+      "pass": true
+    },
+    {
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\drum-supply\\legacy\\0.1.0\\Source\\PluginProcessor.h",
+      "sha256": "c7232492a38976b2dfb9fc315095bca4bafd9ee9ab24bbb5ab08700a26788e2f",
+      "pass": true
+    },
+    {
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\drum-supply\\legacy\\0.1.0\\Tests\\DspTests.cpp",
+      "sha256": "47f9daa517c1aa65edd3e8c8a0d3c8c6567f621c76f885be4a2ed175bcf7719c",
+      "pass": true
+    },
+    {
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\drum-supply\\legacy\\0.1.0\\Tests\\ProcessorTests.cpp",
+      "sha256": "1c13df2d3e09867a1362e3fc7611d4fb703eb941a23bd0f7de48e9e61f1fdcb9",
+      "pass": true
+    },
+    {
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\drum-supply\\evidence\\write-recovery\\PluginEditor.cpp.invalid",
+      "sha256": "acc99a170e046b1afa483ef57a5bcfc5d3fcddb4cd0af2877949981f077fcb64",
+      "pass": true
+    },
+    {
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\drum-supply\\evidence\\write-recovery\\run-sampler-checks.py.invalid",
+      "sha256": "43e70407c1c344cca6a721719ad2266bfccef08465927f02ff504b73779cd852",
+      "pass": true
+    },
+    {
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\drum-supply\\evidence\\baseline-0.1.0\\Omega Drum Supply.vst3\\Contents\\Resources\\moduleinfo.json",
+      "sha256": "a0c0aeb371a4c1675c0b7d50e48caaeb5991202dadc694c1f3d24a2a18080a52",
+      "pass": true
+    },
+    {
+      "path": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\drum-supply\\evidence\\baseline-0.1.0\\Omega Drum Supply.vst3\\Contents\\x86_64-win\\Omega Drum Supply.vst3",
+      "sha256": "ddc894df9c9521fe9a534a8f3e47444ae0914cd2df0ecece9a09e9b59fce33ba",
+      "pass": true
+    }
+  ]
+}

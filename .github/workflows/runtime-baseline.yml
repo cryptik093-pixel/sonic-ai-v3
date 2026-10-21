@@ -50,3 +50,6 @@ jobs:
 
       - name: Import API and verify health route
         run: python -c "from apps.api.main import app; assert any(getattr(route, 'path', None) == '/health' for route in app.routes)"
+
+      - name: Test browser studio transport and metadata boundaries
+        run: python -m pytest apps/api/tests/test_studio_pipeline.py -q

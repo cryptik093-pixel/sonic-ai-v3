@@ -6,6 +6,9 @@ on:
       - "apps/api/session_integrity_router.py"
       - "apps/api/test_session_integrity.py"
       - "apps/api/main.py"
+      - "apps/api/fl_studio_integrity.py"
+      - "apps/api/fl_studio_integrity_cli.py"
+      - "apps/api/test_fl_studio_integrity.py"
       - ".github/workflows/session-integrity.yml"
   push:
     branches: [main]
@@ -27,6 +30,6 @@ jobs:
         with:
           python-version: "3.12"
       - name: Compile integrity modules
-        run: python -m compileall -q apps/api/session_integrity.py apps/api/session_integrity_router.py apps/api/test_session_integrity.py
+        run: python -m compileall -q apps/api/session_integrity.py apps/api/session_integrity_router.py apps/api/test_session_integrity.py apps/api/fl_studio_integrity.py apps/api/fl_studio_integrity_cli.py apps/api/test_fl_studio_integrity.py
       - name: Run integrity unit tests
-        run: python -m unittest apps.api.test_session_integrity -v
+        run: python -m unittest apps.api.test_session_integrity apps.api.test_fl_studio_integrity -v

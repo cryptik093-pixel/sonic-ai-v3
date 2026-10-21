@@ -12,5 +12,6 @@ New-Item -ItemType Directory -Path $Directory -Force | Out-Null
 Copy-Item -LiteralPath $source -Destination $destination -Recurse
 $entries=@(Get-ChildItem -LiteralPath $destination -Recurse -File -Force | ForEach-Object { [ordered]@{path=$_.FullName.Substring($destination.Length+1);sha256=(Get-FileHash -LiteralPath $_.FullName).Hash} })
 foreach($entry in $entries){if((Get-FileHash -LiteralPath (Join-Path $source $entry.path)).Hash -ne $entry.sha256){throw 'Installed copy differs from package; inspect installation before using.'}}
-[ordered]@{product='omega-sonic-organism';directory=$destination;files=$entries} | ConvertTo-Json -Depth 6 | Set-Content -LiteralPath "$destination/.oso-install-receipt.json" -Encoding utf8
+$directories=@(Get-ChildItem -LiteralPath $destination -Recurse -Directory -Force | ForEach-Object { $_.FullName.Substring($destination.Length+1) })
+[ordered]@{product='omega-sonic-organism';directory=$destination;files=$entries;directories=$directories} | ConvertTo-Json -Depth 6 | Set-Content -LiteralPath "$destination/.oso-install-receipt.json" -Encoding utf8
 Write-Output "Installed and verified $destination. Add the parent folder to your host's VST3 search paths if needed."

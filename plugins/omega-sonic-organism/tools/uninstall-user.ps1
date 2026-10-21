@@ -14,6 +14,11 @@ $files=@($items | Where-Object { -not $_.PSIsContainer -and $_.FullName -ne $rec
 if($files.Count -ne $receipt.files.Count){throw 'Installation contains changed or additional files. Nothing removed.'}
 $ownedFiles=[Collections.Generic.HashSet[string]]::new([StringComparer]::OrdinalIgnoreCase)
 $ownedDirectories=[Collections.Generic.HashSet[string]]::new([StringComparer]::OrdinalIgnoreCase)
+foreach($entry in $receipt.directories){
+    $path=[IO.Path]::GetFullPath((Join-Path $destination $entry))
+    if(-not $path.StartsWith($destination+[IO.Path]::DirectorySeparatorChar,[StringComparison]::OrdinalIgnoreCase) -or -not(Test-Path -LiteralPath $path -PathType Container)){throw 'Unsafe or missing owned directory. Nothing removed.'}
+    if(-not $ownedDirectories.Add($path)){throw 'Duplicate owned directory. Nothing removed.'}
+}
 foreach($entry in $receipt.files){
     $path=[IO.Path]::GetFullPath((Join-Path $destination $entry.path))
     if(-not $path.StartsWith($destination+[IO.Path]::DirectorySeparatorChar,[StringComparison]::OrdinalIgnoreCase)){throw 'Unsafe receipt path. Nothing removed.'}

@@ -36,6 +36,8 @@ private:
     uint32_t consumedStateRevision=0;
     double meterPeak=0,lastVelocity=0;
     int lastNote=-1;
+    double expectedBeat=0;
+    bool transportInitialized=false,wasPlaying=false;
 };
 class Controller final : public Steinberg::Vst::EditControllerEx1, public Steinberg::Vst::IMidiMapping {
 public:

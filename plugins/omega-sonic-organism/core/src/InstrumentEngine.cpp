@@ -67,6 +67,7 @@ void OrganismCore::setParameter(uint32_t id,double value) noexcept {
     controlCounter_=0;
 }
 void OrganismCore::setTempo(double bpm) noexcept {if(std::isfinite(bpm)&&bpm>=20&&bpm<=400&&bpm!=tempo_){tempo_=bpm;stepMotion_.setTempo(bpm);controlCounter_=0;}}
+void OrganismCore::seekMotion(double beat) noexcept {stepMotion_.seekBeats(beat);stepValue_=0;if(targets_[15]>0||smooth_[15]>0)controlCounter_=0;}
 void OrganismCore::setPitchBend(float bipolar) noexcept {if(std::isfinite(bipolar))bend_=std::clamp(double(bipolar),-1.,1.);}
 void OrganismCore::setSustain(bool down) noexcept {
     if(sustain_&&!down)for(auto& v:voices_)if(!v.keyDown)releaseVoice(v);sustain_=down;
@@ -174,6 +175,9 @@ void OrganismCore::allNotesOff() noexcept {heldCount_=0;sustain_=false;for(auto&
 int OrganismCore::activeVoices() const noexcept {int count=0;for(const auto& v:voices_)if(v.stage!=Stage::Off)++count;return count;}
 double OrganismCore::currentPitch(int index) const noexcept {return index>=0&&index<kMaxVoices?voices_[size_t(index)].pitch:0;}
 
+#if defined(_MSC_VER)
+__forceinline
+#endif
 double OrganismCore::voiceSample(Voice& v) noexcept {
     double sample=0;
     if(v.stage!=Stage::Off){

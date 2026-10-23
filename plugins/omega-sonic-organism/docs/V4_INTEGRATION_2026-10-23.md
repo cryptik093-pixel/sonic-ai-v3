@@ -10,8 +10,9 @@ Step Depth (115) smoothly controls up to one octave of cutoff modulation. Step P
 (116) selects Static, Pulse, Rise or seeded Orbit. All four fixed patterns are prepared
 before processing; selection neither allocates nor resets phase. The shared step clock
 uses sixteenth notes at the host tempo and preserves fractional phase across tempo changes.
-Processing restart resets phase deterministically. Musical-position seeking is not yet
-implemented; host timeline acceptance remains pending.
+Processing restart resets phase deterministically. Valid musical-position context now
+synchronizes transport starts, loops and seeks; contiguous callbacks preserve smoothing.
+Without valid musical position the lane free-runs. Actual FL Studio acceptance remains pending.
 
 Chamber Coupling (117) smoothly exchanges the real states of body modes 0 and 1 before
 their existing normalized rotations and damping. The exchange matrix has eigenvalues
@@ -71,3 +72,22 @@ passed; the captured MOTION page was visually inspected for the added controls.
 Production-function profile: Eco 100,000 voice samples 62.5589 ms, global room
 100,000 samples 27.0908 ms; HQ 70.3746 / 18.0158 ms respectively. These are
 isolated diagnostic timings, not callback percentage attribution or G07 acceptance.
+
+## Transport and optimization checkpoint
+
+New actual-adapter tests match the core sample for sample across starts, contiguous
+callbacks, tempo changes, loop jumps, stop and restart. Motion phase seek supports
+negative preroll and rejects nonfinite positions. New V4 stress-matrix mode enables
+maximum Step Depth, Orbit and Chamber Coupling without altering the original G07 load.
+
+The first normalized harmonic recurrence increased median thread cycles by roughly
+17% Eco / 12% HQ; its Newton-normalized variant increased them 9% / 6%. Both were
+rejected and their source/results retained only in test evidence. Original oscillator
+lookup arithmetic is preserved. A targeted MSVC voice-function inline produced zero
+sample difference against the preserved baseline and reduced median cycles 6.3% Eco /
+2.3% HQ in a 1024-callback-per-variant alternating run. This is a measured diagnostic
+improvement, not a passing CPU release gate. Global /O2 /Ob2 and FIR are unchanged.
+
+Review also found that a malformed MIDI note-on could put NaN in velocity telemetry.
+The adapter now ignores nonfinite velocity and out-of-range pitch before audio or meter
+updates. The actual processor test injects both and verifies unchanged finite meters.

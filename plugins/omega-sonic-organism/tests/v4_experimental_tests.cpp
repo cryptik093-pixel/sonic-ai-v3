@@ -53,6 +53,11 @@ int main() {
         CHECK(p.energy()<begin);
         p.reset();CHECK(p.tick()==0.&&p.energy()==0.);
     }
+    Motion16 seek;seek.prepare(48000,120,GenerativeState::Rise,1);seek.setDepth(1);
+    seek.seekBeats(1.375);CHECK(seek.stepIndex()==5);CHECK(std::abs(seek.stepPhase()-.5)<1e-12);
+    const double sample=seek.tick();for(int n=0;n<1000;++n)seek.tick();seek.seekBeats(1.375);CHECK(seek.tick()==sample);
+    seek.seekBeats(-.125);CHECK(seek.stepIndex()==15);CHECK(std::abs(seek.stepPhase()-.5)<1e-12);
+    seek.seekBeats(std::numeric_limits<double>::quiet_NaN());CHECK(seek.stepIndex()==15);
     const double nan=std::numeric_limits<double>::quiet_NaN();
     Motion16 invalid;invalid.prepare(nan,nan,GenerativeState::Rise,1);invalid.setDepth(1.);
     ModContour invalidContour;invalidContour.prepare(nan,nan,nan,nan,nan,nan);invalidContour.noteOn();

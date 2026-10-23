@@ -18,11 +18,11 @@ Current performance evidence must be read separately from historical RC2 results
 
 ## Runtime contracts
 
-`contracts/parameters.json` freezes IDs 100-114. Original processor/controller CIDs remain B7FE82DB13A64A8DAF3A2CAA5CCC4CB1 / B8BD8AECF05F4A27B0F6EE2B15346516. MIDI mapping IDs 1000-1003 cover bend, sustain, all-notes-off and all-sound-off. Read-only output telemetry 1010-1013 adds no sound-state fields.
+`contracts/parameters.json` freezes IDs 100-114 and defines additive V4 controls 115-117. Original processor/controller CIDs remain B7FE82DB13A64A8DAF3A2CAA5CCC4CB1 / B8BD8AECF05F4A27B0F6EE2B15346516. MIDI mapping IDs 1000-1003 cover bend, sustain, all-notes-off and all-sound-off. Read-only output telemetry 1010-1013 adds no sound-state fields.
 
 The adapter consumes host queues in time order, rendering bounded segments between event boundaries. Parameter points precede notes at equal offsets. The core smooths continuous values, refreshes costly coefficients every 16 samples, and uses fixed voice/note storage. Voice count is 1/8/16/32. Release voices are preferred for stealing, then oldest voices; steal transitions take five milliseconds. Room memory allocates only in preparation. Tests instrument C++ new around documented process paths; they are not a proof about every possible OS allocation.
 
-State format OSO1/schema 1 is unchanged: explicit little-endian doubles and an FNV corruption checksum, validated atomically. Six-field early states default later parameters. Sound parameters persist; current oscillation/voice phase, patch display names and user descriptions do not persist in native project state. A restarted instance retriggers deterministic sound from restored parameters.
+Default V4 values retain OSO1/schema 1 byte for byte; nonzero V4 controls use the explicit 18-value OSO2/schema 2 extension. Both are validated before publication. The retained OSO1 format uses explicit little-endian doubles and an FNV corruption checksum, validated atomically. Six-field early states default later parameters. Sound parameters persist; current oscillation/voice phase, patch display names and user descriptions do not persist in native project state. A restarted instance retriggers deterministic sound from restored parameters.
 
 `plugin/StateBridge.h` separates host state publication from audio-owned DSP.
 `setState` validates a complete state and serializes host producers outside the
@@ -63,3 +63,23 @@ python tools/analyze_engine_metrics.py <output-folder>
 ```
 
 The probes load the DLL with InitDll/GetPluginFactory; they are not named-DAW acceptance. The editor-only probe supplies synthetic controller/meter values to test drawing and synchronization; its captures are not evidence of audio-meter relay in a DAW. Separate adapter tests exercise actual processor telemetry through preallocated host output queues. Validator paths can be passed to `tools/validate-windows.ps1`. GUI interaction, host automation behavior and project recall must also be exercised in FL Studio.
+
+## Integrated V4 motion and body interaction
+
+Motion16 prepares all four fixed patterns before processing. A single shared lane
+advances in sixteenth notes and modulates cutoff by up to one octave through smoothed
+Step Depth. The existing LFO continues independently. Valid VST3 musical context
+synchronizes starts and timeline discontinuities to canonical four-beat step phase;
+contiguous callbacks preserve phase and smoothing. Without musical context the lane
+free-runs from processing reset at the supplied tempo. Tempo changes retain fractional
+step phase. Seek handling only affects the new lane, preserving legacy LFO behavior.
+
+Chamber Coupling performs bounded convex real-state exchange between two of the four
+existing modes before normalized rotation and damping. It adds no resonator bank or
+per-voice space. This models a controlled musical interaction inspired by the archived
+research; it is not a calibrated physical chamber simulation.
+
+A local MSVC force-inline on the existing voice processing function reduced measured
+thread cycles in the paired benchmark, with zero sample error. Global Release flags,
+original table oscillator and FIR remain unchanged. Two harmonic-recurrence candidates
+were rejected because measured processing cost increased despite meeting audio limits.

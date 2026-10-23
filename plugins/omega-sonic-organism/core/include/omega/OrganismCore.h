@@ -18,6 +18,7 @@ public:
     void setMaterial(float x) noexcept {setParameter(103,x);}
     void setOutput(float x) noexcept {setParameter(105,x);}
     void setTempo(double bpm) noexcept;
+    void seekMotion(double quarterNotes) noexcept;
     void setPitchBend(float bipolar) noexcept;
     void setSustain(bool down) noexcept;
     void noteOn(int note, float velocity, int32_t noteId = -1) noexcept;

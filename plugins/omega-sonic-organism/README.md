@@ -1,12 +1,14 @@
 # OMEGA SONIC ORGANISM development
 
-Current source identifies itself as **1.0.0-dev.v4**. It is an engineering
-build, not a qualified V4 release candidate. CPU recovery, experimental V4
-feature integration, FL Studio acceptance and listening remain open. Current
-work and reproducible evidence are recorded in
-[V4_RECOVERY_2026-10-22.md](docs/V4_RECOVERY_2026-10-22.md).
-The existing CIDs, sound parameter IDs, OSO1 encoding and 30 factory patches
-remain unchanged. See [host control contract v1](docs/CONTROL_CONTRACT_V1.md).
+Current source identifies itself as **1.0.0-dev.v4**. The deterministic 16-step
+MOTION lane and four-mode BODY coupling are now integrated into the native instrument.
+They are opt-in through IDs 115-117; existing IDs/CIDs and the 30 factory presets retain
+their meanings. Default V4 controls preserve exact OSO1 state and legacy audio; enabled
+V4 controls use the explicitly versioned OSO2 extension.
+
+This is a development build. G07 CPU performance, FL Studio acceptance and human
+listening remain release blockers. See [current implementation and evidence](docs/V4_INTEGRATION_2026-10-23.md)
+and the [retained host control contract](docs/CONTROL_CONTRACT_V1.md).
 
 ## Historical RC2 delivery
 

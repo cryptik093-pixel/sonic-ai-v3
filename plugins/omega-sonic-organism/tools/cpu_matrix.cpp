@@ -6,6 +6,7 @@
 #include <fstream>
 #include <iomanip>
 #include <iostream>
+#include <string>
 #include <vector>
 #ifdef _WIN32
 #define NOMINMAX
@@ -23,20 +24,22 @@ static double threadMs() { return -1; }
 #endif
 #define CHECK(x) do { if (!(x)) { std::cerr << "FAIL " << __LINE__ << ": " << #x << '\n'; return 1; } } while(false)
 int main(int argc,char** argv) {
-    CHECK(argc==2||argc==3);
-    const int callbacks=argc==3?std::atoi(argv[2]):256;
+    CHECK(argc==2||argc==3||argc==4);
+    const bool v4=argc==4&&std::string(argv[3])=="--v4";CHECK(argc!=4||v4);
+    const int callbacks=argc>=3?std::atoi(argv[2]):256;
     CHECK(callbacks>=32&&callbacks<=100000);
     std::ofstream out(argv[1]);CHECK(out);
     out << std::setprecision(10)
         << "{\"kind\":\"unpaced production-core stress matrix; not G07 or DAW acceptance\","
         << "\"warmupCallbacks\":32,\"callbacksPerCase\":" << callbacks
-        << ",\"workload\":\"maximum Energy Motion Material Space; continuous Morph and pitch bend; sustained voices\",\"cases\":[";
+        << ",\"v4Enabled\":" << (v4?"true":"false") << ",\"workload\":\"maximum Energy Motion Material Space; continuous Morph and pitch bend; sustained voices\",\"cases\":[";
     bool first=true;
     for(double rate:{44100.,48000.,96000.}) for(int frames:{64,256,1024})
     for(int voices:{1,8,16,32}) for(int quality:{0,1}) {
         omega::OrganismCore synth;
         synth.setParameter(110,quality);
         for(uint32_t id=101;id<=104;++id)synth.setParameter(id,1);
+        if(v4){synth.setParameter(115,1);synth.setParameter(116,1);synth.setParameter(117,1);}
         synth.prepare(rate,voices);
         for(int i=0;i<voices;++i)synth.noteOn(36+i,.95f,i);
         std::vector<float> l(size_t(frames),0),r(size_t(frames),0);

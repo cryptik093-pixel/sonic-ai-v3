@@ -42,7 +42,7 @@ private:
     omega::ParameterDefinition def;
 };
 }
-Processor::Processor(){setControllerClass(controllerID);processContextRequirements.needTempo();}
+Processor::Processor(){setControllerClass(controllerID);processContextRequirements.needTempo().needProjectTimeMusic();}
 tresult PLUGIN_API Processor::initialize(FUnknown* context) {
     auto r=AudioEffect::initialize(context);if(r!=kResultOk)return r;
     addEventInput(STR16("MIDI"),1);addAudioOutput(STR16("Stereo"),SpeakerArr::kStereo);return kResultOk;
@@ -56,7 +56,7 @@ tresult PLUGIN_API Processor::setupProcessing(ProcessSetup& setup) {
 }
 tresult PLUGIN_API Processor::setBusArrangements(SpeakerArrangement*,int32 ni,SpeakerArrangement* out,int32 no){return ni==0&&no==1&&out&&out[0]==SpeakerArr::kStereo?kResultOk:kResultFalse;}
 tresult PLUGIN_API Processor::canProcessSampleSize(int32 size){return size==kSample32?kResultTrue:kResultFalse;}
-tresult PLUGIN_API Processor::setProcessing(TBool){consumeHostState();core.resetVoices();stateBridge.publishFromAudio(values,consumedStateRevision);return kResultOk;}
+tresult PLUGIN_API Processor::setProcessing(TBool){consumeHostState();core.resetVoices();transportInitialized=false;wasPlaying=false;stateBridge.publishFromAudio(values,consumedStateRevision);return kResultOk;}
 void Processor::consumeHostState() noexcept {
     omega::ParameterValues pending{};uint32_t revision=0;
     if(stateBridge.pendingForAudio(pending,revision)){
@@ -82,6 +82,16 @@ tresult PLUGIN_API Processor::process(ProcessData& data) {
     struct Cursor { IParamValueQueue* queue=nullptr;int32 index=0,count=0,offset=0;double value=0;bool valid=false; };
     std::array<Cursor,omega::parameterDefinitions.size()+4> cursors{};
     if(data.processContext&&(data.processContext->state&ProcessContext::kTempoValid))core.setTempo(data.processContext->tempo);else core.setTempo(120);
+    // Follow host starts and timeline discontinuities when musical position is
+    // available. A contiguous callback keeps both phase and smoothing history.
+    if(data.processContext&&(data.processContext->state&ProcessContext::kProjectTimeMusicValid)&&std::isfinite(data.processContext->projectTimeMusic)){
+        const auto& context=*data.processContext;const bool playing=(context.state&ProcessContext::kPlaying)!=0;
+        const double beat=context.projectTimeMusic;
+        if(!transportInitialized||(playing&&!wasPlaying)||std::abs(beat-expectedBeat)>1e-7)core.seekMotion(beat);
+        const double bpm=(context.state&ProcessContext::kTempoValid)&&std::isfinite(context.tempo)&&context.tempo>=20&&context.tempo<=400?context.tempo:120.;
+        expectedBeat=beat+(playing?data.numSamples*bpm/(60.*processSetup.sampleRate):0.);
+        transportInitialized=true;wasPlaying=playing;
+    }else {transportInitialized=false;wasPlaying=false;}
     if(data.inputParameterChanges)for(int32 q=0;q<data.inputParameterChanges->getParameterCount();++q){
         auto* queue=data.inputParameterChanges->getParameterData(q);if(!queue)continue;const auto id=queue->getParameterId();int i=omega::parameterIndex(id);
         if(id>=1000&&id<=1003)i=int(id-1000)+int(values.size());if(i<0)continue;
@@ -99,7 +109,7 @@ tresult PLUGIN_API Processor::process(ProcessData& data) {
     for(int32 sample=0;sample<std::max<int32>(data.numSamples,1);){
         for(size_t i=0;i<cursors.size();++i){auto& c=cursors[i];while(c.valid&&c.offset<=sample){apply(i,c.value);++c.index;c.valid=c.index<c.count&&c.queue->getPoint(c.index,c.offset,c.value)==kResultTrue;}}
         while(hasEvent&&event.sampleOffset<=sample){
-            if(event.busIndex==0){if(event.type==Event::kNoteOnEvent){core.noteOn(event.noteOn.pitch,event.noteOn.velocity,event.noteOn.noteId);lastNote=event.noteOn.pitch;lastVelocity=std::clamp(double(event.noteOn.velocity),0.,1.);}else if(event.type==Event::kNoteOffEvent)core.noteOff(event.noteOff.pitch,event.noteOff.noteId);}
+            if(event.busIndex==0){if(event.type==Event::kNoteOnEvent&&event.noteOn.pitch>=0&&event.noteOn.pitch<=127&&std::isfinite(event.noteOn.velocity)){core.noteOn(event.noteOn.pitch,event.noteOn.velocity,event.noteOn.noteId);lastNote=event.noteOn.pitch;lastVelocity=std::clamp(double(event.noteOn.velocity),0.,1.);}else if(event.type==Event::kNoteOffEvent)core.noteOff(event.noteOff.pitch,event.noteOff.noteId);}
             ++eventIndex;hasEvent=eventIndex<eventCount&&data.inputEvents->getEvent(eventIndex,event)==kResultTrue;
         }
         if(!data.numSamples)break;

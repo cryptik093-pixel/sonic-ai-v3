@@ -44,6 +44,14 @@ public:
         bpm_=bpm;samplesPerStep_=sr_*60./(bpm_*4.);
         position_=phase*samplesPerStep_;
     }
+    // Canonical phase for transport starts/loops/seeks. Four quarter-note
+    // beats contain the sixteen steps. Normal playback never resets smoothing.
+    void seekBeats(double beat) noexcept {
+        if(!std::isfinite(beat))return;
+        double wrapped=std::fmod(beat,4.);if(wrapped<0)wrapped+=4.;
+        const double step=wrapped*4.;index_=int(step);
+        position_=(step-index_)*samplesPerStep_;filtered_=0.;
+    }
     void reset() noexcept {position_=0.;index_=0;filtered_=0.;}
     double tick() noexcept {
         const double target=steps_[size_t(mode_)][size_t(index_)];

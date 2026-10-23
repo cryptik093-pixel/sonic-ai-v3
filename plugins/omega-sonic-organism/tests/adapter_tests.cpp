@@ -3,6 +3,7 @@
 #include "public.sdk/source/vst/hosting/eventlist.h"
 #include "public.sdk/source/vst/hosting/parameterchanges.h"
 #include "pluginterfaces/vst/ivstmidicontrollers.h"
+#include "pluginterfaces/vst/ivstprocesscontext.h"
 #include <cstdlib>
 #include <iostream>
 #include <new>
@@ -10,6 +11,7 @@
 #include <fstream>
 #include <atomic>
 #include <thread>
+#include <limits>
 static thread_local bool measuring=false;
 static size_t allocations=0;
 void* operator new(std::size_t n){if(measuring)++allocations;if(auto* p=std::malloc(n?n:1))return p;throw std::bad_alloc();}
@@ -58,6 +60,29 @@ int main(){
             MemoryStream saved;CHECK(p.getState(&saved)==kResultOk);CHECK(saved.getSize()==164);CHECK(saved.seek(0,IBStream::kIBSeekSet,nullptr)==kResultOk);
             oso::Controller controller;CHECK(controller.initialize(nullptr)==kResultOk);CHECK(controller.setComponentState(&saved)==kResultOk);CHECK(controller.getParamNormalized(115)==.8&&controller.getParamNormalized(116)==1&&controller.getParamNormalized(117)==.9);CHECK(controller.terminate()==kResultOk);
         }
+        // Musical transport starts, tempo changes and a loop jump must reach
+        // the production motion lane without resetting ordinary contiguous blocks.
+        {
+            auto patch=omega::defaults();patch[0]=.75;patch[15]=.8;patch[16]=2./3;patch[17]=.7;
+            auto bytes=omega::encodeState(patch);MemoryStream initial(bytes.data(),bytes.size());CHECK(p.setState(&initial)==kResultOk);CHECK(p.setProcessing(true)==kResultOk);
+            omega::OrganismCore reference;for(size_t i=0;i<patch.size();++i)reference.setParameter(omega::parameterDefinitions[i].id,patch[i]);reference.prepare(rate);
+            std::array<float,64> l{},r{},el{},er{};float* channels[]={l.data(),r.data()};AudioBusBuffers bus{};bus.numChannels=2;bus.channelBuffers32=channels;
+            ProcessContext context{};context.sampleRate=rate;context.tempo=120;
+            context.state=ProcessContext::kTempoValid|ProcessContext::kProjectTimeMusicValid|ProcessContext::kPlaying;
+            EventList events;Event on{};on.type=Event::kNoteOnEvent;on.noteOn.pitch=60;on.noteOn.velocity=.8f;on.noteOn.noteId=43;CHECK(events.addEvent(on)==kResultOk);
+            ProcessData data{};data.numSamples=64;data.symbolicSampleSize=kSample32;data.numOutputs=1;data.outputs=&bus;data.inputEvents=&events;data.processContext=&context;
+            double beat=.25;
+            for(int block=0;block<6;++block){
+                if(block==2){beat=8.5;context.tempo=173;}if(block==4)context.state&=~ProcessContext::kPlaying;
+                if(block==5)context.state|=ProcessContext::kPlaying;
+                context.projectTimeMusic=beat;reference.setTempo(context.tempo);
+                if(block==0||block==2||block==5)reference.seekMotion(beat);
+                if(block==0)reference.noteOn(60,.8f,43);
+                measuring=true;CHECK(p.process(data)==kResultOk);measuring=false;
+                reference.render(el.data(),er.data(),64);CHECK(l==el&&r==er);events.clear();
+                if(context.state&ProcessContext::kPlaying)beat+=64*context.tempo/(60*rate);
+            }
+        }
         // Exercise the actual hidden MIDI mapping at nonzero sample offsets.
         {
             auto patch=omega::defaults();patch[0]=.5;patch[2]=0;
@@ -89,7 +114,9 @@ int main(){
             std::array<float,256> l{},r{};float* channels[]={l.data(),r.data()};AudioBusBuffers bus{};bus.numChannels=2;bus.channelBuffers32=channels;EventList events;
             Event on{};on.type=Event::kNoteOnEvent;on.noteOn.pitch=72;on.noteOn.velocity=.7f;on.noteOn.noteId=55;CHECK(events.addEvent(on)==kResultOk);
             ProcessData data{};data.numSamples=256;data.symbolicSampleSize=kSample32;data.numOutputs=1;data.outputs=&bus;data.inputEvents=&events;data.outputParameterChanges=&meters;
-            for(int block=0;block<4;++block){meters.clearQueue();measuring=true;CHECK(p.process(data)==kResultOk);measuring=false;events.clear();CHECK(meters.getParameterCount()==4);
+            for(int block=0;block<4;++block){
+                if(block==1){Event invalid{};invalid.type=Event::kNoteOnEvent;invalid.noteOn.pitch=55;invalid.noteOn.velocity=std::numeric_limits<float>::quiet_NaN();CHECK(events.addEvent(invalid)==kResultOk);invalid.noteOn.pitch=130;invalid.noteOn.velocity=.9f;CHECK(events.addEvent(invalid)==kResultOk);}
+                meters.clearQueue();measuring=true;CHECK(p.process(data)==kResultOk);measuring=false;events.clear();CHECK(meters.getParameterCount()==4);
                 for(int32 i=0;i<4;++i){auto* q=meters.getParameterData(i);CHECK(q&&q->getParameterId()==ParamID(1010+i)&&q->getPointCount()==1);int32 offset=-1;double value=-1;CHECK(q->getPoint(0,offset,value)==kResultOk);CHECK(offset==255&&std::isfinite(value)&&value>=0&&value<=1);
                     if(i==0)CHECK(value>0);if(i==1)CHECK(value==1./32);if(i==2)CHECK(value==73./128);if(i==3)CHECK(std::abs(value-.7)<1e-6);}
             }

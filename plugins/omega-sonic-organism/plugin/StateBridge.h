@@ -11,20 +11,20 @@ class StateBridge final {
     static_assert(std::atomic<double>::is_always_lock_free);
     static_assert(std::atomic<uint32_t>::is_always_lock_free);
     struct Slot {
-        std::array<std::atomic<double>,15> values{};
+        std::array<std::atomic<double>,omega::parameterDefinitions.size()> values{};
         std::atomic<uint32_t> sequence{0};
-        Slot(){const auto initial=omega::defaults();for(size_t i=0;i<15;++i)values[i].store(initial[i],std::memory_order_relaxed);}
+        Slot(){const auto initial=omega::defaults();for(size_t i=0;i<omega::parameterDefinitions.size();++i)values[i].store(initial[i],std::memory_order_relaxed);}
         void write(const omega::ParameterValues& source) noexcept {
             // Sequential consistency orders the odd marker before all payload
             // writes, including on machines with weaker memory ordering.
             sequence.fetch_add(1);
-            for(size_t i=0;i<15;++i)values[i].store(source[i]);
+            for(size_t i=0;i<omega::parameterDefinitions.size();++i)values[i].store(source[i]);
             sequence.fetch_add(1);
         }
         bool read(omega::ParameterValues& result,uint32_t& revision) const noexcept {
             const uint32_t before=sequence.load();if(before&1)return false;
             omega::ParameterValues candidate{};
-            for(size_t i=0;i<15;++i)candidate[i]=values[i].load();
+            for(size_t i=0;i<omega::parameterDefinitions.size();++i)candidate[i]=values[i].load();
             if(sequence.load()!=before)return false;
             result=candidate;revision=before;return true;
         }

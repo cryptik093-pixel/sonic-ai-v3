@@ -39,9 +39,9 @@ public:
 };
 class Editor final: public Steinberg::Vst::VSTGUIEditor, public IControlListener {
     Controller* model;
-    std::array<CControl*,15> controls{};
-    std::array<CTextEdit*,15> textValues{};
-    std::array<bool,15> gestures{};
+    std::array<CControl*,omega::parameterDefinitions.size()> controls{};
+    std::array<CTextEdit*,omega::parameterDefinitions.size()> textValues{};
+    std::array<bool,omega::parameterDefinitions.size()> gestures{};
     std::vector<CView*> advanced;
     std::vector<omega::Preset> bank;
     COptionMenu* patches=nullptr;
@@ -62,18 +62,18 @@ class Editor final: public Steinberg::Vst::VSTGUIEditor, public IControlListener
         frame->invalid();
     }
     void selectSector(int sector){
-        static constexpr size_t focus[]={0,1,3,6,1,13,4};
+        static constexpr size_t focus[]={0,1,17,6,1,15,4};
         static constexpr const char* descriptions[]={
             "DNA / Morph changes the structure of one voice across five identities.",
             "EXCITE / Energy shapes harmonic brightness, drive and strike intensity.",
-            "BODY / Material shapes inharmonic modes and noise excitation.",
+            "BODY / Chamber Coupling exchanges energy inside the four-mode material bank.",
             "LIFE / Attack, release, glide, voices and legato control note articulation.",
             "CONTOUR / Energy shapes the stable lowpass and calibrated Eco/HQ drive.",
-            "MOTION / Tempo Sync and Motion Rate control shared rhythmic modulation.",
+            "MOTION / Step Depth and Pattern add deterministic timbral steps at host tempo.",
             "SPACE / Space controls the single global stereo room; Output sets final gain."
         };
         if(sector<0||sector>6)return;
-        showAdvanced(sector==3||sector==5);
+        showAdvanced(sector==2||sector==3||sector==5);
         frame->setFocusView(controls[focus[sector]]);
         status->setText(descriptions[sector]);
     }
@@ -127,9 +127,9 @@ public:
         const char* macroNames[]={"ENERGY","MOTION","MATERIAL","SPACE"};const char* hints[]={"Drive / brightness / impact","Profile-specific modulation","Body / inharmonicity / noise","Dry to stereo ambience"};
         for(int i=0;i<4;++i){const double x=32+i*164;label({x,313,x+150,337},macroNames[i],14,gold);addParameter(size_t(i+1),{x+24,347,x+124,447},true);textValue(size_t(i+1),{x+24,452,x+124,476});label({x,482,x+158,505},hints[i],11,muted);}
         label({710,316,1006,339},"OUTPUT / HEADROOM",14,gold);addParameter(5,{710,355,1006,379});textValue(5,{838,389,1006,415});label({710,438,1006,461},"15 samples latency / Eco + HQ",12,muted);label({710,464,1006,487},"No samples. No login. No network.",12,muted);
-        const char* advNames[]={"ATTACK SCALE","RELEASE SCALE","GLIDE ms","VOICES","QUALITY","BEND RANGE","TEMPO SYNC","MOTION RATE","MONO LEGATO"};
+        const char* advNames[]={"ATTACK SCALE","RELEASE SCALE","GLIDE ms","VOICES","QUALITY","BEND RANGE","TEMPO SYNC","MOTION RATE","MONO LEGATO","STEP DEPTH","STEP PATTERN","CHAMBER COUPLING"};
         // Advanced controls occupy a separate page; macro controls stay available through the host.
-        for(size_t i=6;i<15;++i){const size_t n=i-6;double x=32+double(n%3)*326,y=316+double(n/3)*65;const auto before=frame->getNbViews();label({x,y,x+150,y+20},advNames[n],11,gold);addParameter(i,{x+155,y,x+300,y+23});if(!omega::parameterDefinitions[i].steps)textValue(i,{x+155,y+26,x+300,y+49});for(int32_t k=before;k<frame->getNbViews();++k){auto* v=frame->getView(k);v->setVisible(false);advanced.push_back(v);}}
+        for(size_t i=6;i<omega::parameterDefinitions.size();++i){const size_t n=i-6;double x=32+double(n%3)*326,y=308+double(n/3)*53;const auto before=frame->getNbViews();label({x,y,x+150,y+20},advNames[n],11,gold);addParameter(i,{x+155,y,x+300,y+23});if(!omega::parameterDefinitions[i].steps)textValue(i,{x+155,y+26,x+300,y+49});for(int32_t k=before;k<frame->getNbViews();++k){auto* v=frame->getView(k);v->setVisible(false);advanced.push_back(v);}}
         monitor=label({32,526,1006,550},"Waiting for host output meters",12,gold);status=label({32,557,1006,580},"Ready. Play MIDI notes in your host. All sound generation stays local.",12,muted);label({32,589,1006,610},"OMEGA SONIC ORGANISM  " OSO_PRODUCT_VERSION "     /     WINDOWS x64 VST3     /     TAB: FOCUS   ARROWS: ADJUST",10,muted);
         refresh();if(!frame->open(parent,type)){close();return false;}return true;
     }
@@ -139,8 +139,8 @@ public:
     tresult PLUGIN_API checkSizeConstraint(ViewRect* r) override {if(!r)return kInvalidArgument;const double scale=std::clamp(double(r->right-r->left)/1040.,.8,1.5);r->right=r->left+int32(std::round(1040*scale));r->bottom=r->top+int32(std::round(620*scale));return kResultTrue;}
     tresult PLUGIN_API onSize(ViewRect* r) override {if(!r)return kInvalidArgument;if(frame)frame->setZoom(double(r->right-r->left)/1040.);return Steinberg::Vst::EditorView::onSize(r);}
     CMessageResult notify(VSTGUI::CBaseObject* sender,const char* message) override {if(message==CVSTGUITimer::kMsgTimer)refresh();return VSTGUIEditor::notify(sender,message);}
-    void valueChanged(CControl* c) override {if(refreshing)return;int tag=c->getTag();if(tag>=100&&tag<=114){edit(size_t(tag-100),c->getValueNormalized());return;}
-        if(tag>=200&&tag<=214){size_t i=size_t(tag-200);Steinberg::Vst::String128 text{};UString(text,128).fromAscii(textValues[i]->getText().getString().c_str());double n=0;if(model->getParamValueByString(omega::parameterDefinitions[i].id,text,n)==kResultTrue&&std::isfinite(n)&&n>=0&&n<=1)edit(i,n);else status->setText("Invalid value. Use the displayed physical units and range.");refresh();return;}
+    void valueChanged(CControl* c) override {if(refreshing)return;int tag=c->getTag();if(tag>=100&&tag<=117){edit(size_t(tag-100),c->getValueNormalized());return;}
+        if(tag>=200&&tag<=217){size_t i=size_t(tag-200);Steinberg::Vst::String128 text{};UString(text,128).fromAscii(textValues[i]->getText().getString().c_str());double n=0;if(model->getParamValueByString(omega::parameterDefinitions[i].id,text,n)==kResultTrue&&std::isfinite(n)&&n>=0&&n<=1)edit(i,n);else status->setText("Invalid value. Use the displayed physical units and range.");refresh();return;}
         if(tag==300){const int index=int(std::round(c->getValue()))-1;if(index>=0&&size_t(index)<bank.size())load(bank[size_t(index)]);return;}if(c->getValue()<.5)return;
         if(tag==301||tag==302){file(tag==302);return;}if(tag>=310&&tag<=314){edit(0,(tag-310)*.25);refresh();return;}
         if(tag==303){showAdvanced(!advancedVisible);return;}

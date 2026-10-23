@@ -1,3 +1,7 @@
+> Implementation update 2026-10-23: motion and coupling now run in the instrument
+> through additive controls with legacy defaults preserved. The original R&D stage
+> below is historical. See [current integration](V4_INTEGRATION_2026-10-23.md).
+
 # OSO V4 Instrument V2 — Seven Sectors, Envelopes, Generative States and Coupled-Mode Effects
 **Decision:** V4 architecture is APPROVED; implementation below is an additive R&D extension to RC2, not proof of V2 readiness.
 **Cross-reference:** docs/research/GIZA_COUPLED_CHAMBERS_2026-10-21.md and the archived OMEGA_SONIC_ORGANISM_V4_ARCHITECTURE_LOCK.md.

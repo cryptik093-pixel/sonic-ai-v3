@@ -15,6 +15,8 @@ int main(){
     auto rejectValue=[&](const std::string& key,const std::string& value){auto prefix="\""+key+"\":";auto pos=good.find(prefix);CHECK(pos!=std::string::npos);pos+=prefix.size();auto end=good.find_first_of(",}",pos);CHECK(end!=std::string::npos);reject(good.substr(pos-prefix.size(),end-pos+prefix.size()),prefix+value);};
     rejectValue("morph","1.1");rejectValue("quality","0.4");reject("\"space\":","\"unknown\":");rejectValue("schema_version","2");rejectValue("morph","true");
     omega::Preset unicode;unicode.name="Glass \xf0\x9f\x8e\xb9";unicode.description="Line\nTwo\t\"quoted\"";omega::Preset decoded;CHECK(omega::parsePreset(omega::exportPreset(unicode),decoded,error));CHECK(decoded.name==unicode.name);CHECK(decoded.description==unicode.description);
+    unicode.params[15]=.91;unicode.params[16]=1;unicode.params[17]=.52;
+    CHECK(omega::parsePreset(omega::exportPreset(unicode),decoded,error));CHECK(decoded.params==unicode.params);
     CHECK(!omega::parsePreset(good+" false",decoded,error));CHECK(!omega::parsePreset(std::string(65537,' '),decoded,error));
     std::cout<<"PASS 30 embedded patches, exact JSON roundtrips, truncation, schema rejection and atomic rollback\n";
 }

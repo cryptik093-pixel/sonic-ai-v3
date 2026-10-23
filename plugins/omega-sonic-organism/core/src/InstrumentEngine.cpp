@@ -47,6 +47,7 @@ void OrganismCore::prepare(double sampleRate,int voiceLimit) {
     strikeDecay_=std::exp(-1/(.018*sr_));
     slew_=1-std::exp(-1/(.018*sr_));dcPole_=std::exp(-2*dsp::pi*5/sr_);
     stealLength_=std::max(1,int(sr_*.005));tables_.prepare();room_.prepare(sr_);
+    stepMotion_.prepare(sr_,tempo_,v4::GenerativeState::Static,0x4f534f34u);
     if(voiceLimit>0)setVoiceLimit(voiceLimit);
     else {constexpr int counts[]={1,8,16,32};voiceLimit_=counts[int(std::round(targets_[9]*3))];}
     resetVoices();
@@ -61,10 +62,11 @@ void OrganismCore::setParameter(uint32_t id,double value) noexcept {
     }
     if(i==10&&value>targets_[i])for(auto& v:voices_)v.drive.resetHQ();
     targets_[i]=value;if(steps)smooth_[i]=value;
+    if(i==16)stepMotion_.setState(v4::GenerativeState(int(std::round(value*3))));
     if(i==9){constexpr int counts[]={1,8,16,32};setVoiceLimit(counts[int(std::round(value*3))]);}
     controlCounter_=0;
 }
-void OrganismCore::setTempo(double bpm) noexcept {if(std::isfinite(bpm)&&bpm>=20&&bpm<=400&&bpm!=tempo_){tempo_=bpm;controlCounter_=0;}}
+void OrganismCore::setTempo(double bpm) noexcept {if(std::isfinite(bpm)&&bpm>=20&&bpm<=400&&bpm!=tempo_){tempo_=bpm;stepMotion_.setTempo(bpm);controlCounter_=0;}}
 void OrganismCore::setPitchBend(float bipolar) noexcept {if(std::isfinite(bipolar))bend_=std::clamp(double(bipolar),-1.,1.);}
 void OrganismCore::setSustain(bool down) noexcept {
     if(sustain_&&!down)for(auto& v:voices_)if(!v.keyDown)releaseVoice(v);sustain_=down;
@@ -76,13 +78,14 @@ void OrganismCore::setVoiceLimit(int count) noexcept {
 void OrganismCore::resetVoices() noexcept {
     for(auto& voice:voices_)voice=Voice{};
     counter_=1;heldCount_=0;sustain_=false;bend_=bendSmooth_=0;
+    stepMotion_.reset();stepMotion_.setDepth(1);stepMotion_.setState(v4::GenerativeState(int(std::round(targets_[16]*3))));stepValue_=0;
     smooth_=targets_;hqMix_=targets_[10];lfoPhase_=lfo_=0;
     dcL_=dcR_=prevL_=prevR_=0;controlCounter_=0;lastMorph_=lastEnergy_=lastOutputLevel_=-1;room_.reset();refreshCoefficients();
 }
 void OrganismCore::refreshCoefficients() noexcept {
     if(std::abs(smooth_[0]-lastMorph_)>1e-10){traits_=traitsAt(smooth_[0]);lastMorph_=smooth_[0];}
     const double motion=smooth_[2];lfo_=tables_.sine(lfoPhase_);
-    const double cutoff=traits_.cutoff*(.55+2.2*smooth_[1])*std::exp2(traits_.wobble*motion*lfo_);
+    const double cutoff=traits_.cutoff*(.55+2.2*smooth_[1])*std::exp2(traits_.wobble*motion*lfo_+stepValue_);
     filter_=dsp::LowPass::coefficients(cutoff,traits_.q,sr_);
     const double attack=traits_.attack*physical(parameterDefinitions[6],smooth_[6]);
     const double release=traits_.release*physical(parameterDefinitions[7],smooth_[7]);
@@ -192,6 +195,11 @@ double OrganismCore::voiceSample(Voice& v) noexcept {
         const double noise=double(v.rng)/2147483647.5-1;
         double modal=0;
         if(v.modesActive){
+            // Convex real-state exchange between two of the existing FOUR modes.
+            // k <= .02 makes the exchange contractive; normalized rotation and
+            // damping cannot increase total pair energy. No additional bank.
+            if(smooth_[17]>0){const double delta=.02*smooth_[17]*(v.modes[1].re-v.modes[0].re);
+                v.modes[0].re+=delta;v.modes[1].re-=delta;}
             for(auto& mode:v.modes){const double re=mode.re,im=mode.im;
                 mode.re=dsp::zap((re*mode.cosine-im*mode.sine)*mode.decay);
                 mode.im=dsp::zap((re*mode.sine+im*mode.cosine)*mode.decay);
@@ -219,6 +227,7 @@ void OrganismCore::render(float* left,float* right,int frames) noexcept {
         for(size_t i=0;i<smooth_.size();++i)if(!parameterDefinitions[i].steps){const double difference=targets_[i]-smooth_[i];smooth_[i]=std::abs(difference)<1e-9?targets_[i]:smooth_[i]+slew_*difference;}
         bendSmooth_=dsp::zap(bendSmooth_+slew_*(bend_-bendSmooth_));
         const double hqStep=1/(sr_*.01);hqMix_+=std::clamp(targets_[10]-hqMix_,-hqStep,hqStep);
+        stepValue_=smooth_[15]*stepMotion_.tick();
         if(controlCounter_--<=0){refreshCoefficients();controlCounter_=15;}
         pulseWidth_=.5+.12*smooth_[2]*traits_.spread*lfo_;pulseDc_=2*pulseWidth_-1;
         tremolo_=1-.25*traits_.wobble*smooth_[2]*(.5+.5*lfo_);

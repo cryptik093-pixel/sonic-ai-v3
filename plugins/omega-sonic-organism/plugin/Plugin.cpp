@@ -20,7 +20,7 @@ bool readState(IBStream* stream,omega::ParameterValues& result) {
     if(!stream)return false;
     omega::StateBytes b{};int32 got=0;
     if(stream->read(b.data(),16,&got)!=kResultOk||got!=16)return false;
-    auto count=omega::get32(b.data()+8);if(count<6||count>15)return false;
+    auto count=omega::get32(b.data()+8);if(count<6||count>omega::parameterDefinitions.size())return false;
     int32 remaining=static_cast<int32>(4+count*8);
     if(stream->read(b.data()+16,remaining,&got)!=kResultOk||got!=remaining)return false;
     return omega::decodeState(b.data(),16+remaining,result);
@@ -68,7 +68,7 @@ void Processor::apply(size_t i,double n) noexcept {
     if(!std::isfinite(n))return;
     if(i>=values.size()){
         n=std::clamp(n,0.0,1.0);
-        switch(i){case 15:core.setPitchBend(float(n*2-1));break;case 16:core.setSustain(n>=.5);break;case 17:core.allNotesOff();break;case 18:core.resetVoices();break;default:break;}
+        switch(i-values.size()){case 0:core.setPitchBend(float(n*2-1));break;case 1:core.setSustain(n>=.5);break;case 2:core.allNotesOff();break;case 3:core.resetVoices();break;default:break;}
         return;
     }
     n=std::clamp(n,0.0,1.0);const int steps=omega::parameterDefinitions[i].steps;
@@ -80,11 +80,11 @@ tresult PLUGIN_API Processor::process(ProcessData& data) {
     consumeHostState();
     const auto initialFaults=core.nonFiniteFaults();
     struct Cursor { IParamValueQueue* queue=nullptr;int32 index=0,count=0,offset=0;double value=0;bool valid=false; };
-    std::array<Cursor,19> cursors{};
+    std::array<Cursor,omega::parameterDefinitions.size()+4> cursors{};
     if(data.processContext&&(data.processContext->state&ProcessContext::kTempoValid))core.setTempo(data.processContext->tempo);else core.setTempo(120);
     if(data.inputParameterChanges)for(int32 q=0;q<data.inputParameterChanges->getParameterCount();++q){
         auto* queue=data.inputParameterChanges->getParameterData(q);if(!queue)continue;const auto id=queue->getParameterId();int i=omega::parameterIndex(id);
-        if(id>=1000&&id<=1003)i=int(id-1000)+15;if(i<0)continue;
+        if(id>=1000&&id<=1003)i=int(id-1000)+int(values.size());if(i<0)continue;
         auto& c=cursors[size_t(i)];c.queue=queue;c.count=queue->getPointCount();c.valid=c.count>0&&queue->getPoint(0,c.offset,c.value)==kResultTrue;
     }
     float* left=nullptr;float* right=nullptr;

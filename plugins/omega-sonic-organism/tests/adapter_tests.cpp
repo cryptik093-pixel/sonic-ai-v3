@@ -41,7 +41,22 @@ int main(){
             events.clear();data.inputEvents=nullptr;data.inputParameterChanges=nullptr;
             for(int block=0;block<20;++block){measuring=true;CHECK(p.process(data)==kResultOk);measuring=false;for(float x:l)CHECK(std::isfinite(x)&&std::abs(x)<=1);}
             MemoryStream stream;CHECK(p.getState(&stream)==kResultOk);CHECK(stream.getSize()==omega::stateSize);CHECK(stream.seek(0,IBStream::kIBSeekSet,nullptr)==kResultOk);
-            oso::Controller controller;CHECK(controller.initialize(nullptr)==kResultOk);CHECK(controller.setComponentState(&stream)==kResultOk);CHECK(controller.getParameterCount()==23);CHECK(controller.getParamNormalized(100)==.625);CHECK(p.getLatencySamples()==omega::OrganismCore::latencySamples);CHECK(controller.terminate()==kResultOk);
+            oso::Controller controller;CHECK(controller.initialize(nullptr)==kResultOk);CHECK(controller.setComponentState(&stream)==kResultOk);CHECK(controller.getParameterCount()==26);CHECK(controller.getParamNormalized(100)==.625);CHECK(p.getLatencySamples()==omega::OrganismCore::latencySamples);CHECK(controller.terminate()==kResultOk);
+        }
+        // All additive controls pass through the actual sample-offset queue
+        // scheduler and survive processor-to-controller OSO2 state recall.
+        {
+            auto patch=omega::defaults();patch[0]=.25;auto bytes=omega::encodeState(patch);
+            MemoryStream initial(bytes.data(),bytes.size());CHECK(p.setState(&initial)==kResultOk);CHECK(p.setProcessing(true)==kResultOk);
+            omega::OrganismCore reference;reference.setMorph(.25f);reference.prepare(rate);
+            std::array<float,256> l{},r{},el{},er{};float* channels[]={l.data(),r.data()};AudioBusBuffers bus{};bus.numChannels=2;bus.channelBuffers32=channels;
+            EventList events;Event on{};on.type=Event::kNoteOnEvent;on.noteOn.pitch=60;on.noteOn.velocity=.8f;on.noteOn.noteId=41;CHECK(events.addEvent(on)==kResultOk);
+            ParameterChanges changes(3);int32 index=0;changes.addParameterData(116,index)->addPoint(0,1,index);changes.addParameterData(115,index)->addPoint(37,.8,index);changes.addParameterData(117,index)->addPoint(96,.9,index);
+            ProcessData data{};data.numSamples=256;data.symbolicSampleSize=kSample32;data.numOutputs=1;data.outputs=&bus;data.inputEvents=&events;data.inputParameterChanges=&changes;
+            measuring=true;CHECK(p.process(data)==kResultOk);measuring=false;
+            for(int n=0;n<256;++n){if(n==0){reference.setParameter(116,1);reference.noteOn(60,.8f,41);}if(n==37)reference.setParameter(115,.8);if(n==96)reference.setParameter(117,.9);reference.render(el.data()+n,er.data()+n,1);CHECK(l[n]==el[n]&&r[n]==er[n]);}
+            MemoryStream saved;CHECK(p.getState(&saved)==kResultOk);CHECK(saved.getSize()==164);CHECK(saved.seek(0,IBStream::kIBSeekSet,nullptr)==kResultOk);
+            oso::Controller controller;CHECK(controller.initialize(nullptr)==kResultOk);CHECK(controller.setComponentState(&saved)==kResultOk);CHECK(controller.getParamNormalized(115)==.8&&controller.getParamNormalized(116)==1&&controller.getParamNormalized(117)==.9);CHECK(controller.terminate()==kResultOk);
         }
         // Exercise the actual hidden MIDI mapping at nonzero sample offsets.
         {
@@ -61,7 +76,7 @@ int main(){
             oso::Controller controller;CHECK(controller.initialize(nullptr)==kResultOk);
             ParamID mapped=0;CHECK(controller.getMidiControllerAssignment(0,0,kPitchBend,mapped)==kResultOk&&mapped==1000);CHECK(controller.getMidiControllerAssignment(0,0,kCtrlSustainOnOff,mapped)==kResultOk&&mapped==1001);CHECK(controller.getMidiControllerAssignment(0,1,kPitchBend,mapped)==kResultFalse);
             void* mapping=nullptr;CHECK(controller.queryInterface(IMidiMapping::iid,&mapping)==kResultOk&&mapping);static_cast<IMidiMapping*>(mapping)->release();
-            for(int32 i=0;i<15;++i){ParameterInfo info{};CHECK(controller.getParameterInfo(i,info)==kResultOk);const auto& def=omega::parameterDefinitions[size_t(i)];CHECK(info.id==def.id&&info.stepCount==def.steps);CHECK(bool(info.flags&ParameterInfo::kCanAutomate)==def.automatable);CHECK(!(info.flags&ParameterInfo::kIsReadOnly));}
+            for(int32 i=0;i<int32(omega::parameterDefinitions.size());++i){ParameterInfo info{};CHECK(controller.getParameterInfo(i,info)==kResultOk);const auto& def=omega::parameterDefinitions[size_t(i)];CHECK(info.id==def.id&&info.stepCount==def.steps);CHECK(bool(info.flags&ParameterInfo::kCanAutomate)==def.automatable);CHECK(!(info.flags&ParameterInfo::kIsReadOnly));}
             CHECK(controller.terminate()==kResultOk);
         }
         // Exercise real processor meter output with host-owned queues primed

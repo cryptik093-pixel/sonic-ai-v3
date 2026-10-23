@@ -1,3 +1,8 @@
+> V4 extension: contract version 2 adds IDs 115 Step Depth, 116 Step Pattern and
+> 117 Chamber Coupling. Default new values retain exact OSO1 bytes; enabled V4
+> state uses explicitly versioned OSO2. See [integration details](V4_INTEGRATION_2026-10-23.md).
+> The v1 description below records the retained legacy subset.
+
 # Host control contract v1
 
 Contract name: `omega-sonic-organism.host-control`, version `1`.

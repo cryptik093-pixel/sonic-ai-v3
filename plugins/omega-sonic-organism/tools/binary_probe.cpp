@@ -19,20 +19,21 @@ static void u32(std::ostream& o,uint32_t v){char b[4];for(int i=0;i<4;++i)b[i]=c
 static void u16(std::ostream& o,uint16_t v){char b[2]={char(v),char(v>>8)};o.write(b,2);}
 static void wav(const std::filesystem::path& path,const std::vector<float>& samples){std::ofstream o(path,std::ios::binary);CHECK(o);o.write("RIFF",4);u32(o,36+uint32_t(samples.size()*4));o.write("WAVEfmt ",8);u32(o,16);u16(o,3);u16(o,2);u32(o,48000);u32(o,48000*8);u16(o,8);u16(o,32);o.write("data",4);u32(o,uint32_t(samples.size()*4));o.write(reinterpret_cast<const char*>(samples.data()),samples.size()*4);CHECK(o);}
 int wmain(int argc,wchar_t** argv){
-    CHECK(argc==3||argc==4||argc==5);const bool restoreMode=argc==5&&std::wstring(argv[3])==L"--restore";CHECK(argc!=5||restoreMode);const bool bankMode=argc==4&&std::wstring(argv[3])==L"--bank";const bool hq=argc==4&&argv[3][0]==L'1';HMODULE module=LoadLibraryW(argv[1]);CHECK(module);
+    CHECK(argc==3||argc==4||argc==5);const bool restoreMode=argc==5&&std::wstring(argv[3])==L"--restore";CHECK(argc!=5||restoreMode);const bool v4Mode=argc==4&&std::wstring(argv[3])==L"--v4";const bool bankMode=argc==4&&std::wstring(argv[3])==L"--bank";const bool hq=argc==4&&argv[3][0]==L'1';HMODULE module=LoadLibraryW(argv[1]);CHECK(module);
     auto init=reinterpret_cast<bool(*)()>(GetProcAddress(module,"InitDll"));CHECK(init&&init());
     auto getFactory=reinterpret_cast<IPluginFactory*(*)()>(GetProcAddress(module,"GetPluginFactory"));CHECK(getFactory);auto* factory=getFactory();CHECK(factory);
     HostApplication host;std::filesystem::path output(argv[2]);std::filesystem::create_directories(output);
     struct RenderCase{std::string name;omega::ParameterValues params;int pitch;std::vector<uint8_t> originalState{};};std::vector<RenderCase> cases;
     if(restoreMode){for(const auto& entry:std::filesystem::directory_iterator(argv[4]))if(entry.path().extension()==L".bin"){
         std::ifstream in(entry.path(),std::ios::binary);CHECK(in);std::vector<uint8_t> bytes((std::istreambuf_iterator<char>(in)),{});omega::ParameterValues params;CHECK(omega::decodeState(bytes.data(),bytes.size(),params));const auto stem=entry.path().stem().string();const auto marker=stem.rfind("-note-");CHECK(marker!=std::string::npos);const int note=std::stoi(stem.substr(marker+6));cases.push_back({stem+".wav",params,note,std::move(bytes)});}CHECK(cases.size()==27);}
+    else if(v4Mode){for(int anchor=0;anchor<5;++anchor)for(int pattern=1;pattern<=3;++pattern){auto p=omega::defaults();p[0]=anchor*.25;p[15]=.8;p[16]=pattern/3.;p[17]=.75;cases.push_back({"v4-anchor-"+std::to_string(anchor)+"-pattern-"+std::to_string(pattern)+"-note-48.wav",p,48});}}
     else if(bankMode){int patchIndex=0;for(auto* doc:omega::factoryDocuments){omega::Preset p;std::string error;CHECK(omega::parsePreset(doc,p,error));for(int pitch:{36,48,60,72})cases.push_back({"patch-"+std::to_string(patchIndex)+"-note-"+std::to_string(pitch)+".wav",p.params,pitch});++patchIndex;}}
     else for(int anchor=0;anchor<9;++anchor)for(int pitch:{36,48,60}){auto p=omega::defaults();p[0]=anchor/8.;p[10]=hq?1.:0.;cases.push_back({"morph-"+std::to_string(anchor)+"-note-"+std::to_string(pitch)+".wav",p,pitch});}
     for(const auto& render:cases){const int pitch=render.pitch;
         IComponent* component=nullptr;CHECK(factory->createInstance(oso::processorID.toTUID(),IComponent::iid,reinterpret_cast<void**>(&component))==kResultOk);
         CHECK(component->initialize(&host)==kResultOk);
         FUnknownPtr<IAudioProcessor> processor(component);CHECK(processor);
-        auto encoded=omega::encodeState(render.params);std::vector<uint8_t> bytes=render.originalState.empty()?std::vector<uint8_t>(encoded.begin(),encoded.end()):render.originalState;MemoryStream state(bytes.data(),bytes.size());CHECK(component->setState(&state)==kResultOk);
+        auto encoded=omega::encodeState(render.params);std::vector<uint8_t> bytes=render.originalState.empty()?std::vector<uint8_t>(encoded.data(),encoded.data()+encoded.size()):render.originalState;MemoryStream state(bytes.data(),bytes.size());CHECK(component->setState(&state)==kResultOk);
         ProcessSetup setup{};setup.sampleRate=48000;setup.maxSamplesPerBlock=256;setup.symbolicSampleSize=kSample32;setup.processMode=kOffline;CHECK(processor->setupProcessing(setup)==kResultOk);
         CHECK(component->activateBus(kAudio,kOutput,0,true)==kResultOk);CHECK(component->activateBus(kEvent,kInput,0,true)==kResultOk);CHECK(component->setActive(true)==kResultOk);
         std::vector<float> result(96000*2),reference;double power=0,peak=0;
@@ -58,7 +59,7 @@ int wmain(int argc,wchar_t** argv){
                 CHECK(component->activateBus(kAudio,kOutput,0,true)==kResultOk);CHECK(component->activateBus(kEvent,kInput,0,true)==kResultOk);CHECK(component->setActive(true)==kResultOk);
             }else CHECK(result==reference);
         }
-        MemoryStream saved;CHECK(component->getState(&saved)==kResultOk);CHECK(saved.getSize()==omega::stateSize);CHECK(std::memcmp(saved.getData(),encoded.data(),encoded.size())==0);
+        MemoryStream saved;CHECK(component->getState(&saved)==kResultOk);CHECK(saved.getSize()==encoded.size());CHECK(std::memcmp(saved.getData(),encoded.data(),encoded.size())==0);
         auto statePath=output/render.name;statePath.replace_extension(".bin");std::ofstream stateFile(statePath,std::ios::binary);CHECK(stateFile);stateFile.write(static_cast<const char*>(saved.getData()),saved.getSize());CHECK(stateFile);
         for(float sample:result){power+=sample*sample;peak=std::max(peak,double(std::abs(sample)));}CHECK(power>1e-4);
         wav(output/render.name,result);

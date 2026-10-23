@@ -5,7 +5,7 @@
 #include <cstdint>
 namespace omega {
 struct ParameterDefinition { uint32_t id; const char* key; const char16_t* title; const char16_t* unit; double minimum, maximum, initial; int steps; bool logarithmic, automatable; const char16_t* choices[4]; };
-inline constexpr std::array<ParameterDefinition, 15> parameterDefinitions {{
+inline constexpr std::array<ParameterDefinition, 18> parameterDefinitions {{
   {100, "morph", u"Morph", u"", 0, 1, 0, 0, false, true, {}},
   {101, "energy", u"Energy", u"", 0, 1, 0.5, 0, false, true, {}},
   {102, "motion", u"Motion", u"", 0, 1, 0.25, 0, false, true, {}},
@@ -21,7 +21,10 @@ inline constexpr std::array<ParameterDefinition, 15> parameterDefinitions {{
   {112, "lfo_sync", u"Tempo Sync", u"", 0, 1, 1, 1, false, true, {u"Off",u"On"}},
   {113, "lfo_rate", u"Motion Rate", u"Hz", 0.10000000000000001, 20, 0.56525000000000003, 0, true, true, {}},
   {114, "mono_legato", u"Mono Legato", u"", 0, 1, 0, 1, false, false, {u"Off",u"On"}},
+  {115, "step_depth", u"Step Depth", u"", 0, 1, 0, 0, false, true, {}},
+  {116, "step_pattern", u"Step Pattern", u"", 0, 3, 0, 3, false, true, {u"Static",u"Pulse",u"Rise",u"Orbit"}},
+  {117, "chamber_coupling", u"Chamber Coupling", u"", 0, 1, 0, 0, false, true, {}},
 }};
 inline double physical(const ParameterDefinition& p, double n) noexcept { return p.logarithmic ? p.minimum * std::pow(p.maximum/p.minimum,n) : p.minimum+(p.maximum-p.minimum)*n; }
-inline int parameterIndex(uint32_t id) noexcept { return id>=100 && id<=114 ? static_cast<int>(id-100) : -1; }
+inline int parameterIndex(uint32_t id) noexcept { return id>=100 && id<=117 ? static_cast<int>(id-100) : -1; }
 } // namespace omega

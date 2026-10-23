@@ -111,7 +111,7 @@ int main(){
             for(int segment=0;segment<7;++segment) {
                 measuring=true;
                 switch(segment) {
-                case 0:engine.noteOn(48,.8f,11);break;
+                case 0:engine.setParameter(115,.8);engine.setParameter(116,1);engine.setParameter(117,.9);engine.noteOn(48,.8f,11);break;
                 case 1:engine.setMorph(.25f);engine.noteOn(60,.6f,12);break;
                 case 2:engine.setParameter(110,1-quality);break;
                 case 3:engine.noteOff(48,11);engine.setPitchBend(.5f);break;
@@ -132,6 +132,18 @@ int main(){
         };
         const auto reference=partitioned(1);
         for(int size:{64,256,1024})CHECK(partitioned(size)==reference);
+    }
+    // Test actual production routes, finite bounds, repeatability and identity.
+    for(double rate:{44100.,48000.,96000.})for(float anchor:{0.f,.25f,.5f,.75f,1.f}){
+        auto capture=[&](double depth,double pattern,double coupling){
+            omega::OrganismCore e;e.setMorph(anchor);e.setParameter(115,depth);e.setParameter(116,pattern);e.setParameter(117,coupling);e.prepare(rate,8);
+            std::vector<float> audio(16384),right(audio.size());e.noteOn(48,.9f,42);
+            measuring=true;e.render(audio.data(),right.data(),int(audio.size()));measuring=false;
+            CHECK(e.nonFiniteFaults()==0);for(float x:audio)CHECK(std::isfinite(x)&&std::abs(x)<=.980001);return audio;
+        };
+        const auto legacy=capture(0,0,0),coupled=capture(0,0,1);
+        CHECK(difference(legacy,coupled)>1e-8);CHECK(capture(0,0,1)==coupled);
+        for(double pattern:{1./3,2./3,1.}){auto moving=capture(1,pattern,0);CHECK(difference(legacy,moving)>1e-7);CHECK(capture(1,pattern,0)==moving);}
     }
     CHECK(allocations==0);
     CHECK(deallocations==0);

@@ -1,5 +1,5 @@
 // Experimental OSO V4 modules: host-independent, fixed-memory C++17.
-// NOT wired into RC2 audio path. Parameter IDs 100-114 and OSO1 state unchanged.
+// V4 motion is integrated through additive controls; legacy controls remain unchanged.
 #pragma once
 #include <algorithm>
 #include <array>
@@ -20,9 +20,9 @@ public:
         slew_ = sr_==48000. ? .004 : -std::expm1(std::log1p(-.004)*48000./sr_);
         mode_ = state;
         uint32_t rng = seed ? seed : 1u;
-        for (int i=0;i<16;++i) {
+        for(int pattern=0;pattern<4;++pattern) for (int i=0;i<16;++i) {
             double value = 0.;
-            switch (state) {
+            switch (GenerativeState(pattern)) {
                 case GenerativeState::Static: value=0.; break;
                 case GenerativeState::Pulse: value=(i%4==0 ? 1. : (i%2==0 ? .25 : -.5)); break;
                 case GenerativeState::Rise: value=(double(i)-7.5)/7.5; break;
@@ -31,11 +31,12 @@ public:
                     value = double(rng) / 2147483647.5 - 1.;
                     break;
             }
-            steps_[size_t(i)] = value;
+            steps_[size_t(pattern)][size_t(i)] = value;
         }
         samplesPerStep_ = sr_*60./(bpm_*4.);
         reset();
     }
+    void setState(GenerativeState state) noexcept {if(uint8_t(state)<4)mode_=state;}
     void setDepth(double depth) noexcept {depth_=std::isfinite(depth) ? std::clamp(depth,0.,1.) : 0.;}
     void setTempo(double bpm) noexcept {
         if(!std::isfinite(bpm)||bpm<20.||bpm>400.||bpm==bpm_)return;
@@ -45,7 +46,7 @@ public:
     }
     void reset() noexcept {position_=0.;index_=0;filtered_=0.;}
     double tick() noexcept {
-        const double target=steps_[size_t(index_)];
+        const double target=steps_[size_t(mode_)][size_t(index_)];
         filtered_+=slew_*(target-filtered_);
         position_+=1.;
         if (position_>=samplesPerStep_){position_-=samplesPerStep_;index_=(index_+1)&15;}
@@ -56,7 +57,7 @@ public:
     double stepPhase() const noexcept {return position_/samplesPerStep_;}
     GenerativeState state() const noexcept {return mode_;}
 private:
-    std::array<double,16> steps_{};
+    std::array<std::array<double,16>,4> steps_{};
     double sr_=48000.,bpm_=120.,samplesPerStep_=6000.,position_=0.,filtered_=0.,depth_=0.,slew_=.004;
     int index_=0;GenerativeState mode_=GenerativeState::Static;
 };
@@ -71,9 +72,9 @@ public:
         attack_=samples(aMs); hold_=samples(hMs);decay_=samples(dMs);release_=samples(rMs);
         sustain_=std::isfinite(sustain)?std::clamp(sustain,0.,1.):.5;reset();
     }
-    void reset() noexcept {state_=ContourState::Idle;value_=0.;at_=0.;start_=0.;}
-    void noteOn() noexcept {start_=value_;at_=0.;state_=ContourState::Attack;}
-    void noteOff() noexcept {if(state_!=ContourState::Idle){start_=value_;at_=0.;state_=ContourState::Release;}}
+    void reset() noexcept {state_=ContourState::Idle;value_=0.;at_=0;start_=0.;}
+    void noteOn() noexcept {start_=value_;at_=0;state_=ContourState::Attack;}
+    void noteOff() noexcept {if(state_!=ContourState::Idle){start_=value_;at_=0;state_=ContourState::Release;}}
     double tick() noexcept {
         switch(state_){
         case ContourState::Idle: value_=0.; break;

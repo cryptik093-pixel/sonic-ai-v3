@@ -30,7 +30,10 @@
         "bend_range":{"enum":[0,0.5,1]},
         "lfo_sync":{"enum":[0,1]},
         "lfo_rate":{"$ref":"#/$defs/norm"},
-        "mono_legato":{"enum":[0,1]}
+        "mono_legato":{"enum":[0,1]},
+        "step_depth":{"$ref":"#/$defs/norm"},
+        "step_pattern":{"enum":[0,0.3333333333333333,0.6666666666666666,1]},
+        "chamber_coupling":{"$ref":"#/$defs/norm"}
       }
     }
   },

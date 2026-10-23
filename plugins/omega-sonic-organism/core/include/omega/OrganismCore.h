@@ -1,6 +1,7 @@
 #pragma once
 #include "DspPrimitives.h"
 #include "State.h"
+#include "v4/ExperimentalSectors.h"
 
 namespace omega {
 
@@ -72,6 +73,8 @@ private:
     Traits traits_;
     dsp::Tables tables_;
     dsp::Room room_;
+    v4::Motion16 stepMotion_;
+    double stepValue_=0;
     dsp::LowPass::Coefficients filter_;
     double sr_=48000,tempo_=120,bend_=0,bendSmooth_=0,slew_=0,lfoPhase_=0,lfo_=0,lfoRate_=2.1;
     double attackStep_=0,decayRate_=0,releaseRate_=0,drive_=1,driveComp_=1,outputGain_=1,hqMix_=0;

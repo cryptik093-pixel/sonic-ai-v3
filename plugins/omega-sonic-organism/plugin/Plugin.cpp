@@ -50,12 +50,20 @@ tresult PLUGIN_API Processor::initialize(FUnknown* context) {
 tresult PLUGIN_API Processor::setupProcessing(ProcessSetup& setup) {
     if(setup.symbolicSampleSize!=kSample32||!std::isfinite(setup.sampleRate)||setup.sampleRate<8000||setup.sampleRate>384000||setup.maxSamplesPerBlock<1)return kResultFalse;
     auto r=AudioEffect::setupProcessing(setup);if(r!=kResultOk)return r;
+    consumeHostState();
     try {core.prepare(setup.sampleRate);}catch(...){return kOutOfMemory;}
     for(size_t i=0;i<values.size();++i)apply(i,values[i]);return kResultOk;
 }
 tresult PLUGIN_API Processor::setBusArrangements(SpeakerArrangement*,int32 ni,SpeakerArrangement* out,int32 no){return ni==0&&no==1&&out&&out[0]==SpeakerArr::kStereo?kResultOk:kResultFalse;}
 tresult PLUGIN_API Processor::canProcessSampleSize(int32 size){return size==kSample32?kResultTrue:kResultFalse;}
-tresult PLUGIN_API Processor::setProcessing(TBool){core.resetVoices();return kResultOk;}
+tresult PLUGIN_API Processor::setProcessing(TBool){consumeHostState();core.resetVoices();stateBridge.publishFromAudio(values,consumedStateRevision);return kResultOk;}
+void Processor::consumeHostState() noexcept {
+    omega::ParameterValues pending{};uint32_t revision=0;
+    if(stateBridge.pendingForAudio(pending,revision)){
+        for(size_t i=0;i<pending.size();++i)apply(i,pending[i]);
+        consumedStateRevision=revision;
+    }
+}
 void Processor::apply(size_t i,double n) noexcept {
     if(!std::isfinite(n))return;
     if(i>=values.size()){
@@ -69,6 +77,7 @@ void Processor::apply(size_t i,double n) noexcept {
 }
 tresult PLUGIN_API Processor::process(ProcessData& data) {
     if(data.symbolicSampleSize!=kSample32||data.numSamples<0)return kInvalidArgument;
+    consumeHostState();
     const auto initialFaults=core.nonFiniteFaults();
     struct Cursor { IParamValueQueue* queue=nullptr;int32 index=0,count=0,offset=0;double value=0;bool valid=false; };
     std::array<Cursor,19> cursors{};
@@ -104,10 +113,11 @@ tresult PLUGIN_API Processor::process(ProcessData& data) {
     double peak=0;if(left&&right)for(int32 n=0;n<data.numSamples;++n)peak=std::max(peak,std::max(std::abs(double(left[n])),std::abs(double(right[n]))));
     meterPeak=std::max(peak,meterPeak*std::exp(-double(data.numSamples)/(std::max(1.,processSetup.sampleRate)*.25)));
     if(data.outputParameterChanges){const double meters[]={meterPeak,double(core.activeVoices())/32,double(lastNote+1)/128,lastVelocity};for(int i=0;i<4;++i){int32 queueIndex=0,pointIndex=0;if(auto* q=data.outputParameterChanges->addParameterData(1010+i,queueIndex))q->addPoint(std::max<int32>(0,data.numSamples-1),std::clamp(meters[i],0.,1.),pointIndex);}}
+    stateBridge.publishFromAudio(values,consumedStateRevision);
     return core.nonFiniteFaults()==initialFaults?kResultOk:kResultFalse;
 }
-tresult PLUGIN_API Processor::getState(IBStream* stream){if(!stream)return kInvalidArgument;auto b=omega::encodeState(values);int32 wrote=0;return stream->write(b.data(),int32(b.size()),&wrote)==kResultOk&&wrote==int32(b.size())?kResultOk:kResultFalse;}
-tresult PLUGIN_API Processor::setState(IBStream* stream){auto p=values;if(!readState(stream,p))return kResultFalse;for(size_t i=0;i<p.size();++i)apply(i,p[i]);return kResultOk;}
+tresult PLUGIN_API Processor::getState(IBStream* stream){if(!stream)return kInvalidArgument;omega::ParameterValues p{};if(!stateBridge.captureForHost(p))return kResultFalse;auto b=omega::encodeState(p);int32 wrote=0;return stream->write(b.data(),int32(b.size()),&wrote)==kResultOk&&wrote==int32(b.size())?kResultOk:kResultFalse;}
+tresult PLUGIN_API Processor::setState(IBStream* stream){auto p=omega::defaults();if(!readState(stream,p))return kResultFalse;try{stateBridge.publishFromHost(p);}catch(...){return kResultFalse;}return kResultOk;}
 tresult PLUGIN_API Controller::initialize(FUnknown* context){
     auto r=EditControllerEx1::initialize(context);if(r!=kResultOk)return r;
     for(const auto& p:omega::parameterDefinitions)parameters.addParameter(new ContractParameter(p));
@@ -141,6 +151,6 @@ tresult PLUGIN_API Controller::getMidiControllerAssignment(int32 bus,int16 chann
 using namespace Steinberg;
 using namespace Steinberg::Vst;
 BEGIN_FACTORY_DEF("Omega House Studio LLC","https://omega-house.online","")
-DEF_CLASS2(INLINE_UID_FROM_FUID(oso::processorID),PClassInfo::kManyInstances,kVstAudioEffectClass,"OMEGA SONIC ORGANISM",Vst::kDistributable,"Instrument|Synth","1.0.0-rc.2",kVstVersionString,oso::Processor::create)
-DEF_CLASS2(INLINE_UID_FROM_FUID(oso::controllerID),PClassInfo::kManyInstances,kVstComponentControllerClass,"OMEGA SONIC ORGANISM Controller",0,"","1.0.0-rc.2",kVstVersionString,oso::Controller::create)
+DEF_CLASS2(INLINE_UID_FROM_FUID(oso::processorID),PClassInfo::kManyInstances,kVstAudioEffectClass,"OMEGA SONIC ORGANISM",Vst::kDistributable,"Instrument|Synth",OSO_PRODUCT_VERSION,kVstVersionString,oso::Processor::create)
+DEF_CLASS2(INLINE_UID_FROM_FUID(oso::controllerID),PClassInfo::kManyInstances,kVstComponentControllerClass,"OMEGA SONIC ORGANISM Controller",0,"",OSO_PRODUCT_VERSION,kVstVersionString,oso::Controller::create)
 END_FACTORY

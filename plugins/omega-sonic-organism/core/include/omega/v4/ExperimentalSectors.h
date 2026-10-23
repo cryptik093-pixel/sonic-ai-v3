@@ -14,8 +14,10 @@ enum class GenerativeState : uint8_t { Static=0, Pulse=1, Rise=2, Orbit=3 };
 class Motion16 final {
 public:
     void prepare(double sampleRate, double bpm, GenerativeState state, uint32_t seed) noexcept {
-        sr_ = std::clamp(sampleRate, 8000., 384000.);
-        bpm_ = std::clamp(bpm, 20., 400.);
+        sr_ = std::isfinite(sampleRate) ? std::clamp(sampleRate, 8000., 384000.) : 48000.;
+        bpm_ = std::isfinite(bpm) ? std::clamp(bpm, 20., 400.) : 120.;
+        // Preserve the original 48 kHz time constant at every sample rate.
+        slew_ = sr_==48000. ? .004 : -std::expm1(std::log1p(-.004)*48000./sr_);
         mode_ = state;
         uint32_t rng = seed ? seed : 1u;
         for (int i=0;i<16;++i) {
@@ -35,21 +37,27 @@ public:
         reset();
     }
     void setDepth(double depth) noexcept {depth_=std::isfinite(depth) ? std::clamp(depth,0.,1.) : 0.;}
+    void setTempo(double bpm) noexcept {
+        if(!std::isfinite(bpm)||bpm<20.||bpm>400.||bpm==bpm_)return;
+        const double phase=position_/samplesPerStep_;
+        bpm_=bpm;samplesPerStep_=sr_*60./(bpm_*4.);
+        position_=phase*samplesPerStep_;
+    }
     void reset() noexcept {position_=0.;index_=0;filtered_=0.;}
     double tick() noexcept {
-        // Branch-free static bypass: legacy audio remains unchanged when off.
-        if (depth_==0.) return 0.;
         const double target=steps_[size_t(index_)];
-        filtered_+=.004*(target-filtered_); // stable bounded step dezipper
+        filtered_+=slew_*(target-filtered_);
         position_+=1.;
         if (position_>=samplesPerStep_){position_-=samplesPerStep_;index_=(index_+1)&15;}
-        return filtered_*depth_;
+        // Zero depth is exact silence, but transport phase keeps advancing.
+        return depth_==0. ? 0. : filtered_*depth_;
     }
     int stepIndex() const noexcept {return index_;}
+    double stepPhase() const noexcept {return position_/samplesPerStep_;}
     GenerativeState state() const noexcept {return mode_;}
 private:
     std::array<double,16> steps_{};
-    double sr_=48000.,bpm_=120.,samplesPerStep_=6000.,position_=0.,filtered_=0.,depth_=0.;
+    double sr_=48000.,bpm_=120.,samplesPerStep_=6000.,position_=0.,filtered_=0.,depth_=0.,slew_=.004;
     int index_=0;GenerativeState mode_=GenerativeState::Static;
 };
 
@@ -59,9 +67,9 @@ enum class ContourState : uint8_t { Idle, Attack, Hold, Decay, Sustain, Release 
 class ModContour final {
 public:
     void prepare(double sr, double aMs, double hMs, double dMs, double sustain, double rMs) noexcept {
-        sr_=std::clamp(sr,8000.,384000.);
+        sr_=std::isfinite(sr)?std::clamp(sr,8000.,384000.):48000.;
         attack_=samples(aMs); hold_=samples(hMs);decay_=samples(dMs);release_=samples(rMs);
-        sustain_=std::clamp(sustain,0.,1.);reset();
+        sustain_=std::isfinite(sustain)?std::clamp(sustain,0.,1.):.5;reset();
     }
     void reset() noexcept {state_=ContourState::Idle;value_=0.;at_=0.;start_=0.;}
     void noteOn() noexcept {start_=value_;at_=0.;state_=ContourState::Attack;}
@@ -101,7 +109,7 @@ private:
 class CoupledModes final {
 public:
     void prepare(double sampleRate,double fA,double fB,double t60A,double t60B,double coupling) noexcept {
-        sr_=std::clamp(sampleRate,8000.,384000.);
+        sr_=std::isfinite(sampleRate)?std::clamp(sampleRate,8000.,384000.):48000.;
         configure(a_,fA,t60A);configure(b_,fB,t60B);
         k_=std::isfinite(coupling)?std::clamp(coupling,0.,.02):0.;
         reset();

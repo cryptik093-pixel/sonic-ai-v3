@@ -1,4 +1,4 @@
-param([string]$SdkRoot,[switch]$CoreOnly,[int]$Jobs=2,[switch]$EditorSyntaxOnly,[string]$BuildDirectory)
+param([string]$SdkRoot,[switch]$CoreOnly,[int]$Jobs=2,[switch]$EditorSyntaxOnly,[string]$BuildDirectory,[string]$CpuBaselineRoot)
 $ErrorActionPreference='Stop'
 $osoRoot=Split-Path -Parent $PSScriptRoot
 $vsLocator="${env:ProgramFiles(x86)}/Microsoft Visual Studio/Installer/vswhere.exe"
@@ -26,10 +26,20 @@ if($LASTEXITCODE){throw 'Generated parameter registry mismatch'}
 $build=if($CoreOnly){"$osoRoot/build-core"}else{"$osoRoot/build"}
 if($BuildDirectory){$build=[IO.Path]::GetFullPath($BuildDirectory)}
 $enabled=if($CoreOnly){'OFF'}else{'ON'}
-& cmake -S $osoRoot -B $build -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMANDS=ON "-DOSO_BUILD_PLUGIN=$enabled" "-DOSO_SDK_ROOT=$SdkRoot"
+$extraConfigure=@()
+if($CpuBaselineRoot){$extraConfigure += "-DOSO_CPU_BASELINE_ROOT=$([IO.Path]::GetFullPath($CpuBaselineRoot))"}
+& cmake -S $osoRoot -B $build -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMANDS=ON "-DOSO_BUILD_PLUGIN=$enabled" "-DOSO_SDK_ROOT=$SdkRoot" @extraConfigure
 if($LASTEXITCODE){throw 'Configure failed'}
 $targets=if($CoreOnly){@('omega_core_tests','omega_state_tests','omega_engine_tests','omega_engine_metrics','omega_cpu_profile','omega_preset_tests','omega_calibrate_bank')}else{@('OmegaSonicOrganism','omega_core_tests','omega_state_tests','omega_engine_tests','omega_engine_metrics','omega_cpu_profile','omega_preset_tests','omega_calibrate_bank','omega_adapter_tests','omega_binary_probe','omega_editor_probe','omega_audition_probe')}
+$targets += 'omega_v4_experiment_tests','omega_cpu_matrix','omega_state_bridge_tests','omega_exciter_metrics'
+if(-not $CoreOnly){$targets += 'omega_control_probe'}
+if(Test-Path -LiteralPath (Join-Path $build 'build.ninja')){
+    $cache=Get-Content -LiteralPath (Join-Path $build 'CMakeCache.txt')
+    if($cache -match '^OSO_CPU_BASELINE_ROOT:PATH=.+'){$targets += 'omega_cpu_paired'}
+}
 & cmake --build $build --target @targets --parallel $Jobs
 if($LASTEXITCODE){throw 'Build failed'}
-& ctest --test-dir $build --output-on-failure --output-junit "$osoRoot/test-results/ctest.xml"
+& ctest --test-dir $build --output-on-failure --output-junit "$build/ctest.xml"
 if($LASTEXITCODE){throw 'CTest failed'}
+& python -m unittest discover -s "$osoRoot/tests" -p test_cpu_gate.py -v
+if($LASTEXITCODE){throw 'CPU gate evaluator regression tests failed'}

@@ -1,8 +1,11 @@
 #pragma once
 #include "omega/OrganismCore.h"
 #include "omega/State.h"
+#include "StateBridge.h"
 #include "public.sdk/source/vst/vstaudioeffect.h"
 #include "public.sdk/source/vst/vsteditcontroller.h"
+
+#define OSO_PRODUCT_VERSION "1.0.0-dev.v4"
 
 namespace oso {
 inline const Steinberg::FUID processorID(0xB7FE82DB,0x13A64A8D,0xAF3A2CAA,0x5CCC4CB1);
@@ -26,8 +29,11 @@ public:
     }
 private:
     void apply(size_t,double) noexcept;
+    void consumeHostState() noexcept;
     omega::OrganismCore core;
     omega::ParameterValues values=omega::defaults();
+    StateBridge stateBridge;
+    uint32_t consumedStateRevision=0;
     double meterPeak=0,lastVelocity=0;
     int lastNote=-1;
 };

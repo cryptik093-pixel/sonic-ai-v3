@@ -8,6 +8,8 @@
 #include <new>
 #include <vector>
 #include <fstream>
+#include <atomic>
+#include <thread>
 static thread_local bool measuring=false;
 static size_t allocations=0;
 void* operator new(std::size_t n){if(measuring)++allocations;if(auto* p=std::malloc(n?n:1))return p;throw std::bad_alloc();}
@@ -78,6 +80,31 @@ int main(){
             }
         }
         finish(p);
+    }
+    // Exercise the production adapter, not only the handoff primitive: host
+    // state publication overlaps audio callbacks and state capture. No voice
+    // or processor memory is mutated directly by the host producer.
+    {
+        oso::Processor p;setup(p,48000);
+        auto zero=omega::defaults();zero.fill(0);auto one=zero;one.fill(1);
+        auto zeroBytes=omega::encodeState(zero),oneBytes=omega::encodeState(one);
+        MemoryStream initial(zeroBytes.data(),zeroBytes.size());CHECK(p.setState(&initial)==kResultOk);CHECK(p.setProcessing(true)==kResultOk);
+        std::atomic<bool> done{false};
+        std::thread producer([&]{for(int i=0;i<2000;++i){auto& bytes=(i&1)?oneBytes:zeroBytes;MemoryStream stream(bytes.data(),bytes.size());CHECK(p.setState(&stream)==kResultOk);}done=true;});
+        std::array<float,64> l{},r{};float* channels[]={l.data(),r.data()};AudioBusBuffers bus{};bus.numChannels=2;bus.channelBuffers32=channels;
+        ProcessData data{};data.numSamples=64;data.symbolicSampleSize=kSample32;data.numOutputs=1;data.outputs=&bus;
+        int callbacks=0,captures=0;
+        while(!done.load()||callbacks<256){
+            measuring=true;CHECK(p.process(data)==kResultOk);measuring=false;++callbacks;
+            MemoryStream saved;
+            if(p.getState(&saved)==kResultOk){omega::ParameterValues values{};CHECK(omega::decodeState(reinterpret_cast<const uint8_t*>(saved.getData()),saved.getSize(),values));CHECK(values==zero||values==one);++captures;}
+        }
+        producer.join();CHECK(captures>0);
+        // Last publication is the all-one state, and survives before another callback.
+        MemoryStream saved;CHECK(p.getState(&saved)==kResultOk);omega::ParameterValues result{};
+        CHECK(omega::decodeState(reinterpret_cast<const uint8_t*>(saved.getData()),saved.getSize(),result));CHECK(result==one);
+        finish(p);
+        std::cout<<"Concurrent adapter state: 2000 publications, "<<callbacks<<" callbacks, "<<captures<<" coherent captures.\n";
     }
     CHECK(allocations==0);
     std::cout<<"Adapter passed: 3 rates x 6 block sizes, timed notes/automation collision compared sample-for-sample, stereo, state/controller recall, finite audio; 0 C++ new allocations during measured process calls.\n";

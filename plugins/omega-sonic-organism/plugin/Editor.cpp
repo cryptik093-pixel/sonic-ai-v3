@@ -53,6 +53,30 @@ class Editor final: public Steinberg::Vst::VSTGUIEditor, public IControlListener
     bool advancedVisible=false;
     bool refreshing=false;
     omega::Preset currentPatch;
+    void showAdvanced(bool visible){
+        advancedVisible=visible;
+        for(auto* v:advanced)v->setVisible(visible);
+        for(size_t i=1;i<=5;++i){controls[i]->setVisible(!visible);textValues[i]->setVisible(!visible);}
+        for(int32_t k=0;k<frame->getNbViews();++k){auto* v=frame->getView(k);const auto r=v->getViewSize();
+            if(r.top>=313&&r.bottom<=505&&std::find(advanced.begin(),advanced.end(),v)==advanced.end())v->setVisible(!visible);}
+        frame->invalid();
+    }
+    void selectSector(int sector){
+        static constexpr size_t focus[]={0,1,3,6,1,13,4};
+        static constexpr const char* descriptions[]={
+            "DNA / Morph changes the structure of one voice across five identities.",
+            "EXCITE / Energy shapes harmonic brightness, drive and strike intensity.",
+            "BODY / Material shapes inharmonic modes and noise excitation.",
+            "LIFE / Attack, release, glide, voices and legato control note articulation.",
+            "CONTOUR / Energy shapes the stable lowpass and calibrated Eco/HQ drive.",
+            "MOTION / Tempo Sync and Motion Rate control shared rhythmic modulation.",
+            "SPACE / Space controls the single global stereo room; Output sets final gain."
+        };
+        if(sector<0||sector>6)return;
+        showAdvanced(sector==3||sector==5);
+        frame->setFocusView(controls[focus[sector]]);
+        status->setText(descriptions[sector]);
+    }
     CTextLabel* label(CRect r,const char* text,double size=13,CColor color=muted){auto* v=new CTextLabel(r,text);font(v,size);v->setBackColor(ink);v->setFrameColor(ink);v->setFontColor(color);v->setHoriAlign(kLeftText);v->setMouseEnabled(false);frame->addView(v);return v;}
     CTextButton* button(CRect r,const char* text,int tag){auto* b=new CTextButton(r,this,tag,text);b->setTextColor(white);b->setTextColorHighlighted(gold);b->setFrameColor(line);b->setRoundRadius(5);auto g=VSTGUI::owned(CGradient::create(0,1,panel,panel));b->setGradient(g);auto h=VSTGUI::owned(CGradient::create(0,1,line,panel));b->setGradientHighlighted(h);tooltip(b,text);frame->addView(b);return b;}
     void textValue(size_t i,CRect r){auto* v=new CTextEdit(r,this,int32_t(200+i),"");font(v,12);tooltip(v,"Type an exact physical value, then press Enter. Escape cancels.");frame->addView(v);textValues[i]=v;}
@@ -93,8 +117,8 @@ public:
         patchName=new CTextEdit({560,22,822,48},this,320,"Session Patch");font(patchName);tooltip(patchName,"Name used when exporting your JSON patch.");frame->addView(patchName);
         patches=new COptionMenu({560,54,822,83},this,300);font(patches);patches->addEntry("Session / Modified");for(const auto& p:bank)patches->addEntry(p.name.c_str());tooltip(patches,"30 factory patches. Selection edits the existing host parameters.");frame->addView(patches);
         button({837,22,914,49},"LOAD",301);button({925,22,1006,49},"SAVE",302);button({837,55,1006,83},"ADVANCED",303);
-        label({32,101,500,124},"01   /   CONTINUOUS TIMBRAL DNA",12,gold);
-        label({690,101,1006,124},"TRAIT FIELD / LIVE OUTPUT LEVEL",11,muted);
+        const char* sectors[]={"01 DNA","02 EXCITE","03 BODY","04 LIFE","05 CONTOUR","06 MOTION","07 SPACE"};
+        for(int i=0;i<7;++i)button({32.+i*140,98,164.+i*140,126},sectors[i],400+i);
         field=new Field({670,129,1006,290});frame->addView(field);
         const char* anchors[]={"BASS","BELLS","LEAD","SYNTH","PERC"};for(int i=0;i<5;++i)button({32.+i*126,140,141.+i*126,171},anchors[i],310+i);
         addParameter(0,{32,193,642,220});textValue(0,{545,237,642,262});
@@ -106,7 +130,7 @@ public:
         const char* advNames[]={"ATTACK SCALE","RELEASE SCALE","GLIDE ms","VOICES","QUALITY","BEND RANGE","TEMPO SYNC","MOTION RATE","MONO LEGATO"};
         // Advanced controls occupy a separate page; macro controls stay available through the host.
         for(size_t i=6;i<15;++i){const size_t n=i-6;double x=32+double(n%3)*326,y=316+double(n/3)*65;const auto before=frame->getNbViews();label({x,y,x+150,y+20},advNames[n],11,gold);addParameter(i,{x+155,y,x+300,y+23});if(!omega::parameterDefinitions[i].steps)textValue(i,{x+155,y+26,x+300,y+49});for(int32_t k=before;k<frame->getNbViews();++k){auto* v=frame->getView(k);v->setVisible(false);advanced.push_back(v);}}
-        monitor=label({32,526,1006,550},"Waiting for host output meters",12,gold);status=label({32,557,1006,580},"Ready. Play MIDI notes in your host. All sound generation stays local.",12,muted);label({32,589,1006,610},"OMEGA SONIC ORGANISM  1.0.0-rc.2     /     WINDOWS x64 VST3     /     TAB: FOCUS   ARROWS: ADJUST",10,muted);
+        monitor=label({32,526,1006,550},"Waiting for host output meters",12,gold);status=label({32,557,1006,580},"Ready. Play MIDI notes in your host. All sound generation stays local.",12,muted);label({32,589,1006,610},"OMEGA SONIC ORGANISM  " OSO_PRODUCT_VERSION "     /     WINDOWS x64 VST3     /     TAB: FOCUS   ARROWS: ADJUST",10,muted);
         refresh();if(!frame->open(parent,type)){close();return false;}return true;
     }
     void PLUGIN_API close() override {for(size_t i=0;i<gestures.size();++i)if(gestures[i]){model->endEdit(omega::parameterDefinitions[i].id);gestures[i]=false;}if(frame){frame->close();frame=nullptr;}controls.fill(nullptr);textValues.fill(nullptr);advanced.clear();patches=nullptr;patchName=nullptr;field=nullptr;status=nullptr;monitor=nullptr;identity=nullptr;advancedVisible=false;gestures.fill(false);}
@@ -119,8 +143,8 @@ public:
         if(tag>=200&&tag<=214){size_t i=size_t(tag-200);Steinberg::Vst::String128 text{};UString(text,128).fromAscii(textValues[i]->getText().getString().c_str());double n=0;if(model->getParamValueByString(omega::parameterDefinitions[i].id,text,n)==kResultTrue&&std::isfinite(n)&&n>=0&&n<=1)edit(i,n);else status->setText("Invalid value. Use the displayed physical units and range.");refresh();return;}
         if(tag==300){const int index=int(std::round(c->getValue()))-1;if(index>=0&&size_t(index)<bank.size())load(bank[size_t(index)]);return;}if(c->getValue()<.5)return;
         if(tag==301||tag==302){file(tag==302);return;}if(tag>=310&&tag<=314){edit(0,(tag-310)*.25);refresh();return;}
-        if(tag==303){advancedVisible=!advancedVisible;for(auto* v:advanced)v->setVisible(advancedVisible);for(size_t i=1;i<=5;++i){controls[i]->setVisible(!advancedVisible);textValues[i]->setVisible(!advancedVisible);} // Hide the complete macro page, including labels.
-            for(int32_t k=0;k<frame->getNbViews();++k){auto* v=frame->getView(k);const auto r=v->getViewSize();if(r.top>=313&&r.bottom<=505&&std::find(advanced.begin(),advanced.end(),v)==advanced.end())v->setVisible(!advancedVisible);}frame->invalid();}
+        if(tag==303){showAdvanced(!advancedVisible);return;}
+        if(tag>=400&&tag<=406){selectSector(tag-400);return;}
     }
     void controlBeginEdit(CControl* c) override {const int i=omega::parameterIndex(uint32_t(c->getTag()));if(i>=0){gestures[size_t(i)]=true;model->beginEdit(c->getTag());}}
     void controlEndEdit(CControl* c) override {const int i=omega::parameterIndex(uint32_t(c->getTag()));if(i>=0&&gestures[size_t(i)]){model->endEdit(c->getTag());gestures[size_t(i)]=false;}}

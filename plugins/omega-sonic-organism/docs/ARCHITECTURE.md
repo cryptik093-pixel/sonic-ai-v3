@@ -10,17 +10,39 @@ One shared voice combines sine, polyBLEP saw/pulse, an eight-partial Nyquist-tap
 
 Each voice passes through a trapezoidal state-variable low-pass, delayed envelope, drive, velocity and gain. HQ drive uses equivalent polyphase 31-tap half-band interpolation/decimation. Eco is delayed to match HQ: both report 15 samples latency. Stereo modulation and a four-delay damped Hadamard-feedback room feed DC removal and bounded output shaping. The output stage is part of the existing design; signal criteria and listening remain separate.
 
+The shared periodic source is exposed as `dsp::Exciter` for direct production
+oscillator measurements. A mirrored-history FIR and `/Ob3` compiler experiment
+were rejected after interleaved measurements increased median thread cycles.
+The original FIR history layout and Release optimization policy are retained.
+Current performance evidence must be read separately from historical RC2 results.
+
 ## Runtime contracts
 
 `contracts/parameters.json` freezes IDs 100-114. Original processor/controller CIDs remain B7FE82DB13A64A8DAF3A2CAA5CCC4CB1 / B8BD8AECF05F4A27B0F6EE2B15346516. MIDI mapping IDs 1000-1003 cover bend, sustain, all-notes-off and all-sound-off. Read-only output telemetry 1010-1013 adds no sound-state fields.
 
 The adapter consumes host queues in time order, rendering bounded segments between event boundaries. Parameter points precede notes at equal offsets. The core smooths continuous values, refreshes costly coefficients every 16 samples, and uses fixed voice/note storage. Voice count is 1/8/16/32. Release voices are preferred for stealing, then oldest voices; steal transitions take five milliseconds. Room memory allocates only in preparation. Tests instrument C++ new around documented process paths; they are not a proof about every possible OS allocation.
 
-State format OSO1/schema 1 is unchanged: explicit little-endian doubles and an FNV corruption checksum, validated atomically. Six-field early states default later parameters. Sound parameters persist; current oscillation/voice phase, patch display names and user descriptions do not persist in native project state. A restarted instance retriggers deterministic sound from restored parameters. State callbacks rely on the VST3 host lifecycle; concurrent arbitrary state mutation while processing is unsupported.
+State format OSO1/schema 1 is unchanged: explicit little-endian doubles and an FNV corruption checksum, validated atomically. Six-field early states default later parameters. Sound parameters persist; current oscillation/voice phase, patch display names and user descriptions do not persist in native project state. A restarted instance retriggers deterministic sound from restored parameters.
+
+`plugin/StateBridge.h` separates host state publication from audio-owned DSP.
+`setState` validates a complete state and serializes host producers outside the
+callback. `process` consumes a coherent snapshot at its next boundary using
+bounded lock-free atomic loads; it never takes the host producer mutex. Audio
+parameter snapshots are published atomically for `getState`. Capture performs
+up to eight read attempts and reports failure under sustained contention rather
+than writing mixed values. Setup, activation and other lifecycle operations
+still require the VST3 host's prescribed ordering. Concurrency tests cover both
+the handoff primitive and the actual processor adapter; these are not sanitizer
+or named-host acceptance claims.
 
 ## Editor and preset boundary
 
 The native 1040x620 editor uses standard VSTGUI controls and host begin/set/perform/end gestures. It polls controller values on the GUI thread for automation synchronization. Factory definitions are embedded JSON, also shipped as editable exchange files. Strict parsing/export and file dialogs stay on the UI/tool thread. No file access enters the callback. Meter updates depend on host forwarding output parameters. The trait drawing is a parameter visualization, not an FFT.
+
+Seven sector buttons navigate to the existing macro or advanced controls and
+focus the relevant parameter. Navigation changes no sound values. Experimental
+16-step motion, modulation contour and coupled modes remain outside the shipping
+signal path and have no new host IDs or state fields.
 
 ## Build and probes
 

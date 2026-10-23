@@ -1,4 +1,14 @@
-# OMEGA SONIC ORGANISM 1.0.0-rc.2
+# OMEGA SONIC ORGANISM development
+
+Current source identifies itself as **1.0.0-dev.v4**. It is an engineering
+build, not a qualified V4 release candidate. CPU recovery, experimental V4
+feature integration, FL Studio acceptance and listening remain open. Current
+work and reproducible evidence are recorded in
+[V4_RECOVERY_2026-10-22.md](docs/V4_RECOVERY_2026-10-22.md).
+The existing CIDs, sound parameter IDs, OSO1 encoding and 30 factory patches
+remain unchanged. See [host control contract v1](docs/CONTROL_CONTRACT_V1.md).
+
+## Historical RC2 delivery
 
 Windows x64 VST3 instrument for evaluation in FL Studio Producer Edition. This is an **unqualified release candidate**. CPU, interactive editor, FL Studio and listening gates remain open; see documentation/RELEASE_STATUS.md in the delivery or docs/RELEASE_STATUS.md in source.
 

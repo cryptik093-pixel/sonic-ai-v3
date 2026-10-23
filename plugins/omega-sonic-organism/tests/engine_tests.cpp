@@ -4,15 +4,27 @@
 #include <iostream>
 #include <limits>
 #include <new>
+#ifdef _WIN32
+#include <malloc.h>
+#endif
 #include <vector>
 static thread_local bool measuring=false;
 static size_t allocations=0;
+static size_t deallocations=0;
 void* operator new(size_t n){if(measuring)++allocations;if(void* p=std::malloc(n?n:1))return p;throw std::bad_alloc();}
 void* operator new[](size_t n){return ::operator new(n);}
-void operator delete(void* p) noexcept {std::free(p);}
-void operator delete[](void* p) noexcept {std::free(p);}
-void operator delete(void* p,size_t) noexcept {std::free(p);}
-void operator delete[](void* p,size_t) noexcept {std::free(p);}
+void operator delete(void* p) noexcept {if(measuring&&p)++deallocations;std::free(p);}
+void operator delete[](void* p) noexcept {::operator delete(p);}
+void operator delete(void* p,size_t) noexcept {::operator delete(p);}
+void operator delete[](void* p,size_t) noexcept {::operator delete(p);}
+#ifdef _WIN32
+void* operator new(size_t n,std::align_val_t alignment){if(measuring)++allocations;if(void* p=_aligned_malloc(n?n:1,size_t(alignment)))return p;throw std::bad_alloc();}
+void* operator new[](size_t n,std::align_val_t alignment){return ::operator new(n,alignment);}
+void operator delete(void* p,std::align_val_t) noexcept {if(measuring&&p)++deallocations;_aligned_free(p);}
+void operator delete[](void* p,std::align_val_t a) noexcept {::operator delete(p,a);}
+void operator delete(void* p,size_t,std::align_val_t a) noexcept {::operator delete(p,a);}
+void operator delete[](void* p,size_t,std::align_val_t a) noexcept {::operator delete(p,a);}
+#endif
 #define CHECK(x) do{if(!(x)){std::cerr<<"FAIL "<<__LINE__<<" "<<#x<<'\n';std::exit(1);}}while(false)
 size_t checks=0;
 double contextRate=0,contextQuality=0;int contextNote=-1;
@@ -88,6 +100,40 @@ int main(){
     std::array<float,256> revivedL{},revivedR{};double revivedPower=0;
     for(int block=0;block<64;++block){measuring=true;longHeld.render(revivedL.data(),revivedR.data(),256);measuring=false;for(float x:revivedL){CHECK(std::isfinite(x));revivedPower+=double(x)*x;}}
     CHECK(revivedPower>1e-5);CHECK(longHeld.voiceSerial()==heldSerial);CHECK(longHeld.activeVoices()==1);CHECK(longHeld.nonFiniteFaults()==0);
+    // Identical sample-timed events and automation must produce identical
+    // stereo samples regardless of the surrounding host block partition.
+    for(double rate:{44100.,48000.,96000.})for(double quality:{0.,1.}) {
+        auto partitioned=[&](int blockSize) {
+            omega::OrganismCore engine;engine.setParameter(110,quality);engine.prepare(rate,8);
+            std::vector<float> audio(8192*2),l(1024),r(1024);
+            const int boundaries[]={0,127,251,509,1021,2047,4093,8192};
+            int at=0;
+            for(int segment=0;segment<7;++segment) {
+                measuring=true;
+                switch(segment) {
+                case 0:engine.noteOn(48,.8f,11);break;
+                case 1:engine.setMorph(.25f);engine.noteOn(60,.6f,12);break;
+                case 2:engine.setParameter(110,1-quality);break;
+                case 3:engine.noteOff(48,11);engine.setPitchBend(.5f);break;
+                case 4:engine.setMorph(.75f);engine.setTempo(173);break;
+                case 5:engine.noteOff(60,12);break;
+                case 6:engine.allNotesOff();break;
+                }
+                measuring=false;
+                CHECK(at==boundaries[segment]);
+                while(at<boundaries[segment+1]) {
+                    const int count=std::min(blockSize,boundaries[segment+1]-at);
+                    measuring=true;engine.render(l.data(),r.data(),count);measuring=false;
+                    for(int n=0;n<count;++n){audio[size_t((at+n)*2)]=l[size_t(n)];audio[size_t((at+n)*2+1)]=r[size_t(n)];}
+                    at+=count;
+                }
+            }
+            CHECK(engine.nonFiniteFaults()==0);return audio;
+        };
+        const auto reference=partitioned(1);
+        for(int size:{64,256,1024})CHECK(partitioned(size)==reference);
+    }
     CHECK(allocations==0);
+    CHECK(deallocations==0);
     std::cout<<"PASS engine checks: "<<checks<<" finite sample pairs; fixed FIR latency/unity; macro response; five rates/both quality modes; mono glide/legato; sustain; duplicate notes; release; zero C++ allocations in measured realtime operations.\n";
 }

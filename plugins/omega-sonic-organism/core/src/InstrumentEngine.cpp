@@ -1,15 +1,11 @@
 #include "omega/OrganismCore.h"
+#include "omega/Exciter.h"
 #include <algorithm>
 #include <cmath>
 
 namespace omega {
 namespace {
 double mix(double a,double b,double t) noexcept {return a+(b-a)*t;}
-double blep(double phase,double step) noexcept {
-    if(step<=0)return 0;
-    if(phase<step){phase/=step;return phase+phase-phase*phase-1;}
-    if(phase>1-step){phase=(phase-1)/step;return phase*phase+phase+phase+1;}return 0;
-}
 double normalized(double x) noexcept {return std::clamp(x,0.,1.);}
 }
 
@@ -190,17 +186,8 @@ double OrganismCore::voiceSample(Voice& v) noexcept {
         // at most .49. Power-of-two index wrapping preserves table interpolation
         // including the original endpoint, without nine repeated phase wraps.
         if(!dsp::finite(v.phase)||v.phase<0||v.phase>=1){++tables_.nonFiniteFaults;if(!tables_.firstFaultSource)tables_.firstFaultSource=1;return 0;}
-        const double baseIndex=v.phase*2048;
-        const auto harmonicSine=[&](int harmonic) noexcept {
-            const double x=baseIndex*harmonic;const int whole=int(x),index=whole&2047;
-            return tables_.sines[size_t(index)]+(tables_.sines[size_t(index+1)]-tables_.sines[size_t(index)])*(x-double(whole));
-        };
-        const double sine=harmonicSine(1),saw=2*v.phase-1-blep(v.phase,v.phaseStep);
-        const double width=pulseWidth_;
-        double shifted=v.phase-width;if(shifted<0)shifted+=1;
-        const double pulse=(v.phase<width?1.:-1.)+blep(v.phase,v.phaseStep)-blep(shifted,v.phaseStep)-pulseDc_;
-        double spectral=harmonicWeights_[0]*sine*v.harmonicFade[0];
-        for(size_t k=1;k<8;++k)spectral+=harmonicWeights_[k]*harmonicSine(int(k+1))*v.harmonicFade[k];
+        const auto source=dsp::Exciter::periodic(v.phase,v.phaseStep,pulseWidth_,pulseDc_,harmonicWeights_,v.harmonicFade,tables_);
+        const double sine=source.sine,saw=source.saw,pulse=source.pulse,spectral=source.spectral;
         v.rng^=v.rng<<13;v.rng^=v.rng>>17;v.rng^=v.rng<<5;
         const double noise=double(v.rng)/2147483647.5-1;
         double modal=0;

@@ -1,0 +1,24 @@
+{
+  "timestampUtc": "2026-10-23T21:15:13.7301039Z",
+  "binary": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\omega-vocal-forge\\build\\VST3\\Release\\OmegaVocalForge.vst3\\Contents\\x86_64-win\\OmegaVocalForge.vst3",
+  "sha256": "DEB64666C5D4744E5146964DB0E48356636CB6258C3C7F2F45236DA90474EC2E",
+  "binaryUnchanged": true,
+  "validator": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\omega-vocal-forge\\..\\sonic-pocket\\build\\steinberg-validator\\bin\\validator.exe",
+  "validatorSha256": "F10E187C972008A4E5E804C33376B4D8184C5A9E2FF25FB8753581D778BC2650",
+  "steinbergStandardExit": 0,
+  "steinbergExtensiveExit": 0,
+  "artifactProbeExit": 0,
+  "pluginval": {
+    "status": "PASS",
+    "exitCode": 0,
+    "strictness": 5,
+    "guiTestsSkipped": false,
+    "completedSuccessMarker": true,
+    "executableSha256": "F4AC5C31C5544A434F73E686B816861D92C22AE849D69AD693681CBC9522FCD8",
+    "arguments": "--strictness-level 5 --random-seed 0x564f4341 --sample-rates 44100,48000,96000 --block-sizes 64,128,512,1024 --repeat 1 --timeout-ms 120000 --output-dir \"C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\omega-vocal-forge\\evidence\" --output-filename pluginval.txt --validate \"C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3\\plugins\\omega-vocal-forge\\build\\VST3\\Release\\OmegaVocalForge.vst3\"",
+    "timestampUtc": "2026-10-23T21:18:12.598536Z"
+  },
+  "flStudio": "BLOCKED: Windows helper initialization/discovery timed out in three attempts; final error: computer-use request timed out: list_apps",
+  "ci": "DEFINED_NOT_RUN",
+  "gate2": "NOT_STARTED"
+}

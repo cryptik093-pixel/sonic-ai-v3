@@ -1,0 +1,6 @@
+-- [SMTG] SMTG_AAX_SDK_PATH is not set. If you need it, please download the AAX SDK!
+-- Could NOT find LIBJACK (missing: LIBJACK_LIBRARIES LIBJACK_INCLUDE_DIR) 
+-- [SMTG] Setup running moduleinfotool for OmegaVocalForge
+-- Configuring done (3.6s)
+-- Generating done (6.9s)
+-- Build files have been written to: C:/Users/david someone/Desktop/SONIC AI V3/sonic-ai-v3/plugins/omega-vocal-forge/build

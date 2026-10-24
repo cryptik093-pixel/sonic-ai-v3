@@ -1,0 +1,33 @@
+name: Omega Vocal Forge Gate 1
+# Defined for reproducibility; execution is manual and has not been requested.
+on:
+  workflow_dispatch:
+    inputs:
+      sdk_archive_url:
+        description: Official Steinberg SDK 3.8.1 ZIP URL matching dependencies.lock.json SHA256
+        required: true
+        type: string
+permissions:
+  contents: read
+jobs:
+  windows-vst3:
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Fetch exact pinned SDK
+        shell: pwsh
+        env:
+          SDK_ARCHIVE_URL: ${{ inputs.sdk_archive_url }}
+        run: |
+          $archive = Join-Path $env:RUNNER_TEMP 'steinberg-sdk.zip'
+          $destination = Join-Path $env:RUNNER_TEMP 'omega-vocal-sdk'
+          Invoke-WebRequest -Uri $env:SDK_ARCHIVE_URL -OutFile $archive
+          if ((Get-FileHash -LiteralPath $archive -Algorithm SHA256).Hash -ne '64965F1B74E08A6D4087A35AF7A716F4DCFF5852C66AD7EE13F1C47E79C1AB77') { throw 'SDK pin mismatch' }
+          Expand-Archive -LiteralPath $archive -DestinationPath $destination
+      - name: Build native VST3 and run offline tests
+        shell: pwsh
+        run: |
+          ./plugins/omega-vocal-forge/tools/build.ps1 -SdkRoot "$env:RUNNER_TEMP/omega-vocal-sdk/VST_SDK/vst3sdk" -SdkArchive "$env:RUNNER_TEMP/steinberg-sdk.zip" -Jobs 2
+      - name: Validate actual VST3 and render audio
+        shell: pwsh
+        run: ./plugins/omega-vocal-forge/tools/verify.ps1 -SkipPluginval

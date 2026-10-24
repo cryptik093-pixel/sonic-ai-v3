@@ -1,0 +1,9 @@
+Test project C:/Users/david someone/Desktop/SONIC AI V3/sonic-ai-v3/plugins/omega-vocal-forge/build
+    Start 1: VocalEngine
+1/2 Test #1: VocalEngine ......................   Passed    0.18 sec
+    Start 2: VocalAdapter
+2/2 Test #2: VocalAdapter .....................   Passed    2.03 sec
+
+100% tests passed, 0 tests failed out of 2
+
+Total Test time (real) =   5.72 sec

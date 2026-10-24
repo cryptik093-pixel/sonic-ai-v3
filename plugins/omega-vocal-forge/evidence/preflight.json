@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "read_only": true,
+  "platform": {
+    "system": "Windows",
+    "release": "10",
+    "architecture": "AMD64"
+  },
+  "repository": "C:\\Users\\david someone\\Desktop\\SONIC AI V3\\sonic-ai-v3",
+  "git": {
+    "available": false,
+    "error": "Command '['C:\\\\Program Files\\\\Git\\\\cmd\\\\git.EXE', '-C', 'C:\\\\Users\\\\david someone\\\\Desktop\\\\SONIC AI V3\\\\sonic-ai-v3', 'status', '--short', '--branch']' timed out after 8 seconds"
+  },
+  "toolchain": {
+    "cmake": {
+      "installed": false,
+      "path": null
+    },
+    "git": {
+      "installed": true,
+      "path": "C:\\Program Files\\Git\\cmd\\git.EXE",
+      "version": "git version 2.56.0.windows.2"
+    },
+    "ninja": {
+      "installed": false,
+      "path": null
+    },
+    "cl": {
+      "installed": false,
+      "path": null
+    },
+    "clang++": {
+      "installed": false,
+      "path": null
+    },
+    "g++": {
+      "installed": false,
+      "path": null
+    },
+    "python": {
+      "installed": true,
+      "path": "C:\\Users\\david someone\\AppData\\Local\\Programs\\Python\\Python314\\python.EXE",
+      "version": "Python 3.14.7"
+    },
+    "py": {
+      "installed": true,
+      "path": "C:\\WINDOWS\\py.EXE",
+      "version": "Python 3.14.7"
+    }
+  },
+  "top_level_markers": {
+    "CMakeLists.txt": [],
+    "*.jucer": [],
+    "AGENTS.md": [
+      "AGENTS.md",
+      "docs\\AGENTS.md"
+    ],
+    "*.sln": [],
+    "*.vcxproj": [],
+    "*.vst3": [],
+    "SKILL.md": [],
+    "LICENSE*": [],
+    "*.cpp": [],
+    "*.h": []
+  },
+  "windows_host_hint": {
+    "FL_STUDIO_PATH": null,
+    "VST3_SYSTEM_PATH": "C:\\Program Files\\Common Files"
+  },
+  "warnings": [
+    "No build manifest detected in root or immediate subdirectories; inspect deeper or locate existing plugin source."
+  ]
+}

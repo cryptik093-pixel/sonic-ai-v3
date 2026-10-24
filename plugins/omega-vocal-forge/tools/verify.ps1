@@ -27,7 +27,7 @@ if(-not $SkipPluginval){
   $pluginval=& "$PSScriptRoot/pluginval.ps1" -Bundle $bundle -EvidenceDirectory $run -Executable $pv
  }
 }
-$result=[ordered]@{timestampUtc=[DateTime]::UtcNow.ToString('o');binary=$binary;sha256=$hash;binaryUnchanged=$hash -eq (Get-FileHash -LiteralPath $binary -Algorithm SHA256).Hash;validator=$validator;validatorSha256=(Get-FileHash -LiteralPath $validator -Algorithm SHA256).Hash;steinbergStandardExit=$standard;steinbergExtensiveExit=$extensive;artifactProbeExit=$probe;pluginval=$pluginval;flStudio='BLOCKED: Windows helper initialization/discovery timed out in three attempts; final error: computer-use request timed out: list_apps';ci='DEFINED_NOT_RUN';gate2='NOT_STARTED'}
+$result=[ordered]@{timestampUtc=[DateTime]::UtcNow.ToString('o');binary=$binary;sha256=$hash;binaryUnchanged=$hash -eq (Get-FileHash -LiteralPath $binary -Algorithm SHA256).Hash;validator=$validator;validatorSha256=(Get-FileHash -LiteralPath $validator -Algorithm SHA256).Hash;steinbergStandardExit=$standard;steinbergExtensiveExit=$extensive;artifactProbeExit=$probe;pluginval=$pluginval;flStudio='NOT_TESTED_BY_THIS_SCRIPT';ci='NOT_CHECKED_BY_THIS_SCRIPT';gate2='NOT_ASSESSED_BY_THIS_SCRIPT'}
 $result | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath "$run/validation.json" -Encoding utf8
 $result | ConvertTo-Json -Depth 5
 if($standard -ne 0 -or $extensive -ne 0 -or $probe -ne 0 -or -not $result.binaryUnchanged -or $pluginval.status -eq 'FAIL'){throw 'Validation failed; inspect evidence logs'}

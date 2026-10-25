@@ -1,0 +1,23 @@
+{
+  "omega-house-eq": {
+    "path": "plugins/omega-house-eq",
+    "inputs": ["CMakeLists.txt", "src", "tests", "tools"],
+    "definitions": {"OEQ_BUILD_PLUGIN": "ON"},
+    "sdk_variable": "OEQ_SDK_ROOT",
+    "targets": ["OmegaHouseEQ", "oeq_engine_tests", "oeq_adapter_tests", "oeq_artifact_probe", "trident_eq_render"],
+    "bundle": "VST3/Release/OmegaHouseEQ.vst3",
+    "module": "Contents/x86_64-win/OmegaHouseEQ.vst3"
+  },
+  "adlib-93-core": {
+    "path": "plugins/adlib-93",
+    "inputs": ["CMakeLists.txt", "src", "tests", "tools", "cmake"],
+    "definitions": {"ADLIB93_BUILD_PLUGIN": "OFF"},
+    "targets": ["adlib93_tests", "adlib93_render", "adlib93_benchmark"]
+  },
+  "organism-v4-fx-core": {
+    "path": "plugins/omega-sonic-organism/fx",
+    "inputs": ["CMakeLists.txt", "core", "tests", "tools", "editor", "plugin"],
+    "definitions": {"OSFX_BUILD_PLUGIN": "OFF"},
+    "targets": ["osfx_state_tests", "osfx_engine_tests", "osfx_dsp_tests", "osfx_realtime_tests", "osfx_editor_model_tests", "osfx_metrics_tests", "osfx_regression_tests", "osfx_profile_contract_tests", "osfx_timeline_tests", "osfx_ring_tests"]
+  }
+}

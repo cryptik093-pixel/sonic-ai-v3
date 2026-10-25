@@ -1,0 +1,215 @@
+{
+  "schema": 1,
+  "task_id": "OHS-TRIDENT-2026-01",
+  "scope": "Local isolated baseline tooling only; protected product sources/dependencies are not reconciled into this branch",
+  "tooling_matrix_revision": "4be81da2bc3582102b02d6213348005796a3a4f2",
+  "native_eq_runner_revision": "e9041d211e5f6d0b77759a2a30396f7a5c08de39",
+  "source_base_commit": "ebc308af17aea46ce17b19d45c79d26437720722",
+  "integration_base_commit": "9802cc83a3482e1365762fce7591e1ee911a0c97",
+  "protected_branch": "dev/omega-vocal-vf001-20261024",
+  "protected_index_entries_unchanged": true,
+  "compiler": {
+    "msvc": "19.51.36256",
+    "windows_sdk": "10.0.26100.0",
+    "cmake": "4.3.1-msvc1"
+  },
+  "tooling_tests": {
+    "passed": 10,
+    "command": "python -B -m unittest discover -s engineering/trident/vst3 -p test_pipeline.py -v"
+  },
+  "products": {
+    "eq": {
+      "status": "PASS",
+      "coverage": "VST3_AND_CORE",
+      "ctest_suites_passed": 2,
+      "source_content_sha256": "d23499a96c34d25a6ffdcbb6abf054a0b161a67cb4df6a0a5443b1ecf6c187d7",
+      "build_source_content_sha256": "b864f443f9b1b8aa893d7fa4e590b6a66265db08ea325510af5a4da7e607c15c",
+      "source_preservation": "PASS",
+      "module_sha256": "b936620ad8b7e86fe4f9f3818612471d621470dd1c1a5f2c6b8e6d5b2cbf77bf",
+      "bundle_content_sha256": "c31c30efa9e1e7b4c4a87519387224161bb05cdb39d2a19667a4873cd2a6f2d0",
+      "pcm_sha256": "82b4c449fb8ed22663bceb25457d56d347ee16d23b5d49a7d2d8779f89ab78e2",
+      "repeat_render": "PASS",
+      "existing_binary_comparison": "PASS",
+      "reference_module_sha256": "7406cda408935e662b71d606c7373ecba3767a1522c410e40c036981049275c5",
+      "steinberg_standard": {
+        "passed": 47,
+        "failed": 0
+      },
+      "steinberg_extensive": {
+        "passed": 537,
+        "failed": 0
+      },
+      "pluginval": {
+        "state": "PASS",
+        "strictness": 5,
+        "editor_tests_completed": true
+      },
+      "sdk_inputs_checked": 299,
+      "fixture_matrix": {
+        "sample_rates": [
+          44100,
+          48000,
+          96000
+        ],
+        "blocks": [
+          64,
+          511,
+          1024
+        ],
+        "cases": 9
+      }
+    },
+    "adlib_core": {
+      "status": "PASS",
+      "coverage": "CORE_ONLY_NO_VST3_ARTIFACT",
+      "ctest_suites_passed": 56,
+      "source_content_sha256": "5333a97bfe6708e9a4b281a89edc0785d30654de45ef0fbeb0c92ba44d53ac8a",
+      "build_source_content_sha256": "5333a97bfe6708e9a4b281a89edc0785d30654de45ef0fbeb0c92ba44d53ac8a",
+      "source_preservation": "PASS",
+      "renders": {
+        "status": "PASS",
+        "scope": "Core production path, two presets, two partitions, synthetic 48k stereo plus tail",
+        "renders": [
+          {
+            "frames": 60000,
+            "sample_rate": 48000,
+            "peak": 0.05912170559167862,
+            "sha256": "d40d9c37d9295af9dd8adc1561bfc88ab587134847dbb361c665e4bbed14d937"
+          },
+          {
+            "frames": 60000,
+            "sample_rate": 48000,
+            "peak": 0.05912170559167862,
+            "sha256": "d40d9c37d9295af9dd8adc1561bfc88ab587134847dbb361c665e4bbed14d937"
+          },
+          {
+            "frames": 60000,
+            "sample_rate": 48000,
+            "peak": 0.06370671838521957,
+            "sha256": "66f2531d8c44829e8d61f5bd03fdc8b1a7a7cc976313edfb805b2884e93e4f88"
+          },
+          {
+            "frames": 60000,
+            "sample_rate": 48000,
+            "peak": 0.06370671838521957,
+            "sha256": "66f2531d8c44829e8d61f5bd03fdc8b1a7a7cc976313edfb805b2884e93e4f88"
+          }
+        ]
+      }
+    },
+    "organism_fx_core": {
+      "status": "PASS",
+      "coverage": "CORE_ONLY_NO_VST3_ARTIFACT",
+      "ctest_suites_passed": 21,
+      "source_content_sha256": "a9ff9490926c70ac4f12c5bd22f98969d64406a7c040bbcab4426f9f5ea3605d",
+      "build_source_content_sha256": "a9ff9490926c70ac4f12c5bd22f98969d64406a7c040bbcab4426f9f5ea3605d",
+      "source_preservation": "PASS"
+    },
+    "organism_instrument_core": {
+      "status": "PASS",
+      "coverage": "CORE_ONLY_NO_VST3_ARTIFACT",
+      "ctest_suites_passed": 6,
+      "source_content_sha256": "640f943bda48f479d5bdd9456bb0dd0859a69f7de7195aceca6a43f7526e4254",
+      "build_source_content_sha256": "640f943bda48f479d5bdd9456bb0dd0859a69f7de7195aceca6a43f7526e4254",
+      "source_preservation": "PASS"
+    }
+  },
+  "existing_fixture_suites": {
+    "pack_forge": {
+      "passed": 10,
+      "interpreter": "project root .venv",
+      "source_unchanged": true,
+      "live_commerce_validated": false
+    },
+    "commerce_snapshot_audit": {
+      "passed": 19,
+      "revision": "0270dfdec8975e635909b9ccb21ed9d08fb5c6b0",
+      "source": "separate existing TRIDENT integration worktree",
+      "provider_calls": false
+    }
+  },
+  "release_qualified": false,
+  "host_acceptance": "NOT_TESTED",
+  "approved_audio_golden": "NOT_PROVIDED",
+  "design_listening_acceptance": "NOT_TESTED",
+  "cpu_qualification": "PENDING",
+  "limitations": [
+    "EQ render reference is an existing unapproved binary, not a sonic approval.",
+    "Non-EQ products were core-only builds, not native VST3 qualification.",
+    "Recorded local observations are not a release approval or independently authenticated certification.",
+    "Native clean-clone and CI validation remain pending source/dependency reconciliation."
+  ],
+  "cpu_diagnostics": {
+    "scope": "ADLIB core only, 48kHz/128, 10 seconds per mode; wall-clock timing includes scheduling effects",
+    "unpaced": {
+      "schemaVersion": 1,
+      "sampleRate": 48000,
+      "blockSize": 128,
+      "requestedSecondsPerMode": 10,
+      "paced": false,
+      "deadlineMilliseconds": 2.66667,
+      "hardwareIdentityEvidence": "docs/ENVIRONMENT.md; record machine alongside this report",
+      "measurement": "steady_clock around request plus sample DSP only; preparation, generator, checks and pacing excluded; timer overhead not subtracted",
+      "cpuBudget": "PENDING",
+      "diagnosticCriteriaMet": false,
+      "modes": [
+        {
+          "mode": "steady",
+          "blocks": 3750,
+          "wallSeconds": 11.7199,
+          "p50Milliseconds": 1.5654,
+          "p99Milliseconds": 38.5025,
+          "maxMilliseconds": 233.809,
+          "finite": true
+        },
+        {
+          "mode": "transitions",
+          "blocks": 3750,
+          "wallSeconds": 9.88867,
+          "p50Milliseconds": 1.9096,
+          "p99Milliseconds": 11.7204,
+          "maxMilliseconds": 90.4766,
+          "finite": true
+        }
+      ],
+      "flStudio": "PENDING",
+      "listening": "PENDING"
+    },
+    "paced": {
+      "schemaVersion": 1,
+      "sampleRate": 48000,
+      "blockSize": 128,
+      "requestedSecondsPerMode": 10,
+      "paced": true,
+      "deadlineMilliseconds": 2.66667,
+      "hardwareIdentityEvidence": "docs/ENVIRONMENT.md; record machine alongside this report",
+      "measurement": "steady_clock around request plus sample DSP only; preparation, generator, checks and pacing excluded; timer overhead not subtracted",
+      "cpuBudget": "PENDING",
+      "diagnosticCriteriaMet": false,
+      "modes": [
+        {
+          "mode": "steady",
+          "blocks": 3750,
+          "wallSeconds": 10.0049,
+          "p50Milliseconds": 0.6146,
+          "p99Milliseconds": 1.5507,
+          "maxMilliseconds": 10.4326,
+          "finite": true
+        },
+        {
+          "mode": "transitions",
+          "blocks": 3750,
+          "wallSeconds": 10.0049,
+          "p50Milliseconds": 1.0204,
+          "p99Milliseconds": 2.234,
+          "maxMilliseconds": 10.4146,
+          "finite": true
+        }
+      ],
+      "flStudio": "PENDING",
+      "listening": "PENDING"
+    },
+    "diagnostic_criteria_met": false,
+    "formal_600_second_and_native_host_cpu_gate": "PENDING"
+  }
+}

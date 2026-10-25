@@ -1,0 +1,46 @@
+--- a/src/dsp/Echo.cpp
++++ b/src/dsp/Echo.cpp
+@@ -58,7 +58,7 @@
+ float Echo::read(size_t channel,double samples) const noexcept {
+  const auto& b=delay_[channel];double position=static_cast<double>(write_)-samples;
+  if(position<0) position+=b.size();
+- const auto i=static_cast<size_t>(position);const auto j=(i+1)%b.size();const float f=static_cast<float>(position-i);
++ const auto i=static_cast<size_t>(position);const auto j=i+1==b.size()?0:i+1;const float f=static_cast<float>(position-i);
+  return b[i]+f*(b[j]-b[i]);
+ }
+ StereoFrame Echo::process(StereoFrame in,float throwGate) noexcept {
+@@ -75,7 +75,7 @@
+   const float raw=read(c,tapA_); const float tapped=fade_?raw+(read(c,tapB_)-raw)*fade:raw;
+   filter_[c*2]+=hp_*(tapped-filter_[c*2]); const float high=tapped-filter_[c*2];
+   filter_[c*2+1]+=lp_*(high-filter_[c*2+1]); const float filtered=filter_[c*2+1];float diffuse=filtered;
+-  for(size_t j=0;j<4;++j) {auto& a=allpass_[c*4+j];const float delayed=a.data[a.write];const float output=delayed-.65f*diffuse;a.data[a.write]=finiteSample(diffuse+.65f*output);a.write=(a.write+1)%a.data.size();diffuse=output;}
++  for(size_t j=0;j<4;++j) {auto& a=allpass_[c*4+j];const float delayed=a.data[a.write];const float output=delayed-.65f*diffuse;a.data[a.write]=finiteSample(diffuse+.65f*output);if(++a.write==a.data.size())a.write=0;diffuse=output;}
+   y[c]=finiteSample(filtered+diffuse_*(diffuse-filtered));
+  }
+  if(fade_) {if(++fade_>fadeLength_) {tapA_=tapB_;fade_=0;if(std::abs(pending_-tapA_)>1.e-8){tapB_=pending_;fade_=1;}}}
+@@ -85,7 +85,7 @@
+  const float safeL=feedback_==0?0.f:4*std::tanh(y[0]*.25f),safeR=feedback_==0?0.f:4*std::tanh(y[1]*.25f);
+  delay_[0][write_]=finiteSample(injectionL+feedback_*((1-ping_)*safeL+ping_*safeR));
+  delay_[1][write_]=finiteSample(injectionR+feedback_*((1-ping_)*safeR+ping_*safeL));
+- maximumState_=std::max({maximumState_,std::abs(delay_[0][write_]),std::abs(delay_[1][write_])});write_=(write_+1)%delay_[0].size();
++ maximumState_=std::max({maximumState_,std::abs(delay_[0][write_]),std::abs(delay_[1][write_])});if(++write_==delay_[0].size())write_=0;
+  for(auto& v:filter_) if(std::abs(v)<1.e-25f)v=0;
+  return {y[0]*enabled_,y[1]*enabled_};
+ }
+--- a/src/dsp/Space.cpp
++++ b/src/dsp/Space.cpp
+@@ -52,11 +52,11 @@
+  damping_+=smooth_*(dampingTarget_-damping_);predelaySamples_+=smooth_*(predelayTarget_-predelaySamples_);
+  send_+=static_cast<float>(smooth_*(sendTarget_-send_));enabled_+=static_cast<float>(smooth_*(enabledTarget_-enabled_));
+  float input[2]={finiteSample(clean.left+delay.left*send_)*enabled_,finiteSample(clean.right+delay.right*send_)*enabled_};
+- for(size_t c=0;c<2;++c){auto& b=predelay_[c];b[preWrite_]=input[c];double pos=static_cast<double>(preWrite_)-predelaySamples_;if(pos<0)pos+=b.size();const auto a=static_cast<size_t>(pos),z=(a+1)%b.size();input[c]=b[a]+static_cast<float>(pos-a)*(b[z]-b[a]);}
+- preWrite_=(preWrite_+1)%predelay_[0].size();
++ for(size_t c=0;c<2;++c){auto& b=predelay_[c];b[preWrite_]=input[c];double pos=static_cast<double>(preWrite_)-predelaySamples_;if(pos<0)pos+=b.size();const auto a=static_cast<size_t>(pos),z=a+1==b.size()?0:a+1;input[c]=b[a]+static_cast<float>(pos-a)*(b[z]-b[a]);}
++ if(++preWrite_==predelay_[0].size())preWrite_=0;
+  float values[8]{};double sum=0,left=0,right=0;
+  for(size_t i=0;i<8;++i){const float raw=lines_[i][positions_[i]];left+=outputL[i]*invSqrt8*raw;right+=outputR[i]*invSqrt8*raw;dampingState_[i]+=static_cast<float>(damping_*(raw-dampingState_[i]));if(std::abs(dampingState_[i])<1.e-25f)dampingState_[i]=0;values[i]=dampingState_[i];sum+=values[i];}
+- for(size_t i=0;i<8;++i){gain_[i]+=smooth_*(gainTarget_[i]-gain_[i]);const double injection=(input[0]+inputR[i]*input[1])*invSqrt8*invSqrt2;const float state=finiteSample(static_cast<float>((values[i]-.25*sum)*gain_[i]+injection));lines_[i][positions_[i]]=state;maximumState_=std::max(maximumState_,std::abs(state));positions_[i]=(positions_[i]+1)%lines_[i].size();}
++ for(size_t i=0;i<8;++i){gain_[i]+=smooth_*(gainTarget_[i]-gain_[i]);const double injection=(input[0]+inputR[i]*input[1])*invSqrt8*invSqrt2;const float state=finiteSample(static_cast<float>((values[i]-.25*sum)*gain_[i]+injection));lines_[i][positions_[i]]=state;maximumState_=std::max(maximumState_,std::abs(state));if(++positions_[i]==lines_[i].size())positions_[i]=0;}
+  return {{finiteSample(static_cast<float>(left))*enabled_,finiteSample(static_cast<float>(right))*enabled_},duckDb_==0?1.f:static_cast<float>(std::pow(10.,-.05*duckDb_))};
+ }
+ void Space::beginClear() noexcept {clearing_=true;clearBuffer_=clearOffset_=0;positions_.fill(0);preWrite_=0;primed_=false;duckDb_=0;maximumState_=0;}

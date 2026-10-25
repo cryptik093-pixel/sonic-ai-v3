@@ -5,7 +5,7 @@ This additive runner uses existing product CMake targets and the existing
 plugin. One build/test worker is used by default; `-Jobs 2` is the maximum build
 concurrency. The output directory must be new and
 outside the checkout and installed-program trees. No downloads or paid services
-are required by these three configurations.
+are required by these four configurations.
 Requires Python 3.12 or newer. When using the isolated tooling review branch,
 pass `-SourceRepo 'C:\path\to\protected\source\checkout'` explicitly: plugin
 source and the existing toolchain/validators have not been reconciled into main.
@@ -14,6 +14,7 @@ source and the existing toolchain/validators have not been reconciled into main.
 ./engineering/trident/vst3/build-release.ps1 -Product omega-house-eq -Output 'C:\scratch\trident-eq-001' -ReferenceModule 'C:\path\to\existing\OmegaHouseEQ.vst3'
 ./engineering/trident/vst3/build-release.ps1 -Product adlib-93-core -Output 'C:\scratch\trident-adlib-001'
 ./engineering/trident/vst3/build-release.ps1 -Product organism-v4-fx-core -Output 'C:\scratch\trident-v4-core-001'
+./engineering/trident/vst3/build-release.ps1 -Product organism-instrument-core -Output 'C:\scratch\trident-instrument-core-001'
 python -B -m unittest discover -s engineering/trident/vst3 -p test_pipeline.py -v
 ```
 
@@ -39,6 +40,10 @@ ADLIB core includes existing CTest cases and deterministic two-preset stereo
 render/tail captures at 48k in two callback partitions. It does not qualify the
 JUCE processor or a VST3 bundle. V4 FX core tests the separate effect; it does
 not qualify the Organism instrument or implement Creator DNA.
+
+The separate instrument configuration runs its existing core, state/bridge,
+engine, embedded-preset and isolated experimental-primitive suites with both
+native plugin and companion effect disabled. It adds no V5 processing or IDs.
 
 Bundle content hash = SHA256 of UTF-8 canonical JSON (`sort_keys=True`, compact
 separators) containing sorted relative path, byte count and per-file SHA256

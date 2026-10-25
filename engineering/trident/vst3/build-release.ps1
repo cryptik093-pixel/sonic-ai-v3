@@ -1,5 +1,5 @@
 param(
- [ValidateSet('omega-house-eq','adlib-93-core','organism-v4-fx-core')][string]$Product='omega-house-eq',
+ [ValidateSet('omega-house-eq','adlib-93-core','organism-v4-fx-core','organism-instrument-core')][string]$Product='omega-house-eq',
  [Parameter(Mandatory=$true)][string]$Output,
  [string]$ReferenceModule,
  [string]$SourceRepo,

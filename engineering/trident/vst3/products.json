@@ -14,6 +14,12 @@
     "definitions": {"ADLIB93_BUILD_PLUGIN": "OFF"},
     "targets": ["adlib93_tests", "adlib93_render", "adlib93_benchmark"]
   },
+  "organism-instrument-core": {
+    "path": "plugins/omega-sonic-organism",
+    "inputs": ["CMakeLists.txt", "core", "tests", "plugin", "tools", "presets", "contracts"],
+    "definitions": {"OSO_BUILD_PLUGIN": "OFF", "OSO_BUILD_FX": "OFF"},
+    "targets": ["omega_core_tests", "omega_state_tests", "omega_state_bridge_tests", "omega_engine_tests", "omega_preset_tests", "omega_v4_experiment_tests"]
+  },
   "organism-v4-fx-core": {
     "path": "plugins/omega-sonic-organism/fx",
     "inputs": ["CMakeLists.txt", "core", "tests", "tools", "editor", "plugin"],

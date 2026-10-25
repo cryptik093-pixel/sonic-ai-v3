@@ -1,0 +1,108 @@
+{
+  "schema": 1,
+  "task": "VST-06-ADLIB-TIMING",
+  "base_revision": "f5c65fd0445d7b33d4b3e29bb0b8ba514b3a4d91",
+  "state": "TESTED",
+  "release_qualified": false,
+  "native_collection": {
+    "status": "PASS_DIAGNOSTIC_COLLECTION_ONLY",
+    "exit_code": 0,
+    "driver_sha256": "653da1e2f83c952557445321fd83c5239b6ab90039836770751d3694b9b12389",
+    "executable_sha256": "a046f5be79fef0f71ed7b9590a48cdd6d89d4e72ead734fdbf7a2f7b27f4437c",
+    "source_manifest_sha256": "5333a97bfe6708e9a4b281a89edc0785d30654de45ef0fbeb0c92ba44d53ac8a",
+    "baseline_library_sha256": "7a67e2e649f72634b4bf132cee6e66110b8847f4d26326234bd8571a8945ddef",
+    "raw_measurement_rows": 22500,
+    "control_rows_each": 1500,
+    "synthetic_fingerprints_equal": true,
+    "inputs_unchanged": true
+  },
+  "observations": {
+    "schema": 1,
+    "diagnostic_only": true,
+    "release_qualified": false,
+    "sample_rate": 48000,
+    "block_size": 128,
+    "seconds_per_mode": 30,
+    "warmup_audio_seconds": 3,
+    "paced": true,
+    "cycles_enabled": true,
+    "deadline_ms": 2.66666666667,
+    "cpu_budget": "PENDING",
+    "modes": [
+      {
+        "mode": "steady",
+        "blocks": 11250,
+        "wall_seconds": 35.5232844,
+        "whole_loop_thread_cpu_ms": 12046.875,
+        "wall_p50_ms": 0.9696,
+        "wall_p95_ms": 7.1226,
+        "wall_p99_ms": 44.7596,
+        "wall_max_ms": 823.91,
+        "cycle_p50": 2443103,
+        "cycle_p95": 2922322,
+        "cycle_p99": 3439566,
+        "cycle_max": 9253465,
+        "start_lag_p99_ms": 9082.2218,
+        "deadline_misses": 1433,
+        "wall_outliers_gt_2x_median": 1895,
+        "low_cycle_wall_outliers_le_1_5x_median": 1849,
+        "finite": true,
+        "output_fnv1a64": "c6c2413ec6269a3d"
+      },
+      {
+        "mode": "transitions",
+        "blocks": 11250,
+        "wall_seconds": 30.3379846,
+        "whole_loop_thread_cpu_ms": 15250,
+        "wall_p50_ms": 1.3261,
+        "wall_p95_ms": 5.7078,
+        "wall_p99_ms": 18.3446,
+        "wall_max_ms": 179.3342,
+        "cycle_p50": 2909062,
+        "cycle_p95": 5073107,
+        "cycle_p99": 5573815,
+        "cycle_max": 9368658,
+        "start_lag_p99_ms": 1512.94866667,
+        "deadline_misses": 1499,
+        "wall_outliers_gt_2x_median": 1511,
+        "low_cycle_wall_outliers_le_1_5x_median": 677,
+        "finite": true,
+        "output_fnv1a64": "e0e95c924647c5c0"
+      }
+    ],
+    "limitations": [
+      "Core-only custom loop, not a native VST3 or FL Studio callback.",
+      "Raw thread cycles must not be converted to time; CPU frequency may vary.",
+      "Low-cycle wall outliers are diagnostic clues, not proof of scheduling causation.",
+      "Whole-loop thread CPU includes generator, checks, hashing, instrumentation and pacing overhead.",
+      "Per-block cycle intervals include clock/counter overhead; no overhead subtraction.",
+      "Output fingerprint is non-cryptographic; source/library/executable SHA256 belongs in the runner manifest."
+    ]
+  },
+  "tests": {
+    "portable": 21,
+    "windows": 21,
+    "independent_review": "Accepted after fixing cycle/lag/outlier validation and artifact sealing",
+    "reviewer_session": "/root/timing_review"
+  },
+  "limits": [
+    "Core-only retained .lib, not fresh native VST3 or host qualification.",
+    "Native collection used earlier parser; final parser revalidation is recorded separately.",
+    "Raw cycles cannot establish scheduling causation or be converted to time.",
+    "Sustained CPU, FL Studio, approved golden and design/listening acceptance pending."
+  ],
+  "evidence_directory": "C:\\Users\\david someone\\Desktop\\OHS-TRIDENT-2026-01\\adlib-thread-timing-01",
+  "postvalidation": {
+    "status": "PASS_POSTVALIDATION_ONLY",
+    "exit_code": 0,
+    "runner_sha256": "b516e965aa1ec5c42db3e3714286efc0837229b739d9a87f83e1ff6a63ed941a",
+    "raw_rows_validated": 25500,
+    "all_wall_cycle_lag_outlier_summaries_recomputed": true,
+    "artifact_sha256": {
+      "measurement.csv": "34c1d156152ddb981fec1503e03faab061b3d2d96a1f0b05fa690fea08e380d4",
+      "measurement.json": "c983e66b1c5c8014bc82235089594db9f774bc2a2d829e08ae751f20e8791a5b",
+      "run.json": "45391ae2ec0b162e873f226ed39d9814cb9c5e1fa5ebdcce33e92e4f93c134f7"
+    },
+    "full_artifact_seal": "adlib-thread-timing-01/reviewed-postvalidation.json"
+  }
+}

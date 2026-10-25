@@ -1,0 +1,301 @@
+{
+  "task": "ADLIB-RING-WRAP-CANDIDATE",
+  "state": "PASS_CORE_CANDIDATE",
+  "started_utc": "2026-10-25T11:23:34.012429+00:00",
+  "finished_utc": "2026-10-25T11:57:52.361694+00:00",
+  "release_qualified": false,
+  "binary_sha256": {
+    "adlib93_tests.exe": "a2de575d046b62b237b405fbf121eb4845d64fad92f495c8ffdc0bed6bf26aa0",
+    "adlib93_render.exe": "2fb97f173de838f48d5c2be0be16de53261e90da8c6563990edb79a526e895e8",
+    "adlib93_benchmark.exe": "248993c0bc05ee5dd66df9cdf3deecdc8034df956113d8ad07906e36ed11689a"
+  },
+  "inputs_preserved": true,
+  "limitations": [
+    "Core-only fresh Windows build; native VST3 wrapper and FL Studio not exercised.",
+    "A/B uses deterministic synthetic fixtures, not approved golden or listening approval.",
+    "Short ABBA timings are diagnostic; candidate sustained/native CPU remains unqualified.",
+    "Patch applies only to the exact pinned frozen source; product integration pending review."
+  ],
+  "toolchain": {
+    "compiler": "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\VC\\Tools\\MSVC\\14.51.36231\\bin\\Hostx64\\x64\\cl.exe",
+    "compiler_sha256": "e6d57100c82ae0310c18b16abfe52bc0df8fbb272ca6c5fb287d485807cfce91",
+    "sdk": "10.0.26100.0"
+  },
+  "performance": [
+    {
+      "tag": "baseline",
+      "report": {
+        "schemaVersion": 1,
+        "sampleRate": 48000,
+        "blockSize": 128,
+        "requestedSecondsPerMode": 5,
+        "paced": false,
+        "deadlineMilliseconds": 2.66667,
+        "hardwareIdentityEvidence": "docs/ENVIRONMENT.md; record machine alongside this report",
+        "measurement": "steady_clock around request plus sample DSP only; preparation, generator, checks and pacing excluded; timer overhead not subtracted",
+        "cpuBudget": "PENDING",
+        "diagnosticCriteriaMet": false,
+        "modes": [
+          {
+            "mode": "steady",
+            "blocks": 1875,
+            "wallSeconds": 2.27404,
+            "p50Milliseconds": 0.9396,
+            "p99Milliseconds": 4.7281,
+            "maxMilliseconds": 14.3777,
+            "finite": true
+          },
+          {
+            "mode": "transitions",
+            "blocks": 1875,
+            "wallSeconds": 3.05633,
+            "p50Milliseconds": 1.2497,
+            "p99Milliseconds": 5.0743,
+            "maxMilliseconds": 11.5019,
+            "finite": true
+          }
+        ],
+        "flStudio": "PENDING",
+        "listening": "PENDING"
+      }
+    },
+    {
+      "tag": "candidate",
+      "report": {
+        "schemaVersion": 1,
+        "sampleRate": 48000,
+        "blockSize": 128,
+        "requestedSecondsPerMode": 5,
+        "paced": false,
+        "deadlineMilliseconds": 2.66667,
+        "hardwareIdentityEvidence": "docs/ENVIRONMENT.md; record machine alongside this report",
+        "measurement": "steady_clock around request plus sample DSP only; preparation, generator, checks and pacing excluded; timer overhead not subtracted",
+        "cpuBudget": "PENDING",
+        "diagnosticCriteriaMet": false,
+        "modes": [
+          {
+            "mode": "steady",
+            "blocks": 1875,
+            "wallSeconds": 2.05162,
+            "p50Milliseconds": 0.834,
+            "p99Milliseconds": 4.5346,
+            "maxMilliseconds": 8.9226,
+            "finite": true
+          },
+          {
+            "mode": "transitions",
+            "blocks": 1875,
+            "wallSeconds": 2.76317,
+            "p50Milliseconds": 1.0968,
+            "p99Milliseconds": 5.2994,
+            "maxMilliseconds": 11.8809,
+            "finite": true
+          }
+        ],
+        "flStudio": "PENDING",
+        "listening": "PENDING"
+      }
+    },
+    {
+      "tag": "candidate",
+      "report": {
+        "schemaVersion": 1,
+        "sampleRate": 48000,
+        "blockSize": 128,
+        "requestedSecondsPerMode": 5,
+        "paced": false,
+        "deadlineMilliseconds": 2.66667,
+        "hardwareIdentityEvidence": "docs/ENVIRONMENT.md; record machine alongside this report",
+        "measurement": "steady_clock around request plus sample DSP only; preparation, generator, checks and pacing excluded; timer overhead not subtracted",
+        "cpuBudget": "PENDING",
+        "diagnosticCriteriaMet": false,
+        "modes": [
+          {
+            "mode": "steady",
+            "blocks": 1875,
+            "wallSeconds": 2.22124,
+            "p50Milliseconds": 0.8562,
+            "p99Milliseconds": 5.7175,
+            "maxMilliseconds": 24.4429,
+            "finite": true
+          },
+          {
+            "mode": "transitions",
+            "blocks": 1875,
+            "wallSeconds": 2.73443,
+            "p50Milliseconds": 1.1171,
+            "p99Milliseconds": 4.7253,
+            "maxMilliseconds": 10.392,
+            "finite": true
+          }
+        ],
+        "flStudio": "PENDING",
+        "listening": "PENDING"
+      }
+    },
+    {
+      "tag": "baseline",
+      "report": {
+        "schemaVersion": 1,
+        "sampleRate": 48000,
+        "blockSize": 128,
+        "requestedSecondsPerMode": 5,
+        "paced": false,
+        "deadlineMilliseconds": 2.66667,
+        "hardwareIdentityEvidence": "docs/ENVIRONMENT.md; record machine alongside this report",
+        "measurement": "steady_clock around request plus sample DSP only; preparation, generator, checks and pacing excluded; timer overhead not subtracted",
+        "cpuBudget": "PENDING",
+        "diagnosticCriteriaMet": false,
+        "modes": [
+          {
+            "mode": "steady",
+            "blocks": 1875,
+            "wallSeconds": 2.25292,
+            "p50Milliseconds": 0.9176,
+            "p99Milliseconds": 4.3854,
+            "maxMilliseconds": 16.1383,
+            "finite": true
+          },
+          {
+            "mode": "transitions",
+            "blocks": 1875,
+            "wallSeconds": 2.99163,
+            "p50Milliseconds": 1.2414,
+            "p99Milliseconds": 4.8113,
+            "maxMilliseconds": 18.5299,
+            "finite": true
+          }
+        ],
+        "flStudio": "PENDING",
+        "listening": "PENDING"
+      }
+    }
+  ],
+  "functional_tests": {
+    "windows_ctest_passed": 56,
+    "windows_ctest_failed": 0,
+    "render_cases": 32,
+    "all_byte_identical": true
+  },
+  "baseline_source_sha256": "5333a97bfe6708e9a4b281a89edc0785d30654de45ef0fbeb0c92ba44d53ac8a",
+  "baseline_source_changed_files": [
+    {
+      "path": "src/dsp/Echo.cpp",
+      "bytes": 7287,
+      "sha256": "dcc59971ddee3b8e0d765ef5e2931b9543da0e97ceab8d9991b8b38514c8ab8b"
+    },
+    {
+      "path": "src/dsp/Space.cpp",
+      "bytes": 5755,
+      "sha256": "0d64337615a60f23e0a2e8a1958e95d5404582fe723400cd58f8c96d9cdbaa1d"
+    }
+  ],
+  "candidate_source_sha256": "802be378c2820b824b4c02b8bb79a0beffbe20af498e8aa56caac598870c2ba7",
+  "candidate_source_changed_files": [
+    {
+      "path": "src/dsp/Echo.cpp",
+      "bytes": 7405,
+      "sha256": "fb039803bcb5a20481ce6c5da65aad6ffa15fd779ee8b5e017ad8bd39972884c"
+    },
+    {
+      "path": "src/dsp/Space.cpp",
+      "bytes": 5842,
+      "sha256": "3a89b2a55237cfbab8932a73bb7ca8c06599fd28679a741f9ff2ef90cdd6cb8e"
+    }
+  ],
+  "sustained_baseline": {
+    "task": "TRIDENT-SUSTAINED-ADLIB-20261025",
+    "started_utc": "2026-10-25T11:19:03.104243+00:00",
+    "state": "COLLECTED",
+    "release_qualified": false,
+    "coverage": "retained Windows Release DSP core only; not native VST3/FL Studio",
+    "environment": {
+      "windows": "Windows-10-10.0.19045-SP0",
+      "processor": "Intel64 Family 6 Model 69 Stepping 1, GenuineIntel",
+      "cpu_count": 4
+    },
+    "source_manifest_sha256": "5333a97bfe6708e9a4b281a89edc0785d30654de45ef0fbeb0c92ba44d53ac8a",
+    "executable_sha256": "ce740a72585ccd021d65a9a3f2a6bafaeba322c7d6df3f5633de9d11a6c82627",
+    "before": {
+      "at": "2026-10-25T11:20:03.211147+00:00",
+      "physical_available_bytes": 907755520,
+      "memory_load_percent": 89,
+      "selected_processes": [
+        {
+          "image": "FL64.exe",
+          "pid": "13584",
+          "memory": "112,624 K"
+        }
+      ]
+    },
+    "argv": [
+      "C:\\Users\\david someone\\Desktop\\OHS-TRIDENT-2026-01\\adlib-core-baseline-01\\build\\adlib93_benchmark.exe",
+      "--sample-rate",
+      "48000",
+      "--block-size",
+      "128",
+      "--seconds",
+      "600",
+      "--report",
+      "C:\\Users\\david someone\\Desktop\\OHS-TRIDENT-2026-01\\sprint-20261025-0618\\sustained-measurements.json",
+      "--mode",
+      "both",
+      "--paced",
+      "true"
+    ],
+    "pid": 336,
+    "exit_code": 1,
+    "after": {
+      "at": "2026-10-25T11:40:14.489826+00:00",
+      "physical_available_bytes": 1068609536,
+      "memory_load_percent": 87,
+      "selected_processes": [
+        {
+          "image": "FL64.exe",
+          "pid": "13584",
+          "memory": "287,056 K"
+        }
+      ]
+    },
+    "observations": {
+      "schemaVersion": 1,
+      "sampleRate": 48000,
+      "blockSize": 128,
+      "requestedSecondsPerMode": 600,
+      "paced": true,
+      "deadlineMilliseconds": 2.66667,
+      "hardwareIdentityEvidence": "docs/ENVIRONMENT.md; record machine alongside this report",
+      "measurement": "steady_clock around request plus sample DSP only; preparation, generator, checks and pacing excluded; timer overhead not subtracted",
+      "cpuBudget": "FAIL",
+      "diagnosticCriteriaMet": false,
+      "modes": [
+        {
+          "mode": "steady",
+          "blocks": 225000,
+          "wallSeconds": 600.001,
+          "p50Milliseconds": 0.9641,
+          "p99Milliseconds": 9.0328,
+          "maxMilliseconds": 836.447,
+          "finite": true
+        },
+        {
+          "mode": "transitions",
+          "blocks": 225000,
+          "wallSeconds": 601.02,
+          "p50Milliseconds": 1.375,
+          "p99Milliseconds": 8.5643,
+          "maxMilliseconds": 133.665,
+          "finite": true
+        }
+      ],
+      "flStudio": "PENDING",
+      "listening": "PENDING"
+    },
+    "inputs_unchanged": true,
+    "sustained_core_cpu_budget": "FAIL",
+    "measurements_sha256": "8fb6eb3dec312e84ed3d72fcbd1b0509ccb7fb9497d96350ebe9f27e2246273a",
+    "finished_utc": "2026-10-25T11:40:16.531830+00:00"
+  },
+  "candidate_sustained_cpu": "NOT_TESTED",
+  "native_vst3_and_fl_studio": "NOT_TESTED"
+}

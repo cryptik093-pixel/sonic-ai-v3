@@ -8,4 +8,4 @@ Input: products, themes and files lists, plus optional product-bound structured 
 
 The auditor enforces Decimal/USD approved pricing, asset/SKU presence, component manifests, delivery/license/checkout observations and six plugin gates when ADLIB93 is a binary. MAIN theme protection follows the API role. Zero inventory alone does not prove sold out. Filename key differences are metadata conflicts, not audio analysis.
 
-Development acceptance: 18 tests cover malformed input, currency, evidence shape, bundle identity, missing fulfillment, MAIN-theme safety and exact Detroit preview label conflicts. Native Windows results must be retained separately. This module does not integrate Pack Forge into Shopify; live delivery and checkout require distinct evidence and approvals.
+Development acceptance: 19 tests cover malformed input, currency, evidence shape, bundle identity, missing fulfillment, MAIN-theme safety and exact Detroit preview label conflicts. Native Windows results must be retained separately. This module does not integrate Pack Forge into Shopify; live delivery and checkout require distinct evidence and approvals.

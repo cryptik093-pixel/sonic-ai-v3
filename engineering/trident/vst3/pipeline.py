@@ -318,6 +318,13 @@ def execute(args):
         if {str(p): digest(p) for p in dependencies} != run.report['external_tooling']:
             raise ValueError('External build/validation tooling changed during validation')
         run.report['source_preservation'] = 'PASS'
+        if config.get('bundle'):
+            staged = output / 'artifacts' / bundle.name
+            shutil.copytree(bundle, staged)
+            if manifest(staged) != run.report['bundle_before']:
+                raise ValueError('Staged bundle differs from the validated bundle')
+            run.report['artifact_bundle'] = str(staged)
+            run.report['artifact_bundle_sha256'] = run.report['bundle_before']['content_sha256']
         run.report['status'] = 'PASS'
     except Exception as error:
         run.report['status'] = 'FAIL'

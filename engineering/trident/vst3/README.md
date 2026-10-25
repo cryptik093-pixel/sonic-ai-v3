@@ -25,6 +25,8 @@ Product inputs are copied before CMake execution and hashed before/after. EQ's
 extra renderer target is appended only to the copied CMake file. Compiler,
 Python, CMake and Ninja paths/hashes, exact commands, return codes, logs, CTest
 JUnit, copied source and bundle-content manifests are retained in each run.
+Successful native runs retain a hash-verified copy under `artifacts/` in their
+own evidence directory. This copy is independent of a later build-cache reuse.
 
 EQ coverage includes existing engine, adapter/state and exact-DLL frequency
 response/recall probes, plus new synthetic full-audio DLL captures across three

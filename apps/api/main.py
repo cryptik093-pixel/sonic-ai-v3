@@ -7,6 +7,7 @@ from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
 from .workbench.router import router as workbench_router, WorkbenchAuth
+from .workbench.studio import router as browser_studio_router
 from .workbench.service import recover_interrupted
 from .events_router import router as events_router
 from .shopify_webhooks import router as shopify_webhooks_router
@@ -59,6 +60,7 @@ app.include_router(webhook_router)
 app.include_router(events_router)
 app.include_router(shopify_webhooks_router)
 app.include_router(workbench_router)
+app.include_router(browser_studio_router)
 app.add_middleware(ControlPlaneAuth)
 app.add_middleware(WorkbenchAuth)
 

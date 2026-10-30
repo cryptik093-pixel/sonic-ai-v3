@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "vst3sdk": {
+    "version": "3.8.1",
+    "license": "MIT",
+    "source": "Official Steinberg SDK distribution; VST_SDK/vst3sdk",
+    "archiveSha256": "64965f1b74e08a6d4087a35af7a716f4dcff5852c66ad7ee13f1c47e79c1ab77",
+    "localArchive": "../sonic-pocket/build/steinberg-sdk.zip",
+    "localSource": "../sonic-pocket/build/steinberg/VST_SDK/vst3sdk",
+    "provenanceCheck": "tools/verify-sdk.py compares actual Ninja compiler inputs and SDK CMake files with the hashed archive"
+  },
+  "gui": "Native Win32/GDI/common controls, supplied by Windows SDK; no JUCE or VSTGUI linked",
+  "toolchainObserved": {"msvc": "19.51.36256.0", "windowsSdk": "10.0.26100.0", "cmake": "4.3.1-msvc1"}
+}

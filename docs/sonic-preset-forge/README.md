@@ -1,4 +1,8 @@
-# Sonic Preset Forge — Program Hub | 2026-11-05
+# Sonic Preset Forge — Flagship Work Program | 2026-11-05
+
+> **LATEST FOUNDER SCOPE LOCK:** Preset Forge must generate genuinely **new prompt-specific native FL Studio FST** states. Patcher is a specialty backend, **not** the sole product. Inspect the original 40 development + 606 vocal FST references before Crown Center expansion. This supersedes narrower priorities in earlier documents.
+
+**Start here:** [Work Mode flagship master handoff](WORK_MODE_FLAGSHIP_HANDOFF_20261105.md) · [50-stage execution ledger](WORK_MODE_STAGE_LEDGER_20261105.md). The conversation-delivered full ZIP/XLSX contains the detailed 11-phase plan, parameter register and risk ledger.
 
 This GitHub branch is a **documentation-only, review-ready integration checkpoint** for the existing Windows Sonic AI V3 Preset Forge. It is not a Forge application deployment or a completed native .fst generator.
 
@@ -16,5 +20,5 @@ This GitHub branch is a **documentation-only, review-ready integration checkpoin
 
 **Security and rights:** Local session data, raw audio, binary FSTs, third-party reference banks, database files, private paths, installer artifacts and credentials are intentionally excluded from the public GitHub documentation branch. No merge to `main`, no production deployment and no commercial release is represented here.
 
-## Next engineering acceptance
-Use verified installed FL Studio plugins, construct one new Crown Center v002 Patcher graph in an isolated project, calibrate actual CHARACTER/PRESSURE/AIR/WIDTH controls, save and reopen native FST, render same source, confirm actual audible playback, record hashes and QA. Only after success should the 3-variant pilot and first 10-preset bank begin.
+## Next engineering acceptance (corrected founder priority)
+Inspect, hash and study the original **646** FST references first, then build ONE new original **direct mixer-track** .fst from a fresh prompt with verified installed plugins, safe host generation/save, reloading, same-source measured audio and meaningful matched-loudness listening. Patcher/multiband/master/send development stays active as a parallel capability, never the sole output path. Do not count plans, existing saved states or renamed copies as generated files.

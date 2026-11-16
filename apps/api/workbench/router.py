@@ -30,7 +30,9 @@ class WorkbenchAuth:
             return await self.app(scope, receive, send)
         path = scope.get("path", "")
         desktop = os.getenv("SONIC_DESKTOP_MODE") == "1"
-        protected = path.startswith("/workbench/api") or (desktop and not (path in {"/health", "/workbench", "/workbench/"} or path.startswith("/workbench/static/")))
+        protected = (path.startswith("/workbench/api") or path == "/session-integrity"
+                     or path.startswith("/session-integrity/")
+                     or (desktop and not (path in {"/health", "/workbench", "/workbench/"} or path.startswith("/workbench/static/"))))
         if not protected or path == "/mcp" or path.startswith("/integrations"):
             return await self.app(scope, receive, send)
         token = os.getenv("SONIC_DESKTOP_TOKEN") or os.getenv("SONIC_CONTROL_PLANE_TOKEN", "")

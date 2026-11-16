@@ -4,6 +4,8 @@ Sonic AI V3 is a producer workbench with local MIDI creation, measured audio che
 
 The production path is the Windows desktop app. It launches a local FastAPI service and a bundled workbench UI. The same services power the HTTP API and local MCP server, so the app and tools produce the same saved outputs.
 
+The **V3.2 integration track** now combines the committed legacy Forge workflow and session-evidence ledger with this workbench. Application version 0.6.0 remains unchanged pending native acceptance. See [V3.2 source integration and Windows continuation](docs/v3.2/CLOUD_INTEGRATION.md). Run `python scripts/verify_v32.py --output artifacts/v3.2/verification.json` for isolated source tests and a launcher HTTP smoke test; choose a new filename for each run.
+
 ## What works now
 
 | Workflow | What Sonic saves | Current boundary |
@@ -79,3 +81,7 @@ These are planning and engineering instructions, not evidence that Sonic AI V3 h
 Use the [founder onboarding integration guide](docs/operating-system/FOUNDER_ONBOARDING.md) for the canonical Omega House OS package, five-name taxonomy, Intelligence Loop and role handoffs. The [pinned contract reference](docs/operating-system/founder_contract_reference.json) records the adopted OS revision and hash.
 
 This documentation adoption does not implement automatic contract loading or enforcement in Sonic.
+
+## Forge ZIP review
+
+The existing `/workbench` includes an authenticated **Forge ZIP review** tab for nested ZIP inventory, batch metadata/rights review, revision approval, checksum-preserving exports and unpublished offline Shopify CSV drafts. It uses the existing local operator/workspace identity and SQLite database; hosted tenancy and automatic BPM/key estimation remain unimplemented. See [Forge implementation and verification](docs/forge/IMPLEMENTATION.md).

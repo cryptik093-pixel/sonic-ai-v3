@@ -1,0 +1,14 @@
+{
+  "schema": "sonic.v3.2.legacy-integration/1",
+  "observed_date": "2026-11-16",
+  "repository": "cryptik093-pixel/sonic-ai-v3",
+  "canonical_baseline": "7d2a2b90d9ab730790aa28b3cfaf1b9faf797a43",
+  "integrated": [
+    {"branch": "feature/forge-foundation-v1", "commit": "17871f327173664fd3d1bce0e65688c9f1a41d21", "scope": "authenticated ZIP inventory, review, export and workbench UI"},
+    {"branch": "engineering/session-evidence-bridge-20261021", "commit": "9077eb4a038c6645abee6ad825ccb62d17afd63c", "scope": "manifest ledger, saved-file fingerprints and local intelligence evidence"}
+  ],
+  "already_ancestor": ["recovery/runtime-baseline-integration"],
+  "not_blanket_merged": ["recovery/actual-project-state"],
+  "windows_working_tree": {"status": "offline_not_reconciled", "preservation": "not_certified_by_this_integration", "uncommitted_changes": "not_available_in_cloud"},
+  "runtime": {"application_version": "0.6.0", "upgrade_target": "3.2", "upgrade_complete": false, "tenancy": "single_local_operator"}
+}

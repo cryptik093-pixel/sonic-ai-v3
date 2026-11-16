@@ -79,3 +79,7 @@ These are planning and engineering instructions, not evidence that Sonic AI V3 h
 Use the [founder onboarding integration guide](docs/operating-system/FOUNDER_ONBOARDING.md) for the canonical Omega House OS package, five-name taxonomy, Intelligence Loop and role handoffs. The [pinned contract reference](docs/operating-system/founder_contract_reference.json) records the adopted OS revision and hash.
 
 This documentation adoption does not implement automatic contract loading or enforcement in Sonic.
+
+## Forge ZIP review
+
+The existing `/workbench` includes an authenticated **Forge ZIP review** tab for nested ZIP inventory, batch metadata/rights review, revision approval, checksum-preserving exports and unpublished offline Shopify CSV drafts. It uses the existing local operator/workspace identity and SQLite database; hosted tenancy and automatic BPM/key estimation remain unimplemented. See [Forge implementation and verification](docs/forge/IMPLEMENTATION.md).

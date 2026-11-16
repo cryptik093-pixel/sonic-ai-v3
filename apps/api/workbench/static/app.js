@@ -29,7 +29,7 @@ function showView(view) {
   state.view = view;
   document.querySelectorAll(".view").forEach(x => { x.hidden = x.id !== "view-" + view; });
   document.querySelectorAll("[data-view]").forEach(x => x.classList.toggle("active", x.dataset.view === view));
-  $("#view-label").textContent = {focus:"A little direction goes a long way.",midi:"Your idea starts with a sound.",assets:"A clear inventory. A usable deliverable.",release:"An honest offer, backed by your work.",history:"Everything you made, ready to resume.",settings:"Your local engine and AI connection."}[view];
+  $("#view-label").textContent = {focus:"A little direction goes a long way.",midi:"Your idea starts with a sound.",assets:"A clear inventory. A usable deliverable.",release:"An honest offer, backed by your work.",history:"Everything you made, ready to resume.",settings:"Your local engine and AI connection.",forge:"Review a ZIP. Preserve every source byte."}[view];
 }
 async function api(path, options = {}) {
   const controller = new AbortController();
@@ -37,7 +37,7 @@ async function api(path, options = {}) {
   try {
     const headers = new Headers(options.headers || {});
     headers.set("Authorization", "Bearer " + token);
-    if (options.body && !(options.body instanceof FormData)) headers.set("Content-Type", "application/json");
+    if (options.body && !(options.body instanceof FormData) && !headers.has("Content-Type")) headers.set("Content-Type", "application/json");
     const response = await fetch("/workbench/api" + path, {...options, headers, signal: controller.signal});
     if (!response.ok) {
       const body = await response.json().catch(() => ({}));

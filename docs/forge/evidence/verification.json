@@ -1,0 +1,45 @@
+{
+  "date": "2026-10-18",
+  "repository": "cryptik093-pixel/sonic-ai-v3",
+  "base_commit": "285be0202dcccb9d6e42c5ba534a0f60da927129",
+  "branch": "feature/forge-foundation-v1",
+  "supplied_archive_sha256": "b8b93784db3bef54d18c59b1ab047b6a14504d7fe947ee7427da041c644a6419",
+  "tests": {
+    "pristine_baseline": {
+      "tests": "103",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "209.188"
+    },
+    "full_api_suite": {
+      "tests": "149",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "234.764"
+    },
+    "final_focused_suite": {
+      "tests": "46",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "50.000"
+    }
+  },
+  "http_smoke": {
+    "base": "http://127.0.0.1:18765",
+    "pack_id": "5704848c-a790-4e36-8487-87a02b29438e",
+    "manifest_revision": 2,
+    "source_sha256": "0d9cbd13fa8ffaccfcac1086c9efb5acbbd6e47820f3c85729b3869a3f8bba08",
+    "export_sha256": "969760bf9066e3acc0f530e217cd142629ca37dd31ba1db0f52d7b21f725c71d",
+    "asset_count": 2,
+    "byte_roundtrip": "passed",
+    "anonymous_download": "rejected",
+    "fixture": "locally generated synthetic WAV and text only",
+    "musical_estimation": "not_measured"
+  },
+  "browser_export_sha256": "bece7f89d4d16d1c334f8d52a317dc41a1e5b832086b1362409ff66d5e7ff99d",
+  "schema_validation": "both schemas and HTTP-exported manifest passed",
+  "browser": "Chromium via Playwright CLI; actual file upload, batch taxonomy/rights, path edit, save, approve, export/download verified"
+}

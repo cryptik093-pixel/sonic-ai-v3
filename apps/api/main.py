@@ -18,7 +18,7 @@ from .integrations.service import ControlPlane
 from .integrations.store import EventStore
 from .integrations.webhooks import router as webhook_router
 
-from .routers import assets, chat, memory, projects, uploads, intelligence
+from .routers import assets, chat, memory, projects, uploads, intelligence, forge
 from .version import APP_VERSION
 
 
@@ -59,6 +59,7 @@ app.include_router(webhook_router)
 app.include_router(events_router)
 app.include_router(shopify_webhooks_router)
 app.include_router(workbench_router)
+app.include_router(forge.router)
 app.add_middleware(ControlPlaneAuth)
 app.add_middleware(WorkbenchAuth)
 

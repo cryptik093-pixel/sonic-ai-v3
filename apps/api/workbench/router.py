@@ -46,6 +46,7 @@ class WorkbenchAuth:
         origin = headers.get("origin")
         if origin and origin not in {f"http://{headers.get('host')}", "http://localhost:3000", "http://127.0.0.1:3000"}:
             return await JSONResponse({"detail": "Origin is not allowed."}, 403)(scope, receive, send)
+        scope.setdefault("state", {})["workbench_identity"] = {"owner_id": service.OWNER, "workspace_id": service.WORKSPACE}
         await self.app(scope, receive, send)
 
 

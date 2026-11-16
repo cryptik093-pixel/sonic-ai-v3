@@ -1,5 +1,6 @@
 """Regression checks for legacy modules at the canonical runtime boundary."""
 from pathlib import Path
+import sys
 
 import pytest
 from fastapi.testclient import TestClient
@@ -21,6 +22,16 @@ def client(monkeypatch, tmp_path):
 AUTH = {"Authorization": "Bearer local-infrastructure-test"}
 ROOT = "/session-integrity/sessions"
 STATE = {"project_id": "fixture.flp", "host": "FL Studio", "tracks": [], "assets": []}
+
+
+def test_legacy_and_canonical_tests_share_one_database_module():
+    from apps.api import database
+    source = Path(database.__file__).resolve()
+    loaded = [name for name, module in sys.modules.copy().items()
+              if getattr(module, "__file__", None)
+              and name.endswith(".database")
+              and Path(module.__file__).resolve() == source]
+    assert loaded == ["apps.api.database"], loaded
 
 
 def test_integrity_fails_closed_outside_desktop_mode(client, monkeypatch):

@@ -31,7 +31,7 @@ The Forge merge's README conflict was resolved by preserving current campaign/fo
 | --- | --- |
 | Canonical pre-merge API suite | 103 passed |
 | Forge + canonical API suite | 149 passed |
-| Full integrated API/legacy suite | 174 passed; deprecation warnings remain |
+| Full integrated API/legacy suite | 175 passed after canonical package-import regression; deprecation warnings remain |
 | Foundation validator | Passed |
 | Desktop source launcher HTTP smoke | Passed: startup, bundled assets, generated MIDI parse, ZIP download, token rejection |
 | Python compile / workbench JavaScript syntax / diff whitespace | Passed |

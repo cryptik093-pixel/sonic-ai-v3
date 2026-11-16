@@ -16,13 +16,8 @@ for _key in ("SONIC_OPENAI_API_KEY", "OPENAI_API_KEY", "SONIC_SHOPIFY_ACCESS_TOK
 
 
 def pytest_sessionfinish(session, exitstatus):
-    import gc
     from sqlalchemy.orm import close_all_sessions
     from apps.api.database import engine
     close_all_sessions()
-    # Short-lived repository sessions may have left cyclic ConnectionFairy
-    # objects outside the session weak registry. Return those connections before
-    # disposing the pool so Windows can remove the disposable database files.
-    gc.collect()
     engine.dispose()
     _storage.cleanup()

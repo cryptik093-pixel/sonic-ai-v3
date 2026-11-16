@@ -1,11 +1,21 @@
 # Sonic AI V3 Current-State Audit
 
-**Observed:** 2026-09-23
+**Observed:** 2026-11-16 for the V3.2 integration below; original workbench baseline observed 2026-09-23
 **Repository:** `cryptik093-pixel/sonic-ai-v3`
 **Implementation:** producer brief intelligence vertical slice, API version 0.6.0
 **Evidence status:** implementation claims are limited to checked source, tests and generated artifacts; see the dated delivery record for this change.
 
 ## Product state
+
+### V3.2 source integration — November 16, 2026
+
+The committed legacy Forge ZIP workflow and session-integrity/evidence modules are integrated into the same FastAPI application and bundled workbench. Forge uses the existing operator identity, workbench run records and SQLite database. Session integrity uses a separate SQLite ledger under `SONIC_DATA_DIR` (or `SONIC_INTEGRITY_DB`). Its HTTP routes require the local WorkbenchAuth token and accepted host/origin in both direct API and desktop modes. Neither module introduces hosted tenancy.
+
+Local Linux verification passes 174 API/legacy tests and the source desktop launcher's HTTP smoke (UI assets, MIDI creation/parse, ZIP download and token rejection). This is not a packaged executable or native-window test. The new `scripts/verify_v32.py` runs in disposable storage, strips inherited Sonic/provider configuration, records failures and writes an explicit list of unverified gates. The integration workflow runs this check on Linux and Windows. A workflow definition is not a successful CI run.
+
+Forge supports ZIP inventory, explicit metadata/rights review, revision approval, source-byte-preserving export and unpublished Shopify CSV. The existing browser verification script also exercises Forge upload/review/approval/download and mobile containment. Local Chromium verification is blocked by this execution environment's socket restriction; browser and native Windows acceptance are not claimed here.
+
+Session checkpoints/restores change only ledger manifests. The file adapter fingerprints explicitly selected saved FLP/audio/MIDI files without controlling FL Studio; the evidence bridge records verified file fingerprints into the local intelligence ledger. Probe imports remain unverified external observations. Windows recovery, the workstation's extensive uncommitted changes, FL save/reopen, audio and VST3 state acceptance remain separate pending work. See [exact source pins and continuation instructions](../v3.2/CLOUD_INTEGRATION.md).
 
 The repository contains a runnable single-operator production workbench. The Windows desktop app starts a loopback FastAPI service and opens its bundled UI. The same service layer backs the HTTP and MCP interfaces. The current release is a local producer tool; this audit does not claim a hosted, multi-user, commercially certified or autonomously publishing platform.
 

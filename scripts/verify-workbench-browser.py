@@ -142,10 +142,44 @@ def main():
                 page.set_viewport_size({"width":390,"height":844})
                 assert page.evaluate("document.documentElement.scrollWidth <= window.innerWidth"), "Mobile horizontal overflow"
                 page.screenshot(path=str(screenshot/"04-mobile-history.png"),full_page=True)
+                # Exercise the merged legacy Forge through its real UI and downloads.
+                page.set_viewport_size({"width":1320,"height":950})
+                page.locator("nav button[data-view=forge]").click()
+                source = io.BytesIO()
+                with ZipFile(source, "w") as archive:
+                    archive.writestr("Synthetic/loop.wav", wave.getvalue())
+                    archive.writestr("Synthetic/LICENSE.txt", "Synthetic browser fixture only.")
+                original_zip = source.getvalue()
+                page.locator("#forge-upload input[name=title]").fill("Browser Forge fixture")
+                page.locator("#forge-upload input[name=taxonomy]").fill("test / synthetic")
+                page.locator("#forge-upload input[name=source]").set_input_files({"name":"fixture.zip","mimeType":"application/zip","buffer":original_zip})
+                page.locator("#forge-upload button[type=submit]").click()
+                page.locator("[data-forge-select]").wait_for(timeout=30000)
+                page.locator("[data-forge-select]").click()
+                page.locator("[data-forge-rights]").click()
+                page.locator("[data-forge-save]").click()
+                page.wait_for_function("!document.querySelector('[data-forge-approve]').disabled")
+                page.locator("[data-forge-approve]").click()
+                page.wait_for_function("!document.querySelector('[data-forge-export]').disabled")
+                with page.expect_download() as download:
+                    page.locator("[data-forge-export]").click()
+                with ZipFile(download.value.path()) as exported, ZipFile(io.BytesIO(original_zip)) as original:
+                    manifest = json.loads(exported.read("manifest.json"))
+                    assert len(manifest["assets"]) == 2
+                    for asset in manifest["assets"]:
+                        assert exported.read(asset["proposed_path"]) == original.read(asset["original_path"])
+                page.locator("#forge-price").fill("5.00")
+                page.locator("#forge-sku").fill("OH-BROWSER-TEST")
+                with page.expect_download() as download:
+                    page.locator("[data-forge-draft]").click()
+                assert "FALSE" in Path(download.value.path()).read_text()
+                page.set_viewport_size({"width":390,"height":844})
+                assert page.evaluate("document.documentElement.scrollWidth <= window.innerWidth"), "Forge mobile horizontal overflow"
+                page.screenshot(path=str(screenshot/"05-forge-mobile.png"),full_page=True)
                 assert not errors,errors
                 assert page.locator("#error").is_hidden(), page.locator("#error").inner_text()
                 browser.close()
-                proof={"passed":True,"checks":["automatic_token_bootstrap","prompt_interpretation_preview_read_only","prompt_to_midi","kept_output_feedback","explicit_continuity_preview","prompt_control_precedence_survives_restart","piano_roll","audition_decoding_playback","midi_download_parse","pack_zip_manifest","release_csv","audio_upload_analysis","energy_bounded_focus_timer","persisted_history_after_reload","mobile_no_overflow","zero_browser_exceptions"],"screenshots":str(screenshot)}
+                proof={"passed":True,"checks":["automatic_token_bootstrap","prompt_interpretation_preview_read_only","prompt_to_midi","kept_output_feedback","explicit_continuity_preview","prompt_control_precedence_survives_restart","piano_roll","audition_decoding_playback","midi_download_parse","pack_zip_manifest","release_csv","audio_upload_analysis","energy_bounded_focus_timer","persisted_history_after_reload","mobile_no_overflow","forge_upload_review_approve_export_exact_bytes","forge_unpublished_csv","forge_mobile_no_overflow","zero_browser_exceptions"],"screenshots":str(screenshot)}
                 print(json.dumps(proof,indent=2))
         finally:
             process.terminate()

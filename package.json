@@ -20,6 +20,7 @@
     "typecheck": "pnpm -r --if-present typecheck",
 
     "audit:v3": "node scripts/validate-v3-foundation.mjs",
+    "verify:v3.2": "python scripts/verify_v32.py --output artifacts/v3.2/verification.json",
     "prepare": "husky install"
   },
 

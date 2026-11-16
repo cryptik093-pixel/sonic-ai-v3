@@ -4,6 +4,8 @@ Sonic AI V3 is a producer workbench with local MIDI creation, measured audio che
 
 The production path is the Windows desktop app. It launches a local FastAPI service and a bundled workbench UI. The same services power the HTTP API and local MCP server, so the app and tools produce the same saved outputs.
 
+The **V3.2 integration track** now combines the committed legacy Forge workflow and session-evidence ledger with this workbench. Application version 0.6.0 remains unchanged pending native acceptance. See [V3.2 source integration and Windows continuation](docs/v3.2/CLOUD_INTEGRATION.md). Run `python scripts/verify_v32.py --output artifacts/v3.2/verification.json` for isolated source tests and a launcher HTTP smoke test; choose a new filename for each run.
+
 ## What works now
 
 | Workflow | What Sonic saves | Current boundary |

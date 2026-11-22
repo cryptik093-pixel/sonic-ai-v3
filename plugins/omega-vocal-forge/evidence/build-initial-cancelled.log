@@ -1,0 +1,29 @@
+**********************
+PowerShell transcript start
+Start time: 20261023155031
+Username: DESKTOP-GU8N23U\david someone
+RunAs User: DESKTOP-GU8N23U\david someone
+Configuration Name: 
+Machine: DESKTOP-GU8N23U (Microsoft Windows NT 10.0.19045.0)
+Host Application: C:\Users\david someone\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\powershell\pwsh.dll -NoProfile -Command try { [Console]::OutputEncoding=[System.Text.Encoding]::UTF8 } catch {}
+Get-FileHash plugins/sonic-pocket/build/steinberg-sdk.zip -Algorithm SHA256; rg -n 'steinberg-sdk|vstsdk.*zip|download.*steinberg|vst-sdk' plugins/sonic-pocket plugins/adlib-93 -g '*.ps1' -g '*.json' -g '*.md' -g '!build/**' | Select-Object -First 20; Get-ChildItem plugins/sonic-pocket/build/steinberg/VST_SDK/vst3sdk/public.sdk/source/vst/hosting -Name; Get-ChildItem plugins/adlib-93/src/plugin -Name; Get-Content plugins/adlib-93/README.md -TotalCount 65; & plugins/omega-vocal-forge/tools/build.ps1 -Jobs 2
+Process ID: 19008
+PSVersion: 7.6.5
+PSEdition: Core
+GitCommitId: 7.6.5
+OS: Microsoft Windows 10.0.19045
+Platform: Win32NT
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1, 6.0, 7.0
+PSRemotingProtocolVersion: 2.4
+SerializationVersion: 1.1.0.1
+WSManStackVersion: 3.0
+**********************
+Transcript started, output file is C:\Users\david someone\Desktop\SONIC AI V3\sonic-ai-v3\plugins\omega-vocal-forge/evidence/build.log
+Compiler C:\Program Files (x86)\Microsoft Visual Studio\18\BuildTools\VC\Tools\MSVC\14.51.36231; Windows SDK 10.0.26100.0; VST SDK C:\Users\david someone\Desktop\SONIC AI V3\sonic-ai-v3\plugins\sonic-pocket\build\steinberg\VST_SDK\vst3sdk
+
+
+
+**********************
+PowerShell transcript end
+End time: 20261023160331
+**********************

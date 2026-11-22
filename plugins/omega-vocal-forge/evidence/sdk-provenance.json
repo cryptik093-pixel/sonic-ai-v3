@@ -1,0 +1,1203 @@
+{
+  "status": "PASS",
+  "archiveSha256": "64965f1b74e08a6d4087a35af7a716f4dcff5852c66ad7ee13f1c47e79c1ab77",
+  "checkedFiles": 299,
+  "files": [
+    {
+      "path": "base/source/baseiids.cpp",
+      "sha256": "75e01ac5a06701cd79d73a2c14f6fc1b0a43c91a5154906dc51d2383465df48c"
+    },
+    {
+      "path": "base/source/classfactoryhelpers.h",
+      "sha256": "76c430b058b182b6205a0b3155e18e18bfb5e7082092af6768b581ec2bcd174f"
+    },
+    {
+      "path": "base/source/fbuffer.cpp",
+      "sha256": "b9d16eaca228503d62439447f7fba128eb35dbb978c35d829b41c3ac6bc3ec6e"
+    },
+    {
+      "path": "base/source/fbuffer.h",
+      "sha256": "6c6c1568a364484cd4078e3a754f203a7a50bfa51c17e889ce2b230e726603d1"
+    },
+    {
+      "path": "base/source/fcommandline.h",
+      "sha256": "3b2514a75ab1394e5c2260aee7a2644321b0719588f3be7b7e2060901927a91f"
+    },
+    {
+      "path": "base/source/fdebug.cpp",
+      "sha256": "15c5990e47733a30757983c4936ed29efb4b1cd2532193649750e5b185a0de6b"
+    },
+    {
+      "path": "base/source/fdebug.h",
+      "sha256": "8f44033b0ab1153e0715ab70e82863407e989acc529c83715d2674211d4b8983"
+    },
+    {
+      "path": "base/source/fdynlib.cpp",
+      "sha256": "8a8c40d4e64d3f6a2d3b2a02250692f4ff5613eb151e7c2bd9abd37d90ebbfb4"
+    },
+    {
+      "path": "base/source/fdynlib.h",
+      "sha256": "ef895480845349d87f01c32270bb4424a641d3775dc3a2d8f7fd466ee894b75e"
+    },
+    {
+      "path": "base/source/fobject.cpp",
+      "sha256": "07ced0bc6398ea2d6d364e787d8cb7f09d8d8052af5b3e219e3df2b62341f54f"
+    },
+    {
+      "path": "base/source/fobject.h",
+      "sha256": "6c8ef34413eed9fabbc61befaa40b213bbec4fe9cd7195738297caaaf1001767"
+    },
+    {
+      "path": "base/source/fstreamer.cpp",
+      "sha256": "fd54ee0db666088d9f123066d86086ba8b62401587d2e3f7ca74eb53fa06a076"
+    },
+    {
+      "path": "base/source/fstreamer.h",
+      "sha256": "97abee7fae05b56361e64ca60543c7a49ae6e5c577895248bf10825c95b63d0c"
+    },
+    {
+      "path": "base/source/fstring.cpp",
+      "sha256": "0b14afdee35cb5a0552191cb9030c379de9c7d958d383913f5f1bd360a413e8b"
+    },
+    {
+      "path": "base/source/fstring.h",
+      "sha256": "27b191626e0de1c48c9d3e9b54130042a2495f2cfdea7eadf7d24db211904d90"
+    },
+    {
+      "path": "base/source/timer.cpp",
+      "sha256": "5bf8ed7e706d845d075198c54cc7c32456bda4c5b4b9f46664ca4032f1ecc708"
+    },
+    {
+      "path": "base/source/timer.h",
+      "sha256": "f385da642a267d336c9294efddcf1df328f9c2b82aaa0f3f6968ddf892150f1d"
+    },
+    {
+      "path": "base/source/updatehandler.cpp",
+      "sha256": "96a7588bfd8dae6130076e38b90eb58423621d60123d21770540478667ce5434"
+    },
+    {
+      "path": "base/source/updatehandler.h",
+      "sha256": "f0980800c43eaa92fbe93a6f3d4f139650dfadb8989c693f197384bdf20afdb7"
+    },
+    {
+      "path": "base/thread/include/fcondition.h",
+      "sha256": "6462745da7e6915824b7f2ffea2e18bf14c0cac1e979f4293b2868990098025f"
+    },
+    {
+      "path": "base/thread/include/flock.h",
+      "sha256": "7ce44ca5afb824b46cfb13695d4d527117b9a9ded8b8831490de25ae892aed14"
+    },
+    {
+      "path": "base/thread/source/fcondition.cpp",
+      "sha256": "7fe0e9c675b48e25b7a4a52ce7f047012ccc482af125dffdf38e71e0c1c26def"
+    },
+    {
+      "path": "base/thread/source/flock.cpp",
+      "sha256": "201bc0ac992ff9919d91a6446c1532a3a39854bbd1ec31a014578b1ac34cbf8f"
+    },
+    {
+      "path": "cmake/modules/SMTG_AAXSupport.cmake",
+      "sha256": "6378b507f0c5dd7832238847b59e321d5a94a4e2d3f133c26915f0e2201363c1"
+    },
+    {
+      "path": "cmake/modules/SMTG_AddAAXLibrary.cmake",
+      "sha256": "cdbcd1cd66157f11e43a5357c660a13f26ffb9cd53f038dad88e7aca29800b9e"
+    },
+    {
+      "path": "cmake/modules/SMTG_AddCommonOptions.cmake",
+      "sha256": "e503be6527b44fc97c4bd0a62231651d592c85a84f6c5f4c400e639dcf5237ff"
+    },
+    {
+      "path": "cmake/modules/SMTG_AddSMTGLibrary.cmake",
+      "sha256": "e6da26fa124a9a37aeab28738863bbfadc1ffd740d27cd150533e52e7a81875b"
+    },
+    {
+      "path": "cmake/modules/SMTG_AddSubDirectories.cmake",
+      "sha256": "61c8006b8725bf692fe317034b706169a3695bcb4a0a839421b8e4f6f51afc34"
+    },
+    {
+      "path": "cmake/modules/SMTG_AddVST3AuV2.cmake",
+      "sha256": "004c531d556da6df8ff8d707a5d834deb369a9d3baf46a934b9831c84f743d18"
+    },
+    {
+      "path": "cmake/modules/SMTG_AddVST3AuV3.cmake",
+      "sha256": "5135ad4724888eb6a20707727bda2f4a48599b6f9158b578a6c1dab074b349a1"
+    },
+    {
+      "path": "cmake/modules/SMTG_AddVST3Library.cmake",
+      "sha256": "8fd7df2d62b10649dd4f64f6c18c8fa441d23925313b3b504e77e552af08dee8"
+    },
+    {
+      "path": "cmake/modules/SMTG_AddVST3Options.cmake",
+      "sha256": "d639a572f691a8571ef6580feeeb64365abf1b842d123cc45c5e291214ad8103"
+    },
+    {
+      "path": "cmake/modules/SMTG_Bundle.cmake",
+      "sha256": "a8825c608dda76da90b41955283e23953e519122603c7f93585874340e1a2955"
+    },
+    {
+      "path": "cmake/modules/SMTG_CodeSign.cmake",
+      "sha256": "110c6db3698a5c1c7606bd79075e20917d99f2e2e1d4018015bb76b1e1cd4cd4"
+    },
+    {
+      "path": "cmake/modules/SMTG_ConfigureCmakeGenerator.cmake",
+      "sha256": "a0b66e923bf1380adffa0a5ad00fc00c2573edf882a315b9552ee7e9fa3e8a41"
+    },
+    {
+      "path": "cmake/modules/SMTG_CoreAudioSupport.cmake",
+      "sha256": "3cc484f77ed2d007299259d7f2a0becaccb78479bbf993b1e01973a145bfeb39"
+    },
+    {
+      "path": "cmake/modules/SMTG_CustomModuleTarget.cmake",
+      "sha256": "a5051f72a110c7bf758c4d58d3c8138d666e68206e6d0b22db44ea2af945f8b3"
+    },
+    {
+      "path": "cmake/modules/SMTG_DetectPlatform.cmake",
+      "sha256": "49ccd27378c59b32522c3d0fcb4fca65b499b8b51e43a662e0d25289f7745cea"
+    },
+    {
+      "path": "cmake/modules/SMTG_ExportedSymbols.cmake",
+      "sha256": "4a0f8b7590c5518197b104a3153e721b9256526bfdfd68effb43de187af9914e"
+    },
+    {
+      "path": "cmake/modules/SMTG_FindJack.cmake",
+      "sha256": "0bea31c0e27a40bf26e8f17e57f5dee13a0594a546c98a67cd535e808e164f90"
+    },
+    {
+      "path": "cmake/modules/SMTG_GenerateSourceGroups.cmake",
+      "sha256": "866f539e51d39d7f6597dd7d7c411170af4f25e2ceab7ed42235a2a0aae17e21"
+    },
+    {
+      "path": "cmake/modules/SMTG_Global.cmake",
+      "sha256": "dad0496062d543cee80fdb77533df4e70e3b585d3d990fa76b93e305f55195ac"
+    },
+    {
+      "path": "cmake/modules/SMTG_Platform_Windows.cmake",
+      "sha256": "73e5dc19e12168bc12ae35ede3b562929091ebf2c754f40656d11d835ef6518e"
+    },
+    {
+      "path": "cmake/modules/SMTG_PlatformIOS.cmake",
+      "sha256": "dcc5a2ae6c2e8bd2c2e19a6555a4c1efa81c3786d37394c1c23b4c274abdff2e"
+    },
+    {
+      "path": "cmake/modules/SMTG_PlatformToolset.cmake",
+      "sha256": "57f94d9fc125aae7b1e5c790a62a740ec7d843c485251761cea008cc5c6d6ef2"
+    },
+    {
+      "path": "cmake/modules/SMTG_PrefixHeader.cmake",
+      "sha256": "c2d2334ef0f36f73270992b1586108c1fdbf246dccc02253e3845e41e870ee26"
+    },
+    {
+      "path": "cmake/modules/SMTG_SetDebugExecutable.cmake",
+      "sha256": "a371f1bc68769a30b9121583c65ba0feed8d04d39dd4d5582e4dd169eaaf3851"
+    },
+    {
+      "path": "cmake/modules/SMTG_SetupVST3LibraryDefaultPath.cmake",
+      "sha256": "6e5de25ececca301546ab57182c079e81f38c55aab0521c47a68cfca5f49101f"
+    },
+    {
+      "path": "cmake/modules/SMTG_UniversalBinary.cmake",
+      "sha256": "6c9bc3c10ff5fd14bdec95dcbdfd862b9c198f97694f4a131a38ddcb2aa89ad4"
+    },
+    {
+      "path": "cmake/modules/SMTG_VST3_SDK.cmake",
+      "sha256": "7321288333384ee3a6418d6adcc9b407118dc29e789fd801ec060f016b9cf546"
+    },
+    {
+      "path": "cmake/modules/SMTG_VstGuiSupport.cmake",
+      "sha256": "4c99377c14b253aa7f7da699e7376db5239a129823516a6eaa89ec78c2ea25b5"
+    },
+    {
+      "path": "CMakeLists.txt",
+      "sha256": "5f3d95f1037d501e5c0018e282cff2c5e4a0f35e4c7f0c20ee6cf5d3357d6497"
+    },
+    {
+      "path": "LICENSE.txt",
+      "sha256": "e86d79e19e4a33ebc442d2e0d083887dfc75a2a8de9fe17eeddedb84810ad74e"
+    },
+    {
+      "path": "pluginterfaces/base/conststringtable.cpp",
+      "sha256": "7f28f8362d49c280a2a259bb36b1d776164dba0b8293da5d4020d2c32f48865f"
+    },
+    {
+      "path": "pluginterfaces/base/conststringtable.h",
+      "sha256": "d081dd449e46059f75d3f47fb922d975611b13f6148fba58790f785d22b9b819"
+    },
+    {
+      "path": "pluginterfaces/base/coreiids.cpp",
+      "sha256": "45e398efdbef5f791209be17bd463951596a18e30901912dfcdd727246c73a28"
+    },
+    {
+      "path": "pluginterfaces/base/falignpop.h",
+      "sha256": "c612b740f92c0d7426723af12d09083f26009e40a7cafe985801e6f3f706b60b"
+    },
+    {
+      "path": "pluginterfaces/base/falignpush.h",
+      "sha256": "464d603bf4ece2d09e0f59a6830eac2d34c2cd66ad42a872831c5f30ae86675b"
+    },
+    {
+      "path": "pluginterfaces/base/fplatform.h",
+      "sha256": "436bc9370183fe97c7bef6bd50edd77fd03c4dd900c036bb0a6c4f714a4e36f1"
+    },
+    {
+      "path": "pluginterfaces/base/fstrdefs.h",
+      "sha256": "c13810a921cfba8a2f20531b60b831f17e67c978ac368b7c2060ef976f5cd18e"
+    },
+    {
+      "path": "pluginterfaces/base/ftypes.h",
+      "sha256": "2a9273012944c30ff6bf2975066057cdba39464afffdc5d65a9bff5cd6264fd9"
+    },
+    {
+      "path": "pluginterfaces/base/funknown.cpp",
+      "sha256": "387d49c2b711aa1ad58c7a911992333e3a86f6fb709ba70cec85a95766a9e766"
+    },
+    {
+      "path": "pluginterfaces/base/funknown.h",
+      "sha256": "e0d9609224fe15491c9ccd1463d964c303f1d5a6149fabf849e87f2c14be1951"
+    },
+    {
+      "path": "pluginterfaces/base/funknownimpl.h",
+      "sha256": "b68596dc656cb922ccb35041b68f7d0db0e5a69d81d95f7100556c979266d730"
+    },
+    {
+      "path": "pluginterfaces/base/futils.h",
+      "sha256": "968163112dd84c6094c20a8a1e9a4042ffcd3187f4caf4203dd2365eb1ea6f3c"
+    },
+    {
+      "path": "pluginterfaces/base/fvariant.h",
+      "sha256": "85a7b2a3d3ed556ee31ca2c04668317fae38146469e603fdb337cb789e92900d"
+    },
+    {
+      "path": "pluginterfaces/base/ibstream.h",
+      "sha256": "9530d37a36ceab42f7b03771f78337d5892e3328e805a9ff4e219409a1766c1e"
+    },
+    {
+      "path": "pluginterfaces/base/icloneable.h",
+      "sha256": "85db7f9ea1ae17b519dfa7df2770eb5ac5a6dcd2d1f3ad1f8ddc124e9ae463cb"
+    },
+    {
+      "path": "pluginterfaces/base/ipersistent.h",
+      "sha256": "d9c94cb04cb90d27efa20b94501aa50bd8bf15bd4c4b72e9767c4af75a62e3b6"
+    },
+    {
+      "path": "pluginterfaces/base/ipluginbase.h",
+      "sha256": "e10e9a4b9b0811c392af5758542e1f72875b56ebe7e1673d5075bc1160d9fd0b"
+    },
+    {
+      "path": "pluginterfaces/base/iplugincompatibility.h",
+      "sha256": "7db596b736d226a09102b73fa7dd44b7d518d51aac0a2119a4a13261da85ff4b"
+    },
+    {
+      "path": "pluginterfaces/base/istringresult.h",
+      "sha256": "7c02de61122a0830f1429a1a2fc7cd855f6061d513b6a88c2dc6bf4858fa313e"
+    },
+    {
+      "path": "pluginterfaces/base/iupdatehandler.h",
+      "sha256": "c8f75a049d72f3112c1d9f391c23dba88cdf838bbee7edebda5b68c83f7ced64"
+    },
+    {
+      "path": "pluginterfaces/base/smartpointer.h",
+      "sha256": "f690163a2d5fa71e76cce1909ae719561031b897f79342ddf38190b2ed9613b3"
+    },
+    {
+      "path": "pluginterfaces/base/typesizecheck.h",
+      "sha256": "99288a4b2191e3edb48f1a365ef2ba29b5c8211b57b08a93ae2ed9416bbdf74e"
+    },
+    {
+      "path": "pluginterfaces/base/ustring.cpp",
+      "sha256": "df5f579d3baef86ad8ce94e3e266b2b253d6999e4157698f1601a049096f3681"
+    },
+    {
+      "path": "pluginterfaces/base/ustring.h",
+      "sha256": "6bf846f939a0a944576e543b2455e9153fad616f781d26673f4eed14d03ae844"
+    },
+    {
+      "path": "pluginterfaces/gui/iplugview.h",
+      "sha256": "024e6c4ea59ba6961bc45431ead6b2a8c60231250b2c181a6de99d62a1cfdc11"
+    },
+    {
+      "path": "pluginterfaces/gui/iplugviewcontentscalesupport.h",
+      "sha256": "70061e5c86a18e7b922e6a725565dad93f197b85e3e1e8171d064dbb8818e228"
+    },
+    {
+      "path": "pluginterfaces/test/itest.h",
+      "sha256": "fe25c998cc82898862901a581abba2ee0e951b2d9ea3f0eed39b1622c4409452"
+    },
+    {
+      "path": "pluginterfaces/vst/ivstattributes.h",
+      "sha256": "61b70959f234145033c986847e1bdd45c45a8f244c927b2eb48d838c2e6054b3"
+    },
+    {
+      "path": "pluginterfaces/vst/ivstaudioprocessor.h",
+      "sha256": "6289b19c8300fb381da7688414fae52d5ca139371f910830532204b860bd6549"
+    },
+    {
+      "path": "pluginterfaces/vst/ivstautomationstate.h",
+      "sha256": "1da7e6b9a355b55650718f771df0b00d9d34f2f02b06cf83cf6f9b508929691b"
+    },
+    {
+      "path": "pluginterfaces/vst/ivstchannelcontextinfo.h",
+      "sha256": "1e3cd5b992e92d1cf58d87060443fa12dd539cfea41e5db9ffa0ebab8d6a93c0"
+    },
+    {
+      "path": "pluginterfaces/vst/ivstcomponent.h",
+      "sha256": "cc587e34c009388d4187948c14a651df1481a01920abe895023094ca5b13faee"
+    },
+    {
+      "path": "pluginterfaces/vst/ivstcontextmenu.h",
+      "sha256": "63a9e753aeb6fc513d9e0cccde0206d0e431a31a3966082e9a373375820b9365"
+    },
+    {
+      "path": "pluginterfaces/vst/ivstdataexchange.h",
+      "sha256": "3430c45e23feb2571bee3c84a96fbf5724b29abf53478267213da582f68474b9"
+    },
+    {
+      "path": "pluginterfaces/vst/ivsteditcontroller.h",
+      "sha256": "a1aba69d8d411fdae6f7bee422fa9eb747a312a9fb517ff3436ee06d45a4e051"
+    },
+    {
+      "path": "pluginterfaces/vst/ivstevents.h",
+      "sha256": "3650f62d7152a4e5e8b4912c95d28a55a265da08c04b0a347e4132a8d5c8134d"
+    },
+    {
+      "path": "pluginterfaces/vst/ivsthostapplication.h",
+      "sha256": "b7ef5b02f24c103e952e18b3e974e97b3c23d19c870a46c7c3aad36af8832332"
+    },
+    {
+      "path": "pluginterfaces/vst/ivstinterappaudio.h",
+      "sha256": "61960f26f399a39a5ce75d831e815fd057bc5329e92eeab5bfca6fe3830eff98"
+    },
+    {
+      "path": "pluginterfaces/vst/ivstmessage.h",
+      "sha256": "cbd141fbd77264fa623b8de43aff795059599ead17c70a0ac4349c9647b42b64"
+    },
+    {
+      "path": "pluginterfaces/vst/ivstmidilearn.h",
+      "sha256": "8d5fe7fdbbe359daa228b3244216e73daccdabdd993e2796eb8276d8abed2709"
+    },
+    {
+      "path": "pluginterfaces/vst/ivstmidimapping2.h",
+      "sha256": "1b30ed031ccb161ece2de4b5cc1df10293b492b54bfc19a9a65472debc4ef59e"
+    },
+    {
+      "path": "pluginterfaces/vst/ivstnoteexpression.h",
+      "sha256": "18efe1d025e3c10c9e062e9b53fa1726198e77b9eaba1819ae78e6cead1a4ccd"
+    },
+    {
+      "path": "pluginterfaces/vst/ivstnoteonorchestralarticulationinfo.h",
+      "sha256": "ea21e899f970ca0b9b3811981bffadf86c49d6c3a55e0a649877c89b5e59a455"
+    },
+    {
+      "path": "pluginterfaces/vst/ivstparameterchanges.h",
+      "sha256": "4f177d8f9e207fc4f247fde5aebfbdf863d02bced08a6c2d21d759f043eea3dd"
+    },
+    {
+      "path": "pluginterfaces/vst/ivstparameterfunctionname.h",
+      "sha256": "31a01936c5a34867d2dcc3cdab7c266b4f8ade0a1305ae5862f953a8b59f80e7"
+    },
+    {
+      "path": "pluginterfaces/vst/ivstphysicalui.h",
+      "sha256": "2d131c1800b6c371a58a471cf33f4ce517a16ad4d6c1afebc5c4570ce0ec60a9"
+    },
+    {
+      "path": "pluginterfaces/vst/ivstpluginterfacesupport.h",
+      "sha256": "753a7b6c9a1d55906f8c7cf061b98ab1a28f4934f31c05aae30bb5dc2151788d"
+    },
+    {
+      "path": "pluginterfaces/vst/ivstplugview.h",
+      "sha256": "0fa888b0d6afa0c424e0b7121f50f6b91781b582bb0540424512f39b9480894e"
+    },
+    {
+      "path": "pluginterfaces/vst/ivstprefetchablesupport.h",
+      "sha256": "18f04b2104d64c201217ed4ed927131d4e3f7d73508c81b15da5021bfbe1e982"
+    },
+    {
+      "path": "pluginterfaces/vst/ivstprocesscontext.h",
+      "sha256": "51ca6f48b56f5f57cde4b03a6923689cf6a5c412c9ea7941fc04f934df9a4c0d"
+    },
+    {
+      "path": "pluginterfaces/vst/ivstremapparamid.h",
+      "sha256": "8305c23704578d9e9fcf324ed5801d1f807849468f58d530bf50f313557b8cff"
+    },
+    {
+      "path": "pluginterfaces/vst/ivstrepresentation.h",
+      "sha256": "1daaa3678e75762cba13ba7f2f6834d48e6521b4cd8081fdb3e4843fe37781fc"
+    },
+    {
+      "path": "pluginterfaces/vst/ivsttestplugprovider.h",
+      "sha256": "72b0644427623fc3887ff501d8b9c02f2f3618ddc78617f7dcb381ee8a26ee6f"
+    },
+    {
+      "path": "pluginterfaces/vst/ivsttransportcontrol.h",
+      "sha256": "13fdf59566d3bc061c4b0815cf40a15121192b33c178bf8195cfc410e9fce637"
+    },
+    {
+      "path": "pluginterfaces/vst/ivstunits.h",
+      "sha256": "035db2155bb7065b534bd7b5265cdfdddb4c6e6513df9fdc60658cba3e089a75"
+    },
+    {
+      "path": "pluginterfaces/vst/vstspeaker.h",
+      "sha256": "f7942918bc52e78c2f061f77d2d28761f8a7b38a364cc3985bc22da21c8418d4"
+    },
+    {
+      "path": "pluginterfaces/vst/vsttypes.h",
+      "sha256": "46594b67f42c9c61f37c64846719549e983962854a363725cf98268d34f2d1e2"
+    },
+    {
+      "path": "public.sdk/samples/vst-hosting/audiohost/CMakeLists.txt",
+      "sha256": "ab1afa1fea112793a8447dc83d61ea1b9fc993e27f3db618da0e937b0da1df66"
+    },
+    {
+      "path": "public.sdk/samples/vst-hosting/CMakeLists.txt",
+      "sha256": "a90bf8cbffcdcd25bd6861e3fb3b0c854109c73616e08229c6d812f97606d242"
+    },
+    {
+      "path": "public.sdk/samples/vst-hosting/editorhost/CMakeLists.txt",
+      "sha256": "7e6f453e86e27d1bb29287e3a6c459061a1b6044c23c58e7569dd18758d5d2a7"
+    },
+    {
+      "path": "public.sdk/samples/vst-hosting/inspectorapp/CMakeLists.txt",
+      "sha256": "ec2f75c39514c03f72e195dbd78e1264b97ec1a6138b618ddc09c25ea8c439be"
+    },
+    {
+      "path": "public.sdk/samples/vst-hosting/validator/CMakeLists.txt",
+      "sha256": "a42b4195e2b2fa02f4a96eccf972cfd257583474a15e177794034934015a7be1"
+    },
+    {
+      "path": "public.sdk/samples/vst-hosting/validator/source/main.cpp",
+      "sha256": "b6bfac40c6f7650d71af45a5cc29b981e2fbef57e4f63b37136b0d3d932ba842"
+    },
+    {
+      "path": "public.sdk/samples/vst-hosting/validator/source/usediids.cpp",
+      "sha256": "7fae92668e1b9e8b3efb91c6a43c3a49858576e0c3aac869a509793ab8138c41"
+    },
+    {
+      "path": "public.sdk/samples/vst-hosting/validator/source/validator.cpp",
+      "sha256": "0782a75a8866e3fd0cd694e56439a881a87865645aff8b34458f6fcbf1be2f84"
+    },
+    {
+      "path": "public.sdk/samples/vst-utilities/CMakeLists.txt",
+      "sha256": "97c87504cb31070158544e9b227778cebd99dab145168e85868b2f0b079bc9ec"
+    },
+    {
+      "path": "public.sdk/samples/vst-utilities/moduleinfotool/CMakeLists.txt",
+      "sha256": "657d0ce5cb1fd7df563b7fd0e41864a1d3456b1b6201343d13092d40cf28e2a1"
+    },
+    {
+      "path": "public.sdk/samples/vst-utilities/moduleinfotool/source/main.cpp",
+      "sha256": "5960cbf5bba97ce1503e00e6c5eb2f13e07f44dd72e8cea9c3a4d930a39d0b8f"
+    },
+    {
+      "path": "public.sdk/samples/vst/adelay/CMakeLists.txt",
+      "sha256": "919607efff98f507eb81be11c606e2673fecdf1ec2a6166992804ef54d2b7830"
+    },
+    {
+      "path": "public.sdk/samples/vst/again/CMakeLists.txt",
+      "sha256": "b3b6865609cfe50338f210cc90b7f6d137204b145e05e01402baac19f95abc89"
+    },
+    {
+      "path": "public.sdk/samples/vst/again_aax/CMakeLists.txt",
+      "sha256": "38f45d4597885cd6e747f4e9f64e2dab38c90fde020b49945e7297539b8b6fbc"
+    },
+    {
+      "path": "public.sdk/samples/vst/again_auv3/CMakeLists.txt",
+      "sha256": "3ef9f0e8bf80832e5df3d48c5c1a80264a06398fd6bf6e524dbc5d22cf7cf6c6"
+    },
+    {
+      "path": "public.sdk/samples/vst/again_sampleaccurate/CMakeLists.txt",
+      "sha256": "efc517810cc9200d2560b1cb79e35ea334c78477560b28d704fe37211b1b31d3"
+    },
+    {
+      "path": "public.sdk/samples/vst/channelcontext/CMakeLists.txt",
+      "sha256": "6c57148efbb981689df033d98ef572966e4f1e16792351abddf69ac064d7c501"
+    },
+    {
+      "path": "public.sdk/samples/vst/CMakeLists.txt",
+      "sha256": "3e3cb61ef50faabe3c653f918d545eae9a7189a5996fdb6d5f2c4a834ed7cb4a"
+    },
+    {
+      "path": "public.sdk/samples/vst/dataexchange/CMakeLists.txt",
+      "sha256": "f36d9b6ca6d4c9dbae42180b21a535053d464929c8cce9175c299527d532ee33"
+    },
+    {
+      "path": "public.sdk/samples/vst/hostchecker/CMakeLists.txt",
+      "sha256": "ddca7ca101b374cfdd79c6375cc9eb634ab88bc3cf6890088870f52f2a7151c9"
+    },
+    {
+      "path": "public.sdk/samples/vst/hostchecker_aax/CMakeLists.txt",
+      "sha256": "ad14bd59eaa58833b7d810d39369d6953eefaed698059a584d0634a7bac85f8f"
+    },
+    {
+      "path": "public.sdk/samples/vst/InterAppAudio/CMakeLists.txt",
+      "sha256": "5bbc2613712d1e3aa910a048845d4a34e29ba681ad94a963138634990d4a2dec"
+    },
+    {
+      "path": "public.sdk/samples/vst/legacymidiccout/CMakeLists.txt",
+      "sha256": "5956a8301bc06fc16b47a043a5498e344c8c0cb47b648898b492cd46fe1221e1"
+    },
+    {
+      "path": "public.sdk/samples/vst/mda-vst3/CMakeLists.txt",
+      "sha256": "266a8c4827552171323971521305bdb468c37afdb3708e372a03d7ba489164a8"
+    },
+    {
+      "path": "public.sdk/samples/vst/multiple_programchanges/CMakeLists.txt",
+      "sha256": "7f281a7137743bc91277a3e3c2ced455051c270b1980677789fd17e35edc3d2d"
+    },
+    {
+      "path": "public.sdk/samples/vst/note_expression_synth/CMakeLists.txt",
+      "sha256": "7776f351029a641fa32085c28cc115690d658cc7e6b359cce6b04524a679cc2a"
+    },
+    {
+      "path": "public.sdk/samples/vst/note_expression_synth_auv3/CMakeLists.txt",
+      "sha256": "72b46a55fb9044f5f980ae609d75ffef00c618e0af0660822f596a23aea6f709"
+    },
+    {
+      "path": "public.sdk/samples/vst/note_expression_text/CMakeLists.txt",
+      "sha256": "c20639d3211891136ceee1b078a29f525d33ea0335b9342552570600aa9dfaf9"
+    },
+    {
+      "path": "public.sdk/samples/vst/panner/CMakeLists.txt",
+      "sha256": "98ac9439637bb0424af3c9c805b63497f4c405d0feb61875e5092d4056715ab6"
+    },
+    {
+      "path": "public.sdk/samples/vst/pitchnames/CMakeLists.txt",
+      "sha256": "1e7ac78f5776e3fd2ec63c0cea6719a77f675de12e870480b1590b05b6b7fce3"
+    },
+    {
+      "path": "public.sdk/samples/vst/prefetchablesupport/CMakeLists.txt",
+      "sha256": "52da44904278c54378f788467ff2027b8bc30233635c17a85629265f21b7c31e"
+    },
+    {
+      "path": "public.sdk/samples/vst/programchange/CMakeLists.txt",
+      "sha256": "6a5ef1d3732c17d0283cb04d6e82792b7aa79ae1ff25b9ba4ebd777f5130ef9e"
+    },
+    {
+      "path": "public.sdk/samples/vst/remap_paramid/CMakeLists.txt",
+      "sha256": "49f8ab358dd1d6b1e8227ccf82e1fe9d1ffc144158ce239480fff0b5f00e1e0d"
+    },
+    {
+      "path": "public.sdk/samples/vst/syncdelay/CMakeLists.txt",
+      "sha256": "4e84e58cfd4185c2908f779ea38c01bb3f20eebe00d74e7f042cd7d21441e5af"
+    },
+    {
+      "path": "public.sdk/samples/vst/transportcontrol/CMakeLists.txt",
+      "sha256": "5634247de0a989eb92f534d444322997628d6694db98d751f842103f95ba8390"
+    },
+    {
+      "path": "public.sdk/samples/vst/utf16name/CMakeLists.txt",
+      "sha256": "a0d139d5cfbe756a280432435a31c0b45d60a010c89dc1a9fd978ba20eb0e31a"
+    },
+    {
+      "path": "public.sdk/source/common/commoniids.cpp",
+      "sha256": "690cf3403c09a080cba9ab5f5ffa09692b86cb8d137e7a08b9848ccb04e65426"
+    },
+    {
+      "path": "public.sdk/source/common/commonstringconvert.cpp",
+      "sha256": "c4b71b1a56a0c5e5698d2ba60239c4f8c4562ce69b040dc603ac3728c562c3b2"
+    },
+    {
+      "path": "public.sdk/source/common/commonstringconvert.h",
+      "sha256": "60105093fb8dbd2e57b2f43f85fb611f386ac825ee28be3f09297e28f41ea4df"
+    },
+    {
+      "path": "public.sdk/source/common/memorystream.cpp",
+      "sha256": "1c60e0826a9ebfeb18ffe5c8329b175b5925da07f18617d53a378c87a3327d6b"
+    },
+    {
+      "path": "public.sdk/source/common/memorystream.h",
+      "sha256": "faf1cd25c92c7923189a613eb41c0ac919ace7b7301366bde526d96c8058ae19"
+    },
+    {
+      "path": "public.sdk/source/common/openurl.cpp",
+      "sha256": "0766a0a93b278bbb95f6eac0ee40506dc9e8a33226463756bfbc12f868f30605"
+    },
+    {
+      "path": "public.sdk/source/common/openurl.h",
+      "sha256": "dac96ba95555b4190b66611caf7623810d2da8cc728f1a2414f16e43f0319637"
+    },
+    {
+      "path": "public.sdk/source/common/pluginview.cpp",
+      "sha256": "09d88a2f056ea39a31d2e735874fda4bedc982b202972198fa500aa0c1e7d841"
+    },
+    {
+      "path": "public.sdk/source/common/pluginview.h",
+      "sha256": "d60ba313bbbd174d7cf1cc33dd9256065ef7e1f755efc749e08a38e1cbe51f7d"
+    },
+    {
+      "path": "public.sdk/source/common/readfile.cpp",
+      "sha256": "36c90efbca7eb81908d66d45ac425c15a28d0314bc68501f4d65c54dea75bbef"
+    },
+    {
+      "path": "public.sdk/source/common/readfile.h",
+      "sha256": "45474182d677399bc9d03449dfdcd880a2ffab9b281a421156eb663657483e3d"
+    },
+    {
+      "path": "public.sdk/source/common/systemclipboard.h",
+      "sha256": "4815b8b207321f6d774ec9927ef9c8201f9afbbefdf1daf0a00b457a20dd5406"
+    },
+    {
+      "path": "public.sdk/source/common/systemclipboard_linux.cpp",
+      "sha256": "da0f6af676f3077e8a0fdd4e3b53f43e90968cfbe64a03de920831971a5b0b15"
+    },
+    {
+      "path": "public.sdk/source/common/systemclipboard_win32.cpp",
+      "sha256": "bb95a296b39c43ad6b2a8cf5517e70e3aa68e731a23a9d617204d25d867a0def"
+    },
+    {
+      "path": "public.sdk/source/common/threadchecker.h",
+      "sha256": "1b7188b96bd32c3d5a05d5a1647e12052596b635478ff6c588c570ccdfa37b68"
+    },
+    {
+      "path": "public.sdk/source/common/threadchecker_linux.cpp",
+      "sha256": "fb1eb99edc343867ec2d47ffbbff299dfc25eb505526c20418d4b1e1e15aded6"
+    },
+    {
+      "path": "public.sdk/source/common/threadchecker_win32.cpp",
+      "sha256": "8c9d2fcfd8da4ecd4d9d9d6000b67236376d4e65cf28f07694dadba139aa880f"
+    },
+    {
+      "path": "public.sdk/source/main/dllmain.cpp",
+      "sha256": "86fb02a4c983cf0261114dee695168ac1caabb13a07948d5606e178693f85842"
+    },
+    {
+      "path": "public.sdk/source/main/moduleinit.cpp",
+      "sha256": "164d9e5d7cfad023fcd0fc494e678ef2a4e670e8fbe1508ac4771f9f30063ebf"
+    },
+    {
+      "path": "public.sdk/source/main/moduleinit.h",
+      "sha256": "8037cb43c8785538904a5c74e14eaaab56a7f5c058e443d991c00a2f7e67de61"
+    },
+    {
+      "path": "public.sdk/source/main/pluginfactory.cpp",
+      "sha256": "81dc1e6b5619ef1f22b83eb7243aa45d3ec7c54dd5b9fd42a32310bf40658f11"
+    },
+    {
+      "path": "public.sdk/source/main/pluginfactory.h",
+      "sha256": "2fd9e3f8bf48e738eee6d4d2e78d85d90a60cd099eebce8cf52b93fad628871c"
+    },
+    {
+      "path": "public.sdk/source/vst/aaxwrapper/CMakeLists.txt",
+      "sha256": "222c8654424920502989f07512615d422580546a7968b27545ff3f5d96d093ba"
+    },
+    {
+      "path": "public.sdk/source/vst/auv3wrapper/CMakeLists.txt",
+      "sha256": "7aa063d79ce73e2a3139d6e2e0b061ac3a3809ae2ecf19440477c891910d0835"
+    },
+    {
+      "path": "public.sdk/source/vst/auwrapper/CMakeLists.txt",
+      "sha256": "a29496e8325645db2534aabe09ac7c332ef35e9c1f53b9085ce7835c69929134"
+    },
+    {
+      "path": "public.sdk/source/vst/hosting/connectionproxy.cpp",
+      "sha256": "eff90ef9e1fe43ce173303d8277364cbc4e6331b22b2a7e5dd8fab98c8e74524"
+    },
+    {
+      "path": "public.sdk/source/vst/hosting/connectionproxy.h",
+      "sha256": "cf4afe865ed90c2eb4a6c1157f5d2d4819d284945593ca30caae66b725ec29b0"
+    },
+    {
+      "path": "public.sdk/source/vst/hosting/eventlist.cpp",
+      "sha256": "b9cb219fefbafd47fa2900b88974c729f5461fff646b6a1760104f73bffc9532"
+    },
+    {
+      "path": "public.sdk/source/vst/hosting/eventlist.h",
+      "sha256": "5c4cf9c49c7dd58bd260a4d6ee3efe69005e426a2a43a162bdc207e595560ff1"
+    },
+    {
+      "path": "public.sdk/source/vst/hosting/hostclasses.cpp",
+      "sha256": "f9fbcd410d09ea3352342fdcb645e6a9dd1a424ff5b42430287fd4885a063c1d"
+    },
+    {
+      "path": "public.sdk/source/vst/hosting/hostclasses.h",
+      "sha256": "e68a910e57da44c0c327f79b99b6e1d2e297f760224fe841f89806e70007cce8"
+    },
+    {
+      "path": "public.sdk/source/vst/hosting/module.cpp",
+      "sha256": "5186d03a7e296e63b90eaa3b936b20fb534f29ed0c8822b237a2cdde6aaa6ffd"
+    },
+    {
+      "path": "public.sdk/source/vst/hosting/module.h",
+      "sha256": "2d2331865f0514d8e70368e66422dc1f76f8f2898308b28b29a8b6443d06f897"
+    },
+    {
+      "path": "public.sdk/source/vst/hosting/module_win32.cpp",
+      "sha256": "0814294da6b6497a81860aa2cf1a23da6a32ca6ee768a59cf85cf4417225ff18"
+    },
+    {
+      "path": "public.sdk/source/vst/hosting/parameterchanges.cpp",
+      "sha256": "785e54dd7ff1dde460462b21b78a8a367ac62958204e186261601be02dbe34ad"
+    },
+    {
+      "path": "public.sdk/source/vst/hosting/parameterchanges.h",
+      "sha256": "b6fae4a10805d3e6cc8903d3729b2d6378336d8dc097578a74541b1f6c1e7f54"
+    },
+    {
+      "path": "public.sdk/source/vst/hosting/pluginterfacesupport.cpp",
+      "sha256": "6fd645df8176b9a74827c72970fa7e323de5a19406db5915f2e399c0eab870eb"
+    },
+    {
+      "path": "public.sdk/source/vst/hosting/pluginterfacesupport.h",
+      "sha256": "04834b3e93cc052d863f93771ba73cf31c03f28a22681d4c1a05a6af11f24814"
+    },
+    {
+      "path": "public.sdk/source/vst/hosting/plugprovider.cpp",
+      "sha256": "83a50d07a22c49c923633c176ff59edeb99c1b3e6cb656e93bcd22a8c6238d68"
+    },
+    {
+      "path": "public.sdk/source/vst/hosting/processdata.cpp",
+      "sha256": "af46a0cd1ce1b938b5fa539c4ed5f380549a563ffa43587cc0c2795dfc9e51e1"
+    },
+    {
+      "path": "public.sdk/source/vst/hosting/processdata.h",
+      "sha256": "12775c58ed1b870e1ec89dd97778c5938922528bad95b222652cef823102c449"
+    },
+    {
+      "path": "public.sdk/source/vst/hosting/test/connectionproxytest.cpp",
+      "sha256": "e3c4beb7014bd93785589fa639515a619c7ec70b2f6912eb17667aaba886e9bf"
+    },
+    {
+      "path": "public.sdk/source/vst/hosting/test/eventlisttest.cpp",
+      "sha256": "eeda5844254ff1bd3d4fd6b6ded6bfc9abbe8f36224fe08f461c395128833202"
+    },
+    {
+      "path": "public.sdk/source/vst/hosting/test/hostclassestest.cpp",
+      "sha256": "c1ded4ce1d6aec0f38f12fe23a012b055e2f5efb889342f1c329a6aa3aa9d49b"
+    },
+    {
+      "path": "public.sdk/source/vst/hosting/test/miditovsttest.cpp",
+      "sha256": "a727b049f1058b2cdfbbd4dcaa33e2e93aa639a6cc797889ce68bed022267891"
+    },
+    {
+      "path": "public.sdk/source/vst/hosting/test/parameterchangestest.cpp",
+      "sha256": "43341edf6c4f081163f78e176fe2f94e3ebb79bdfec06d15d973bd35ccc781c3"
+    },
+    {
+      "path": "public.sdk/source/vst/hosting/test/pluginterfacesupporttest.cpp",
+      "sha256": "d7a1ccba5becabf7dae1505b4a93898b65c11ca134758f2c51fb935cf95b4738"
+    },
+    {
+      "path": "public.sdk/source/vst/hosting/test/processdatatest.cpp",
+      "sha256": "4ddf5100fc774772b428623b72b3faefceba2cc68bd1d473c063f14f1e21f4f3"
+    },
+    {
+      "path": "public.sdk/source/vst/interappaudio/CMakeLists.txt",
+      "sha256": "905978de98861b670eb3d3f346a44cd504de6cfd1b36aecf79e1761abd2462a3"
+    },
+    {
+      "path": "public.sdk/source/vst/moduleinfo/json.h",
+      "sha256": "098ca68126cb34f7369388d49890d0a5d5ba731b76fbae0c2790377a663e9d41"
+    },
+    {
+      "path": "public.sdk/source/vst/moduleinfo/jsoncxx.h",
+      "sha256": "ac268925a1fee5682a7558e8ed593fb627919893bc8479f0a97dee909e51734c"
+    },
+    {
+      "path": "public.sdk/source/vst/moduleinfo/moduleinfo.h",
+      "sha256": "cb9463bdf7483d0fb44fa22f4716faf6cf44434cdcd8e7c0ad6c9cb2e91d63fe"
+    },
+    {
+      "path": "public.sdk/source/vst/moduleinfo/moduleinfocreator.cpp",
+      "sha256": "337b8d6d9e46ed007edbff2b5e159b1fdcda0c7227b4c8b6d98c8b0b20b43fd2"
+    },
+    {
+      "path": "public.sdk/source/vst/moduleinfo/moduleinfocreator.h",
+      "sha256": "7354889fe286ece820a411899e29feb0a44b293c838573e74bb89f203999c360"
+    },
+    {
+      "path": "public.sdk/source/vst/moduleinfo/moduleinfoparser.cpp",
+      "sha256": "999dff1e9c3f4be8d6c0a3359b09239ec96d49f791cb4346c6394766319e5c5a"
+    },
+    {
+      "path": "public.sdk/source/vst/moduleinfo/moduleinfoparser.h",
+      "sha256": "bf5c3e4313ada4d0bb218e5cc0a622a40408a69d8f79b3da945e4646c4891236"
+    },
+    {
+      "path": "public.sdk/source/vst/testsuite/bus/busactivation.cpp",
+      "sha256": "bf9711551db2adac6ec719a52e0608979546414575b2f4ab3a96fa16ea56a024"
+    },
+    {
+      "path": "public.sdk/source/vst/testsuite/bus/busconsistency.cpp",
+      "sha256": "6e6f5bcf3f22e82500550485f5ef715f73f98c9275673c658074c7e91f48b596"
+    },
+    {
+      "path": "public.sdk/source/vst/testsuite/bus/businvalidindex.cpp",
+      "sha256": "826ea17d65e6d7c3b0054a5335dbce051b6f99f4c88a5f274f9c186b73bf4413"
+    },
+    {
+      "path": "public.sdk/source/vst/testsuite/bus/checkaudiobusarrangement.cpp",
+      "sha256": "68585957c1d29b2ae155ae06a39d0312f24ec6c03ec94a013a6d9b92897a9963"
+    },
+    {
+      "path": "public.sdk/source/vst/testsuite/bus/scanbusses.cpp",
+      "sha256": "2532a98336ed2b3e190afd124e8afd8b0d816d99670dc7b72fa25f65460536a5"
+    },
+    {
+      "path": "public.sdk/source/vst/testsuite/bus/sidechainarrangement.cpp",
+      "sha256": "83c52004fcda09847ad8490e6e7023f12c61f8fb429b5fca3eb84194ca4991ae"
+    },
+    {
+      "path": "public.sdk/source/vst/testsuite/general/editorclasses.cpp",
+      "sha256": "d97a83f2454b1b8cb29183c8c7815470eb2d25542a989d62cbee634cb768b6f0"
+    },
+    {
+      "path": "public.sdk/source/vst/testsuite/general/midilearn.cpp",
+      "sha256": "5d93a5d0b7ee913d912aae01d609ee415b81ef3c464ee8ca0cb1e68696192c60"
+    },
+    {
+      "path": "public.sdk/source/vst/testsuite/general/midimapping.cpp",
+      "sha256": "f8383252c6c4ccf02fc06e61f38dcf164bc16c457c885239c00d703f6d9ce25f"
+    },
+    {
+      "path": "public.sdk/source/vst/testsuite/general/plugcompat.cpp",
+      "sha256": "161b787092800b3101bd5da0a5fb6f2774a937637d572102d84bebd6d22c0028"
+    },
+    {
+      "path": "public.sdk/source/vst/testsuite/general/scanparameters.cpp",
+      "sha256": "27fad1574ef6c87faefd75205669542f5e9592d2bcd259f06e326f1b5838e448"
+    },
+    {
+      "path": "public.sdk/source/vst/testsuite/general/suspendresume.cpp",
+      "sha256": "44035fe3afe9c131615bdc30d82982236150de0c5d3a4518f52d80abc04b1785"
+    },
+    {
+      "path": "public.sdk/source/vst/testsuite/general/terminit.cpp",
+      "sha256": "cd866b323ef82f7e64e9b0291ea87f98476f7f31d89525c1b4d3ec4f0967cd0e"
+    },
+    {
+      "path": "public.sdk/source/vst/testsuite/noteexpression/keyswitch.cpp",
+      "sha256": "212f2dc9ea1b9b08975984639f7df2c7f75677f902848fb01c3b068d8d1f98eb"
+    },
+    {
+      "path": "public.sdk/source/vst/testsuite/noteexpression/noteexpression.cpp",
+      "sha256": "4010aceb710c269ecaa67da9d16c144beb025514771b2e2b5e35c3d1f591e64a"
+    },
+    {
+      "path": "public.sdk/source/vst/testsuite/processing/automation.cpp",
+      "sha256": "0ba0114b51f9b29e651d8985602706aabb95c1f75325765e7272a25ceb0e0cfa"
+    },
+    {
+      "path": "public.sdk/source/vst/testsuite/processing/process.cpp",
+      "sha256": "53c1d9cd666e9e8eb642140c9f01b846073da70a7c67cbcaf62482d430adfc32"
+    },
+    {
+      "path": "public.sdk/source/vst/testsuite/processing/processcontextrequirements.cpp",
+      "sha256": "1b5993987fd392230d836d2f25510927d65b8dd3dd0ea499e360f3d1ca2c168d"
+    },
+    {
+      "path": "public.sdk/source/vst/testsuite/processing/processformat.cpp",
+      "sha256": "79feec6656b630e6cdef81aa91fad84f7c576f0e3af4717cd0b8290d6911b49b"
+    },
+    {
+      "path": "public.sdk/source/vst/testsuite/processing/processinputoverwriting.cpp",
+      "sha256": "18e1e157d582fbfc55aedfd8a466793d787c1130a5a3bc85196980563020a414"
+    },
+    {
+      "path": "public.sdk/source/vst/testsuite/processing/processtail.cpp",
+      "sha256": "093930cebf4206d6297d03a601687dcbf27bf6ef7020f0ab61d91d45d4798a6d"
+    },
+    {
+      "path": "public.sdk/source/vst/testsuite/processing/processthreaded.cpp",
+      "sha256": "124c3c84101b0ccf2b4ac84d9e0f99387f5cf1d8323e48b3be3fa545bbe6948d"
+    },
+    {
+      "path": "public.sdk/source/vst/testsuite/processing/silenceflags.cpp",
+      "sha256": "6764b56fc8a51e237055e9e1aa17a0957d99a7bbc9f8e816ebf6c743b7160ca0"
+    },
+    {
+      "path": "public.sdk/source/vst/testsuite/processing/silenceprocessing.cpp",
+      "sha256": "6bb0ff3237edb02476eb17b88686f001dcad35f80bb45ebb509df58419aee2f6"
+    },
+    {
+      "path": "public.sdk/source/vst/testsuite/processing/speakerarrangement.cpp",
+      "sha256": "aff08c0dd6979ac117922a2e24c0a06a1c2af16fa6086536a3c0b7bbf978549a"
+    },
+    {
+      "path": "public.sdk/source/vst/testsuite/processing/variableblocksize.cpp",
+      "sha256": "c481d40f321df4bab076f665d8f610748d7bf6521db2cda6db0774da7017b425"
+    },
+    {
+      "path": "public.sdk/source/vst/testsuite/state/bypasspersistence.cpp",
+      "sha256": "486f1d32de5e67bd4518d4ec7f3ed4005d2370bafef196a6b91f9bcfde32fd53"
+    },
+    {
+      "path": "public.sdk/source/vst/testsuite/state/invalidstatetransition.cpp",
+      "sha256": "b4bb829be9c653245ca30eee715b3aa5ce646f67e46e67068a8ebb75eea3019f"
+    },
+    {
+      "path": "public.sdk/source/vst/testsuite/state/repeatidenticalstatetransition.cpp",
+      "sha256": "db8556980a8deb512470761b7ac33083e6238732938b277bfa3cb36632070cf5"
+    },
+    {
+      "path": "public.sdk/source/vst/testsuite/state/validstatetransition.cpp",
+      "sha256": "0972bd5a48187de7e009853d4178fc486aad770aa155bdf6527f2c21339ed86c"
+    },
+    {
+      "path": "public.sdk/source/vst/testsuite/testbase.cpp",
+      "sha256": "c6d7f9f82d793411a842901cc70597241e2de07eb84fe6c9d47d8031ffa1bbf2"
+    },
+    {
+      "path": "public.sdk/source/vst/testsuite/unit/checkunitstructure.cpp",
+      "sha256": "05aeba27eb0205ce11a79f5ac45bc523423e25a011d9c71df9d0da15f32f0170"
+    },
+    {
+      "path": "public.sdk/source/vst/testsuite/unit/scanprograms.cpp",
+      "sha256": "dfc75efc320fc50660e6b4b27778ad2ad92821619e4f8147881634a947a4bedc"
+    },
+    {
+      "path": "public.sdk/source/vst/testsuite/unit/scanunits.cpp",
+      "sha256": "f01de91c102f5f8b10cb9a69bc8dd4cdb9d9e97a8e02ee640b30f810405d5aa7"
+    },
+    {
+      "path": "public.sdk/source/vst/testsuite/vsttestsuite.cpp",
+      "sha256": "b406cd288ac36fb71f35c4c4532f5f1f1fa69b603489394582cccea03199f244"
+    },
+    {
+      "path": "public.sdk/source/vst/utility/alignedalloc.h",
+      "sha256": "213a80ea1b8f281b409b74a092a1167010f5c1fea51278e127a3f2c0a837f69a"
+    },
+    {
+      "path": "public.sdk/source/vst/utility/dataexchange.cpp",
+      "sha256": "4e18d2cdaa78ff48a8c1ec27d9a7fcba968d46fa8792397bffafcc8656e6b9df"
+    },
+    {
+      "path": "public.sdk/source/vst/utility/dataexchange.h",
+      "sha256": "224d9160ccc118b4e4216bc83e51ea9f8841cfbe5d37fadcb005633d7b5e464d"
+    },
+    {
+      "path": "public.sdk/source/vst/utility/optional.h",
+      "sha256": "28f78ed4e026bdda7cf8ef278f80508cf3c350fb1e75d62f2ad28d4c7697fe27"
+    },
+    {
+      "path": "public.sdk/source/vst/utility/processcontextrequirements.h",
+      "sha256": "566ee2868ef98c800ddec553c89f06e93c7e250d7b1518c1d0f4093c0dc55b4c"
+    },
+    {
+      "path": "public.sdk/source/vst/utility/ringbuffer.h",
+      "sha256": "a35734945993bf27327e4be37f437b53a2e0fe97ccd6760ee9e68759cb90e582"
+    },
+    {
+      "path": "public.sdk/source/vst/utility/stringconvert.cpp",
+      "sha256": "6055125692963642f0329a22088938619214b32c4d61c4c9074b018349afa051"
+    },
+    {
+      "path": "public.sdk/source/vst/utility/stringconvert.h",
+      "sha256": "7b388dc19cb8bdad789b5b4f86f7f9df870ee657a30e3ae29b43ef0f4e5fedb8"
+    },
+    {
+      "path": "public.sdk/source/vst/utility/systemtime.cpp",
+      "sha256": "81ce68207182374271420509a2cfbe76f3d73a498e99e593818d0b4daa867d70"
+    },
+    {
+      "path": "public.sdk/source/vst/utility/systemtime.h",
+      "sha256": "b796599bc80764886dc19662174b3eecfdf723de1639bc904a760503db7f3d18"
+    },
+    {
+      "path": "public.sdk/source/vst/utility/testing.cpp",
+      "sha256": "c6358d29e319c00c4508bc0b95fcc228fd29a2a69702bcaa2b60f043d404bb15"
+    },
+    {
+      "path": "public.sdk/source/vst/utility/testing.h",
+      "sha256": "3bc69cfb789f5e9dd546265bfad5983aa6135b79a9411b6696c45ef1c62abcf1"
+    },
+    {
+      "path": "public.sdk/source/vst/utility/uid.h",
+      "sha256": "d1e88632b9ea62a0ff4d3bbfafd838d7786573e537dbb76451b654fd650dbfb5"
+    },
+    {
+      "path": "public.sdk/source/vst/utility/vst2persistence.cpp",
+      "sha256": "c552c1791c8d833b9760e8eb6a698819ae2c8c47d4d666286f81022fbadf6d45"
+    },
+    {
+      "path": "public.sdk/source/vst/utility/vst2persistence.h",
+      "sha256": "518c3bd795fcf3bcd074c419aa7209ab3b1acf5dcd3afcb7f473c8cc7cc5d530"
+    },
+    {
+      "path": "public.sdk/source/vst/vstaudioeffect.cpp",
+      "sha256": "997ff3d44bb9927def01d26c23a2aa11331d974921ee4a78b02e7345449e705b"
+    },
+    {
+      "path": "public.sdk/source/vst/vstaudioeffect.h",
+      "sha256": "d61a3f92770bcab1b6dfafd49ea9935de8576ab92e251569c5bc2756835c35d9"
+    },
+    {
+      "path": "public.sdk/source/vst/vstbus.cpp",
+      "sha256": "eec322a783ba364ea6a09895db7bdad91c61baa88e0c003c8adb7b1edec79e47"
+    },
+    {
+      "path": "public.sdk/source/vst/vstbus.h",
+      "sha256": "33bdebce779e2f38232eb79b41f378875e1bebf32e4e4650622ad5154256fde5"
+    },
+    {
+      "path": "public.sdk/source/vst/vstcomponent.cpp",
+      "sha256": "e9d8e5b4e25d319e378b8c8d547f34a3aa01f733c9ed3b60ddbe4c73237d7968"
+    },
+    {
+      "path": "public.sdk/source/vst/vstcomponent.h",
+      "sha256": "752df5165f99b7e9ab5cfba7b1420a5f6262bcbda50dd487564955d193971062"
+    },
+    {
+      "path": "public.sdk/source/vst/vstcomponentbase.cpp",
+      "sha256": "00f279150eb1cccaa78a5e6c62fbbf19b6149e7af531c90c1482102162b4b7ab"
+    },
+    {
+      "path": "public.sdk/source/vst/vstcomponentbase.h",
+      "sha256": "b70a0e57b34736f7678f588690a05329780a91d03b566940c6c573441bc94cc9"
+    },
+    {
+      "path": "public.sdk/source/vst/vsteditcontroller.cpp",
+      "sha256": "ba11d4c7e1070af458a7945cb5ce06f551bdb1b8403eb1c171f652f906c1cb15"
+    },
+    {
+      "path": "public.sdk/source/vst/vsteditcontroller.h",
+      "sha256": "6d810895b06393058e5f66d63821004d05e9d20313ecd20b7d2360f9e6bd40ec"
+    },
+    {
+      "path": "public.sdk/source/vst/vstinitiids.cpp",
+      "sha256": "9e18c4164342828a8e729c3f397230d662fd43c0d51b521ce14eed983ee174f1"
+    },
+    {
+      "path": "public.sdk/source/vst/vstnoteexpressiontypes.cpp",
+      "sha256": "f1a3b84f7944da5a98251adea04c4a35028c9313e32241f203d75b0e447c4d62"
+    },
+    {
+      "path": "public.sdk/source/vst/vstnoteexpressiontypes.h",
+      "sha256": "bfe64a3e0297dd30125fb26973f6e33dbcfdba57d899a64b25aed6ebc90190d2"
+    },
+    {
+      "path": "public.sdk/source/vst/vstparameters.cpp",
+      "sha256": "94f08def8cfddfb760ee0e6d96e527f7b4096e81864448d232f7f7a488f0eb7f"
+    },
+    {
+      "path": "public.sdk/source/vst/vstparameters.h",
+      "sha256": "70bc7f04f5f5ae2ae983dda74fff813513421c11ff01d2b7a20428a8472447fe"
+    },
+    {
+      "path": "public.sdk/source/vst/vstpresetfile.cpp",
+      "sha256": "b5609c676cda762c56caa5b8574e2819acfb1f7edef11124d2466024dfbd13bb"
+    },
+    {
+      "path": "public.sdk/source/vst/vstpresetfile.h",
+      "sha256": "3c7bf96211cf0582e70716aeb9ce6f6fa13ed6bf5d0d25f3271783967d998605"
+    },
+    {
+      "path": "public.sdk/source/vst/vstrepresentation.cpp",
+      "sha256": "2f1ac31af269a3df3df9c4bcada6c30891693dd7a930b5a72b8eea0a767ae401"
+    },
+    {
+      "path": "public.sdk/source/vst/vstrepresentation.h",
+      "sha256": "ed800ccc8abe467baf1fb070c82d155b8593f16a3e574068eb25867213d1e579"
+    },
+    {
+      "path": "tutorials/advanced-techniques-tutorial/CMakeLists.txt",
+      "sha256": "5979f69b77583ba25d1e8e956a3bc102f616d14392ceee14c197697daea9ea9f"
+    },
+    {
+      "path": "tutorials/audiounit-tutorial/CMakeLists.txt",
+      "sha256": "6c6267ba257596a41834dbd12d31d4c94ebb83d2b4d2008c59a435e109f66604"
+    },
+    {
+      "path": "tutorials/dataexchange-tutorial/CMakeLists.txt",
+      "sha256": "b04aa5b3de6b8f6f1fcc6ed5b5d1baee84934e1076d0d976d45b4554360033a2"
+    },
+    {
+      "path": "vstgui4/CMakeLists.txt",
+      "sha256": "f8c6bacb19cbc7d309326ac407db68049028aa5579489121d331b541843a730a"
+    },
+    {
+      "path": "vstgui4/vstgui/cmake/modules/FindWayland.cmake",
+      "sha256": "8b34394accbc01199aaedb9f21cfce44e638d1c767580415148a79579043e3fb"
+    },
+    {
+      "path": "vstgui4/vstgui/cmake/modules/vstgui_init.cmake",
+      "sha256": "68e8e2eead9b0af7bd960bd2c4c56ac6311d166bd4b148333b52625f7df7b57b"
+    },
+    {
+      "path": "vstgui4/vstgui/CMakeLists.txt",
+      "sha256": "b7afd63e7c60647ee4d1e79c8bca4ca4bb93963462c3b653e264c1753333bcf7"
+    },
+    {
+      "path": "vstgui4/vstgui/lib/CMakeLists.txt",
+      "sha256": "bae92d34762f004f2243bc6ad40722510453ef014011cc28b37b30e4076bec09"
+    },
+    {
+      "path": "vstgui4/vstgui/standalone/cmake/modules/vstgui_add_executable.cmake",
+      "sha256": "bba448a7d23490f94dd43e3c7f99db364915d47aaaf705428cc7a4486da839e8"
+    },
+    {
+      "path": "vstgui4/vstgui/standalone/CMakeLists.txt",
+      "sha256": "70269facc46bb4094a93feccf0947e9efe92bfa76c2293612fbee857a06a0942"
+    },
+    {
+      "path": "vstgui4/vstgui/standalone/examples/CMakeLists.txt",
+      "sha256": "c1bcd4f879c5dac12f34363efacfabb6ef8917c20fcf5db0208b8d6b0cfe4ede"
+    },
+    {
+      "path": "vstgui4/vstgui/standalone/examples/mandelbrot/CMakeLists.txt",
+      "sha256": "d18171b0605653396c65c2cd5a7cf0aaf312bfdb109d43413d0a216befa775c9"
+    },
+    {
+      "path": "vstgui4/vstgui/standalone/examples/minesweeper/CMakeLists.txt",
+      "sha256": "ef79e853430998f244f79b21032280a536ff82707afabe253c07cbd934cd9c6d"
+    },
+    {
+      "path": "vstgui4/vstgui/standalone/examples/simple_standalone/CMakeLists.txt",
+      "sha256": "92ec9433650a3c4796e5273c354fc6529eebdeb350c392ec4699dd11b857992a"
+    },
+    {
+      "path": "vstgui4/vstgui/standalone/examples/standalone/CMakeLists.txt",
+      "sha256": "ee3bb51223a6c212060bbd7f5a5ba52e9d25c42d5b54129718baf4bb3b2d31d4"
+    },
+    {
+      "path": "vstgui4/vstgui/tests/base64codecspeed/CMakeLists.txt",
+      "sha256": "c9b6a2ff8a1536fa04548d99ea491d7079b1cdc75253af96883d156368cbc10a"
+    },
+    {
+      "path": "vstgui4/vstgui/tests/CMakeLists.txt",
+      "sha256": "43cac34f5e107cc69c42a646d1f1a632b1abc02dac7d1fb7969ae61fb3635103"
+    },
+    {
+      "path": "vstgui4/vstgui/tests/gfxtest/CMakeLists.txt",
+      "sha256": "b966573a31d70c705e4f3a8dc1f12337e4bc689062a799aad9fdd571424c115b"
+    },
+    {
+      "path": "vstgui4/vstgui/tests/gridlayouttestapp/CMakeLists.txt",
+      "sha256": "542346ef5ddd91c53c6481540f6aded8eea7ed8464e9b60f61fb2acf57b872c1"
+    },
+    {
+      "path": "vstgui4/vstgui/tests/ios standalone/CMakeLists.txt",
+      "sha256": "8a39d4819325ed275eb7fb9121047d533d1608f49fa2f4fe162907bd8930260b"
+    },
+    {
+      "path": "vstgui4/vstgui/tests/uidescriptioneditorapp/CMakeLists.txt",
+      "sha256": "64d048ba65899f73bb35c5384774032e57e7af4ddef5391d21740bfdd8509daa"
+    },
+    {
+      "path": "vstgui4/vstgui/tests/unittest/CMakeLists.txt",
+      "sha256": "094886262a4967d452b4e93e8d7f29ff2f003ad7a74d837d617ddee705f4f4ae"
+    },
+    {
+      "path": "vstgui4/vstgui/tools/CMakeLists.txt",
+      "sha256": "5cc1afee0455f43f8929fdee2be41d3ccb82ba5c26210b14353b5e113d1c9c08"
+    },
+    {
+      "path": "vstgui4/vstgui/tools/imagestitcher/CMakeLists.txt",
+      "sha256": "399ec2f0b8bea90b0ea4df966e30b57e6b5e041d33370722d7ade9150c6cf312"
+    },
+    {
+      "path": "vstgui4/vstgui/tools/uidesccompressor/CMakeLists.txt",
+      "sha256": "2c70efa057351519e7b7c625694916eed6bd79d17513255b4bdde9afd8bb3a46"
+    },
+    {
+      "path": "vstgui4/vstgui/uidescription-scripting/CMakeLists.txt",
+      "sha256": "54d373daee2dd796f28d4e1f11cff1c3924b66e0f893b33be16a378b5d6d63bb"
+    },
+    {
+      "path": "vstgui4/vstgui/uidescription-scripting/tiny-js/CMakeLists.txt",
+      "sha256": "363e30f0bb09bf2512074876b5613d14ed0f8d8fac498fe4b77eeba0dc271701"
+    },
+    {
+      "path": "vstgui4/vstgui/uidescription/CMakeLists.txt",
+      "sha256": "fc1c8f368a7b63f38e2b902d176da615f8f40e4aa9d94ad055f85d68d275c46b"
+    }
+  ]
+}

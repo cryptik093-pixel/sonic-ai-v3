@@ -1,0 +1,35 @@
+name: Sonic Session Integrity
+on:
+  pull_request:
+    paths:
+      - "apps/api/session_integrity.py"
+      - "apps/api/session_integrity_router.py"
+      - "apps/api/test_session_integrity.py"
+      - "apps/api/main.py"
+      - "apps/api/fl_studio_integrity.py"
+      - "apps/api/fl_studio_integrity_cli.py"
+      - "apps/api/test_fl_studio_integrity.py"
+      - ".github/workflows/session-integrity.yml"
+  push:
+    branches: [main]
+    paths:
+      - "apps/api/session_integrity.py"
+      - "apps/api/session_integrity_router.py"
+      - "apps/api/test_session_integrity.py"
+      - "apps/api/main.py"
+      - ".github/workflows/session-integrity.yml"
+jobs:
+  verify:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile integrity modules
+        run: python -m compileall -q apps/api/session_integrity.py apps/api/session_integrity_router.py apps/api/test_session_integrity.py apps/api/fl_studio_integrity.py apps/api/fl_studio_integrity_cli.py apps/api/test_fl_studio_integrity.py
+      - name: Run integrity unit tests
+        run: python -m unittest apps.api.test_session_integrity apps.api.test_fl_studio_integrity -v

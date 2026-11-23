@@ -1,0 +1,4 @@
+[1/4] Linking CXX shared module VST3\Release\OmegaVocalForge.vst3\Contents\x86_64-win\OmegaVocalForge.vst3; [SMTG] Copy PlugIn.ico and desktop.ini and change their attributes.
+[2/4] Linking CXX executable bin\ovf_adapter_tests.exe
+[3/4] Building CXX object CMakeFiles\ovf_artifact_probe.dir\tools\ArtifactProbe.cpp.obj
+[4/4] Linking CXX executable bin\ovf_artifact_probe.exe

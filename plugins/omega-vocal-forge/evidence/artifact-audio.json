@@ -1,0 +1,1 @@
+{"status":"PASS","actualDll":true,"sampleRate":48000,"framesPerCase":96000,"cases":3,"fixture":"synthetic stereo tones, not a vocal recording","peak":0.15,"rms":0.0960469,"unityBypassError":0,"gainDb":18,"gainError":0,"settledFreshInstanceRecallError":0,"initialTransitionDifference":0.20835,"FLStudio":"BLOCKED","listening":"NOT_TESTED"}

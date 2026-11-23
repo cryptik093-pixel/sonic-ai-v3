@@ -10,6 +10,7 @@ from .workbench.router import router as workbench_router, WorkbenchAuth
 from .workbench.service import recover_interrupted
 from .events_router import router as events_router
 from .shopify_webhooks import router as shopify_webhooks_router
+from .commerce_router import router as commerce_evidence_router
 
 from .integrations.auth import ControlPlaneAuth
 from .integrations.config import ControlConfig
@@ -58,6 +59,7 @@ app.include_router(integrations_router)
 app.include_router(webhook_router)
 app.include_router(events_router)
 app.include_router(shopify_webhooks_router)
+app.include_router(commerce_evidence_router)
 app.include_router(workbench_router)
 app.add_middleware(ControlPlaneAuth)
 app.add_middleware(WorkbenchAuth)

@@ -30,7 +30,9 @@ class WorkbenchAuth:
             return await self.app(scope, receive, send)
         path = scope.get("path", "")
         desktop = os.getenv("SONIC_DESKTOP_MODE") == "1"
-        protected = path.startswith("/workbench/api") or (desktop and not (path in {"/health", "/workbench", "/workbench/"} or path.startswith("/workbench/static/")))
+        protected = (path.startswith("/workbench/api") or path == "/session-integrity"
+                     or path.startswith("/session-integrity/")
+                     or (desktop and not (path in {"/health", "/workbench", "/workbench/"} or path.startswith("/workbench/static/"))))
         if not protected or path == "/mcp" or path.startswith("/integrations"):
             return await self.app(scope, receive, send)
         token = os.getenv("SONIC_DESKTOP_TOKEN") or os.getenv("SONIC_CONTROL_PLANE_TOKEN", "")
@@ -46,6 +48,7 @@ class WorkbenchAuth:
         origin = headers.get("origin")
         if origin and origin not in {f"http://{headers.get('host')}", "http://localhost:3000", "http://127.0.0.1:3000"}:
             return await JSONResponse({"detail": "Origin is not allowed."}, 403)(scope, receive, send)
+        scope.setdefault("state", {})["workbench_identity"] = {"owner_id": service.OWNER, "workspace_id": service.WORKSPACE}
         await self.app(scope, receive, send)
 
 

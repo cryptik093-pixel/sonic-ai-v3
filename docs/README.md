@@ -34,6 +34,7 @@ A document cannot promote a proposed capability to implemented or validated by a
 
 ## Current implementation records
 
+- [V3.2 source integration](v3.2/CLOUD_INTEGRATION.md) — merged legacy sources, reproducible verification and the separate Windows recovery/acceptance boundary.
 - [Current-State Audit](architecture/current-state-audit.md) — local workbench runtime, API and MCP contracts, data boundary and limitations.
 - [Producer Brief Intelligence delivery record](status/SONIC_PRODUCER_BRIEF_INTELLIGENCE_2026-09-23.md) — producer prompt → preview → MIDI → lineage and feedback tests.
 - [Metadata, Packaging & Provenance Lineage V1](knowledge/metadata/METADATA_PACKAGING_LINEAGE_V1.md) — requirements informing asset identity, provenance and rights boundaries.

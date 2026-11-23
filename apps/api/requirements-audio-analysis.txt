@@ -1,0 +1,3 @@
+# Optional, free local musical metadata analysis. Keep out of the desktop's base install.
+-r requirements.txt
+librosa>=0.11,<0.12
